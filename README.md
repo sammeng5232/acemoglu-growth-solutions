@@ -17,7 +17,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 6. Infinite-Horizon Optimization and Dynamic Programming | 21 | 7 | **14** — 6.1, 6.4, 6.5, 6.6, 6.10, 6.11, 6.13–6.17, 6.19, 6.20, 6.21 |
 | 7. An Introduction to the Theory of Optimal Control | 29 | 13 | **16** — 7.3, 7.4, 7.6–7.9, 7.11–7.16, 7.20, 7.22, 7.27, 7.29 |
 | 8. The Neoclassical Growth Model | 39 | 15 | **24** — 8.1, 8.3–8.6, 8.8–8.10, 8.12, 8.14, 8.16–8.18, 8.20–8.22, 8.24, 8.26, 8.28, 8.29, 8.32, 8.35, 8.36, 8.39 |
-| 9–23 | ~266 | ~98 | in progress |
+| 9. Growth with Overlapping Generations | 33 | 12 | **21** — 9.2, 9.4, 9.5, 9.9–9.14, 9.18, 9.19, 9.22, 9.23, 9.25–9.31, 9.33 |
+| 10–23 | ~233 | ~86 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -67,6 +68,13 @@ chapter and writes that chapter's figures to `figures/`. So far:
   stable arm, in closed form and numerically (Exercises 8.22 and 8.24); the exactly log-linear
   transition of the discrete-time model with full depreciation (Exercise 8.26); and how little
   cross-country income dispersion differences in discount rates can generate (Exercise 8.32).
+- **`ch9.py`** — the exact condition for dynamic inefficiency in the canonical OLG model and an
+  unfunded social security scheme whose whole transition path makes every generation strictly
+  better off (Exercise 9.9); the threshold on old-age labour income above which overaccumulation
+  disappears (Exercise 9.10) and the much weaker condition for it under warm glow bequests
+  (Exercise 9.22); the eigenvalues and comparative statics of the continuous-time perpetual youth
+  model (Exercises 9.28–9.30); and capital income taxation in the Ramsey and OLG economies
+  (Exercise 9.33).
 
 ## Working files (not part of the document)
 

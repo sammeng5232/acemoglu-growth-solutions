@@ -179,15 +179,16 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--8\par}
+{\large Chapters 2--9\par}
 \vspace{0.6cm}
-{\small The 83 exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
+{\small The 104 exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
  leaves unsolved: Exercises 2.1--2.6, 2.8--2.10, 2.13, 2.15, 2.24--2.26;\par
  3.3--3.8, 3.11;\ 4.1, 4.2;\ 5.3--5.8;\par
  6.1, 6.4--6.6, 6.10, 6.11, 6.13--6.17, 6.19--6.21;\par
  7.3, 7.4, 7.6--7.9, 7.11--7.16, 7.20, 7.22, 7.27, 7.29;\par
  8.1, 8.3--8.6, 8.8--8.10, 8.12, 8.14, 8.16--8.18, 8.20--8.22, 8.24, 8.26,\par
- 8.28, 8.29, 8.32, 8.35, 8.36, 8.39 --- with the numerical parts computed by\par
+ 8.28, 8.29, 8.32, 8.35, 8.36, 8.39;\ 9.2, 9.4, 9.5, 9.9--9.14, 9.18, 9.19,\par
+ 9.22, 9.23, 9.25--9.31, 9.33 --- with the numerical parts computed by\par
  the Python programs in \texttt{code/}.\par}
 \vspace{0.8cm}
 {\small The exercise statements are not reproduced here: read them in Acemoglu's
@@ -4680,6 +4681,1419 @@ This is a general lesson rather than a fact about capital taxes: whenever a mode
 rule by optimization, policies that alter intertemporal prices acquire effects they did not have before.
 It is also why the neoclassical model, unlike the Solow model, can speak to the effects of policy and
 institutions on income levels --- the theme the book takes up in Section 8.8 and in Part VIII.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{9}{Growth with Overlapping Generations}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The twenty-one exercises of Chapter 9 left unsolved in the instructor's manual: Exercises 9.2,
+9.4, 9.5, 9.9--9.14, 9.18, 9.19, 9.22, 9.23, 9.25--9.31 and 9.33.  The manual solves 9.1, 9.3,
+9.6--9.8, 9.15--9.17, 9.20, 9.21, 9.24 and 9.32.  Notation follows the book: $c_1(t)$ and
+$c_2(t+1)$ are the consumption of a generation born at $t$ when young and old, $s(t)$ its saving,
+$k=K/L$ the capital-labor ratio, $R=1+r$ the gross return, $\nu$ the flow rate of death, $n$ the
+arrival rate of new households, and $c(t\mid\tau)$ the consumption at $t$ of a cohort born at
+$\tau$.  Capital depreciates fully in the two-period model ($\delta=1$) unless stated otherwise.
+The numerical parts are computed by \texttt{code/ch9.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{9.2}{}
+Recall Shell's economy of Section 9.1: households and commodities are both indexed by $i\in\N$,
+household $i$ has preferences $u^{i}=c^{i}_{i}+c^{i}_{i+1}$, and the reallocated endowment vector
+$\wt\omega^{\,i'}$ gives
+\[
+\text{household }i<i':\ \text{one unit of good }i;\qquad
+\text{household }i':\ \text{one unit each of goods }i'\text{ and }i'+1;
+\]
+\[
+\text{household }i>i':\ \text{one unit of good }i+1 .
+\]
+The allocation to be supported is $\wt x^{\,i'}$: households $i<i'$ consume good $i$, household
+$i'$ consumes one unit each of goods $i'$ and $i'+1$, and each household $i>i'$ consumes one unit
+of good $i+1$.
+
+\emph{Household optimization at $\wt p$.}  Preferences are linear, so household $i$ spends its
+entire income on whichever of the two goods it likes, $i$ and $i+1$, is cheaper, and is
+indifferent between them when their prices coincide.
+\begin{itemize}
+\item $i<i'$: both goods $i$ and $i+1$ satisfy $j\le i'$, so $\wt p_i=\wt p_{i+1}=1$.  Income is
+      $\wt p_i=1$, and the household is indifferent; consuming its own endowment, one unit of
+      good $i$, is optimal.
+\item $i=i'$: $\wt p_{i'}=1$ and $\wt p_{i'+1}=\rho^{0}=1$, so income is
+      $\wt p_{i'}+\wt p_{i'+1}=2$ and the two goods cost $1$ each.  Buying one unit of each is
+      optimal.
+\item $i>i'$: the endowment is one unit of good $i+1$, so income is
+      $\wt p_{i+1}=\rho^{\,i-i'}$, while the prices of the two goods the household cares about
+      are $\wt p_{i}=\rho^{\,i-i'-1}$ and $\wt p_{i+1}=\rho^{\,i-i'}$.  Since $\rho<1$, good
+      $i+1$ is \emph{strictly} cheaper, so the household spends everything on it and buys
+      \[
+      \frac{\wt p_{i+1}}{\wt p_{i+1}}=1\ \text{unit of good }i+1,
+      \]
+      which is exactly its assignment in $\wt x^{\,i'}$, and now the optimum is unique.
+\end{itemize}
+
+\emph{Market clearing.}  $\wt x^{\,i'}$ is the same allocation as in \bk{Proposition 9.3}, where
+each good $j$ is consumed in total quantity one, matching the aggregate endowment.  Hence
+$(\wt p,\wt x^{\,i'})$ is a competitive equilibrium given $\wt\omega^{\,i'}$.
+
+\rmk{The geometric price vector does more than reproduce \bk{Proposition 9.3} --- it explains it.
+At $\wt p$ the value of the aggregate endowment is
+\[
+\sum_{j\in\N}\wt p_j=\underbrace{i'}_{j\le i'}+\sum_{j>i'}\rho^{\,j-i'-1}
+=i'+\frac{1}{1-\rho}<\infty ,
+\]
+whereas at the price vector $\ol p\equiv1$ of \bk{Proposition 9.1} it is $+\infty$.  The finiteness
+of $\sum_{h}\sum_{j}p^{*}_{j}\omega^{h}_{j}$ is exactly the hypothesis of \bk{Theorem 5.6}, so at
+$\wt p$ the extended First Welfare Theorem applies and \emph{proves} that the equilibrium is
+Pareto optimal, while at $\ol p$ it does not apply and the equilibrium is in fact suboptimal.
+Exercise 9.11 shows that the same distinction --- a finite or an infinite value of the aggregate
+endowment --- separates the efficient from the inefficient equilibria of the overlapping
+generations model.}
+\end{aex}
+
+\begin{aex}{9.4}{}
+The hint asks what happens to undepreciated capital, and that is the whole of the answer.  At the
+end of date $t$ the old own the capital stock $K(t)$, of which $(1-\delta)K(t)$ survives.  Since
+the old consume everything and leave nothing behind, they must \emph{sell} the undepreciated
+capital, and the only agents with any wealth to buy it are the young.  Consequently the young's
+savings buy the whole capital stock of the next period: both the undepreciated part and the new
+investment.
+
+\emph{Returns.}  A unit of capital rented out at $t+1$ earns the rental $f'(k(t+1))$ and is then
+worth $1-\delta$ units of the final good.  The gross return to saving is therefore
+\[
+R(t+1)=f'\bigl(k(t+1)\bigr)+1-\delta ,
+\tag{$*$}
+\]
+which replaces \bk{(9.3)}; the wage is still $w(t)=f(k(t))-k(t)f'(k(t))$, as in \bk{(9.4)}, since
+the wage bill is unaffected by what happens to the capital afterwards.
+
+\emph{Accumulation.}  Let $I(t+1)$ be new investment at $t+1$.  The young at $t+1$ buy the
+surviving capital from the old and finance the new investment, so
+\[
+s(t+1)L(t+1)=(1-\delta)K(t+1)+I(t+1)=K(t+2),
+\]
+that is,
+\[
+K(t+1)=L(t)\,s\bigl(w(t),R(t+1)\bigr),
+\]
+which is \bk{(9.7)} verbatim.  Dividing by $L(t+1)=(1+n)L(t)$ gives the fundamental law of motion
+\[
+k(t+1)=\frac{s\bigl(f(k(t))-k(t)f'(k(t)),\,f'(k(t+1))+1-\delta\bigr)}{1+n},
+\]
+which is \bk{(9.8)} with the return $(*)$ in place of $f'(k(t+1))$.  Setting $\delta=1$ recovers the
+text exactly.
+
+\emph{Consistency with the resource constraint.}  At $t+1$ the economy has $F(K(t+1),L(t+1))$ of
+output and $(1-\delta)K(t+1)$ of surviving capital.  The old consume $R(t+1)K(t+1)$, the young
+consume $[w(t+1)-s(t+1)]L(t+1)$, and $K(t+2)=s(t+1)L(t+1)$ is carried forward.  Adding these and
+using Euler's theorem, $F=w L+f'(k)K$, gives
+\begin{align*}
+&[w(t+1)-s(t+1)]L(t+1)+\bigl[f'(k(t+1))+1-\delta\bigr]K(t+1)+s(t+1)L(t+1)\\
+&\qquad\qquad=F\bigl(K(t+1),L(t+1)\bigr)+(1-\delta)K(t+1),
+\end{align*}
+so the allocation is feasible.
+
+The substantive point is that the two-period structure makes the young the owners of \emph{all}
+the economy's wealth at every date, whatever the depreciation rate.  Setting $\delta=1$ is
+therefore a normalization of the return, not a restriction on the dynamics.
+\end{aex}
+
+\begin{aex}{9.5}{}
+Substituting the two budget constraints into the Euler equation \bk{(9.5)}, saving solves
+\[
+\Phi(s;w,R)\equiv u'(w-s)-\beta R\,u'(Rs)=0 .
+\]
+Since $u''<0$,
+\[
+\Phi_{s}=-u''(w-s)-\beta R^{2}u''(Rs)>0 ,
+\]
+so $\Phi$ is strictly increasing in $s$ and the root is unique; the implicit function theorem
+applies.
+
+\emph{Wages.}  $\Phi_{w}=u''(w-s)<0$, hence
+\[
+s_{w}=-\frac{\Phi_{w}}{\Phi_{s}}=\frac{-u''(c_1)}{-u''(c_1)-\beta R^{2}u''(c_2)}\in(0,1),
+\]
+writing $c_1=w-s$ and $c_2=Rs$.  Saving is strictly increasing in the wage, and by less than one
+for one: both goods are normal, so a richer household spreads the extra income over both periods
+of its life.  This is the property the text uses to obtain $s_w\in(0,1)$ in \bk{(9.12)}.
+
+\emph{The interest rate.}  Differentiating,
+\[
+\Phi_{R}=-\beta u'(Rs)-\beta R s\,u''(Rs)=-\beta u'(c_2)\Bigl[1-\varepsilon_{u}(c_2)\Bigr],
+\qquad
+\varepsilon_{u}(c)\equiv-\frac{c\,u''(c)}{u'(c)}>0 ,
+\]
+so that
+\[
+\boxed{\ s_{R}=-\frac{\Phi_{R}}{\Phi_{s}}
+=\frac{\beta u'(c_2)\bigl[1-\varepsilon_{u}(c_2)\bigr]}{-u''(c_1)-\beta R^{2}u''(c_2)},
+\qquad
+\sgn s_{R}=\sgn\bigl[1-\varepsilon_{u}(c_2)\bigr] .\ }
+\]
+Hence a sufficient (and, pointwise, necessary) condition for saving to be increasing in $R$ is
+\[
+\varepsilon_{u}(c)<1\quad\text{for all }c>0
+\qquad\Longleftrightarrow\qquad
+c\mapsto c\,u'(c)\ \text{is strictly increasing},
+\]
+that is, the elasticity of intertemporal substitution $1/\varepsilon_u$ must exceed one.  For the
+CRRA family \bk{(9.10)}, $\varepsilon_u\equiv\theta$, and this reproduces the text's
+$s_R>0\Leftrightarrow\theta<1$, $s_R<0\Leftrightarrow\theta>1$, $s_R=0$ for log preferences.
+
+\emph{Why.}  A higher $R$ makes future consumption cheaper, which pushes saving up (substitution),
+but it also makes the household wealthier in present-value terms, which pushes consumption up in
+both periods and saving down (income).  The elasticity $\varepsilon_u$ measures how fast marginal
+utility falls, that is, how strong the income effect is; $\varepsilon_u=1$ is the knife edge at
+which the two cancel.
+\end{aex}
+
+\begin{aex}{9.9}{}
+\emph{(a) Equilibrium.}  Preferences are $\log c_1(t)+\beta\log c_2(t+1)$, technology is
+$f(k)=k^{\alpha}$ with $\delta=1$, and population grows at $n$.  A competitive equilibrium is a
+sequence
+\[
+\bigl\{K(t),c_1(t),c_2(t),R(t),w(t)\bigr\}_{t=0}^{\infty}
+\]
+such that
+\begin{enumerate}
+\item factor prices are competitive: $R(t)=f'(k(t))=\alpha k(t)^{\alpha-1}$ and
+      $w(t)=f(k(t))-k(t)f'(k(t))=(1-\alpha)k(t)^{\alpha}$, where $k(t)=K(t)/L(t)$;
+\item each generation maximizes its utility subject to its two budget constraints,
+      \[
+      c_1(t)+s(t)=w(t),\qquad c_2(t+1)=R(t+1)s(t);
+      \]
+\item the capital market clears: $K(t+1)=L(t)s(t)$, with $K(0)>0$ given.
+\end{enumerate}
+A steady state is an equilibrium with $k(t)=k^{*}$ constant.
+
+\emph{(b) Characterization.}  With log preferences the Euler equation gives $c_2(t+1)=\beta
+R(t+1)c_1(t)$, and substituting the budget constraints yields \bk{(9.19)},
+\[
+s(t)=\frac{\beta}{1+\beta}\,w(t)=\frac{\beta(1-\alpha)}{1+\beta}k(t)^{\alpha},
+\]
+a constant saving rate out of labor income, independent of $R$.  Hence
+\[
+k(t+1)=\frac{s(t)}{1+n}=\frac{\beta(1-\alpha)}{(1+n)(1+\beta)}k(t)^{\alpha},
+\qquad
+k^{*}=\Bigl[\frac{\beta(1-\alpha)}{(1+n)(1+\beta)}\Bigr]^{\frac{1}{1-\alpha}},
+\]
+which is \bk{(9.20)}.  The map is a concave power function through the origin, so convergence to
+$k^{*}$ is monotone and global, exactly as in the Solow model.  The steady-state gross return is
+\[
+R^{*}=\alpha(k^{*})^{\alpha-1}=\frac{\alpha(1+n)(1+\beta)}{\beta(1-\alpha)} .
+\]
+
+\emph{Dynamic inefficiency} means $r^{*}<n$, that is $R^{*}<1+n$:
+\[
+\frac{\alpha(1+\beta)}{\beta(1-\alpha)}<1
+\quad\Longleftrightarrow\quad
+\alpha(1+\beta)<\beta(1-\alpha)
+\quad\Longleftrightarrow\quad
+\alpha<\beta(1-2\alpha) .
+\]
+So, explicitly,
+\[
+\boxed{\ \text{the economy overaccumulates}\iff\alpha<\tfrac12\ \text{ and }\
+\beta>\frac{\alpha}{1-2\alpha}\ }
+\]
+Population growth drops out entirely: raising $n$ lowers $k^{*}$ and raises $R^{*}$ in exactly the
+proportion in which it raises the golden-rule threshold $1+n$.
+
+\emph{(c) Is this plausible?}  A period in this model is a working lifetime, say thirty years.
+The condition needs a low capital share and a very patient household:
+\[
+\begin{array}{cccc}
+\alpha & 0.20 & 0.25 & 0.30 \\
+\beta>\alpha/(1-2\alpha) & 0.333 & 0.500 & 0.750 \\
+\text{implied annual discount rate} & <3.73\% & <2.34\% & <0.96\%
+\end{array}
+\]
+and at $\alpha=1/3$ the condition becomes $\beta>1$, that is a \emph{negative} rate of time
+preference.  With a conventional calibration --- $\alpha=1/3$, an annual discount rate of $2\%$
+($\beta=0.98^{30}=0.545$) and annual population growth of $1\%$ ($1+n=1.01^{30}$, so $n=0.348$)
+--- the program gives
+\[
+k^{*}=0.0729<k_{\text{gold}}=0.1230,
+\qquad
+R^{*}=1.911>1+n=1.348 ,
+\]
+an annualized real interest rate of $2.18\%$ against population growth of $1\%$: the economy is
+comfortably dynamically \emph{efficient}.  This matches what the data say --- capital income
+exceeds investment in essentially every developed economy --- so dynamic inefficiency, while a
+genuine theoretical possibility, is not a description of any economy one would worry about.
+
+\emph{(d) Unfunded social security.}  Let the government collect a constant $d$ from each young
+individual and hand $(1+n)d$ to each old one.  A generation now solves
+\[
+\max\ \log\bigl(w(t)-s(t)-d\bigr)+\beta\log\bigl(R(t+1)s(t)+(1+n)d\bigr),
+\]
+whose solution is
+\[
+s(t)=\frac{\beta w(t)-\bigl[\beta+(1+n)/R(t+1)\bigr]d}{1+\beta},
+\qquad
+(1+n)k(t+1)=s(t).
+\tag{$\dagger$}
+\]
+Saving falls, so the transfer reduces capital accumulation --- which is precisely what is wanted
+when $k^{*}>k_{\text{gold}}$.
+
+Two observations establish the Pareto improvement.
+
+\emph{The steady-state comparison, analytically.}  Index steady states by $k$ and use the Euler
+equation $c_2=\beta f'(k)c_1$ together with the resource constraint
+$c_1+c_2/(1+n)=C(k)\equiv f(k)-(1+n)k$.  Solving,
+\[
+c_1=\frac{(1+n)C(k)}{(1+n)+\beta f'(k)},
+\qquad
+U(k)=(1+\beta)\log c_1+\beta\log\bigl(\beta f'(k)\bigr)+\text{const},
+\]
+and differentiating, after collecting the two terms in $f''$,
+\[
+\frac{\dd U}{\dd k}
+=\underbrace{(1+\beta)\frac{f'(k)-(1+n)}{C(k)}}_{\text{resource effect}}
++\underbrace{\frac{\beta f''(k)\bigl[(1+n)-f'(k)\bigr]}{f'(k)\bigl[(1+n)+\beta f'(k)\bigr]}}_{\text{price effect}} .
+\]
+When $f'(k)<1+n$ --- exactly dynamic inefficiency --- the first term is negative and, since
+$f''<0$ and $(1+n)-f'(k)>0$, so is the second.  Hence $\dd U/\dd k<0$: \emph{reducing} the
+steady-state capital-labor ratio strictly raises the lifetime utility of every generation living
+in the steady state.  Both channels point the same way: less capital frees resources, and it
+raises the interest rate on which the old live.
+
+\emph{The whole transition, numerically.}  Analysis of the steady states alone does not settle
+the fate of the generations passing through the transition, so the program iterates $(\dagger)$.
+Take $\alpha=0.25$, $\beta=0.9$, $n=0$, which satisfies the condition in (b):
+$k^{*}=0.2516>k_{\text{gold}}=0.1575$ and $R^{*}=0.704<1$.  Introducing at $t=0$ a constant
+$d$ equal to $2\%$ of the steady-state wage gives
+\[
+\begin{array}{ccccccc}
+t & 0 & 1 & 2 & 3 & 10 & \infty\\
+k(t) & 0.2516 & 0.2389 & 0.2358 & 0.2350 & 0.2347 & 0.2347\\
+U(t)-U^{*} & +0.0488 & +0.0329 & +0.0288 & +0.0277 & +0.0274 & +0.0274
+\end{array}
+\]
+Every generation from $t=0$ on is strictly better off, the smallest gain over the entire
+transition being $+0.0274$; and the generation old at $t=0$ receives $(1+n)d>0$ out of nowhere.
+The allocation therefore Pareto dominates the laissez-faire equilibrium, which is
+\bk{Proposition 9.8} made explicit.
+
+\rmk{The mechanism is a pyramid scheme that pays off.  Unfunded social security transfers at the
+implicit rate $n$; investing in capital pays $r^{*}$.  When $r^{*}<n$ the pyramid is the better
+technology for moving resources across dates, so switching some resources into it makes everyone
+richer.  When $r^{*}>n$ the same scheme is a bad investment, and Exercise 9.17 shows that it then
+necessarily hurts some future generation.}
+\end{aex}
+
+\begin{aex}{9.10}{}
+Keep log preferences and $f(k)=k^{\alpha}$ with $\delta=1$, and suppose an individual supplies one
+unit of labor when young and $z\ge0$ units when old.  ($z=0$ is the baseline model of Section 9.3
+and $z=1$ the symmetric case.)
+
+\emph{(a) Equilibrium.}  Total labor supply at $t$ is
+\[
+N(t)=L(t)+zL(t-1)=L(t)\frac{1+n+z}{1+n} ,
+\]
+so it is natural to work with capital per unit of labor, $\wh k\equiv K/N$.  Competitive factor
+prices are $R(t)=\alpha\wh k(t)^{\alpha-1}$ and $w(t)=(1-\alpha)\wh k(t)^{\alpha}$ per unit of
+labor.  A generation born at $t$ solves
+\[
+\max\ \log c_1(t)+\beta\log c_2(t+1)
+\quad\text{s.t.}\quad
+c_1(t)+s(t)=w(t),\qquad
+c_2(t+1)=R(t+1)s(t)+z\,w(t+1),
+\]
+and the capital market clears with $K(t+1)=s(t)L(t)$: only the young hold assets, since the old
+consume their wage and their accumulated savings and leave nothing.  A steady state is an
+equilibrium with $\wh k$ constant.
+
+Note that the constraint $s(t)\ge0$ is no longer automatic: an individual with substantial
+old-age earnings may wish to borrow against them.  We proceed without imposing it and note below
+when it binds.
+
+\emph{(b) Characterization.}  Lifetime wealth is $W(t)=w(t)+z\,w(t+1)/R(t+1)$, and log preferences
+give $c_1(t)=W(t)/(1+\beta)$, hence
+\[
+s(t)=w(t)-\frac{W(t)}{1+\beta}=\frac{\beta w(t)-z\,w(t+1)/R(t+1)}{1+\beta} .
+\]
+Because $w(t+1)/R(t+1)=(1-\alpha)\wh k(t+1)^{\alpha}/[\alpha\wh k(t+1)^{\alpha-1}]
+=(1-\alpha)\wh k(t+1)/\alpha$, this is linear in $\wh k(t+1)$.  Using
+$K(t+1)=s(t)L(t)$ and $N(t+1)=L(t+1)(1+n+z)/(1+n)=L(t)(1+n+z)$,
+\[
+(1+n+z)\wh k(t+1)=\frac{\beta(1-\alpha)\wh k(t)^{\alpha}-z(1-\alpha)\wh k(t+1)/\alpha}{1+\beta},
+\]
+and collecting the terms in $\wh k(t+1)$,
+\[
+\boxed{\ \wh k(t+1)=A(z)\,\wh k(t)^{\alpha},
+\qquad
+A(z)=\frac{\alpha\beta(1-\alpha)}{\alpha(1+\beta)(1+n+z)+z(1-\alpha)}\ }
+\]
+Setting $z=0$ gives $A(0)=\beta(1-\alpha)/[(1+\beta)(1+n)]$ and recovers \bk{(9.20)}.
+
+The law of motion is again a concave power function through the origin, so there is a unique
+positive steady state
+\[
+\wh k^{*}=A(z)^{\frac{1}{1-\alpha}},
+\]
+and from any $\wh k(0)>0$ the economy converges to it monotonically --- the transitional dynamics
+are those of the Solow model, exactly as in \bk{Proposition 9.5}.  Since $A(z)$ is strictly
+decreasing in $z$, the steady-state capital-labor ratio falls as the old earn more.
+
+\emph{(c) Overaccumulation.}  The golden rule maximizes steady-state consumption per unit of
+labor, $f(\wh k)-(1+n)\wh k$, so $f'(\wh k_{\text{gold}})=1+n$ and
+$\wh k_{\text{gold}}=[\alpha/(1+n)]^{1/(1-\alpha)}$.  Hence
+\[
+\wh k^{*}>\wh k_{\text{gold}}
+\iff A(z)>\frac{\alpha}{1+n}
+\iff \beta(1-\alpha)(1+n)>\alpha(1+\beta)(1+n+z)+z(1-\alpha),
+\]
+that is,
+\[
+\boxed{\ \text{overaccumulation}\iff z<\bar z\equiv\frac{(1+n)\bigl[\beta(1-2\alpha)-\alpha\bigr]}{1+\alpha\beta}\ }
+\]
+which requires $\beta(1-2\alpha)>\alpha$ --- precisely the condition of Exercise 9.9 --- and then
+caps $z$.  So the answer is: yes, but only if old-age labor income is small.  With
+$\alpha=0.25$, $\beta=0.9$, $n=0$ the threshold is $\bar z=0.163$, and the program gives
+\[
+\begin{array}{cccccc}
+z & 0 & 0.1 & 0.163 & 0.2 & 1.0\\
+\wh k^{*}/\wh k_{\text{gold}} & 1.598 & 1.177 & 1.000 & 0.918 & 0.292
+\end{array}
+\]
+The old supplying a sixth of a young worker's labor is already enough to eliminate
+overaccumulation; the symmetric case $z=1$ is nowhere near it.
+
+\emph{Why.}  In the baseline model the entire reason for saving is that the old have no income at
+all, so each generation must carry its whole retirement into the future as capital.  Giving the
+old an income both reduces the amount that must be saved and --- because the young can now
+capitalize it --- lets them borrow against it.  This is the same force that makes the
+continuous-time perpetual youth model of Section 9.8 always underaccumulate: there labor income
+is constant over the whole of life, which is the opposite extreme from the Samuelson--Diamond
+model.  Exercise 9.30 completes the picture by showing that a \emph{declining} path of labor
+income brings overaccumulation back.
+\end{aex}
+
+\begin{aex}{9.11}{}
+Write the OLG economy as an Arrow--Debreu economy: the commodities are dated consumption goods,
+and the households are the generations.  Generation $t$ is endowed with one unit of labor at date
+$t$ and nothing else, and there are $L(t)=(1+n)^{t}L(0)$ of them.  With the date-$0$ good as
+numeraire, the date-$t$ price is
+\[
+q(t)=\prod_{s=1}^{t}\frac{1}{R(s)}
+\qquad\text{so that in a steady state}\qquad
+q(t)=\frac{1}{(1+r^{*})^{t}} ,
+\]
+and the value of one unit of date-$t$ labor is $w(t)q(t)$, which in a steady state is
+$w^{*}/(1+r^{*})^{t}$ --- the ratio in the hint.  The total value of the economy's endowments is
+therefore
+\[
+\sum_{h\in\mathcal H}\sum_{j=0}^{\infty}p^{*}_{j}\omega^{h}_{j}
+=\sum_{t=0}^{\infty}L(t)w(t)q(t)
+=L(0)\,w^{*}\sum_{t=0}^{\infty}\Bigl(\frac{1+n}{1+r^{*}}\Bigr)^{t} .
+\tag{$*$}
+\]
+
+\emph{(a) $r^{*}<n$.}  Then $(1+n)/(1+r^{*})>1$, the terms of the geometric series in $(*)$ do not
+even tend to zero, and the sum is $+\infty$.  The hypothesis of \bk{Theorem 5.6} fails, so the
+theorem says nothing --- and \bk{Proposition 9.6} shows that the conclusion genuinely fails too:
+the equilibrium is Pareto suboptimal.  The economics is transparent.  Each date brings $(1+n)$
+times as many endowment units as the last, while discounting shrinks their value only by
+$(1+r^{*})$; when $r^{*}<n$ the economy's aggregate endowment has infinite present value, and
+with infinite wealth there is room to give everyone more by rearranging \emph{who} consumes
+\emph{when}.
+
+\emph{(b) $r^{*}>n$.}  Then $(1+n)/(1+r^{*})<1$ and
+\[
+\sum_{h}\sum_{j}p^{*}_{j}\omega^{h}_{j}=\frac{L(0)w^{*}(1+r^{*})}{r^{*}-n}<\infty .
+\]
+(Outside the steady state the same conclusion holds as long as $r(t)\to r^{*}>n$: the tail of the
+series is dominated by a convergent geometric one, and the finitely many initial terms are
+finite.)  Every hypothesis of \bk{Theorem 5.6} is then met --- preferences are continuous and
+locally nonsatiated, the allocation is a competitive equilibrium, and the value of the aggregate
+endowment is finite --- so the theorem applies and the competitive equilibrium is Pareto
+efficient.
+
+\rmk{The comparison with Exercise 9.2 is exact.  In Shell's economy, the equilibrium price vector
+$\ol p\equiv1$ gives the aggregate endowment infinite value and the equilibrium is suboptimal;
+the geometric price vector $\wt p$ gives it finite value and the equilibrium is optimal.  In the
+OLG model the analogous role is played by the comparison of $r^{*}$ with $n$.  Note also what is
+\emph{not} the source of the inefficiency: not market incompleteness (Shell's households can all
+trade with each other), and not externalities (there are none).  It is only that the value of the
+aggregate endowment can be infinite, which is exactly what \bk{Theorem 5.6} forbids.}
+\end{aex}
+
+\begin{aex}{9.12}{}
+\emph{The theorem is silent.}  With $r^{*}=n$ the series $(*)$ of Exercise 9.11 is
+$L(0)w^{*}\sum_{t\ge0}1=+\infty$, so the hypothesis of \bk{Theorem 5.6} fails.  A sufficient
+condition failing proves nothing, so the theorem gives no information either way.
+
+\emph{Pareto optimality when $u$ and $f$ are strictly concave.}  At $r^{*}=n$ the steady state is
+the golden rule: $f'(k^{*})=1+n$.  Its allocation is
+\[
+s^{*}=(1+n)k^{*},\quad c_1^{*}=w^{*}-s^{*},\quad c_2^{*}=(1+n)s^{*},
+\qquad\text{so}\qquad
+c_1^{*}+\frac{c_2^{*}}{1+n}=w^{*}=C^{*}\equiv f(k^{*})-(1+n)k^{*} .
+\]
+Suppose some feasible allocation $\{\wh c_1(t),\wh c_2(t),\wh k(t)\}$ with $\wh k(0)=k^{*}$ Pareto
+dominates it.  Feasibility, per young person, is
+\[
+f\bigl(\wh k(t)\bigr)=(1+n)\wh k(t+1)+\wh c_1(t)+\frac{\wh c_2(t)}{1+n},
+\qquad t\ge0 .
+\tag{F}
+\]
+
+Two \emph{value losses} organize the argument.  On the production side, strict concavity of $f$
+and $f'(k^{*})=1+n$ give
+\[
+\lambda(t)\equiv f(k^{*})+(1+n)\bigl[\wh k(t)-k^{*}\bigr]-f\bigl(\wh k(t)\bigr)\ \ge\ 0,
+\qquad
+\lambda(t)=0\iff\wh k(t)=k^{*} .
+\]
+On the consumption side, note that at the golden rule the relative price of old-age consumption is
+$1/R^{*}=1/(1+n)$, so the cost of generation $t$'s bundle is
+$\wh m(t)\equiv\wh c_1(t)+\wh c_2(t+1)/(1+n)$.  Strict concavity of $u$ makes the expenditure
+function strictly increasing in utility with a unique minimizer, so
+\[
+\mu(t)\equiv\wh m(t)-w^{*}\ \ge\ 0,
+\qquad
+\mu(t)=0\iff\bigl(\wh c_1(t),\wh c_2(t+1)\bigr)=(c_1^{*},c_2^{*}) ,
+\]
+for every generation that is at least as well off as in the steady state.
+
+Now sum (F) over $t=0,\dots,T$, rearranging the consumption terms by generation:
+\[
+\sum_{t=0}^{T}\Bigl[\wh c_1(t)+\frac{\wh c_2(t)}{1+n}\Bigr]
+=\frac{\wh c_2(0)}{1+n}+\sum_{t=0}^{T-1}\wh m(t)+\wh c_1(T),
+\]
+while the production side gives
+\[
+\sum_{t=0}^{T}\Bigl[f\bigl(\wh k(t)\bigr)-(1+n)\wh k(t+1)\Bigr]
+=(T+1)C^{*}+(1+n)\bigl[\wh k(0)-\wh k(T+1)\bigr]-\sum_{t=0}^{T}\lambda(t).
+\]
+Equating the two, using $C^{*}=w^{*}$, $\wh k(0)=k^{*}$, $\wh c_2(0)\ge c_2^{*}$ and
+$c_2^{*}/(1+n)=(1+n)k^{*}$, and cancelling $Tw^{*}$ from both sides,
+\[
+\sum_{t=0}^{T}\lambda(t)+\sum_{t=0}^{T-1}\mu(t)
++\frac{\wh c_2(0)-c_2^{*}}{1+n}
++\wh c_1(T)+(1+n)\wh k(T+1)\ \le\ w^{*} .
+\tag{$\ddagger$}
+\]
+Every term is nonnegative and the bound is uniform in $T$, so both series converge; hence
+$\lambda(t)\to0$ and $\mu(t)\to0$.  Since $\lambda$ vanishes only at $k^{*}$ and is continuous
+with $\lambda(k)\to\infty$ as $k\to\infty$, this forces $\wh k(t)\to k^{*}$; and since the
+minimum-cost bundle at utility $U^{*}$ is unique, $\mu(t)\to0$ forces
+$(\wh c_1(t),\wh c_2(t+1))\to(c_1^{*},c_2^{*})$, so $\wh c_1(T)\to c_1^{*}$.  Letting
+$T\to\infty$ in $(\ddagger)$ and using $w^{*}=c_1^{*}+(1+n)k^{*}$,
+\[
+\sum_{t=0}^{\infty}\lambda(t)+\sum_{t=0}^{\infty}\mu(t)+\frac{\wh c_2(0)-c_2^{*}}{1+n}\ \le\ 0 .
+\]
+A sum of nonnegative terms bounded above by zero is zero term by term: $\lambda\equiv0$,
+$\mu\equiv0$ and $\wh c_2(0)=c_2^{*}$.  So $\wh k(t)=k^{*}$ for all $t$ and every generation has
+exactly the steady-state bundle --- the supposed improvement is the steady state itself, and no
+one is strictly better off.  The golden-rule equilibrium is Pareto optimal. $\blacksquare$
+
+\emph{An example with Pareto suboptimality.}  Strict concavity is what makes the argument work,
+and dropping it breaks the conclusion.  Let $u$ be \emph{linear}, $u(c)=c$, with
+$\beta=1/(1+n)$, and let $f$ be strictly concave with $f'(k^{*})=1+n$.  (With $\beta(1+n)=1$ each
+generation is exactly indifferent along its budget line, so savings are indeterminate and $k^{*}$
+is one of a continuum of equilibria.)  Lifetime utility is then
+\[
+U_t=c_1(t)+\beta c_2(t+1)=c_1(t)+\frac{c_2(t+1)}{1+n},
+\]
+which is precisely the \emph{cost} of the bundle at the golden-rule prices.  Now take any
+$\varepsilon\in(0,c_1^{*}]$ and consider
+\[
+\wh k(t)=k^{*},\qquad
+\wh c_1(t)=c_1^{*}-\varepsilon,\qquad
+\wh c_2(t)=c_2^{*}+(1+n)\varepsilon\qquad\text{for all }t\ge0 .
+\]
+This is feasible: at every date $\wh c_1(t)+\wh c_2(t)/(1+n)=c_1^{*}+c_2^{*}/(1+n)=C^{*}$.  Each
+generation $t\ge0$ has
+\[
+\wh U_t=\bigl(c_1^{*}-\varepsilon\bigr)+\frac{c_2^{*}+(1+n)\varepsilon}{1+n}
+=c_1^{*}+\frac{c_2^{*}}{1+n}=U^{*},
+\]
+so no one is worse off; and the generation already old at $t=0$ consumes
+$c_2^{*}+(1+n)\varepsilon>c_2^{*}$ and is strictly better off.  The equilibrium is therefore
+Pareto \emph{sub}optimal.
+
+\rmk{The example is Samuelson's transfer scheme in its purest form: a permanent gift from each
+young generation to the old, at the implicit rate of return $n$.  When $r^{*}=n$ the scheme is
+exactly break-even for everyone born afterwards, and pure profit for the generation alive when it
+starts.  With strictly concave $u$ the same perturbation moves each generation \emph{off} its
+optimum along a budget line of unchanged value and so makes it strictly worse off --- which is
+exactly the $\mu(t)>0$ term in $(\ddagger)$, and exactly why strict concavity restores optimality.
+The knife edge is genuinely a knife edge.}
+\end{aex}
+
+\begin{aex}{9.13}{}
+Under a fully funded system the government collects $d(t)$ from each young individual, invests it
+in capital, and returns $R(t+1)d(t)$ in old age.  The generation's problem is
+\[
+\max\ u(c_1(t))+\beta u(c_2(t+1))
+\quad\text{s.t.}\quad
+c_1(t)+s(t)+d(t)\le w(t),\qquad
+c_2(t+1)\le R(t+1)\bigl(s(t)+d(t)\bigr).
+\]
+
+\emph{Part 2: no constraint on $s$.}  Change variables to \emph{total} saving
+$\wh s(t)\equiv s(t)+d(t)$.  The two constraints become
+\[
+c_1(t)+\wh s(t)\le w(t),
+\qquad
+c_2(t+1)\le R(t+1)\wh s(t),
+\]
+which are the constraints of the problem \emph{without} social security, in the variable $\wh s$.
+Since $d(t)$ has disappeared from the problem entirely, the optimal $\wh s(t)$ is the same
+function $s(w(t),R(t+1))$ of \bk{(9.6)}, and the individual simply offsets the contribution
+one for one:
+\[
+s(t)=s\bigl(w(t),R(t+1)\bigr)-d(t).
+\]
+Total investment is $\wh s(t)L(t)=(1+n)k(t+1)L(t)$, exactly \bk{(9.7)}.  Hence the sequences
+$\{k(t)\}$, $\{w(t)\}$, $\{R(t)\}$ and all consumption levels are identical with and without the
+program: the set of competitive equilibria is the same, and the program changes only the
+\emph{label} attached to a part of each household's portfolio.
+
+\emph{Part 1: $s(t)\ge0$ imposed.}  If, given the feasible sequence $\{d(t)\}$, the optimal saving
+sequence satisfies $s(t)>0$ for all $t$, then the constraint is slack at the optimum, so the
+solution coincides with the unconstrained one, and part 2 applies verbatim.  Conversely, take any
+competitive equilibrium without social security; there $\wh s(t)=s(w(t),R(t+1))>0$, and provided
+$d(t)<s(w(t),R(t+1))$ --- which is what the hypothesis $s(t)>0$ says --- the same allocation is a
+competitive equilibrium with social security.  The two sets coincide. $\blacksquare$
+
+The result is the exact analogue of Ricardian equivalence (Exercise 8.35), and for the same
+reason: a fully funded system makes no transfer between generations.  Each generation receives
+back, at the market rate, precisely what it paid in, so its lifetime budget constraint
+$c_1+c_2/R=w$ is untouched.  Only the composition of saving --- private versus public --- changes,
+and nothing in the model depends on that label.  Exercise 9.14 shows that this is not merely a
+neutrality result: the program cannot help even when it is forced to bind.
+\end{aex}
+
+\begin{aex}{9.14}{}
+If the constraint never binds --- $d(t)<s(w(t),R(t+1))$ at every date --- then by
+\bk{Proposition 9.7} the allocation is exactly the laissez-faire one, so there is nothing to
+improve.  Suppose then that the constraint binds somewhere, and let $T$ be the first date at
+which it does, so that $s(T)=0$ and total saving is $d(T)$.
+
+\emph{Nothing changes before $T$.}  For $t<T$ the constraint is slack, so by
+\bk{Proposition 9.7} the capital-labor ratios $k(t)$, $t\le T$, and hence the factor prices
+$w(t)$, $R(t)$ for $t\le T$, coincide with the laissez-faire ones.  In particular generation
+$T-1$, whose consumption depends on $w(T-1)$ and $R(T)$, is exactly as well off as before, and so
+are all earlier generations and the initial old.  The initial old, incidentally, could only gain
+from a transfer, and a fully funded system makes none.
+
+\emph{Generation $T$ is strictly worse off.}  Its wage $w(T)$ is unchanged, since $k(T)$ is.
+Total saving is $(1+n)k(T+1)=d(T)$.  Write $g(k)\equiv s(w(T),f'(k))-(1+n)k$, so that the
+laissez-faire $k_{\mathrm{LF}}(T+1)$ is the root of $g$, and the binding of the constraint says
+$g\bigl(d(T)/(1+n)\bigr)<0$.  Under the stability condition maintained throughout the chapter
+(under which $g$ crosses zero once, from above --- it holds automatically whenever $s_R\ge0$, and
+in particular in \bk{Proposition 9.4}), this gives
+\[
+k(T+1)=\frac{d(T)}{1+n}>k_{\mathrm{LF}}(T+1)
+\qquad\Longrightarrow\qquad
+R(T+1)=f'\bigl(k(T+1)\bigr)<R_{\mathrm{LF}}(T+1).
+\]
+Generation $T$ therefore faces the budget set
+\[
+\Bigl\{(c_1,c_2)\ge0:\ c_1+\frac{c_2}{R(T+1)}\le w(T)\Bigr\}
+\ \subsetneq\
+\Bigl\{(c_1,c_2)\ge0:\ c_1+\frac{c_2}{R_{\mathrm{LF}}(T+1)}\le w(T)\Bigr\},
+\]
+a \emph{strict} subset --- the same intercept $w(T)$ on the $c_1$ axis, a strictly lower one on
+the $c_2$ axis.  And within that smaller set it is not even free to choose: the constraint
+$s(T)\ge0$ forces it to the point $c_1(T)=w(T)-d(T)$, which is not its optimum.  Both effects
+push the same way, so generation $T$ is strictly worse off than in the laissez-faire equilibrium.
+
+Hence no fully funded program yields a Pareto improvement. $\blacksquare$
+
+\emph{The general lesson.}  A fully funded system is, by construction, an intergenerational
+transfer of zero present value; it cannot relax anybody's lifetime budget constraint, and the
+only thing it can do is restrict choice.  Exploiting dynamic inefficiency requires transferring
+resources \emph{from} later generations \emph{to} earlier ones at a rate above the market return,
+and only an unfunded system does that (Exercise 9.9(d) and \bk{Proposition 9.8}).  Forcing
+additional saving in an economy that already saves too much is, if anything, exactly the wrong
+intervention.
+\end{aex}
+
+\begin{aex}{9.18}{}
+An individual dies at the end of each period with probability $\nu$, independently across
+periods.  The probability of living exactly $\ell$ periods is therefore
+\[
+\Prob[\text{life}=\ell]=(1-\nu)^{\ell-1}\nu,\qquad \ell=1,2,\dots,
+\]
+a geometric distribution: surviving the first $\ell-1$ periods and then dying.  These
+probabilities sum to $\nu\sum_{\ell\ge1}(1-\nu)^{\ell-1}=\nu/[1-(1-\nu)]=1$, as they must.
+Expected life is
+\[
+\E[\text{life}]=\nu+2(1-\nu)\nu+3(1-\nu)^{2}\nu+\dots=\nu\sum_{\ell=1}^{\infty}\ell\,q^{\ell-1},
+\qquad q\equiv1-\nu\in(0,1).
+\]
+To evaluate the sum, differentiate the geometric series $\sum_{\ell\ge0}q^{\ell}=1/(1-q)$ term by
+term (legitimate inside the radius of convergence):
+\[
+\sum_{\ell=1}^{\infty}\ell\,q^{\ell-1}=\frac{\dd}{\dd q}\Bigl[\frac{1}{1-q}\Bigr]
+=\frac{1}{(1-q)^{2}}=\frac{1}{\nu^{2}} .
+\]
+Hence
+\[
+\E[\text{life}]=\frac{\nu}{\nu^{2}}=\frac{1}{\nu}<\infty ,
+\]
+which is \bk{(9.31)}.
+
+\emph{Perpetual youth.}  What makes the name apt is that the geometric distribution is
+memoryless: conditional on having survived to any date, the remaining life is again geometric
+with the same parameter, so the expected further life is $1/\nu$ at every age.  Age carries no
+information about longevity, which is why in Section 9.7 the annuity payment \bk{(9.33)} depends
+on assets alone and not on when the individual was born, and why in Section 9.8 the Euler
+equation \bk{(9.43)} is the same for every cohort.  The continuous-time counterpart is the
+exponential distribution with rate $\nu$, whose mean is likewise $1/\nu$ (Exercise 9.25(b)).
+\end{aex}
+
+\begin{aex}{9.19}{}
+\emph{Individual choice.}  The function $c^{\eta}b^{1-\eta}$ is a strictly increasing transform of
+$\eta\log c+(1-\eta)\log b$, so it represents the same preferences as the logarithmic
+specification with $\beta$ replaced by $(1-\eta)/\eta$.  Maximizing subject to
+$c^{i}(t)+b^{i}(t)\le y^{i}(t)$ gives the constant bequest share
+\[
+\boxed{\ b^{i}(t)=(1-\eta)y^{i}(t)=(1-\eta)\bigl[w(t)+R(t)b^{i}(t-1)\bigr],
+\qquad c^{i}(t)=\eta\,y^{i}(t)\ }
+\]
+which is \bk{(9.27)} with $\beta/(1+\beta)$ replaced by $1-\eta$.
+
+\emph{Equilibrium.}  A competitive equilibrium is, as in \bk{Definition 9.2}, a sequence of
+consumption and bequest levels $\{[c^{i}(t)]_{i\in[0,1]},[b^{i}(t)]_{i\in[0,1]}\}_{t\ge0}$
+solving the above, a sequence of capital-labor ratios given by $k(t+1)=\int_0^1 b^{i}(t)\dd i$,
+and factor prices $w(t)=f(k(t))-k(t)f'(k(t))$, $R(t)=f'(k(t))$.
+
+\emph{Aggregate dynamics.}  Integrating the bequest rule across the unit measure of individuals
+and using Euler's theorem, $w(t)+R(t)k(t)=f(k(t))$,
+\[
+k(t+1)=\int_0^1 b^{i}(t)\dd i=(1-\eta)\bigl[w(t)+R(t)k(t)\bigr]=(1-\eta)f\bigl(k(t)\bigr),
+\]
+the analogue of \bk{(9.28)}.  As there, the aggregate law of motion is independent of the
+distribution of bequests, and it is a strictly concave function of $k(t)$ through the origin.  By
+Assumptions 1 and 2 there is a unique positive steady state
+\[
+k^{*}=(1-\eta)f\bigl(k^{*}\bigr),
+\]
+to which the economy converges monotonically from any $k(0)>0$ --- Solow dynamics again.
+
+\emph{The distribution of wealth.}  At the steady-state factor prices
+$w^{*}=f(k^{*})-k^{*}f'(k^{*})$ and $R^{*}=f'(k^{*})$, individual bequests follow the affine
+recursion $b^{i}(t)=(1-\eta)[w^{*}+R^{*}b^{i}(t-1)]$.  Its slope satisfies
+\[
+(1-\eta)R^{*}=(1-\eta)f'(k^{*})<(1-\eta)\frac{f(k^{*})}{k^{*}}=1
+\]
+by strict concavity of $f$ and the definition of $k^{*}$, so the recursion is a contraction and
+every individual's bequest converges to the same level,
+\[
+b^{*}=\frac{(1-\eta)w^{*}}{1-(1-\eta)R^{*}} ,
+\]
+the analogue of \bk{(9.30)}.  Deviations from $b^{*}$ shrink by the factor $(1-\eta)R^{*}$ per
+generation, so the cross-sectional variance of wealth falls at the rate $[(1-\eta)R^{*}]^{2}$.
+With $f(k)=Ak^{\alpha}$ one computes $R^{*}=\alpha/(1-\eta)$, so the contraction factor is exactly
+$\alpha$: wealth inequality dies out at the rate of the capital share, independently of $\eta$
+and $A$.  The economy therefore reproduces \bk{Proposition 9.9} in full.
+
+\rmk{Nothing substantive changes, and the reason is worth stating plainly: the individual's
+problem is static, so only the \emph{ordinal} content of preferences matters, and
+$c^{\eta}b^{1-\eta}$ is ordinally identical to the logarithmic case.  Exercise 9.20, which allows
+$u_1(c)+u_2(b)$ with general $u_1$ and $u_2$, is where the additional structure is genuinely
+needed: there the bequest share varies with income, aggregate dynamics can depend on the
+distribution, and stability and convergence to equality have to be assumed rather than derived.}
+\end{aex}
+
+\begin{aex}{9.22}{}
+Population is constant and capital fully depreciates, so steady-state consumption is $f(k)-k$ and
+the golden rule is $f'(k_{\text{gold}})=1$.  Since $f'$ is strictly decreasing,
+\[
+k^{*}>k_{\text{gold}}\iff f'(k^{*})<1 .
+\]
+From \bk{(9.29)}, $k^{*}=[\beta/(1+\beta)]f(k^{*})$, that is $f(k^{*})/k^{*}=(1+\beta)/\beta$.
+Writing $\phi(k)\equiv kf'(k)/f(k)$ for the elasticity of output with respect to capital,
+\[
+f'(k^{*})=\phi(k^{*})\frac{f(k^{*})}{k^{*}}=\phi(k^{*})\frac{1+\beta}{\beta},
+\]
+so the condition becomes
+\[
+\boxed{\ k^{*}>k_{\text{gold}}\iff\phi(k^{*})<\frac{\beta}{1+\beta}\ }
+\]
+the elasticity of output with respect to capital must fall short of the warm glow bequest rate.
+
+\emph{Cobb--Douglas.}  With $f(k)=Ak^{\alpha}$, $\phi\equiv\alpha$ and
+$k^{*}=[\beta A/(1+\beta)]^{1/(1-\alpha)}$, so
+\[
+f'(k^{*})=\frac{\alpha(1+\beta)}{\beta}
+\qquad\text{and}\qquad
+k^{*}>k_{\text{gold}}\iff\alpha(1+\beta)<\beta\iff\alpha<\frac{\beta}{1+\beta},
+\]
+independently of $A$.  With $\alpha=1/3$ this needs only $\beta>1/2$; taking $\beta=0.6$, the
+program gives $k^{*}=0.2296>k_{\text{gold}}=0.1925$ and $f'(k^{*})=0.889<1$.  So yes, the warm
+glow economy overaccumulates for entirely ordinary parameters.
+
+\emph{Comparison with the baseline model.}  Exercise 9.9 showed that the Samuelson--Diamond model
+overaccumulates only if $\alpha(1+2\beta)<\beta$.  Side by side,
+\[
+\begin{array}{cccc}
+\beta & 0.4 & 0.6 & 1.0\\
+\text{warm glow: }\alpha< & 0.286 & 0.375 & 0.500\\
+\text{baseline: }\alpha< & 0.222 & 0.273 & 0.333
+\end{array}
+\]
+The warm glow condition is always the weaker one.  The reason is visible in the two accumulation
+equations: here $k(t+1)=[\beta/(1+\beta)]f(k(t))$, a constant fraction of \emph{total} income,
+whereas in the baseline model $k(t+1)=\beta w(t)/[(1+n)(1+\beta)]$, a constant fraction of
+\emph{labor} income alone.  Bequests are made out of capital income too, so the economy saves a
+strictly larger share of output and reaches a higher capital-labor ratio.
+
+\rmk{This matters for how one reads the dynamic inefficiency literature.  The baseline OLG model
+makes overaccumulation look like a parameter curiosity, needing implausible patience (Exercise
+9.9(c)); the warm glow model, which is no less reasonable a description of bequests, produces it
+routinely.  Whether an economy overaccumulates is therefore a question about the \emph{structure}
+of saving --- out of what income, for what motive --- rather than about preferences alone.}
+\end{aex}
+
+\begin{aex}{9.23}{}
+Population evolves by \bk{(9.34)}: a fraction $\nu$ of the $L(t)$ individuals alive at $t$ dies,
+and $nL(t)$ new households arrive, so
+\[
+L(t+1)=(1-\nu)L(t)+nL(t)=(1+n-\nu)L(t),
+\qquad L(0)=1
+\qquad\Longrightarrow\qquad
+L(t)=(1+n-\nu)^{t} .
+\]
+
+\emph{Cohort sizes.}  The individuals who are of age $s$ at date $t$ were born at date $t-s+1$,
+when the population was $L(t-s)$, so at birth they numbered
+\[
+nL(t-s)=n(1+n-\nu)^{t-s} .
+\]
+Deaths are independent across individuals and dates with probability $\nu$, so a fraction
+$(1-\nu)$ of the cohort survives each period.  By date $t$ the cohort has lived through $s-1$
+such periods, so its size is
+\[
+n(1+n-\nu)^{t-s}(1-\nu)^{s-1},
+\]
+which is the claim.  Setting $s=1,2,3$ gives $n(1+n-\nu)^{t-1}$, $n(1+n-\nu)^{t-2}(1-\nu)$ and
+$n(1+n-\nu)^{t-3}(1-\nu)^{2}$, the three cases listed in the text.
+
+\emph{Consistency.}  The cohorts born after date $0$ have ages $s=1,\dots,t$, and the survivors of
+the initial population have age $t$ and number $(1-\nu)^{t}L(0)=(1-\nu)^{t}$.  Writing
+$r\equiv(1-\nu)/(1+n-\nu)$, so that $1-r=n/(1+n-\nu)$, the total is
+\[
+\sum_{s=1}^{t}n(1+n-\nu)^{t-s}(1-\nu)^{s-1}+(1-\nu)^{t}
+=n(1+n-\nu)^{t-1}\frac{1-r^{t}}{1-r}+(1-\nu)^{t} ,
+\]
+and since $n(1+n-\nu)^{t-1}/(1-r)=(1+n-\nu)^{t}$, this equals
+\[
+(1+n-\nu)^{t}\bigl[1-r^{t}\bigr]+(1-\nu)^{t}
+=(1+n-\nu)^{t}-(1-\nu)^{t}+(1-\nu)^{t}
+=(1+n-\nu)^{t}=L(t) ,
+\]
+as it must.
+
+\emph{What the formula says.}  The age distribution at date $t$ is geometric: the share of
+$s$-year-olds relative to $(s+1)$-year-olds is $(1+n-\nu)/(1-\nu)>1$, a constant.  The population
+therefore has a stationary age structure from the first date onward, which is precisely the
+tractability the perpetual youth assumption buys: one never has to keep track of who is how old,
+because the shape of the age pyramid never changes.  Exercise 9.25 derives the continuous-time
+counterpart, where the age density is exactly $ne^{-n\cdot\text{age}}$.
+\end{aex}
+
+\begin{aex}{9.25}{}
+\emph{(a) Cohort sizes.}  Aggregate population obeys \bk{(9.38)}, $\dt L(t)=(n-\nu)L(t)$, which
+with $L(0)=1$ integrates to
+\[
+L(\tau)=\exp\bigl((n-\nu)\tau\bigr).
+\]
+New households arrive at the exponential rate $n$, so the \emph{flow} of births at $\tau$ is
+\[
+L(\tau\mid\tau)=nL(\tau)=n\exp\bigl((n-\nu)\tau\bigr),
+\]
+which is the initial size (strictly, the density) of the cohort born at $\tau$.
+
+\rmk{The exercise as stated omits the factor $n$; \bk{(9.39)} carries it, and it must, since the
+cohort born in an instant is a flow.  The quantity $\exp((n-\nu)\tau)$ in the exercise is the
+population $L(\tau)$, of which the newborn cohort is the fraction $n$ per unit time.}
+
+\emph{(b) Survival.}  Let $S(x)$ be the probability of being alive $x$ units of time after birth.
+The Poisson death rate $\nu$ means $S(x+\dd x)=S(x)(1-\nu\dd x)+o(\dd x)$, so
+$\dt S=-\nu S$ with $S(0)=1$, whence
+\[
+S(x)=e^{-\nu x},
+\qquad\text{and for a cohort born at }\tau,\qquad
+S(t-\tau)=\exp\bigl(-\nu(t-\tau)\bigr).
+\]
+(Equivalently, length of life is exponential with rate $\nu$, mean $1/\nu$, memoryless --- the
+continuous-time form of Exercise 9.18.)
+
+\emph{(c) Equation \bk{(9.39)}.}  The cohort born at $\tau$ has size $n\exp((n-\nu)\tau)$ at
+birth, and a fraction $\exp(-\nu(t-\tau))$ of it is still alive at $t$.  Multiplying,
+\[
+L(t\mid\tau)=n\exp\bigl(-\nu(t-\tau)+(n-\nu)\tau\bigr),
+\]
+which is \bk{(9.39)}.  It integrates correctly: since the economy starts at $t=0$ with $L(0)=1$
+newborns,
+\[
+\int_{0}^{t}L(t\mid\tau)\dd\tau+e^{-\nu t}
+=ne^{-\nu t}\int_{0}^{t}e^{n\tau}\dd\tau+e^{-\nu t}
+=e^{-\nu t}\bigl(e^{nt}-1\bigr)+e^{-\nu t}
+=e^{(n-\nu)t}=L(t).
+\]
+A useful by-product: the density of individuals of age $a=t-\tau$ in the population is
+$L(t\mid t-a)/L(t)=ne^{-na}$, an exponential age distribution with mean age $1/n$ --- the
+continuous-time counterpart of the geometric age pyramid of Exercise 9.23.
+
+\emph{(d) An arbitrary initial age distribution.}  Formula \bk{(9.39)} describes the age structure
+generated by letting the birth-and-death process run from the infinite past (or, as here, from a
+date at which everybody is newborn).  Suppose instead that at $t=0$ the economy contains a mass
+$M(0)$ of individuals with an arbitrary age distribution.  At any later $t$ the population splits
+into two groups:
+\begin{itemize}
+\item the survivors of the date-$0$ population, of mass $M(0)e^{-\nu t}$, whose ages are the
+      initial ages shifted up by $t$ and whose distribution is therefore the initial one shifted,
+      not the exponential one;
+\item the cohorts born in $(0,t]$, which do follow \bk{(9.39)}.
+\end{itemize}
+Since $M(0)e^{-\nu t}>0$ for every finite $t$, the first group never disappears, so the age
+distribution never exactly equals the stationary one at any finite date.  It only converges:
+total population still satisfies $\dt L=(n-\nu)L$, so $L(t)=M(0)e^{(n-\nu)t}$ and the share of the
+initial group is
+\[
+\frac{M(0)e^{-\nu t}}{M(0)e^{(n-\nu)t}}=e^{-nt}\xrightarrow[t\to\infty]{}0 ,
+\]
+at the exponential rate $n$ --- the rate at which new households arrive and wash the initial
+composition out.  The stationary age structure of \bk{(9.39)} is thus a long-run property of the
+demographic process, not an identity, which is why the text is careful to start the economy with
+$L(0)=1$ newborns.
+\end{aex}
+
+\begin{aex}{9.26}{}
+\emph{Step 1: the lifetime budget constraint.}  The flow constraint \bk{(9.40)} is
+$\dt a(t\mid\tau)=(r(t)+\nu)a(t\mid\tau)-c(t\mid\tau)+w(t)$.  Multiplying by the integrating
+factor $\exp(-\int_{t}^{x}(r(z)+\nu)\dd z)$ and integrating from $t$ to $T$,
+\[
+a(T\mid\tau)\exp\Bigl(-\int_{t}^{T}\bigl(r(z)+\nu\bigr)\dd z\Bigr)-a(t\mid\tau)
+=\int_{t}^{T}\bigl[w(x)-c(x\mid\tau)\bigr]
+\exp\Bigl(-\int_{t}^{x}\bigl(r(z)+\nu\bigr)\dd z\Bigr)\dd x .
+\]
+The transversality condition \bk{(9.44)} sends the first term to zero as $T\to\infty$, so
+\[
+a(t\mid\tau)+\underbrace{\int_{t}^{\infty}w(x)
+\exp\Bigl(-\int_{t}^{x}\bigl(r(z)+\nu\bigr)\dd z\Bigr)\dd x}_{\textstyle =\ \omega(t)}
+=\int_{t}^{\infty}c(x\mid\tau)
+\exp\Bigl(-\int_{t}^{x}\bigl(r(z)+\nu\bigr)\dd z\Bigr)\dd x .
+\tag{$*$}
+\]
+The left side is total wealth: assets plus human wealth.  Human wealth is discounted at $r+\nu$,
+not $r$, because the individual loses the earnings stream when he dies, at the rate $\nu$; and it
+does not depend on $\tau$, since every survivor faces the same future wages.
+
+\emph{Step 2: substitute the Euler equation.}  Integrating \bk{(9.43)},
+$\dt c(x\mid\tau)/c(x\mid\tau)=r(x)-\rho$, gives
+\[
+c(x\mid\tau)=c(t\mid\tau)\exp\Bigl(\int_{t}^{x}\bigl(r(z)-\rho\bigr)\dd z\Bigr).
+\]
+Putting this into the right side of $(*)$, the interest rates cancel exactly:
+\[
+\int_{t}^{\infty}c(t\mid\tau)
+\exp\Bigl(\int_{t}^{x}\bigl(r(z)-\rho\bigr)\dd z-\int_{t}^{x}\bigl(r(z)+\nu\bigr)\dd z\Bigr)\dd x
+=c(t\mid\tau)\int_{t}^{\infty}e^{-(\rho+\nu)(x-t)}\dd x
+=\frac{c(t\mid\tau)}{\rho+\nu} .
+\]
+Therefore
+\[
+\boxed{\ c(t\mid\tau)=(\rho+\nu)\bigl[a(t\mid\tau)+\omega(t)\bigr]\ }
+\]
+which is \bk{(9.45)}. $\blacksquare$
+
+Two features of this consumption function drive everything in Section 9.8.  It is \emph{linear}
+in wealth --- a consequence of logarithmic preferences, which make the propensity to consume
+independent of the interest rate path --- so individual consumption functions can simply be added
+up to give the aggregate \bk{(9.46)}, even though cohorts differ in their assets.  And the
+propensity to consume out of wealth is the \emph{effective} discount rate $\rho+\nu$ rather than
+$\rho$: the shorter the expected life, the faster wealth is run down.  The two facts together
+produce the extra term $-(\rho+\nu)nk/c$ in the aggregate Euler equation \bk{(9.48)}: the newborn
+arriving at rate $n$ hold no assets, only human wealth, so their consumption is below average and
+drags aggregate consumption growth down.
+\end{aex}
+
+\begin{aex}{9.27}{}
+\emph{Setup.}  Let $A(t)=A(0)e^{gt}$ multiply labor, and let $k\equiv K/(AL)$ be the effective
+capital-labor ratio and $\wt c\equiv c/A$ normalized average consumption per capita.  Factor
+prices are $R(t)=f'(k(t))$, $r(t)=f'(k(t))-\delta$ and $w(t)=A(t)[f(k(t))-k(t)f'(k(t))]$.
+Effective labor $A(t)L(t)$ grows at $n-\nu+g$, so \bk{(9.42)} becomes
+\[
+\dt k(t)=f\bigl(k(t)\bigr)-\bigl(n-\nu+g+\delta\bigr)k(t)-\wt c(t).
+\tag{K}
+\]
+
+\emph{The aggregate Euler equation.}  Nothing in the derivation of the text changes until the last
+step: individual consumption is still $c(t\mid\tau)=(\rho+\nu)[a(t\mid\tau)+\omega(t)]$ by
+Exercise 9.26, average assets still satisfy $\dt a=(r-(n-\nu))a+w-c$ and human wealth still
+satisfies $(r+\nu)\omega=\dt\omega+w$, so
+\[
+\dt c(t)=\bigl(r(t)-\rho\bigr)c(t)-(\rho+\nu)n\,a(t),
+\qquad a(t)=A(t)k(t).
+\]
+Writing $c=A\wt c$, so that $\dt c=A(\dt{\wt c}+g\wt c)$, and dividing by $A\wt c$,
+\[
+\frac{\dt{\wt c}(t)}{\wt c(t)}=f'\bigl(k(t)\bigr)-\delta-\rho-g
+-(\rho+\nu)n\frac{k(t)}{\wt c(t)} ,
+\tag{C}
+\]
+which is \bk{(9.48)} with the extra $-g$: growth raises the required return exactly as in the
+neoclassical model with logarithmic preferences (Exercise 8.18).
+
+\emph{Uniqueness of the steady state.}  Setting (C) to zero and substituting into (K),
+\[
+\frac{\wt c^{*}}{k^{*}}=\frac{(\rho+\nu)n}{f'(k^{*})-\delta-\rho-g},
+\qquad
+\Psi(k)\equiv\frac{f(k)}{k}-(n-\nu+g+\delta)-\frac{(\rho+\nu)n}{f'(k)-\delta-\rho-g}=0 .
+\tag{S}
+\]
+Consider $\Psi$ on $(0,k_{\text{mgr}})$, where $f'(k_{\text{mgr}})=\rho+\delta+g$ so that the
+denominator is positive.  There $f(k)/k$ is strictly decreasing, and $f'(k)-\delta-\rho-g$ is
+strictly decreasing and positive, so the subtracted fraction is strictly increasing: $\Psi$ is
+strictly decreasing.  By Assumption 2, $f(k)/k\to\infty$ and $f'(k)\to\infty$ as $k\to0$, so
+$\Psi\to+\infty$; and as $k\uparrow k_{\text{mgr}}$ the denominator tends to $0^{+}$ and
+$\Psi\to-\infty$.  Hence there is exactly one root $k^{*}$, and it satisfies
+\[
+k^{*}<k_{\text{mgr}}:
+\]
+underaccumulation relative to the modified golden rule persists, exactly as in
+\bk{Proposition 9.10}.
+
+\emph{Saddle-path stability.}  The Jacobian of (K)--(C) at $(k^{*},\wt c^{*})$ is
+\[
+J=\begin{pmatrix}
+f'(k^{*})-(n-\nu+g+\delta) & -1\\[2pt]
+\wt c^{*}f''(k^{*})-(\rho+\nu)n & f'(k^{*})-\delta-\rho-g
+\end{pmatrix}.
+\]
+Using (S) to substitute $(\rho+\nu)n=[f(k^{*})/k^{*}-(n-\nu+g+\delta)][f'(k^{*})-\delta-\rho-g]$,
+the determinant collapses to
+\[
+\det J=\Bigl[f'(k^{*})-\frac{f(k^{*})}{k^{*}}\Bigr]\bigl[f'(k^{*})-\delta-\rho-g\bigr]
++\wt c^{*}f''(k^{*})\ <\ 0 ,
+\]
+since $f'(k^{*})<f(k^{*})/k^{*}$ by strict concavity with $f(0)=0$, the second bracket is positive
+because $k^{*}<k_{\text{mgr}}$, and $f''<0$.  A negative determinant means two real eigenvalues of
+opposite sign: the steady state is a saddle with a one-dimensional stable manifold.  Globally, the
+$\dt k=0$ locus is concave through the origin and the $\dt{\wt c}=0$ locus
+$\wt c=(\rho+\nu)nk/[f'(k)-\delta-\rho-g]$ is convex through the origin and diverges at
+$k_{\text{mgr}}$, so they cross exactly once; above the stable arm feasibility fails, below it
+consumption goes to zero and \bk{(9.44)} is violated.  Convergence is monotone along the unique
+upward-sloping stable arm.
+
+\emph{A higher $g$.}  Differentiating (S),
+\[
+\frac{\partial\Psi}{\partial g}=-1-\frac{(\rho+\nu)n}{\bigl[f'(k)-\delta-\rho-g\bigr]^{2}}<0,
+\qquad
+\frac{\partial\Psi}{\partial k}<0
+\qquad\Longrightarrow\qquad
+\frac{\dd k^{*}}{\dd g}=-\frac{\partial\Psi/\partial g}{\partial\Psi/\partial k}<0 .
+\]
+So the effective capital-labor ratio \emph{falls}, and with it output per effective worker; since
+$k^{*}<k_{\text{mgr}}<k_{\text{gold}}$, the $\dt k=0$ locus is increasing at $k^{*}$, so
+$\wt c^{*}=f(k^{*})-(n-\nu+g+\delta)k^{*}$ falls too --- both because $k^{*}$ falls and because
+the replacement requirement rises.  Meanwhile consumption and output \emph{per capita} now grow
+at $g$ instead of being constant.  Faster technological progress thus lowers the level of the
+normalized variables and raises the growth rate of the actual ones, precisely as in Exercise
+8.28(a) with $\theta=1$: the higher required return $\rho+\delta+g$ is what does the work, and
+with logarithmic preferences the income and substitution effects on the impact consumption jump
+exactly cancel.
+\end{aex}
+
+\begin{aex}{9.28}{}
+This is the case $g=0$ of Exercise 9.27.  The system is
+\[
+\dt k=f(k)-(n-\nu+\delta)k-c,
+\qquad
+\dt c=c\bigl[f'(k)-\delta-\rho\bigr]-(\rho+\nu)nk ,
+\]
+the second being \bk{(9.48)} cleared of the denominator.  Its Jacobian at the steady state is
+\[
+J=\begin{pmatrix}
+f'(k^{*})-(n-\nu+\delta) & -1\\[2pt]
+c^{*}f''(k^{*})-(\rho+\nu)n & f'(k^{*})-\delta-\rho
+\end{pmatrix},
+\]
+with
+\[
+\operatorname{tr}J=2f'(k^{*})-(n-\nu+\delta)-\delta-\rho,
+\qquad
+\det J=\bigl[f'(k^{*})-(n-\nu+\delta)\bigr]\bigl[f'(k^{*})-\delta-\rho\bigr]
++c^{*}f''(k^{*})-(\rho+\nu)n .
+\]
+Steady state \bk{(9.50)} states
+$(\rho+\nu)n=[f(k^{*})/k^{*}-(n-\nu+\delta)][f'(k^{*})-\delta-\rho]$; substituting, the terms in
+$(n-\nu+\delta)$ cancel and
+\[
+\boxed{\ \det J=\Bigl[f'(k^{*})-\frac{f(k^{*})}{k^{*}}\Bigr]\bigl[f'(k^{*})-\delta-\rho\bigr]
++c^{*}f''(k^{*})\ <\ 0\ }
+\]
+because $f'(k^{*})<f(k^{*})/k^{*}$ (strict concavity with $f(0)=0$), $f'(k^{*})>\delta+\rho$ (the
+text's $k^{*}<k_{\text{mgr}}$), $c^{*}>0$ and $f''<0$.  Since $\det J$ is the product of the
+eigenvalues and the discriminant $(\operatorname{tr}J)^{2}-4\det J>0$, the eigenvalues are real,
+nonzero and of opposite sign.  The steady state is a saddle: exactly one initial value of $c(0)$
+puts the economy on the stable manifold, which is the unique equilibrium path, and every other
+choice violates either feasibility or the transversality condition \bk{(9.44)}.
+
+With $f(k)=k^{1/3}$, $\delta=0.06$, $\rho=0.02$, $n=\nu=0.02$ the program gives
+\[
+(k^{*},c^{*})=(7.8829,\ 1.5172),
+\qquad
+\operatorname{tr}J=+0.0283,
+\qquad
+\det J=-0.0115,
+\]
+with eigenvalues $-0.0940$ and $+0.1223$, and the closed-form determinant above reproduces
+$-0.0115$ exactly.  For reference $k_{\text{mgr}}=8.5052$ and $k_{\text{gold}}=13.0946$, so
+$k^{*}<k_{\text{mgr}}<k_{\text{gold}}$, as \bk{Proposition 9.10} requires.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch9_perpetual_youth.pdf}
+\caption{Left: the continuous-time perpetual youth model.  The convex $\dt c=0$ locus cuts the
+concave $\dt k=0$ locus once, at a $k^{*}$ below both $k_{\text{mgr}}$ and $k_{\text{gold}}$:
+there is always underaccumulation.  Right: with labor income declining at the rate $\zeta$
+(Exercise 9.30), $k^{*}$ rises with $\zeta$ and passes $k_{\text{gold}}$ at $\zeta=0.04$.}
+\label{fig:ch9py}
+\end{figure}
+\end{aex}
+
+\begin{aex}{9.29}{}
+Write the steady-state condition \bk{(9.50)} as
+\[
+\Phi(k;n,\nu)\equiv\frac{f(k)}{k}-(n-\nu+\delta)-\frac{(\rho+\nu)n}{f'(k)-\delta-\rho}=0 ,
+\]
+which, as in Exercise 9.27, is strictly decreasing in $k$ on $(0,k_{\text{mgr}})$:
+$\partial\Phi/\partial k<0$.  Hence $\sgn(\dd k^{*}/\dd x)=\sgn(\partial\Phi/\partial x)$ for
+$x\in\{n,\nu\}$.
+
+\emph{The arrival rate of new households.}
+\[
+\frac{\partial\Phi}{\partial n}=-1-\frac{\rho+\nu}{f'(k^{*})-\delta-\rho}<0
+\qquad\Longrightarrow\qquad
+\frac{\dd k^{*}}{\dd n}<0 .
+\]
+Both terms push the same way: a larger $n$ raises the effective replacement requirement
+$n-\nu+\delta$, and it increases the flow of newborns who arrive with no assets and therefore
+consume less than average, which is the dilution term $(\rho+\nu)nk/c$.
+
+\emph{The death rate.}  Here the two forces conflict --- a larger $\nu$ raises the effective
+discount rate $\rho+\nu$ but lowers net population growth $n-\nu$ --- and
+\[
+\frac{\partial\Phi}{\partial\nu}=1-\frac{n}{f'(k^{*})-\delta-\rho} .
+\]
+To sign it, use the steady-state relations.  From \bk{(9.49)},
+$(\rho+\nu)n/[f'(k^{*})-\delta-\rho]=c^{*}/k^{*}$, so
+$n/[f'(k^{*})-\delta-\rho]=c^{*}/[k^{*}(\rho+\nu)]$; and from \bk{(9.46)} with $a^{*}=k^{*}$,
+$c^{*}=(\rho+\nu)(k^{*}+\omega^{*})$, where $\omega^{*}>0$ is steady-state human wealth per
+capita.  Therefore
+\[
+\boxed{\ \frac{\partial\Phi}{\partial\nu}=1-\frac{k^{*}+\omega^{*}}{k^{*}}=-\frac{\omega^{*}}{k^{*}}<0
+\qquad\Longrightarrow\qquad
+\frac{\dd k^{*}}{\dd\nu}<0 .\ }
+\]
+The discounting effect dominates, and by exactly the ratio of human to physical wealth: shorter
+expected lives make households consume a larger fraction of their wealth, and the larger their
+human wealth relative to their assets, the more this matters.
+
+\emph{Consumption.}  Differentiating $c^{*}=f(k^{*})-(n-\nu+\delta)k^{*}$ and using
+$f'(k^{*})>n-\nu+\delta$ (which holds because $k^{*}<k_{\text{gold}}$),
+\[
+\frac{\dd c^{*}}{\dd n}=\bigl[f'(k^{*})-(n-\nu+\delta)\bigr]\frac{\dd k^{*}}{\dd n}-k^{*}<0 ,
+\]
+unambiguously negative: both the fall in $k^{*}$ and the higher replacement requirement reduce
+consumption.  For $\nu$,
+\[
+\frac{\dd c^{*}}{\dd\nu}=\bigl[f'(k^{*})-(n-\nu+\delta)\bigr]\frac{\dd k^{*}}{\dd\nu}+k^{*} ,
+\]
+a negative indirect effect against a positive direct one (a higher death rate means slower
+population growth and hence less capital widening).  With the parameters of Exercise 9.28 the
+program gives
+\[
+\frac{\dd k^{*}}{\dd n}=-30.27,\quad
+\frac{\dd c^{*}}{\dd n}=-8.61,\qquad
+\frac{\dd k^{*}}{\dd\nu}=-10.86,\quad
+\frac{\dd c^{*}}{\dd\nu}=+7.62 ,
+\]
+and $\omega^{*}=c^{*}/(\rho+\nu)-k^{*}=30.05$, so $-\omega^{*}/k^{*}=-3.81<0$ as claimed.  The
+direct term dominates in $\dd c^{*}/\dd\nu$ by a wide margin: $f'(k^{*})-(n-\nu+\delta)=0.024$ is
+small because $k^{*}$ is not far below $k_{\text{gold}}$ in consumption terms, while $k^{*}=7.88$
+is large.
+
+\rmk{It is worth being clear about what $\nu$ is not doing.  In the neoclassical growth model of
+Chapter 8 the analogous parameter would simply add to the discount rate and nothing else; here it
+enters three times --- through the effective discount rate $\rho+\nu$, through population growth
+$n-\nu$, and through the annuity return $r+\nu$ --- and the three effects have to be disentangled
+before the sign is clear.  That $n$ and $\nu$ both lower $k^{*}$ while moving $c^{*}$ in opposite
+directions is a reminder that finite lives and the arrival of new households are distinct forces,
+a theme the book pursues in Exercises 9.30 and 9.32.}
+\end{aex}
+
+\begin{aex}{9.30}{}
+\emph{(a) Human wealth and the aggregate Euler equation.}  Each individual is born with one unit
+of effective labor, which decays at the rate $\zeta>0$, so an individual of cohort $\tau$ earns
+$e^{-\zeta(t-\tau)}w(t)$ at $t$, where $w$ is the wage per efficiency unit.  Repeating Exercise
+9.26 with this earnings stream, the present value of future earnings is
+\[
+\omega(t\mid\tau)=\int_{t}^{\infty}
+\exp\Bigl(-\int_{t}^{s}\bigl(r(z)+\nu\bigr)\dd z\Bigr)e^{-\zeta(s-\tau)}w(s)\dd s ,
+\]
+which is \bk{(9.51)}, and logarithmic preferences again give
+$c(t\mid\tau)=(\rho+\nu)[a(t\mid\tau)+\omega(t\mid\tau)]$.  Factoring out the cohort's current
+efficiency, $\omega(t\mid\tau)=e^{-\zeta(t-\tau)}\wt\omega(t)$ with
+$\wt\omega(t)\equiv\int_{t}^{\infty}\exp(-\int_{t}^{s}(r+\nu+\zeta))w(s)\dd s$, so that
+differentiating,
+\[
+\dt{\wt\omega}(t)=\bigl(r(t)+\nu+\zeta\bigr)\wt\omega(t)-w(t) .
+\]
+The effective discount rate applied to labor income is now $r+\nu+\zeta$: earnings are lost both
+when the individual dies, at rate $\nu$, and as his productivity decays, at rate $\zeta$.
+Averaging over cohorts (the age density is $ne^{-na}$ by Exercise 9.25, so average efficiency and
+average human wealth carry the same constant factor $n/(n+\zeta)$, which cancels below), average
+human wealth per capita obeys $\dt\omega=(r+\nu+\zeta)\omega-\bar w$, where $\bar w$ is average
+labor income per capita, while average assets obey $\dt a=(r-(n-\nu))a+\bar w-c$.  Hence
+\[
+\dt c=(\rho+\nu)\bigl(\dt a+\dt\omega\bigr)
+=(\rho+\nu)\Bigl[(r+\nu+\zeta)(a+\omega)-(n+\zeta)a-c\Bigr]
+=(r+\zeta-\rho)c-(\rho+\nu)(n+\zeta)a ,
+\]
+using $c=(\rho+\nu)(a+\omega)$ in the last step.  Dividing by $c$ and setting $a=k$,
+$r=f'(k)-\delta$,
+\[
+\frac{\dt c(t)}{c(t)}=f'\bigl(k(t)\bigr)-\delta-\rho+\zeta-(\rho+\nu)(n+\zeta)\frac{k(t)}{c(t)},
+\]
+which is \bk{(9.52)}; \bk{(9.42)} is unchanged.  Setting $\zeta=0$ recovers \bk{(9.48)}.
+
+\emph{(b) Overaccumulation.}  The steady state now solves
+\[
+\Phi(k;\zeta)\equiv\frac{f(k)}{k}-(n-\nu+\delta)
+-\frac{(\rho+\nu)(n+\zeta)}{f'(k)-\delta-\rho+\zeta}=0,
+\qquad
+c^{*}=f(k^{*})-(n-\nu+\delta)k^{*},
+\]
+and $\partial\Phi/\partial k<0$ as before.  Differentiating in $\zeta$,
+\[
+\frac{\partial\Phi}{\partial\zeta}
+=-\frac{(\rho+\nu)\bigl[f'(k)-\delta-\rho-n\bigr]}{\bigl[f'(k)-\delta-\rho+\zeta\bigr]^{2}}>0
+\qquad\text{whenever } f'(k)<n+\delta+\rho ,
+\]
+so $k^{*}$ is increasing in $\zeta$ over the relevant range.  As $\zeta\to\infty$ the fraction
+tends to $\rho+\nu$, so the steady-state condition becomes
+\[
+\frac{f(k)}{k}=n-\nu+\delta+\rho+\nu=n+\delta+\rho ,
+\]
+which defines a limiting $k_{\infty}$.  Since $k_{\text{gold}}$ solves
+$f'(k_{\text{gold}})=n-\nu+\delta$,
+\[
+k_{\infty}>k_{\text{gold}}\iff f'(k_{\infty})<n-\nu+\delta ,
+\]
+and with $f(k)=Ak^{\alpha}$ one has $f'(k_{\infty})=\alpha f(k_{\infty})/k_{\infty}
+=\alpha(n+\delta+\rho)$, so the condition is the transparent
+\[
+\boxed{\ \alpha(n+\delta+\rho)<n-\nu+\delta\ }
+\]
+For $\alpha=1/3$, $\delta=0.06$, $\rho=0.02$, $n=\nu=0.02$ the left side is $0.0333$ and the right
+side $0.06$: the condition holds, and the program traces
+\[
+\begin{array}{ccccccc}
+\zeta & 0 & 0.02 & 0.05 & 0.10 & 0.25 & \to\infty\\
+k^{*} & 7.88 & 10.27 & 14.54 & 20.35 & 26.65 & 31.62\\
+k^{*}/k_{\text{gold}} & 0.60 & 0.78 & 1.11 & 1.55 & 2.04 & 2.42
+\end{array}
+\]
+with $k^{*}=k_{\text{gold}}$ exactly at $\zeta=0.04$ and overaccumulation above it (see the right
+panel of Figure~\ref{fig:ch9py}).  Note how little decay is needed: $\zeta=0.04$ means effective
+labor halves about every seventeen years, which is not an extreme life-cycle earnings profile.
+
+\emph{Intuition.}  With a flat earnings path an individual can finance old-age consumption out of
+current wages and has no need to accumulate; that is why the model of Section 9.8 always
+underaccumulates.  A declining path forces saving for the future, and the steeper the decline the
+more must be saved.  As $\zeta\to\infty$ all labor income is concentrated at birth, which is
+exactly the Samuelson--Diamond configuration --- income when young, none when old --- and
+overaccumulation duly reappears.  Exercise 9.10 makes the same point from the other direction, by
+letting the old earn.  The book completes the argument with Exercise 9.32: overaccumulation
+requires $n>0$ and survives even with $\nu=0$, so it is the arrival of new individuals rather
+than finite lives that is essential.
+\end{aex}
+
+\begin{aex}{9.31}{}
+\emph{The government.}  Let $b=B/L$ be debt per capita, $g=G/L$ spending per capita and
+$T(t)$ the lump-sum tax levied on each individual alive at $t$.  The government's flow constraint
+and no-Ponzi condition are
+\[
+\dt b(t)=\bigl(r(t)-(n-\nu)\bigr)b(t)+g-T(t),
+\qquad
+\lim_{t\to\infty}b(t)\exp\Bigl(-\int_{0}^{t}\bigl(r(s)-(n-\nu)\bigr)\dd s\Bigr)=0 ,
+\]
+which integrate to the intertemporal budget constraint
+\[
+\int_{0}^{\infty}T(t)\,q(t)\dd t=b(0)+\int_{0}^{\infty}g\,q(t)\dd t,
+\qquad
+q(t)\equiv\exp\Bigl(-\int_{0}^{t}\bigl(r(s)-(n-\nu)\bigr)\dd s\Bigr).
+\tag{G}
+\]
+Any tax path satisfying (G) is feasible.
+
+\emph{The household.}  An individual of cohort $\tau$ now faces
+$\dt a(t\mid\tau)=(r(t)+\nu)a(t\mid\tau)-c(t\mid\tau)+w(t)-T(t)$, and Exercise 9.26 gives
+\[
+c(t\mid\tau)=(\rho+\nu)\bigl[a(t\mid\tau)+\omega(t)\bigr],
+\qquad
+\omega(t)=\int_{t}^{\infty}\exp\Bigl(-\int_{t}^{s}\bigl(r(z)+\nu\bigr)\dd z\Bigr)
+\bigl[w(s)-T(s)\bigr]\dd s .
+\]
+Here is the wedge.  The household discounts future taxes at $r+\nu$, because it may be dead when
+they fall due; the government discounts them at $r-(n-\nu)$, because it can levy them on people
+not yet born.  The two rates differ by
+\[
+(r+\nu)-\bigl(r-(n-\nu)\bigr)=n ,
+\]
+the arrival rate of new households --- and by nothing else.
+
+\emph{Failure of equivalence.}  Consider a tax cut $\dd T<0$ at date $0$ financed by a path of
+higher taxes $\{\dd T(s)\}_{s>0}$ satisfying (G), so that
+$\int_{0}^{\infty}q(s)\dd T(s)\dd s=-\dd T>0$.  The household's human wealth changes by
+\[
+\dd\omega(0)=-\dd T-\int_{0}^{\infty}\exp\Bigl(-\int_{0}^{s}(r+\nu)\Bigr)\dd T(s)\dd s
+\ >\ -\dd T-\int_{0}^{\infty}q(s)\dd T(s)\dd s\ =\ 0 ,
+\]
+the strict inequality because $\exp(-\int_0^s(r+\nu))<q(s)$ for every $s>0$ when $n>0$.
+Households value the deferred tax bill at strictly less than the government's cost of deferring
+it, so they perceive themselves as richer and raise consumption immediately.
+
+The same point appears in the aggregate dynamics.  Redoing the derivation of \bk{(9.48)} with
+taxes and debt, average assets are $a=k+b$ and
+\[
+\dt a=\bigl(r-(n-\nu)\bigr)a+w-T-c,
+\qquad
+\dt\omega=(r+\nu)\omega-(w-T),
+\]
+so that $\dt c=(\rho+\nu)(\dt a+\dt\omega)=(r-\rho)c-(\rho+\nu)na$ and
+\[
+\boxed{\
+\dt k=f(k)-(n-\nu+\delta)k-c-g,
+\qquad
+\frac{\dt c}{c}=f'(k)-\delta-\rho-(\rho+\nu)n\,\frac{k(t)+b(t)}{c(t)} .\ }
+\]
+Government debt enters the equilibrium conditions \emph{on its own}, not merely through the
+present value of spending.  Two tax paths with the same present value generate different debt
+paths $\{b(t)\}$, hence different $\{k(t),c(t)\}$.  Ricardian equivalence fails. $\blacksquare$
+
+\emph{Interpretation, and the contrast with Chapter 8.}  In the neoclassical growth model
+(Exercise 8.35) the household that receives the tax cut is the same infinitely lived entity that
+will pay the higher taxes, and it discounts both at the same rate; debt is therefore not net
+wealth and the timing of taxes is irrelevant.  Here part of the future tax bill falls on
+individuals who are not yet alive, and the current generation does not internalize their burden.
+Government debt is net wealth to the extent of that externality, a deficit today raises current
+consumption, crowds out capital and lowers the capital-labor ratio.
+
+The magnitude of the wedge is exactly $n$, which delivers a sharp corollary: if $n=0$ --- nobody
+new ever arrives --- the household's discount rate $r+\nu$ and the government's $r+\nu$ coincide,
+and Ricardian equivalence holds \emph{even with $\nu>0$}, that is, even with finite lives.  What
+breaks equivalence is not mortality but the arrival of new households, the same conclusion the
+book reaches about overaccumulation in Exercise 9.32.
+\end{aex}
+
+\begin{aex}{9.33}{}
+The technology is $Y(t)=AK(t)^{1-\alpha}L(t)^{\alpha}$ with $L\equiv1$ and full depreciation, so
+$Y(t)=AK(t)^{1-\alpha}$, the capital share is $1-\alpha$, and competitive factor prices are
+\[
+R(t)=(1-\alpha)AK(t)^{-\alpha},
+\qquad
+w(t)=\alpha AK(t)^{1-\alpha} .
+\]
+Capital income is taxed at $\tau$ and the proceeds, $\tau R(t)K(t)$, are consumed by the
+government, so the private resource constraint is $c(t)+K(t+1)=[1-\tau(1-\alpha)]AK(t)^{1-\alpha}$.
+
+\emph{Economy 1: infinitely lived households.}  The household maximizes
+$\sum_{t\ge0}\beta^{t}\log c(t)$ taking $w$ and the after-tax return $(1-\tau)R$ as given, so the
+Euler equation is
+\[
+\frac{1}{c(t)}=\beta(1-\tau)R(t+1)\frac{1}{c(t+1)}
+=\beta(1-\tau)(1-\alpha)AK(t+1)^{-\alpha}\frac{1}{c(t+1)} .
+\]
+Guess a constant saving rate out of after-tax income; substituting
+$c(t)=(1-\sigma)[1-\tau(1-\alpha)]AK(t)^{1-\alpha}$ into the Euler equation and cancelling gives
+\[
+\boxed{\ K(t+1)=\beta(1-\tau)(1-\alpha)AK(t)^{1-\alpha},
+\qquad
+K^{*}=\bigl[\beta(1-\tau)(1-\alpha)A\bigr]^{\frac{1}{\alpha}},
+\qquad
+Y^{*}=A(K^{*})^{1-\alpha}\ }
+\]
+(the guess is the solution because the policy function of this strictly concave dynamic
+programming problem is unique, by \bk{Corollary 6.1}).  Hence
+\[
+\frac{\dd\log Y^{*}}{\dd\log(1-\tau)}=\frac{1-\alpha}{\alpha}>0:
+\]
+taxation strictly reduces the steady-state capital stock and output.
+
+\emph{Economy 2: overlapping generations.}  A generation born at $t$ works when young, saves
+$s(t)$ and consumes the after-tax proceeds when old:
+\[
+\max\ \log c_1(t)+\beta\log c_2(t+1)
+\quad\text{s.t.}\quad
+c_1(t)=w(t)-s(t),\qquad
+c_2(t+1)=(1-\tau)R(t+1)s(t).
+\]
+With log preferences the Euler equation gives $c_2(t+1)=\beta(1-\tau)R(t+1)c_1(t)$ and hence
+\[
+s(t)=\frac{\beta}{1+\beta}w(t)=\frac{\beta\alpha A}{1+\beta}K(t)^{1-\alpha} ,
+\]
+in which $\tau$ does not appear: the after-tax return cancels, because with log preferences income
+and substitution effects offset exactly.  Since $K(t+1)=s(t)$,
+\[
+\boxed{\ K(t+1)=\frac{\beta\alpha A}{1+\beta}K(t)^{1-\alpha},
+\qquad
+K^{*}=\Bigl[\frac{\beta\alpha A}{1+\beta}\Bigr]^{\frac{1}{\alpha}},
+\qquad
+\frac{\dd Y^{*}}{\dd\tau}=0 .\ }
+\]
+Taxation is completely neutral for output.  With $\alpha=2/3$ (a capital share of $1/3$),
+$\beta=0.98^{30}$ and $A=1$, the program gives
+\[
+\begin{array}{ccccc}
+\tau & 0 & 0.10 & 0.25 & 0.50\\
+Y^{*}\ \text{(economy 1)} & 0.4264 & 0.4045 & 0.3693 & 0.3015\\
+Y^{*}\ \text{(economy 2)} & 0.4851 & 0.4851 & 0.4851 & 0.4851
+\end{array}
+\]
+a tax of $50\%$ costing the first economy $29.3\%$ of output and the second nothing.
+
+\emph{Interpretation.}  In the OLG economy the tax is levied on the return received by the
+\emph{old}, whose saving decision is already behind them, and it is financed out of a saving rate
+that --- with log preferences --- does not respond to the return.  It is effectively a lump-sum
+levy on a generation that has no margin left to distort.  In the infinite-horizon economy the same
+household earns the wage, owns the capital and is on the intertemporal margin at \emph{every}
+date; the after-tax return is the price at which it converts consumption today into consumption
+tomorrow, so taxing it drives a permanent wedge between the marginal product of capital and the
+intertemporal rate of substitution, and the capital stock falls accordingly.
+
+\rmk{Two caveats sharpen the lesson.  First, the OLG neutrality is a knife edge: with CRRA
+preferences of curvature $\theta$, saving is
+$s(t)=w(t)/\{1+\beta^{-1/\theta}[(1-\tau)R(t+1)]^{-(1-\theta)/\theta}\}$, which does depend on
+$\tau$ unless $\theta=1$.  What is robust is not the exact zero but the fact that the effect runs
+through a single, weak channel rather than through a repeated intertemporal margin.  Second, even
+economy 1 generates only modest differences: the elasticity $(1-\alpha)/\alpha$ equals $1/2$ at a
+capital share of one third, so accounting for a tenfold income gap would require
+$(1-\tau)$ to differ by a factor of $100$.  Together with Exercise 8.32, which reaches the same
+conclusion for discount rates, this is decisive evidence that differences in capital income
+taxation cannot explain the cross-country income distribution --- and part of the case for the
+book's turn, in Part VIII, toward technology and institutions.}
 \end{aex}
 
 \end{document}
