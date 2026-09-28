@@ -182,9 +182,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--16\par}
+{\large Chapters 2--17\par}
 \vspace{0.6cm}
-{\small The 203 exercises that the instructor's solutions manual of\par
+{\small The 226 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -11621,6 +11621,1360 @@ what rules this out is first-order stochastic dominance of the conditional distr
 merely a higher conditional mean --- precisely because what has to inherit the ordering is the
 expectation of an arbitrary nondecreasing function, and only stochastic dominance delivers that
 for all of them at once.}
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{17}{Stochastic Growth Models}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The twenty-three exercises of Chapter 17 left unsolved in the instructor's manual:
+17.1--17.4, 17.6, 17.8--17.12, 17.14, 17.16, 17.17, 17.19--17.21, 17.23--17.29.  The manual
+solves 17.5, 17.7, 17.13, 17.15, 17.18, 17.22 and 17.30.  The numerical parts are computed by
+\texttt{code/ch17.py}, which solves the Brock--Mirman problem by the endogenous grid method;
+Figure~\ref{fig:ch17} is its output.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\solsection{17.1}{The Brock--Mirman Model}
+
+\begin{aex}{17.1}{}
+Write the problem in terms of \emph{cash on hand}
+\[
+x(k,z)\equiv f(k,z)+(1-\delta)k ,
+\]
+so that the first-order condition for $k'=\pi(k,z)$ is
+\begin{equation}
+u'\bigl(x(k,z)-k'\bigr)=\beta\,W_1(k',z),\qquad
+W(k',z)\equiv\E\bigl[V(k',z')\mid z\bigr] .
+\label{eq:foc}
+\end{equation}
+Both $u$ and $W(\cdot,z)$ are strictly concave (\bk{Assumption 3} and \bk{Proposition 17.1}),
+so $u''<0$ and $W_{11}<0$ and the denominators below never vanish.
+
+\emph{Monotonicity in $k$.}  Differentiating \eqref{eq:foc} with respect to $k$ at fixed $z$,
+\[
+u''\bigl(x_k-\pi_k\bigr)=\beta W_{11}\pi_k
+\quad\Longrightarrow\quad
+\pi_k=\frac{u''}{u''+\beta W_{11}}\,x_k\in(0,x_k),
+\]
+and therefore
+\[
+\boxed{\ \frac{\partial\pi_c}{\partial k}=x_k-\pi_k
+=\frac{\beta W_{11}}{u''+\beta W_{11}}\,x_k>0\ }
+\]
+whenever $x_k=f'(k,z)+1-\delta>0$.  \emph{No extra condition is needed:} strict concavity of
+$u$ and of $V$ in $k$, which \bk{Proposition 17.1} already delivers, makes the marginal
+propensity to save out of cash on hand lie strictly between $0$ and $1$, so consumption and
+next period's capital both absorb a strictly positive share of any increase in $k$.  This is
+just the statement that consumption today and consumption tomorrow are both normal goods.
+
+\emph{Monotonicity in $z$.}  Here $z$ enters twice --- through cash on hand and through the
+conditional distribution of $z'$.  Differentiating \eqref{eq:foc} with respect to $z$,
+\[
+u''\bigl(f_z-\pi_z\bigr)=\beta W_{12}+\beta W_{11}\pi_z
+\quad\Longrightarrow\quad
+\pi_z=\frac{u''f_z-\beta W_{12}}{u''+\beta W_{11}} ,
+\]
+and subtracting from $f_z$,
+\begin{equation}
+\frac{\partial\pi_c}{\partial z}=f_z-\pi_z
+=\frac{\beta\bigl(W_{11}f_z+W_{12}\bigr)}{u''+\beta W_{11}} .
+\label{eq:cz}
+\end{equation}
+The denominator is negative, so
+\[
+\boxed{\ \frac{\partial\pi_c}{\partial z}>0
+\iff W_{12}(\pi(k,z),z)<\bigl|W_{11}(\pi(k,z),z)\bigr|\,f_z(k,z) . \ }
+\]
+Two readable sufficient conditions follow.
+\begin{enumerate}
+\item \emph{$W_{12}\le0$}, that is, a higher current shock does not raise the expected marginal
+      value of capital.  Since
+      $W_{12}(k',z)=\partial_z\E[V_k(k',z')\mid z]$ and
+      $V_k(k,z)=u'(\pi_c(k,z))\bigl(f'(k,z)+1-\delta\bigr)$, this holds when
+      \[
+      V_{kz}=\underbrace{u''\,\frac{\partial\pi_c}{\partial z}\,(f'+1-\delta)}_{\le0\ \text{if }\pi_c\ \text{rises in }z}
+      \ +\ \underbrace{u'f_{kz}}_{\ge0\ \text{if }f_{kz}\ge0}\ \le\ 0 ,
+      \]
+      so it is enough that the shock not be too strongly complementary with capital
+      ($f_{kz}$ small), together with the monotone chain of \bk{Assumption 16.6}.
+\item \emph{$z$ independently distributed across periods}, in which case
+      $\E[V(k',z')\mid z]$ does not depend on $z$ at all, $W_{12}\equiv0$, and
+      \eqref{eq:cz} gives $0<\partial\pi_c/\partial z<f_z$ unconditionally.  This also
+      re-proves the $z$ part of \bk{Proposition 17.2}, since then
+      $\pi_z=u''f_z/(u''+\beta W_{11})\in(0,f_z)$.
+\end{enumerate}
+
+\emph{Where it fails, and why.}  \texttt{code/ch17.py} solves the model with
+$f(k,z)=zk^\alpha$, $\alpha=0.36$, $\beta=0.95$, $\delta=1$, CRRA utility of curvature
+$\theta$, and a five-state monotone chain for $\log z$ with autocorrelation $0.95$ and
+innovation standard deviation $0.30$.  The smallest slope of each policy over the ergodic
+range is
+\begin{center}
+\small
+\begin{tabular}{rrrrr}
+\toprule
+$\theta$ & $\min\partial\pi/\partial k$ & $\min\partial\pi_c/\partial k$ &
+$\min\partial\pi/\partial z$ & $\min\partial\pi_c/\partial z$\\
+\midrule
+$0.10$ & $0.00000$ & $0.00166$ & $0.0682$ & $-0.0254$\\
+$0.20$ & $0.00001$ & $0.00165$ & $0.0563$ & $-0.0016$\\
+$0.35$ & $0.00004$ & $0.00162$ & $0.0454$ & $\phantom{-}0.0028$\\
+$1.00$ & $0.00057$ & $0.00110$ & $0.0250$ & $\phantom{-}0.0481$\\
+$5.00$ & $0.00164$ & $0.00003$ & $0.0161$ & $\phantom{-}0.0418$\\
+\bottomrule
+\end{tabular}
+\end{center}
+$\pi$ is increasing in both arguments throughout, as \bk{Proposition 17.2} asserts, and $\pi_c$
+is increasing in $k$ at every $\theta$, as the argument above predicts.  Monotonicity in $z$
+fails below $\theta=0.2565$, an elasticity of intertemporal substitution of $3.90$: when
+substitution is that easy, a good shock is read mainly as an investment opportunity, and the
+planner saves more than the whole of the extra output.  Formally, a small $\theta$ makes
+$|u''|$ small relative to $W_{12}$, and \eqref{eq:cz} turns negative.
+\end{aex}
+
+\begin{aex}{17.2}{}
+The book's timing is stated explicitly in Section 17.1: ``consumption and saving decisions at
+time $t$ are made after observing $\ldots$ $z(t)$.''  Reversing it means that the date-$t$
+decision is measurable with respect to $z^{t-1}$ only.  Since output $f(k(t),z(t))$ is not yet
+known, the two choices cannot both be free: the planner commits to next period's capital
+$k(t+1)=\wt k[z^{t-1}]$ and consumption is the residual,
+\[
+c(t)=f(k(t),z(t))+(1-\delta)k(t)-k(t+1) .
+\]
+This is the ``investment decided one period ahead'' timing familiar from time-to-build models.
+
+\textbf{(a)}  With $z$ independent across periods there is nothing to condition on, so the
+only state is $k$ and the problem is
+\begin{equation}
+V(k)=\max_{k'\in[0,\,\min_j f(k,z_j)+(1-\delta)k]}
+\Bigl\{\wt u(k,k')+\beta V(k')\Bigr\},\qquad
+\wt u(k,k')\equiv\E_z\bigl[u\bigl(f(k,z)+(1-\delta)k-k'\bigr)\bigr].
+\label{eq:iid}
+\end{equation}
+Problem \eqref{eq:iid} contains no random variable and no expectation over the future: it is a
+\emph{deterministic} dynamic program.  Hence $k(t+1)=\pi(k(t))$ is a deterministic sequence
+converging monotonically to a unique steady state, exactly as in Chapter 6 --- all the
+randomness has been pushed into consumption, which is the residual.
+
+The reduction is to a certainty model \emph{with a modified production function} in the exact
+sense that there is an $\wt f$ with
+$\wt u(k,k')=u\bigl(\wt f(k)+(1-\delta)k-k'\bigr)$ for all $(k,k')$ if and only if $u$
+displays constant absolute risk aversion (or $z$ is degenerate).  With
+$u(c)=-e^{-ac}/a$,
+\[
+\E_z\bigl[u(y(k,z)-k')\bigr]=-\tfrac1a e^{ak'}\,\E_z\bigl[e^{-ay(k,z)}\bigr]
+=u\bigl(\wt f(k)+(1-\delta)k-k'\bigr),
+\]
+\[
+\boxed{\ \wt f(k)\equiv-\tfrac1a\log\E_z\bigl[e^{-af(k,z)}\bigr] . \ }
+\]
+The modified production function is the \emph{certainty equivalent} of output, and by Jensen's
+inequality $\wt f(k)<\E_z[f(k,z)]$: risk shows up as a pure, capital-dependent productivity
+loss.  For a general $u$ the reduction is to a deterministic problem with a modified
+\emph{return function} $\wt u(k,k')$ rather than a modified production function.
+
+\emph{Intuition.}  Under the book's timing the shock is an observable state, so the policy must
+be indexed by it; here the shock arrives too late to be acted upon and carries no information
+about the future, so the planner faces the identical decision problem every period.  Uncertainty
+then affects behaviour only through the risk premium built into $\wt f$ --- it changes the
+\emph{level} of the capital stock the economy settles at, not the fact that it settles.
+
+\textbf{(b)}  If $z$ is a Markov chain, $z(t-1)$ forecasts $z(t)$, so the state is $(k,z_{-1})$
+with $z_{-1}\equiv z(t-1)$:
+\[
+V(k,z_{-1})=\max_{k'}\Bigl\{\E\bigl[u(f(k,z)+(1-\delta)k-k')\mid z_{-1}\bigr]
++\beta\,\E\bigl[V(k',z)\mid z_{-1}\bigr]\Bigr\} .
+\]
+The equivalent of \bk{Proposition 17.1} holds verbatim, and by the same proof: the return
+function $\E[u(f(k,z)+(1-\delta)k-k')\mid z_{-1}]$ is continuous, bounded on the compact set
+$[0,\max\{k(0),\bar k\}]\times Z$, strictly concave in $(k,k')$ and strictly increasing in $k$,
+and it is increasing in $z_{-1}$ because the chain is monotone; so
+\bk{Assumptions 16.1--16.6} hold and \bk{Theorems 16.1--16.7} give a unique $V$, strictly
+increasing in $k$ and in $z_{-1}$, strictly concave and differentiable in $k$, with a unique
+policy $\pi(k,z_{-1})$.
+
+Differentiating and using the envelope condition
+$V_k(k,z_{-1})=\E[u'(c)(f'(k,z)+1-\delta)\mid z_{-1}]$ gives the modified Euler equation
+\[
+\boxed{\ \E_{t-1}\bigl[u'(c(t))\bigr]
+=\beta\,\E_{t-1}\Bigl[\bigl(f'(k(t+1),z(t+1))+1-\delta\bigr)u'(c(t+1))\Bigr] . \ }
+\]
+Two differences from Section 17.1 stand out.
+\begin{enumerate}
+\item \emph{Marginal utility is inside a date-$(t-1)$ expectation.}  The intertemporal margin is
+      no longer equated state by state, so the date-$t$ innovation in $z$ is not shared between
+      consumption and saving: $\partial c(t)/\partial z(t)=f_z(k(t),z(t))$ exactly.  Consumption
+      absorbs the entire shock, and is therefore \emph{more} volatile than in Section 17.1,
+      while investment is smoother.
+\item \emph{Investment responds to news with a one-period lag.}  $k(t+1)$ depends only on
+      $z^{t-1}$, so a shock at $t$ moves capital only from $t+1$ onward.  This is precisely the
+      device --- time to build --- that the Real Business Cycle literature adds to the model of
+      Section 17.3 to generate a hump-shaped investment response.
+\end{enumerate}
+\end{aex}
+
+\begin{aex}{17.3}{}
+\emph{Law of motion.}  With a constant saving rate out of output the capital-labor ratio obeys
+\[
+k(t+1)=G\bigl(k(t),z(t)\bigr)\equiv s\,f\bigl(k(t),z(t)\bigr)+(1-\delta)k(t) ,
+\]
+a Markov process on $\R_+$ driven by the chain $z$ --- the stochastic Solow model.  $G$ is
+strictly increasing in $k$ and in $z$, strictly concave in $k$, and satisfies
+$G(0,z)=0$ with $\lim_{k\to0}G_k=\infty$ and $\lim_{k\to\infty}G_k=1-\delta<1$ by
+\bk{Assumptions 1 and 2}.  Hence:
+\begin{enumerate}
+\item define $\underline k$ and $\ol k$ by $sf(\underline k,z_1)=\delta\underline k$ and
+      $sf(\ol k,z_N)=\delta\ol k$.  Both exist and are unique by the Inada conditions, and
+      $\underline k<\ol k$.  The interval $[\underline k,\ol k]$ is forward invariant:
+      $G(k,z_1)\ge k$ for $k\le\underline k$ and $G(k,z_N)\le k$ for $k\ge\ol k$;
+\item from any $k(0)>0$ the process enters $[\underline k,\ol k]$ in finite time and stays;
+\item on that compact interval the process is monotone and satisfies a mixing condition, so it
+      has a \emph{unique invariant distribution} $\Psi$ and is ergodic:
+      $k(t)\Rightarrow\Psi$ and time averages converge to $\Psi$-averages.
+\end{enumerate}
+So, exactly as in Section 17.1, a ``steady state'' is a distribution, not a number.
+
+\emph{How it differs.}  The one and only difference is that the saving rate is a constant rather
+than the function $\pi(k,z)/[f(k,z)+(1-\delta)k]$, and that has four consequences.
+\begin{enumerate}
+\item \emph{No consumption smoothing across states.}  Here $c(t)=(1-s)f(k(t),z(t))$, so
+      $\log c$ and $\log y$ move one for one and $\mathrm{sd}(\log c)/\mathrm{sd}(\log y)=1$
+      exactly.  The optimal rule uses investment as the buffer.  In the calibration of
+      \texttt{code/ch17.py} ($\alpha=0.36$, $\beta=0.95$, $\delta=0.08$, $\theta=2$, $\rho=0.9$,
+      $\sigma=0.12$) the optimal path has an investment rate averaging $0.254$ but ranging over
+      $[-0.475,0.439]$, and
+      \[
+      \frac{\mathrm{sd}(\log c)}{\mathrm{sd}(\log y)}=0.853\ \text{(optimal)}
+      \qquad\text{against}\qquad 1.000\ \text{(Solow, same average rate)} ,
+      \]
+      while the capital stock is correspondingly \emph{more} volatile under the optimal rule
+      ($\mathrm{sd}(\log k)=0.629$ against $0.359$).  The stochastic Solow model therefore
+      cannot reproduce the most robust business-cycle fact there is, that consumption is
+      smoother than output.
+\item \emph{No response of saving to the state.}  The optimal rate varies with $k$ and with $z$;
+      the constant rate cannot, so the model has no mechanism by which news about future
+      productivity affects today's investment.
+\item \emph{Possible dynamic inefficiency.}  Nothing prevents $s$ from exceeding the golden-rule
+      rate, in which case the economy over-accumulates in every state; the optimal path never
+      does.
+\item \emph{One exact coincidence.}  In Example 17.1 --- $u=\log$, $f=zk^\alpha$, $\delta=1$ ---
+      the optimal policy \emph{is} a constant saving rate, $s=\alpha\beta$.  The numerical
+      solution reproduces this to machine precision (the savings rate varies by
+      $3.3\times10^{-16}$ across the whole grid).  So the Solow rule is not merely a convenient
+      approximation there; it is exactly optimal, which is why Example 17.1 is the one case in
+      which the two models cannot be told apart.
+\end{enumerate}
+\end{aex}
+
+\begin{aex}{17.4}{}
+\textbf{(a)}  From the derivation in Exercise 17.1,
+\[
+\pi_k=\frac{u''}{u''+\beta W_{11}}\,\bigl(f'(k,z)+1-\delta\bigr),
+\qquad
+\pi_z=\frac{u''f_z-\beta W_{12}}{u''+\beta W_{11}} .
+\]
+Both denominators are negative.  Therefore
+\begin{itemize}
+\item $\pi_k>0$ whenever $f'(k,z)+1-\delta>0$, which holds for all $k>0$ under
+      \bk{Assumptions 1--2}.  Strict concavity of $u$ and of $V(\cdot,z)$ is all that is
+      required, and \bk{Proposition 17.1} supplies it;
+\item $\pi_z>0$ iff $u''f_z<\beta W_{12}$, for which
+      \[
+      \boxed{\ W_{12}(k',z)=\partial_z\E\bigl[V_k(k',z')\mid z\bigr]\ \ge\ 0\ }
+      \]
+      is sufficient, since $u''f_z<0$.  This says that a higher shock today does not lower the
+      expected marginal value of capital tomorrow, and it holds when $V_{kz}\ge0$ together
+      with the monotone chain of \bk{Assumption 16.6}.  Since
+      $V_{kz}=u''\,\partial_z\pi_c\,(f'+1-\delta)+u'f_{kz}$, a clean pair of primitive
+      conditions is
+      \[
+      f_{kz}\ \ge\ 0\quad\text{(the shock raises the marginal product of capital)}
+      \]
+      together with the conditions of Exercise 17.1 --- and when $z$ is independent across
+      periods, $W_{12}\equiv0$ and $\pi_z=u''f_z/(u''+\beta W_{11})\in(0,f_z)$
+      unconditionally, so \emph{both} $\pi$ and $\pi_c$ are then strictly increasing in $z$.
+\end{itemize}
+
+\textbf{(b)}  Suppose the chain is irreducible on $Z=\{z_1,\dots,z_N\}$ with $N\ge2$, and
+suppose, for a contradiction, that $k(t)\to\bar k$ with probability one along some sample path,
+with $\bar k>0$.  Irreducibility makes every state recurrent, so for each $j$ the event
+$\{z(t)=z_j\}$ occurs infinitely often almost surely.  Along the subsequence of dates at which
+$z(t)=z_j$,
+\[
+k(t+1)=\pi\bigl(k(t),z_j\bigr)\longrightarrow\pi(\bar k,z_j)
+\]
+by continuity of $\pi$; but $k(t+1)\to\bar k$ as well, so $\pi(\bar k,z_j)=\bar k$ for
+\emph{every} $j$.  This contradicts the strict monotonicity of $\pi$ in $z$ established in
+part (a), which gives $\pi(\bar k,z_1)<\pi(\bar k,z_2)$.  Hence no such $\bar k$ exists unless
+$N=1$. $\blacksquare$
+
+What replaces convergence is convergence of the \emph{distribution} of $k(t)$ to the unique
+invariant distribution.  Its dispersion is proportional to that of $z$ and does not shrink.  In
+Example 17.1 this can be computed exactly: taking logs of $k(t+1)=\alpha\beta z(t)k(t)^\alpha$,
+\[
+\log k(t+1)=\log(\alpha\beta)+\log z(t)+\alpha\log k(t) ,
+\]
+so with $\log z$ an $\mathrm{AR}(1)$ of autocorrelation $\rho$,
+\[
+\frac{\mathrm{sd}(\log k)}{\mathrm{sd}(\log z)}
+=\sqrt{\frac{1+\alpha\rho}{(1-\alpha^2)(1-\alpha\rho)}}\ ,
+\]
+which equals $1.5001$ at $\alpha=0.36$, $\rho=0.9$.  Simulating the model over $120{,}000$
+periods for four widths of the support of $z$ gives
+\begin{center}
+\small
+\begin{tabular}{rrrr}
+\toprule
+$\mathrm{sd}(\log z)$ & $\mathrm{sd}(\log k)$ & range of $\log k$ & ratio\\
+\midrule
+$1.1647$ & $1.75521$ & $8.603$ & $1.5070$\\
+$0.5824$ & $0.88074$ & $4.302$ & $1.5124$\\
+$0.1456$ & $0.22096$ & $1.075$ & $1.5177$\\
+$0.0146$ & $0.02205$ & $0.108$ & $1.5146$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The ratio is constant, so the dispersion of $k$ vanishes only as that of $z$ does --- which is
+part (b) restated quantitatively.
+\end{aex}
+
+\begin{aex}{17.6}{}
+Let the transition kernel be $\mathcal Q(z,\dd z')$ on $(0,\infty)$, and take the same guess
+$\pi(k,z)=B_1zk^\alpha$.  With $\delta=1$ and $u=\log$, the stochastic Euler equation
+\bk{(17.5)} reads
+\[
+\frac{1}{zk^\alpha-\pi(k,z)}
+=\beta\int\frac{f'(\pi(k,z),z')}{z'\pi(k,z)^\alpha-\pi\bigl(\pi(k,z),z'\bigr)}\,
+\mathcal Q(z,\dd z') .
+\]
+Write $P\equiv\pi(k,z)=B_1zk^\alpha$.  Then
+\[
+f'(P,z')=\alpha z'P^{\alpha-1},\qquad
+c'=z'P^{\alpha}-B_1z'P^{\alpha}=(1-B_1)z'P^{\alpha} ,
+\]
+so the integrand is
+\[
+\frac{\alpha z'P^{\alpha-1}}{(1-B_1)z'P^{\alpha}}=\frac{\alpha}{(1-B_1)P} ,
+\]
+which \emph{does not involve $z'$ at all}.  Every feature of the conditional distribution
+therefore disappears, and only $\int\mathcal Q(z,\dd z')=1$ is used:
+\[
+\frac{1}{(1-B_1)zk^\alpha}=\frac{\beta\alpha}{(1-B_1)B_1zk^\alpha}
+\quad\Longrightarrow\quad
+\boxed{\ B_1=\alpha\beta . \ }
+\]
+The verification of $B_0=0$ is unchanged, since the same cancellation makes the left-hand side
+of \bk{(17.10)} proportional to $z$ for any kernel.
+
+\rmk{The cancellation is not an accident of the chain: it needs neither the Markov property
+nor even independence, only that $z'>0$ almost surely and that the relevant expectations exist.
+Its source is that $\delta=1$, $u=\log$ and Cobb--Douglas production together make the
+\emph{gross return per unit of consumption}, $f'(k',z')/c'$, a deterministic function of $k'$
+alone: the shock multiplies the marginal product and the level of consumption by the same
+factor.  Equivalently, with unit elasticity of intertemporal substitution the income and
+substitution effects of a change in the rate of return cancel, so the saving rate is
+$\alpha\beta$ whatever the distribution of returns.  This is the dynamic counterpart of the
+myopic portfolio rule of logarithmic investors.}
+\end{aex}
+
+\begin{aex}{17.8}{}
+Keep $u=\log$, $f(k,z)=zk^\alpha$, and try the same family of candidates
+$\pi(k,z)=B_0+B_1zk^\alpha$, writing $P\equiv\pi(k,z)$.  The Euler equation is
+\[
+\frac1c=\beta\,\E\Bigl[\frac{\alpha z'P^{\alpha-1}+1-\delta}{c'}\,\Bigm|\,z\Bigr],
+\qquad
+c'=z'P^{\alpha}+(1-\delta)P-\pi(P,z')
+=(1-B_1)z'P^{\alpha}+(1-\delta)P-B_0 .
+\]
+Numerator and denominator are now \emph{affine} in $z'$, with nonzero intercepts $1-\delta$ and
+$(1-\delta)P-B_0$.  For the conditional distribution of $z'$ to drop out --- which it must, since
+the left-hand side does not depend on it and the guess makes $P$ a function of $(k,z)$ only ---
+the two affine functions must be proportional:
+\[
+\frac{\alpha P^{\alpha-1}}{(1-B_1)P^{\alpha}}=\frac{1-\delta}{(1-\delta)P-B_0}
+\quad\Longleftrightarrow\quad
+\alpha\bigl[(1-\delta)P-B_0\bigr]=(1-\delta)(1-B_1)P ,
+\]
+that is
+\[
+(1-\delta)\bigl(\alpha-1+B_1\bigr)P=\alpha B_0 .
+\]
+$P$ varies with $k$, so this can hold identically only if both sides vanish; with $\delta<1$
+that forces
+\[
+B_0=0\qquad\text{and}\qquad B_1=1-\alpha .
+\]
+Substituting this unique candidate back, the ratio collapses to
+\[
+\frac{\alpha z'P^{\alpha-1}+1-\delta}{\alpha z'P^{\alpha}+(1-\delta)P}=\frac1P ,
+\]
+so the Euler equation becomes $1/c=\beta/P$, that is $P=\beta c$.  With $B_1=1-\alpha$,
+\[
+c=zk^\alpha+(1-\delta)k-(1-\alpha)zk^\alpha=\alpha zk^\alpha+(1-\delta)k ,
+\]
+and $P=\beta c$ reads
+\[
+(1-\alpha)zk^\alpha=\alpha\beta\,zk^\alpha+\beta(1-\delta)k \qquad\text{for all }k,z .
+\]
+Matching the two powers of $k$ requires simultaneously $1-\alpha=\alpha\beta$ \emph{and}
+$\beta(1-\delta)=0$.  The second is impossible for $\beta>0$ and $\delta<1$.  Hence
+\[
+\boxed{\ \text{no policy of the form }B_0+B_1zk^\alpha\text{ solves the Euler equation when }
+\delta<1 . \ }
+\]
+$\blacksquare$
+
+\emph{What breaks.}  At $\delta=1$ the gross return $\alpha z'k'^{\alpha-1}$ is proportional to
+$z'$ and so is consumption, and the shock cancels; at $\delta<1$ the undepreciated capital adds
+a constant $1-\delta$ to the return but only $(1-\delta)P$ to resources, and the two affine
+functions of $z'$ are no longer proportional.  No amount of re-guessing repairs this, because
+the argument above exhausts the family.
+
+Numerically, the savings rate $\pi(k,z)/[f(k,z)+(1-\delta)k]$ is exactly the constant
+$\alpha\beta$ when $\delta=1$ and varies with $k$ otherwise:
+\begin{center}
+\small
+\begin{tabular}{rrrr}
+\toprule
+$\delta$ & smallest & largest & spread\\
+\midrule
+$1.0$ & $0.342000$ & $0.342000$ & $3.3\times10^{-16}$\\
+$0.9$ & $0.352370$ & $0.451320$ & $9.9\times10^{-2}$\\
+$0.5$ & $0.412445$ & $0.759579$ & $3.5\times10^{-1}$\\
+$0.2$ & $0.507572$ & $0.878032$ & $3.7\times10^{-1}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The $\delta=1$ row is machine precision --- the endogenous grid method recovers $\alpha\beta$
+exactly --- so the spread in the other rows is signal, not error.  The left panel of
+Figure~\ref{fig:ch17} plots these savings rates.
+\end{aex}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/ch17_stochastic_growth.pdf}
+\caption{Left: the optimal savings rate $\pi/[f+(1-\delta)k]$ at the median shock, flat at
+$\alpha\beta$ when $\delta=1$ and sloped otherwise (Exercise 17.8).  Right: the conditional
+variance $V_n$ of TFP against the measure of open sectors, peaking at $Q/(2Q-q)$
+(Exercise 17.28).}
+\label{fig:ch17}
+\end{figure}
+
+\solsection{17.2}{Equilibrium Growth under Uncertainty}
+
+\begin{aex}{17.9}{}
+\emph{The commodity space.}  Index commodities by a date $t\in\N$ and a history
+$z^t\in Z^{t+1}$; since $Z$ is finite, the index set $\mathcal I\equiv\{(t,z^t)\}$ is countable.
+A commodity bundle is a triple of sequences
+$\bigl(c[z^t],\,\ell[z^t],\,k[z^t]\bigr)_{(t,z^t)\in\mathcal I}$, and the commodity space is
+\[
+L\equiv\Bigl\{x\in\R^{\mathcal I}:\ \|x\|\equiv\sup_{t,z^t}\bigl|x[z^t]\bigr|<\infty\Bigr\}
+=\ell^\infty(\mathcal I),
+\]
+a normed vector space.  Boundedness is not an extra assumption: the proof of
+\bk{Proposition 17.1} shows that every feasible path stays in
+$[0,\max\{k(0),\bar k\}]$, hence so do output and consumption.
+
+\emph{The planner's problem.}  Maximize
+\[
+U\bigl((c[z^t])\bigr)=\sum_{t=0}^{\infty}\beta^t\sum_{z^t}q[z^t\mid z^0]\,u\bigl(c[z^t]\bigr)
+\]
+over $(c,\ell,k)\in L$ subject to
+\[
+c[z^t]+k[z^t]\le f\bigl(k[z^{t-1}],z(t)\bigr)+(1-\delta)k[z^{t-1}],\qquad
+\ell[z^t]=1,\qquad c[z^t],k[z^t]\ge0 ,
+\]
+for every $(t,z^t)$, with $k[z^{-1}]=k(0)$ given.
+
+\emph{Verification of the hypotheses of \bk{Theorem 5.7}.}
+\begin{enumerate}
+\item \emph{Consumption sets are convex.}  $X=\{x\in L: x\ge0\}$ is a convex cone.
+\item \emph{Preferences are convex and continuous.}  $u$ is concave, so each term of $U$ is
+      concave and the sum of concave functions is concave; $\beta<1$ and the boundedness of $c$
+      make the series converge uniformly, so $U$ is continuous in the sup norm.  Convexity of
+      preferences is then immediate.
+\item \emph{Preferences are locally nonsatiated.}  $u$ is strictly increasing, so raising
+      $c[z^t]$ at any single $(t,z^t)$ by $\varepsilon>0$ raises $U$ while moving the bundle by
+      $\varepsilon$ in the sup norm.
+\item \emph{The aggregate production set is convex.}  Write
+      \[
+      Y=\Bigl\{(y,\ell,k)\in L^3:\ y[z^t]\le F\bigl(k[z^{t-1}],\ell[z^t],z(t)\bigr)
+      +(1-\delta)k[z^{t-1}]\ \ \forall (t,z^t)\Bigr\} .
+      \]
+      $F(\cdot,\cdot,z)$ is concave (\bk{Assumption 1}) for each $z$, so each constraint defines
+      a convex set, and $Y$, an intersection of convex sets, is convex.  It contains the origin
+      and displays free disposal.
+\item \emph{The allocation is Pareto optimal.}  There is one (representative) household, so the
+      solution of the planner's problem is Pareto optimal by construction.
+\item \emph{Nonempty interior / properness.}  \bk{Theorem 5.7} requires that the set of
+      aggregate bundles preferred to the optimum have an interior point in $L$, which holds
+      here: the bundle that adds a constant $\varepsilon>0$ to consumption at every node is
+      preferred and has a sup-norm neighbourhood of preferred bundles.
+\end{enumerate}
+By \bk{Theorem 5.7} there exist prices $\bigl(p_0[z^t],w_0[z^t],R_0[z^t]\bigr)\ge0$, not all
+zero, such that the optimal allocation minimizes cost over the preferred set and maximizes
+profits over $Y$.  Comparing the supporting prices with the planner's first-order conditions
+identifies them as
+\[
+p_0[z^t]=\frac{\beta^tq[z^t\mid z^0]u'(c[z^t])}{\lambda},
+\]
+which is \bk{(17.13)}, and then \bk{(17.15)} and \bk{(17.19)} for $w_0$ and $R_0$.
+
+\emph{From quasi-equilibrium to equilibrium.}  \bk{Theorem 5.7} delivers a price
+quasi-equilibrium; to conclude that the household is \emph{maximizing} rather than merely
+cost-minimizing one needs a cheaper point, that is, household wealth strictly above the
+infimum of expenditure.  Here wealth is
+$\sum_t\sum_{z^t}w_0[z^t]+R_0[z(0)]k(0)>0$, because the Inada conditions give
+$f(k,z)-kf'(k,z)>0$ and hence $w_0[z^t]>0$, while $c\equiv0$ costs zero.  So the quasi-equilibrium
+is a competitive equilibrium.  Finally, $\sum_t\sum_{z^t}p_0[z^t]c[z^t]<\infty$ because
+\bk{(17.13)} and the transversality condition \bk{(17.7)} make the terms decline
+geometrically.  \bk{Proposition 17.3} follows.
+\end{aex}
+
+\begin{aex}{17.10}{}
+\textbf{(a)}  Let $(z,b)$ be the exogenous state, itself a Markov chain on the finite set
+$Z\times B$ with transition probabilities $q[(z',b')\mid(z,b)]$; $z$ and $b$ may be correlated.
+Nothing in Chapter 16 requires the exogenous state to be scalar, so the recursive problem is
+\[
+V(k,z,b)=\max_{k'\in[0,f(k,z)+(1-\delta)k]}
+\Bigl\{u\bigl(f(k,z)+(1-\delta)k-k',\,b\bigr)
++\beta\,\E\bigl[V(k',z',b')\mid z,b\bigr]\Bigr\} .
+\]
+Assume $u(\cdot,b)$ satisfies \bk{Assumption 3} for each $b\in B$ and $u(c,\cdot)$ is bounded.
+Then \bk{Assumptions 16.1--16.5} hold exactly as in \bk{Proposition 17.1}, with the compact set
+$[0,\max\{k(0),\bar k\}]$ constructed from $z_N$, so $V$ is unique, strictly concave and
+differentiable in $k$, and there is a unique policy $\pi(k,z,b)$.  (Monotonicity in $b$ requires
+in addition that the chain be monotone in $b$ and $u$ increasing in $b$, which is not needed for
+the Euler equation.)
+
+The first-order and envelope conditions,
+\[
+u_c\bigl(\pi_c(k,z,b),b\bigr)=\beta\,\E\bigl[V_k(k',z',b')\mid z,b\bigr],\qquad
+V_k(k,z,b)=u_c\bigl(\pi_c(k,z,b),b\bigr)\bigl(f'(k,z)+1-\delta\bigr),
+\]
+combine into the \textbf{modified stochastic Euler equation}
+\[
+\boxed{\ u_c\bigl(c(t),b(t)\bigr)
+=\beta\,\E_t\Bigl[p(t+1)\,u_c\bigl(c(t+1),b(t+1)\bigr)\Bigr]\ }
+\]
+with $p(t+1)=f'(k(t+1),z(t+1))+1-\delta$ as in \bk{(17.6)}.  The difference from \bk{(17.6)} is
+that the marginal utility on the right is evaluated at a \emph{random} preference state.  Writing
+$u(c,b)=b\,c^{1-\theta}/(1-\theta)$ makes the point sharply:
+\[
+c(t)^{-\theta}=\beta\,\E_t\Bigl[p(t+1)\,\frac{b(t+1)}{b(t)}\,c(t+1)^{-\theta}\Bigr] ,
+\]
+so a preference shock enters exactly as a return shock would.  If $b(t+1)/b(t)$ is positively
+correlated with $p(t+1)$, the covariance term raises the effective return and depresses current
+consumption; consumption growth is now driven by the joint distribution of technology and taste,
+and an econometrician who ignored $b$ would read the taste shocks as time-varying discounting.
+
+\textbf{(b)}  Index commodities by histories of the \emph{pair} $(z,b)$; the index set is still
+countable and the commodity space is again $\ell^\infty$.  Every hypothesis checked in
+Exercise 17.9 survives:
+\begin{itemize}
+\item the objective $\sum_t\beta^t\sum_{(z,b)^t}q[\,\cdot\,]u(c[\,\cdot\,],b(t))$ is a
+      probability-weighted sum of functions each concave and strictly increasing in the
+      corresponding coordinate of $c$, hence concave, continuous and locally nonsatiated ---
+      the preference shock affects only the weights and the shape of each term, not concavity;
+\item the production set is exactly as before, since $b$ does not enter technology, so it is
+      unchanged and convex;
+\item wealth is strictly positive for the same reason.
+\end{itemize}
+\bk{Theorem 5.7} therefore applies, and the supporting prices are again
+\[
+p_0\bigl[(z,b)^t\bigr]
+=\beta^t\,q\bigl[(z,b)^t\mid(z,b)^0\bigr]\,u_c\bigl(c[(z,b)^t],b(t)\bigr)\big/\lambda .
+\]
+Note that the state-contingent prices now vary with $b$ even at unchanged consumption: with
+complete markets, taste shocks are priced.
+\end{aex}
+
+\begin{aex}{17.11}{}
+The number of multipliers equals the number of constraints, and the number of constraints is
+determined by the set of markets.
+
+In Section 16.5.1 the household trades a \emph{single riskless bond}.  It cannot move resources
+between two histories of the same length, so its budget must balance separately along each
+history: there is one constraint
+\[
+c[y^t]+a[y^t]\le Ra[y^{t-1}]+y(t)\qquad\text{for every }y^t ,
+\]
+and hence one multiplier $\wt\lambda[y^t]$ per node.  Those multipliers are genuinely distinct
+objects: $\wt\lambda[y^t]/\wt\lambda[\hat y^t]$ is the household's \emph{personal} valuation of a
+unit of the good in history $y^t$ relative to $\hat y^t$, and it is not equated across
+households because no market exists in which to trade the difference away.
+
+In Section 17.2.1 a claim to the final good after \emph{any} history is a traded commodity with
+a price $p_0[z^t]$ quoted at date $0$.  A surplus in one history can be sold and the proceeds
+spent in another, so only the single aggregate constraint \bk{(17.11)} restricts the household,
+and there is a single multiplier $\lambda$ --- the marginal utility of date-$0$ wealth.  The
+node-by-node shadow prices have not disappeared; they have been decomposed, since \bk{(17.13)}
+gives
+\[
+\underbrace{\beta^tq[z^t\mid z^0]u'(c[z^t])}_{\text{shadow value of goods at }z^t}
+=\lambda\,p_0[z^t] ,
+\]
+so the whole family $\{\wt\lambda[z^t]\}$ collapses to one free scalar $\lambda$ multiplied by
+the \emph{market} prices $p_0[z^t]$.
+
+The general principle: a multiplier is needed for each budget constraint that cannot be relaxed
+by trade.  Completing markets replaces $|Z|^{t+1}$ constraints per date with one, and the
+information that the household's personal valuations must agree with market prices is exactly the
+content of that collapse.  It is also why the incomplete-markets model of Section 17.4 does not
+admit a representative household: there the $\wt\lambda$'s differ across households, and no
+single set of weights aggregates them.
+\end{aex}
+
+\begin{aex}{17.12}{}
+\emph{The firm.}  The representative firm now hires capital and labour period by period and owns
+nothing, so its date-$0$ value is
+\[
+\sum_{t=0}^{\infty}\sum_{z^t}\Bigl\{p_0[z^t]F\bigl(K^e[z^t],L[z^t],z(t)\bigr)
+-\wt R_0[z^t]K^e[z^t]-w_0[z^t]L[z^t]\Bigr\} .
+\]
+Profit maximization and constant returns give, in per capita terms,
+\begin{equation}
+p_0[z^t]\,f'\bigl(k^e[z^t],z(t)\bigr)=\wt R_0[z^t],\qquad
+p_0[z^t]\bigl(f-k^ef'\bigr)=w_0[z^t] .
+\label{eq:rent}
+\end{equation}
+Note that $1-\delta$ has vanished from the first condition: the firm no longer owns the
+undepreciated capital.
+
+\emph{The household.}  It now owns the capital, rents it out, and keeps the $(1-\delta)$
+fraction that survives.  Its lifetime budget constraint is
+\[
+\sum_{t}\sum_{z^t}p_0[z^t]c[z^t]
+\le\sum_{t}\sum_{z^t}w_0[z^t]
++\sum_{t}\sum_{z^t}\Bigl\{\wt R_0[z^t]+(1-\delta)p_0[z^t]\Bigr\}k[z^{t-1}]
+-\sum_{t}\sum_{z^t}p_0[z^t]k[z^t]+\Xi ,
+\]
+where $\Xi$ collects the date-$0$ terms.  The no-arbitrage condition governing the purchase of
+one unit of the final good at $z^t$ to be rented out at $t+1$ is
+\begin{equation}
+p_0[z^t]=\sum_{z(t+1)\in Z}\Bigl\{\wt R_0[z^{t+1}]+(1-\delta)\,p_0[z^{t+1}]\Bigr\} .
+\label{eq:rentarb}
+\end{equation}
+
+\emph{Equivalence.}  Compare with \bk{(17.15)} and \bk{(17.19)} of the purchase formulation.
+Those read $R_0[z^t]=p_0[z^t](f'+1-\delta)$ and $p_0[z^t]=\sum_{z(t+1)}R_0[z^{t+1}]$.  Define
+\[
+\boxed{\ R_0[z^t]\equiv\wt R_0[z^t]+(1-\delta)\,p_0[z^t] . \ }
+\]
+Then \eqref{eq:rent} becomes exactly \bk{(17.15)} and \eqref{eq:rentarb} becomes exactly
+\bk{(17.19)}.  The household's first-order conditions are unchanged, since only the total
+$R_0$ enters its wealth.  Every equilibrium of one formulation is therefore an equilibrium of
+the other under this change of variables, with identical allocations
+$\{c[z^t],k[z^t]\}$ and identical prices $p_0$ and $w_0$.
+
+\emph{Why.}  The change of variables is a statement about spanning.  Buying a unit of capital at
+$z^t$ is the same portfolio as renting it for one period and simultaneously holding a claim to
+the $1-\delta$ units of \emph{goods} that survive into every successor history $z^{t+1}$.  With
+complete markets those claims are traded at the prices $p_0[z^{t+1}]$, so the two securities
+have the same payoff in every state and must have the same price; no allocation can depend on
+which one is written down.  The decomposition would matter only if the contingent claims on
+undepreciated capital were \emph{not} traded --- which is exactly what happens in the incomplete
+markets economies of Sections 17.4 and 17.6.
+\end{aex}
+
+\begin{aex}{17.14}{}
+The household maximizes
+\[
+\sum_{t=0}^{\infty}\beta^t\sum_{z^t}q\bigl[z^t\mid z^0\bigr]u\bigl(c[z^t]\bigr)
+\]
+subject to one flow constraint per node,
+\begin{equation}
+c[z^t]+\sum_{z(t+1)\in Z}\ol p\bigl[z(t+1)\mid z^t\bigr]\,a\bigl[(z^t,z(t+1))\bigr]
+\le w[z^t]+a[z^t],
+\label{eq:flow}
+\end{equation}
+together with the no-Ponzi condition
+$\lim_{t\to\infty}\sum_{z^t}\bigl(\prod_{s\le t}\ol p\bigr)a[z^t]\ge0$ and $a[z^0]$ given.
+Attach the multiplier $\mu[z^t]\ge0$ to \eqref{eq:flow}.  The first-order conditions are
+\[
+c[z^t]:\quad \beta^tq\bigl[z^t\mid z^0\bigr]u'\bigl(c[z^t]\bigr)=\mu[z^t],
+\qquad
+a[z^{t+1}]:\quad \mu[z^t]\,\ol p\bigl[z(t+1)\mid z^t\bigr]=\mu[z^{t+1}] .
+\]
+Eliminating the multipliers and using $q[z^{t+1}\mid z^0]=q[z(t+1)\mid z(t)]\,q[z^t\mid z^0]$
+gives the \textbf{pricing kernel}
+\begin{equation}
+\boxed{\ \ol p\bigl[z(t+1)\mid z^t\bigr]
+=\beta\,q\bigl[z(t+1)\mid z(t)\bigr]\,
+\frac{u'\bigl(c[z^{t+1}]\bigr)}{u'\bigl(c[z^t]\bigr)} . \ }
+\label{eq:kernel}
+\end{equation}
+Each one-period Arrow security is priced by the discounted marginal rate of substitution
+between the node at which it is bought and the node at which it pays, times the probability of
+that node.
+
+Now impose market clearing.  Capital market clearing \bk{(17.26)} is
+$a[(z^t,z(t+1))]=R[z(t+1)\mid z(t)]\,k[z^t]$; substituting into \eqref{eq:flow} and comparing
+with the goods constraint $c[z^t]+k[z^t]=w[z^t]+a[z^t]$ gives the no-arbitrage condition
+$\sum_{z(t+1)}\ol p\,R=1$, which is \bk{(17.27)} (see Exercise 17.16).  Multiplying
+\eqref{eq:kernel} by $R[z(t+1)\mid z(t)]$ and summing over $z(t+1)$ therefore yields
+\[
+u'\bigl(c[z^t]\bigr)
+=\beta\sum_{z(t+1)}q\bigl[z(t+1)\mid z(t)\bigr]R\bigl[z(t+1)\mid z(t)\bigr]
+u'\bigl(c[z^{t+1}]\bigr)
+=\beta\,\E\bigl[R\,u'(c(t+1))\mid z^t\bigr] ,
+\]
+which is \bk{(17.6)} once $R=f'+1-\delta$ from \bk{(17.15)}.  The no-Ponzi condition, holding
+with equality by local nonsatiation, delivers the transversality condition \bk{(17.7)} by the
+argument of Section 17.2.1.  Since \bk{Theorem 16.8} makes \bk{(17.6)}--\bk{(17.7)} sufficient,
+the equilibrium path coincides with the optimal growth path.
+
+\rmk{Comparing \eqref{eq:kernel} with \bk{(17.13)} shows the exact relation between the two
+market structures: $\ol p[z(t+1)\mid z^t]=p_0[z^{t+1}]/p_0[z^t]$.  One-period Arrow securities
+traded sequentially replicate the entire date-$0$ set of contingent claims by compounding, which
+is the content of Section 5.8 --- and the reason the model needs only $N$ securities per node
+rather than the whole infinite set.}
+\end{aex}
+
+\begin{aex}{17.16}{}
+Fix the current state $z$ and let $k[z]$ be the household's savings, chosen before $z'$ is
+realized.  Two accounts of the same transaction must agree.
+
+\emph{In goods.}  The household's resources are $w+a$, and they are split between consumption
+and one unit of the final good per unit of capital carried forward:
+\begin{equation}
+c+k[z]=w+a .
+\label{eq:goods}
+\end{equation}
+There is nothing contingent here: a unit of the final good saved becomes a unit of capital,
+whatever happens next.
+
+\emph{In securities.}  The same plan is implemented by buying, for each $z'\in Z$, a claim
+paying $a'[z'\mid z]$ units of the final good in state $z'$.  Capital market clearing
+\bk{(17.26)} says these claims are exactly what the carried capital delivers,
+\[
+a'[z'\mid z]=R[z'\mid z]\,k[z] ,
+\]
+and the flow budget constraint charges the household the market value of the portfolio:
+\begin{equation}
+c+\sum_{z'\in Z}\ol p[z'\mid z]\,a'[z'\mid z]
+=c+k[z]\sum_{z'\in Z}\ol p[z'\mid z]R[z'\mid z]=w+a .
+\label{eq:secs}
+\end{equation}
+
+Subtracting \eqref{eq:goods} from \eqref{eq:secs},
+\[
+k[z]\Bigl(\sum_{z'\in Z}\ol p[z'\mid z]R[z'\mid z]-1\Bigr)=0 ,
+\]
+so for any $k[z]>0$,
+\[
+\boxed{\ \sum_{z'\in Z}\ol p[z'\mid z]\,R[z'\mid z]=1 , \ }
+\]
+which is \bk{(17.27)}. $\blacksquare$
+
+\emph{Reading.}  The left-hand side is the date-$t$ cost of the bundle of contingent claims that
+one unit of saved output delivers; the right-hand side is the cost of that unit of output.  If
+the sum exceeded $1$, a household could buy one unit of the good, save it, sell the resulting
+claims, and pocket the difference with no risk and no outlay; if it fell short of $1$, the
+reverse trade would do the same.  Both branches are riskless because the capital carried forward
+pays $R[z'\mid z]$ in state $z'$ \emph{with certainty} --- the uncertainty is about which state
+occurs, not about the payoff in a given state.  So $\sum\ol pR=1$ is the exact counterpart of
+\bk{(17.19)} in the date-$0$ formulation, as the substitution
+$\ol p[z'\mid z]=p_0[z^{t+1}]/p_0[z^t]$ and $R=R_0[z^{t+1}]/p_0[z^{t+1}]$ confirms.
+\end{aex}
+
+\solsection{17.3}{Application: Real Business Cycle Models}
+
+\begin{aex}{17.17}{}
+Apply \bk{Theorems 16.1--16.7} to \bk{(17.28)}, taking the control to be the \emph{pair}
+$y=(L,K')$ --- nothing in Chapter 16 requires the control to be scalar.  Set
+\[
+G(K,z)=\bigl\{(L,K'):\ L\in[0,\ol L],\ K'\in[0,F(K,L,z)+(1-\delta)K]\bigr\},
+\]
+\[
+U\bigl(K,(L,K'),z\bigr)=u\bigl(F(K,L,z)+(1-\delta)K-K',\,L\bigr).
+\]
+\begin{enumerate}
+\item \emph{Assumption 16.1 and 16.2.}  Define $\ol K$ by $\ol K=F(\ol K,\ol L,z_N)+(1-\delta)\ol K$;
+      by the Inada conditions $\ol K$ exists and is finite, and starting from $K(0)$ the capital
+      stock stays in the compact set $\mathcal K=[0,\max\{K(0),\ol K\}]$.  On
+      $\mathcal K\times Z$ the correspondence $G$ is nonempty, compact-valued and continuous
+      (upper and lower hemicontinuous, by the continuity of $F$ and Berge's theorem), and $U$ is
+      continuous and bounded.  Boundedness of $u$ from below is where $\ol L<\infty$ is used.
+\item \emph{Assumption 16.3 (concavity).}  $F(\cdot,\cdot,z)$ is concave, so
+      $C=F(K,L,z)+(1-\delta)K-K'$ is concave in $(K,L,K')$; $u$ is concave and increasing in
+      $C$, so the composition $u(C,L)$ is concave in $(K,L,K')$, jointly with the second
+      argument.  \bk{Theorem 16.4} then gives concavity of $V$ in $K$; strict concavity follows
+      from the strict concavity of $F(\cdot,L,z)$ in $K$.
+\item \emph{Assumption 16.4 (monotonicity in $K$).}  $F$ is strictly increasing in $K$, so $U$ is
+      strictly increasing in the state; and $K_1<K_2$ implies $G(K_1,z)\subset G(K_2,z)$.
+      \bk{Theorem 16.5} gives $V$ strictly increasing in $K$.
+\item \emph{Assumption 16.5 (differentiability).}  $F$ and $u$ are continuously differentiable,
+      and at an interior optimum $\pi_k(K,z)\in\Int G$, so \bk{Theorem 16.6} applies and
+      $V(\cdot,z)$ is differentiable on $K>0$ with
+      $\partial V/\partial K=u_c\cdot(F_K+1-\delta)$.
+\item \emph{Assumption 16.6 (monotonicity in $z$).}  $z$ follows a monotone chain, $F$ is
+      increasing in $z$ so $U$ is, and $G(K,z_1)\subset G(K,z_2)$ for $z_1<z_2$.
+      \bk{Theorem 16.7} gives $V$ strictly increasing in $z$.
+\end{enumerate}
+Existence and uniqueness of the policy correspondence follow from \bk{Theorem 16.2} and Berge;
+single-valuedness of $\pi_k$ and $\pi_l$ follows from strict concavity of
+$U(K,\cdot,z)+\beta\E[V(\cdot,z')\mid z]$ in $(L,K')$. $\blacksquare$
+
+\rmk{The last step deserves care.  The chapter assumes only that $u$ is \emph{jointly concave},
+and joint concavity is not enough for unique policies: $U$ is strictly concave in $K'$ (through
+$u$ in $C$), but strict concavity in $L$ needs $u$ to be strictly concave in $L$ or $F$ to be
+strictly concave in $L$.  Example 17.2, with $u(C,L)=\log C-\gamma L$, is linear in $L$, and
+uniqueness there comes not from concavity but from the static first-order condition, which pins
+$L$ down exactly (Exercise 17.19).  So \bk{Proposition 17.4} as stated requires either strict
+joint concavity of $u$ or an interior static optimum; the second is what the applications
+actually use.}
+\end{aex}
+
+\begin{aex}{17.19}{}
+Keep $F(K,L,z)=zK^\alpha L^{1-\alpha}$ and $\delta=1$, and conjecture
+$\pi_k(K,z)=BzK^\alpha L^{1-\alpha}$ as in Example 17.2.  Because preferences are additively
+separable and the consumption term is logarithmic, $h$ plays no part in the intertemporal
+margin: the first condition of \bk{(17.29)} is unchanged from Example 17.2 and again gives
+\[
+B=\alpha\beta,\qquad C=(1-\alpha\beta)\,zK^\alpha L^{1-\alpha} .
+\]
+(The cancellation is the one exhibited in Exercise 17.6: with $\delta=1$ and log consumption
+utility, $F_K/C$ is a deterministic function of $K'$.)
+
+The static condition of \bk{(17.29)} is $w\,u_C=-u_L$, that is
+\[
+\underbrace{(1-\alpha)zK^\alpha L^{-\alpha}}_{w=F_L}\cdot
+\frac{1}{(1-\alpha\beta)zK^\alpha L^{1-\alpha}}=-h'(L) .
+\]
+Every appearance of $z$ and of $K$ cancels between the wage and the marginal utility of
+consumption, and the powers of $L$ combine to $L^{-\alpha}/L^{1-\alpha}=L^{-1}$, leaving
+\[
+\boxed{\ -L\,h'(L)=\frac{1-\alpha}{1-\alpha\beta} \ }
+\]
+--- a single equation in $L$ alone.  Hence $\pi_l(K,z)=L^*$ is a constant.
+
+\emph{Uniqueness.}  The left-hand side is strictly increasing: $\frac{\dd}{\dd L}[-Lh'(L)]
+=-h'(L)-Lh''(L)>0$, since $h'<0$ and $h''\le0$.  It vanishes at $L=0$ and, provided it exceeds
+$(1-\alpha)/(1-\alpha\beta)$ somewhere in $[0,\ol L]$, there is exactly one solution.  For
+$h(L)=-\gamma L$ the equation reads $\gamma L=(1-\alpha)/(1-\alpha\beta)$, giving
+$L^*=(1-\alpha)/[\gamma(1-\alpha\beta)]$, which is Example 17.2.
+
+\emph{Why.}  Logarithmic consumption utility makes the wealth elasticity of the marginal utility
+of consumption exactly $-1$, so a productivity shock raises the wage and the marginal value of
+income in the same proportion: the income and substitution effects on labor supply cancel
+identically, and the labor supply schedule is vertical.  The shape of $h$ changes \emph{where}
+that vertical schedule sits, but not the fact that it is vertical.  This is precisely the defect
+of the simplest RBC model noted in the text: it produces comovement of output, consumption and
+investment but no employment fluctuations at all.  Generating them requires breaking the
+knife-edge, which is what \bk{Exercise 17.18}'s balanced-growth restrictions and the
+non-separable specifications used in the literature do.
+\end{aex}
+
+\solsection{17.4}{Growth with Incomplete Markets: The Bewley Model}
+
+\begin{aex}{17.20}{}
+\emph{Why every path.}  The household of Section 17.4 trades one asset, a riskless claim paying
+the gross return $R$.  There is no security whose payoff depends on the realization of
+$z^h(t)$, so a surplus accumulated in a lucky history cannot be sold to finance a deficit in an
+unlucky one: the two are not different commodities, they are the same commodity held by the same
+household under different circumstances.  Solvency must therefore be checked separately along
+every realization of $\{z^h(t)\}_{t\ge0}$.
+
+\emph{The bound.}  Iterating the flow constraint
+$a^h(t+1)\le Ra^h(t)+wz^h(t)-c^h(t)$ forward $T$ periods and imposing the no-Ponzi condition
+$\lim_{T\to\infty}R^{-T}a^h(T)\ge0$ gives
+\[
+a^h(t)\ \ge\ -\sum_{s=0}^{\infty}R^{-(s+1)}\,w\,z^h(t+s)+\sum_{s=0}^{\infty}R^{-(s+1)}c^h(t+s)
+\ \ge\ -\sum_{s=0}^{\infty}R^{-(s+1)}\,w\,z^h(t+s) ,
+\]
+using $c\ge0$.  The binding case is the worst sample path, $z^h(t+s)=z_{\min}$ for all $s$,
+which occurs with positive probability at every horizon because the endowments are i.i.d.\ draws
+from $[z_{\min},z_{\max}]$ with $z_{\min}>0$.  Hence
+\[
+\boxed{\ a^h(t)\ \ge\ -\frac{w\,z_{\min}}{R-1}\ \equiv\ -b \ }
+\]
+for all $t$, which is \bk{(17.30)}.  The constraint is \emph{endogenous}: no one imposes it, but
+any larger debt would be defaulted on in the worst history, and lenders anticipating that would
+not extend it.  It tightens as $z_{\min}$ falls and becomes $a^h(t)\ge0$ in the limit
+$z_{\min}\to0$ --- a household with no guaranteed income cannot borrow at all.
+
+\emph{Comparison with \bk{(17.11)}.}  The complete-markets constraint is a \emph{single}
+inequality
+\[
+\sum_{t}\sum_{z^t}p_0[z^t]c[z^t]\ \le\ \sum_{t}\sum_{z^t}w_0[z^t]+R_0[z(0)]k(0) ,
+\]
+in which expenditure in one history is traded off against income in another at the market rates
+$p_0[z^t]$.  Only the \emph{present value} of the endowment matters, not its distribution across
+states; the household's consumption can therefore be made state-independent, and marginal
+utilities are equated across all histories.  In \bk{(17.30)} there is one constraint per date and
+per path, only the \emph{worst} path matters for the bound, and marginal utilities cannot be
+equated across states.
+
+Three consequences follow, and between them they are the whole content of Section 17.4:
+consumption is not fully insured and inherits idiosyncratic risk; the household accumulates
+assets for precautionary reasons, which is where the assumption $u'''>0$ enters; and the
+economy admits no representative household, so the aggregate capital stock depends on the whole
+distribution of $(a,z)$ rather than on its mean.
+\end{aex}
+
+\begin{aex}{17.21}{}
+Apply \bk{Theorems 16.1--16.7} to \bk{(17.31)}, treating $(a,z)$ as the state, $a'$ as the
+control, and taking the stationary prices $R$ and $w$ as given.
+\begin{enumerate}
+\item \emph{A compact state space.}  Below, $a\ge-b$ by \bk{(17.30)}.  Above, one needs
+      $\beta R<1$: iterating the Euler equation
+      $u'(c)=\beta R\,\E[u'(c')]$ shows that if $\beta R\ge1$ then $\{u'(c^h(t))\}$ is a
+      nonnegative supermartingale that converges almost surely, forcing $c^h(t)\to\infty$ and
+      $a^h(t)\to\infty$; with $\beta R<1$ there is $\ol a<\infty$ such that
+      $\pi(\ol a,z_{\max})\le\ol a$, and $[-b,\ol a]$ is forward invariant.  In a stationary
+      equilibrium $\beta R<1$ holds, because $R=f'(k^*)+1-\delta$ and precautionary saving pushes
+      $k^*$ above its complete-markets value, where $\beta R=1$.
+\item \emph{Assumptions 16.1--16.2.}  On the compact $[-b,\ol a]\times Z$, the correspondence
+      $G(a,z)=[-b,\,Ra+wz]$ is nonempty (since $Ra+wz\ge-Rb+wz_{\min}>-b$ by the definition of
+      $b$), compact-valued and continuous, and $U(a,a',z)=u(Ra+wz-a')$ is continuous and
+      bounded.
+\item \emph{Assumption 16.3.}  $U$ is jointly concave and \emph{strictly} concave in $a'$, so
+      \bk{Theorem 16.4} gives $V^h(\cdot,z)$ strictly concave in $a$.
+\item \emph{Assumption 16.4.}  $U$ is strictly increasing in $a$ and $G(a,z)$ expands with $a$,
+      so \bk{Theorem 16.5} gives $V^h$ strictly increasing in $a$.
+\item \emph{Assumption 16.5.}  $u$ is continuously differentiable and the optimal $a'$ is
+      interior whenever $a>-b$, so \bk{Theorem 16.6} gives differentiability of $V^h$ in $a$ on
+      the interior of the state space, with
+      $\partial V^h/\partial a=R\,u'(Ra+wz-\pi(a,z))$.
+\item \emph{Assumption 16.6.}  $U$ is strictly increasing in $z$, $G(a,z)$ expands with $z$, and
+      the endowments are i.i.d., so part 3 holds with equality:
+      $\E[W(a',z')\mid z]$ does not depend on $z$ at all.  \bk{Theorem 16.7} gives $V^h$ strictly
+      increasing in $z$.
+\end{enumerate}
+The policy $\pi(a,z)$ is unique and continuous by strict concavity of $U$ in $a'$ and Berge's
+theorem.  Monotonicity of $\pi$ in $a$ and $z$ follows from the first-order condition
+$u'(Ra+wz-a')\ge\beta R\,\E[u'(Ra'+wz'-\pi(a',z'))]$, with equality when $a'>-b$: exactly as in
+Exercise 17.1, the marginal propensity to save out of cash on hand $Ra+wz$ lies in $[0,1)$, and
+both $a$ and $z$ raise cash on hand. $\blacksquare$
+
+\rmk{Two details distinguish this from \bk{Proposition 17.2}.  First, $\pi$ is only
+\emph{nondecreasing}, not strictly increasing: the constraint $a'\ge-b$ binds on a whole interval
+of low $(a,z)$, where $\pi\equiv-b$.  This kink is the defining feature of the Bewley model, and
+it is what makes the invariant distribution of assets have a mass point at $-b$.  Second, the
+proposition's phrase ``differentiable in $a\in(-b,Ra+wz)$'' should read: differentiable at every
+$a$ in the interior of the state space at which the constraint does not bind.  At the kink the
+value function has a left and a right derivative that differ, so differentiability genuinely
+fails there --- the Benveniste--Scheinkman argument of \bk{Theorem 16.6} needs the policy to be
+interior, which is exactly what the binding constraint denies.}
+\end{aex}
+
+\solsection{17.6}{Risk, Diversification, and Growth}
+
+\begin{aex}{17.23}{}
+Fix total savings $s(t)$ and the safe investment $X(t)$; by \bk{(17.52)} the saving decision is
+made independently of the portfolio, so it is legitimate to condition on them.  The household
+chooses $\{I(j,t)\}_{j\in J(t)}$ to maximize, from \bk{(17.47)} and \bk{(17.49)},
+\[
+\Lambda\bigl(\{I(j)\}\bigr)=\int_{J(t)}\log\Bigl(R(j,t+1)\bigl(qX(t)+QI(j)\bigr)\Bigr)\dd j
++\int_{[0,1]\setminus J(t)}\log\bigl(R(j,t+1)qX(t)\bigr)\dd j
+\]
+subject to $\int_{J(t)}I(j)\dd j=s(t)-X(t)$ and $I(j)\ge0$.  Only the first integral involves the
+choice variables, and the household takes the prices $R(j,t+1)$ as given; by the symmetry of the
+environment they take a common value $R_G(t+1)$ on all of $J(t)$, since the aggregate capital
+stock is the same in every good state.  So the problem is
+\[
+\max\ \int_{J(t)}\log\bigl(qX(t)+QI(j)\bigr)\dd j
+\quad\text{subject to}\quad \int_{J(t)}I(j)\dd j=s(t)-X(t) ,
+\]
+plus an additive constant.
+
+The objective is strictly concave in $\{I(j)\}$ and the constraint is linear and symmetric across
+$j\in J(t)$.  Suppose a candidate had $I(j_1)\ne I(j_2)$ on two subsets of $J(t)$ of equal
+positive measure.  Replacing both by the average $\bar I=\tfrac12(I(j_1)+I(j_2))$ leaves the
+constraint satisfied, and by the \emph{strict} concavity of $\log$,
+\[
+\tfrac12\log\bigl(qX+QI(j_1)\bigr)+\tfrac12\log\bigl(qX+QI(j_2)\bigr)
+<\log\bigl(qX+Q\bar I\bigr) ,
+\]
+so the averaged portfolio is strictly better.  The candidate was therefore not optimal, and
+\[
+\boxed{\ I^*(j,t)=I^*(j',t)\quad\text{for all }j,j'\in J(t) . \ }
+\]
+Equivalently, the first-order condition $Q/(qX+QI(j))=\mu$ has the same right-hand side for every
+open $j$, because free entry has set every price to $P(j,t)=1$; since the map
+$I\mapsto Q/(qX+QI)$ is strictly decreasing, $I(j)$ is pinned down uniquely and identically.
+$\blacksquare$
+
+\emph{The economic content} is that all open securities are perfect substitutes in price and
+perfect complements in risk: they cost the same and pay in disjoint states, so a risk-averse
+household holds them in equal amounts.  It is worth noticing what the argument \emph{does not}
+use: it never appeals to the minimum size requirements.  That is why the equilibrium portfolio is
+always balanced while the Pareto optimal one need not be (Exercise 17.29) --- the planner faces
+the constraints $I(j)\ge M(j)$ directly, the household does not.
+\end{aex}
+
+\begin{aex}{17.24}{}
+Suppose $j^*\in J(t)$ and take any $j<j^*$, and suppose for a contradiction $j\notin J(t)$.
+
+By Exercise 17.23 the household's demand for every open security is the same number
+$I^*\equiv I^*(n^*(t))$, and since sector $j^*$ is open it must be meeting its minimum size
+requirement:
+\[
+I^*\ \ge\ M(j^*) .
+\]
+The minimum size schedule \bk{(17.43)},
+$M(j)=\max\{0,\ D(j-\gamma)/(1-\gamma)\}$, is nondecreasing, so
+\[
+M(j)\ \le\ M(j^*)\ \le\ I^* .
+\]
+Now consider an intermediary that enters and offers the security for sector $j$ at the
+equilibrium price $P(j,t)=1$.  Facing the enlarged menu, the household's optimal portfolio again
+allocates the common amount to every available security, and by \bk{(17.56)} that amount is
+\emph{increasing} in the measure of open sectors, so it is at least $I^*$.  The new sector
+therefore attracts at least $I^*\ge M(j)$, meets its minimum size requirement, and pays a
+positive return; the intermediary breaks even at $P=1$ and the household is strictly better off,
+because adding a security in a state where consumption was $R_Bq X$ raises
+$\int_0^1\log c_2(j)\dd j$ strictly.  This contradicts the free-entry requirement in the
+definition of a static equilibrium, which demands that no sector outside $J^*(t)$ could raise
+sufficient funds.  Hence $j\in J(t)$, and
+\[
+\boxed{\ J^*(t)=[0,n^*(t)]\ \text{for some }n^*(t)\in[0,1] . \ }
+\]
+$\blacksquare$
+
+The two ingredients are worth separating.  That $M$ is nondecreasing is a normalization: the
+sectors were ranked in ascending order of minimum size, and since the states are otherwise
+symmetric, nothing else distinguishes them.  That the household's demand per security is common
+across open sectors is Exercise 17.23.  Together they say that the cheapest sectors are opened
+first, and the ``supply of assets'' curve $M(j)$ in Figure 17.2 can be read as an increasing
+marginal cost of financial development.
+\end{aex}
+
+\begin{aex}{17.25}{}
+Write the excess demand for the marginal security as
+\[
+\Phi(n)\ \equiv\ I^*(n)-M(n)\ =\ \frac{(Q-q)s}{Q-qn}-\frac{D(n-\gamma)}{1-\gamma},
+\qquad n\in[\gamma,1],
+\]
+with $s\equiv s^*(t)$.  An intersection is a zero of $\Phi$.  Both curves are increasing, so
+uniqueness is not automatic; what is needed is that $M$ cut $I^*$ \emph{from below} at every
+crossing.
+
+\emph{The sign of $M'-I^{*\prime}$ at a crossing.}  Differentiating,
+\[
+M'(n)=\frac{D}{1-\gamma},\qquad
+I^{*\prime}(n)=\frac{q(Q-q)s}{(Q-qn)^2} .
+\]
+At a zero of $\Phi$ we may substitute $(Q-q)s=D(n-\gamma)(Q-qn)/(1-\gamma)$ into $I^{*\prime}$,
+which gives $I^{*\prime}(n)=qD(n-\gamma)/[(1-\gamma)(Q-qn)]$ and hence
+\[
+M'(n)-I^{*\prime}(n)
+=\frac{D}{1-\gamma}\Bigl[1-\frac{q(n-\gamma)}{Q-qn}\Bigr]
+=\frac{D}{1-\gamma}\cdot\frac{Q+q\gamma-2qn}{Q-qn} .
+\]
+Since $Q>qn$ for $n\le1$, the sign of $M'-I^{*\prime}$ at any crossing is the sign of
+\[
+Q+q\gamma-2qn .
+\]
+
+\emph{The condition.}  If $Q\ge(2-\gamma)q$ then $Q+q\gamma\ge2q\ge2qn$ for every $n\le1$, so
+$M'>I^{*\prime}$ at \emph{every} crossing --- equivalently $\Phi'<0$ at every zero of $\Phi$.
+A continuously differentiable function that is strictly decreasing at each of its zeros has at
+most one zero on an interval, since between two consecutive downcrossings it would have to
+return upward and hence cross again with $\Phi'\ge0$.  Therefore
+\[
+\boxed{\ Q\ \ge\ (2-\gamma)q\ \Longrightarrow\ \text{at most one intersection.} \ }
+\]
+Since $\Phi(\gamma)=(Q-q)s/(Q-q\gamma)>0$ and $\Phi(1)=s-D$, there is exactly one intersection
+when $s<D$, and none --- with $n^*=1$, all sectors open --- when $s\ge D$.  Either way the
+equilibrium is unique. $\blacksquare$
+
+\emph{The condition is sufficient, not necessary.}  Note that
+\[
+\Phi'(n)=\frac{q(Q-q)s}{(Q-qn)^2}-\frac{D}{1-\gamma}
+\]
+is increasing in $n$, so $\Phi$ is convex and has at most two zeros in any case; a second zero
+must be an upcrossing, hence must lie above $(Q+q\gamma)/(2q)$, and must have $\Phi(1)>0$, that
+is $s>D$.  Both requirements can be met only when $Q<(2-\gamma)q$.  \texttt{code/ch17.py}
+confirms this by exhibiting a violating example: with $Q=1.2$, $q=1$, $\gamma=0$, $D=1$ and
+$s=1.2$ the roots are $n=0.25359$ and $n=0.94641$, the threshold $(Q+q\gamma)/(2q)=0.6$ sits
+between them, and the equilibria are $n^*=0.25359$ and $n^*=1$ --- the low-diversification and
+full-diversification equilibria described in the text.  Every parameter set satisfying
+$Q\ge(2-\gamma)q$ that the program scans has exactly one equilibrium.
+\end{aex}
+
+\begin{aex}{17.26}{}
+Fix $K(t)$.  By \bk{(17.45)} the wage is $w(t)=(1-\alpha)K(t)^\alpha$, and \bk{(17.52)} gives
+\[
+s^*(t)=\frac{\beta}{1+\beta}w(t)=\Gamma K(t)^\alpha ,\qquad
+\Gamma\equiv\frac{(1-\alpha)\beta}{1+\beta} ,
+\]
+which is the expression in the proposition.  Exercises 17.23 and 17.24 reduce the equilibrium to
+a single number $n$, with the portfolio $X^*$ and $I^*$ of \bk{(17.55)}--\bk{(17.56)}.
+
+\emph{The equilibrium condition.}  $n$ is a static equilibrium if and only if
+\begin{enumerate}
+\item \emph{feasibility}: every sector $j\le n$ raises its minimum, $I^*(n)\ge M(n)$ --- since
+      $M$ is nondecreasing, checking the marginal sector suffices; and
+\item \emph{free entry}: no sector just above $n$ could raise its minimum, $I^*(n')<M(n')$ for
+      $n'$ slightly above $n$.
+\end{enumerate}
+In terms of $\Phi=I^*-M$ this says $\Phi(n)\ge0$ and $\Phi<0$ just to the right --- a
+downcrossing, or the corner $n=1$ with $\Phi(1)\ge0$.
+
+\emph{The two deviations.}  If $n<n^*[K]$, then $\Phi(n)>0$ by the argument of Exercise 17.25
+(with $\Phi>0$ on $[\gamma,n^*)$), so an intermediary that opens sector $n^\dagger\in(n,n^*)$ and
+offers its security at $P=1$ attracts the common demand $I^*(n^\dagger)>M(n^\dagger)$, covers the
+minimum, and earns nonnegative profit; charging $P=1+\varepsilon$ for small $\varepsilon>0$ still
+attracts enough funds by continuity and earns strictly positive profit.  So $n<n^*[K]$ is not an
+equilibrium.  If $n>n^*[K]$, then $\Phi(n)<0$, so $I^*(n)<M(n)$: the marginal sector cannot raise
+its minimum at any price $P\ge1$, and its securities are not supplied.  Feasibility fails and
+$n>n^*[K]$ is not an equilibrium either.
+
+\emph{Solving for $n^*$.}  Setting $\Phi(n)=0$ and clearing denominators,
+\[
+\frac{(Q-q)\Gamma K^\alpha}{Q-qn}=\frac{D(n-\gamma)}{1-\gamma}
+\quad\Longleftrightarrow\quad
+(n-\gamma)(Q-qn)=C,\qquad
+C\equiv\frac{(Q-q)(1-\gamma)\Gamma K^\alpha}{D} ,
+\]
+that is $qn^2-(Q+q\gamma)n+(\gamma Q+C)=0$.  Taking the smaller root, which is the downcrossing,
+\begin{equation}
+\boxed{\ n^*[K]=
+\frac{(Q+q\gamma)-\bigl[(Q+q\gamma)^2-4q\bigl(D^{-1}(Q-q)(1-\gamma)\Gamma K^\alpha
++\gamma Q\bigr)\bigr]^{1/2}}{2q}\ }
+\label{eq:nstar}
+\end{equation}
+for $K\le(D/\Gamma)^{1/\alpha}$, and $n^*[K]=1$ for larger $K$.  The threshold is where $s^*=D$,
+that is $\Gamma K^\alpha=D$, which is the proposition's $K>D^{1/\alpha}\Gamma^{-1/\alpha}$.
+$\blacksquare$
+
+\rmk{\bk{(17.57)} as printed has $(Q+q)^2$ inside the square root while carrying $(Q+q\gamma)$
+outside it; the quadratic above gives $(Q+q\gamma)^2$ in both places, so the printed
+discriminant is a misprint.  The corrected root has the right limit: as $K\to0$ the constant
+$C\to0$ and \eqref{eq:nstar} gives $n^*\to\gamma$, which is exactly right, since only the sectors
+with no minimum size requirement can open when there is nothing to invest.  The printed version
+gives $[(Q+q\gamma)-(Q+q)]/(2q)=(\gamma-1)/2<0$.  \texttt{code/ch17.py} tabulates both at
+$Q=2$, $q=1$, $\gamma=0.3$, $D=0.15$, $\alpha=0.36$, $\beta=0.95$; the corrected root satisfies
+$M(n^*)=I^*(n^*)$ to within $10^{-16}$ at every $K$, and the printed one is negative at small
+$K$.  Everything that \bk{Proposition 17.7} asserts --- that $n^*$ is increasing in $K$ and
+reaches $1$ at $K=(D/\Gamma)^{1/\alpha}$ --- holds for the corrected root.  The program also
+verifies that \bk{(17.61)}, $D<\Gamma^{1/(1-\alpha)}Q^{\alpha/(1-\alpha)}$, is algebraically
+identical to $K_{SS}\ge\ol K$, which is how it is used in Exercise 17.27.}
+\end{aex}
+
+\begin{aex}{17.27}{}
+\textbf{(a)}  Write $\ol K$ for the capital stock at which all sectors open,
+$n^*[\ol K]=1$, so $\ol K=(D/\Gamma)^{1/\alpha}$ by Exercise 17.26, and
+$K_{SS}=(\Gamma Q)^{1/(1-\alpha)}$ by \bk{(17.60)}.  Condition \bk{(17.61)} is exactly
+$K_{SS}\ge\ol K$.  The proof has three steps.
+
+\emph{Step 1: $[\ol K,\infty)$ is absorbing, and on it the dynamics are deterministic.}  If
+$K(t)\ge\ol K$ then $n^*[K(t)]=1$: every sector is open, the good state occurs with probability
+one, and \bk{(17.58)} reduces to
+\[
+K(t+1)=\Gamma QK(t)^\alpha ,
+\]
+a deterministic, increasing, strictly concave map with the unique positive fixed point
+$K_{SS}$.  Since $\alpha<1$ this map is a contraction on $[\ol K,\infty)$ in the appropriate
+sense and $K(t)\to K_{SS}$ monotonically.  It stays in $[\ol K,\infty)$ because
+$\Gamma Q\ol K^\alpha\ge\ol K$ whenever $\ol K\le K_{SS}$, which is \bk{(17.61)}.
+
+\emph{Step 2: $K(t)$ is bounded away from zero.}  From \bk{(17.58)}, even after a bad draw,
+\[
+K(t+1)\ \ge\ \frac{\Gamma q\bigl(1-n^*[K(t)]\bigr)}{Q-qn^*[K(t)]}\,QK(t)^\alpha
+\ \ge\ \frac{\Gamma q(1-\gamma)Q}{Q-q\gamma}\,K(t)^\alpha\cdot\frac{1-n^*}{1-\gamma}
+\cdot\frac{Q-q\gamma}{Q-qn^*} ,
+\]
+and since $n^*[K]\to\gamma$ as $K\to0$, the coefficient tends to
+$\Gamma q(1-\gamma)Q/(Q-q\gamma)>0$.  With $\alpha<1$ the map $K\mapsto cK^\alpha$ has a
+positive fixed point $K_{QSSB}$ and exceeds $K$ below it, so both branches of \bk{(17.58)} lie
+above the $45^{\circ}$ line for small $K$ (region I of Figure 17.4).  Consequently there is
+$\underline K>0$, depending only on $K(0)$, with $K(t)\ge\underline K$ for all $t$, almost
+surely.
+
+\emph{Step 3: the good region is reached almost surely.}  On $[\underline K,\ol K]$ the
+probability of a good draw is $n^*[K]\ge n^*[\underline K]>\gamma\ge0$ --- strictly positive,
+since $C>0$ for $K>0$ makes the root of \eqref{eq:nstar} exceed $\gamma$.  Write
+$\underline n\equiv n^*[\underline K]>0$.  Along a run of consecutive good draws the capital
+stock follows $K\mapsto\Gamma QK^\alpha$, which increases monotonically toward $K_{SS}\ge\ol K$;
+hence there is a finite $m$, depending only on $\underline K$, such that $m$ consecutive good
+draws starting anywhere in $[\underline K,\ol K]$ bring the economy into $[\ol K,\infty)$.  The
+events
+\[
+A_i=\{\text{good draws at }t=im,\dots,(i+1)m-1\},\qquad i=0,1,2,\dots,
+\]
+satisfy $\Prob[A_i\mid\mathcal F_{im}]\ge\underline n^{\,m}>0$ on the event that the economy has
+not yet entered $[\ol K,\infty)$.  By the conditional Borel--Cantelli lemma,
+$\sum_i\Prob[A_i\mid\mathcal F_{im}]=\infty$ implies that some $A_i$ occurs almost surely.
+Combining with Step 1,
+\[
+\boxed{\ \Prob\Bigl[\lim_{t\to\infty}K(t)=K_{SS}\Bigr]=1 . \ }
+\]
+$\blacksquare$
+
+\textbf{(b)}  If \bk{(17.61)} fails then $K_{SS}<\ol K$: even an economy that is lucky in every
+period converges to $K_{QSSG}=K_{SS}$, which is \emph{below} the level needed to open all
+sectors.  The absorbing region of part (a) is empty, and $n^*[K(t)]<1$ forever, so a bad draw is
+always possible and the process never becomes deterministic.  Consequently:
+\begin{itemize}
+\item $\{K(t)\}$ does \emph{not} converge to a point, and does not converge almost surely at all.
+      The argument of Exercise 17.4(b) applies unchanged: the two branches of \bk{(17.58)} are
+      distinct at every $K$, both are hit infinitely often, and a limit would have to be a fixed
+      point of both;
+\item but $\{K(t)\}$ \emph{does} converge in distribution.  Both branches of \bk{(17.58)} are
+      increasing and concave in $K$, the upper one has the fixed point $K_{QSSG}$ and the lower
+      one $K_{QSSB}$, so $[K_{QSSB},K_{QSSG}]$ is forward invariant and is reached in finite time
+      from any $K(0)>0$.  On that compact interval the process is a monotone Markov process
+      satisfying a mixing condition, so it has a unique invariant distribution $\Psi$ and
+      $K(t)\Rightarrow\Psi$ from every initial condition, with time averages converging to
+      $\Psi$-averages.
+\end{itemize}
+Economically, failing \bk{(17.61)} means the economy is never rich enough to insure itself: it
+remains permanently in regions I and II of Figure 17.4, cycling between booms and crises, with
+the expected TFP of \bk{(17.59)} fluctuating with $n^*[K(t)]$ but never reaching $Q$.  There is
+no takeoff.  The gap between the two cases is the point of the model: whether an economy
+eventually escapes volatility is not a matter of luck alone but of whether the scale of savings
+that its own steady state generates, $\Gamma^{1/(1-\alpha)}Q^{\alpha/(1-\alpha)}$, is large
+relative to the fixed cost $D$ of the last sector.
+\end{aex}
+
+\begin{aex}{17.28}{}
+By definition $\sigma(n^*)$ takes the value $q(1-n^*)Q/(Q-qn^*)$ with probability $1-n^*$ and
+the value $Q$ with probability $n^*$.  Writing $A\equiv q(1-n^*)Q/(Q-qn^*)$, the gap between the
+two realizations is
+\[
+Q-A=\frac{Q(Q-qn^*)-q(1-n^*)Q}{Q-qn^*}=\frac{Q(Q-q)}{Q-qn^*} ,
+\]
+and for a two-point random variable with probabilities $n^*$ and $1-n^*$ the variance is
+$n^*(1-n^*)$ times the squared gap:
+\[
+\boxed{\ V_n=\Var\bigl(\sigma(n^*)\mid n^*\bigr)
+=n^*(1-n^*)\Bigl[\frac{Q(Q-q)}{Q-qn^*}\Bigr]^{2} , \ }
+\]
+which is the expression in the proposition.
+
+\emph{Single-peakedness.}  Take logs and differentiate:
+\[
+\log V_n=\log n^*+\log(1-n^*)+2\log\bigl(Q(Q-q)\bigr)-2\log(Q-qn^*) ,
+\]
+\[
+\frac{\dd\log V_n}{\dd n^*}=\frac{1}{n^*}-\frac{1}{1-n^*}+\frac{2q}{Q-qn^*}
+=\frac{(1-2n^*)(Q-qn^*)+2qn^*(1-n^*)}{n^*(1-n^*)(Q-qn^*)} .
+\]
+The numerator expands to $Q-qn^*-2n^*Q+2q(n^*)^2+2qn^*-2q(n^*)^2=Q-n^*(2Q-q)$, so
+\[
+\frac{\dd V_n}{\dd n^*}
+\ \ \text{has the sign of}\ \ Q-n^*(2Q-q),
+\]
+the denominator $n^*(1-n^*)(Q-qn^*)$ being positive on $(0,1)$.  Hence $V_n$ is strictly
+increasing for $n^*<\hat n$ and strictly decreasing for $n^*>\hat n$, where
+\[
+\hat n\equiv\frac{Q}{2Q-q}\ \in\ \Bigl(\tfrac12,\,1\Bigr) ,
+\]
+the bounds following from $0<q<Q$.  (A grid search in \texttt{code/ch17.py} locates the maximum
+at $0.666666$ for $Q=2$, $q=1$, against $\hat n=2/3$.)
+
+\emph{Translating to $K$.}  By \bk{Proposition 17.7}, $n^*[K]$ is continuous and strictly
+increasing in $K$, with $n^*[K]\to\gamma$ as $K\to0$ and $n^*[K]=1$ for
+$K\ge\ol K$; in particular $n^*[K]\ge\gamma$ for every $K$.  Therefore
+\begin{itemize}
+\item if $\gamma\ge\hat n=Q/(2Q-q)$, then $n^*[K]\ge\gamma\ge\hat n$ for every $K$, the economy
+      is permanently on the decreasing branch, and $\partial V_n/\partial K\le0$ for all
+      $K\ge0$;
+\item if $\gamma<\hat n$, then since $n^*[\,\cdot\,]$ is continuous and increasing from $\gamma$
+      to $1$, there is a unique $\wt K$ with $n^*[\wt K]=\hat n<1$, and
+      \[
+      \frac{\partial V_n}{\partial K}>0\ \ \text{for } K<\wt K,
+      \qquad
+      \frac{\partial V_n}{\partial K}\le0\ \ \text{for } K\ge\wt K .
+      \]
+\end{itemize}
+$\blacksquare$
+
+\emph{The two forces.}  $n^*(1-n^*)$ is the pure Bernoulli variance, maximal at $n^*=\tfrac12$
+and vanishing at both ends; $[Q(Q-q)/(Q-qn^*)]^2$ is the squared gap between good and bad TFP,
+which \emph{rises} with $n^*$ because better diversification draws savings out of the safe asset
+and makes a bad draw more costly.  The second force shifts the peak from $\tfrac12$ up to
+$Q/(2Q-q)$, and its strength is governed by $q/Q$: as $q\to0$ the safe asset is worthless, the
+gap is constant, and $\hat n\to\tfrac12$; as $q\to Q$ the two technologies coincide, the gap
+vanishes, and $\hat n\to1$.  The right panel of Figure~\ref{fig:ch17} shows both cases.  Since
+the peak always lies above $\tfrac12$, the empirically relevant statement is the one the text
+draws: except at very low capital stocks, the volatility of growth is decreasing in income.
+\end{aex}
+
+\begin{aex}{17.29}{}
+The planner solves \bk{(17.63)}: choose $n$, $X$ and $\{I(j)\}_{j\le n}$ to maximize
+\[
+\int_0^{n}\log\bigl(qX+QI(j)\bigr)\dd j+(1-n)\log(qX)
+\qquad\text{subject to}\qquad
+X+\int_0^{n}I(j)\dd j\le s ,
+\]
+together with $I(j)\ge M(j)$ for every open $j$ --- a sector is open only if its minimum size is
+met.  (That the open set may be taken to be an interval $[0,n]$ follows from Exercise 17.24,
+since $M$ is nondecreasing.)  Attach the multiplier $\mu>0$ to the resource constraint and
+$\nu(j)\ge0$ to $I(j)\ge M(j)$.
+
+\emph{The portfolio, for given $n$.}  The first-order condition in $I(j)$ is
+\begin{equation}
+\frac{Q}{qX+QI(j)}=\mu-\nu(j),\qquad \nu(j)\bigl[I(j)-M(j)\bigr]=0 .
+\label{eq:planI}
+\end{equation}
+Where the minimum does not bind, $\nu(j)=0$ and \eqref{eq:planI} gives the \emph{same} value of
+$I(j)$ for every such $j$; call it $\ol I\equiv(Q/\mu-qX)/Q$.  Where it binds, $I(j)=M(j)>\ol I$.
+Since $M$ is nondecreasing, the set on which it binds is an upper interval, so defining
+$j^*$ by $M(j^*)=\ol I$,
+\[
+\boxed{\
+I^S(j)=\begin{cases}
+M(j^*)=\ol I>M(j), & j<j^*,\\[2pt]
+M(j), & j\in[j^*,n^S],\\[2pt]
+0, & j>n^S,
+\end{cases}\ }
+\]
+which is \bk{(17.64)}.  The portfolio is \emph{unbalanced} whenever $j^*<n^S$, that is whenever
+some sector's minimum binds: the planner puts the common amount $\ol I$ into the cheap sectors
+and exactly the required minimum into the expensive ones, cross-subsidizing the latter.
+
+\emph{The margin in $n$.}  Differentiating the objective in $n$ and using \eqref{eq:planI},
+\begin{equation}
+\log\bigl(qX+QI(n)\bigr)-\log(qX)\ =\ \mu\,I(n) .
+\label{eq:plann}
+\end{equation}
+The left-hand side is the \emph{first-order} gain in expected log utility from having one more
+state insured; the right-hand side is the resource cost at the shadow price $\mu$.
+
+\emph{Why $n^S>n^*$ when $s<D$.}  In the decentralized equilibrium the household takes $n$ as
+given: it never faces \eqref{eq:plann}, only \eqref{eq:planI} with $\nu\equiv0$, which is why its
+portfolio is always balanced (Exercise 17.23).  Evaluate the planner's condition
+\eqref{eq:plann} at the \emph{equilibrium} allocation, where $I(j)\equiv I^*$ for $j\le n^*$ and
+the marginal sector is $n^*$ with $I^*(n^*)=M(n^*)$.  The left-hand side is strictly positive
+and, because $\log$ is strictly concave with an unbounded derivative at $qX$, it exceeds
+$\mu I^*$ for the equilibrium $\mu$: adding a state in which consumption jumps from $R_BqX$ to
+$R_G(qX+QI)$ has a first-order benefit that no single household internalizes.  Hence at
+$n=n^*$ the planner's objective is still increasing in $n$, and $n^S[K]>n^*[K]$.  Financing the
+extra sectors requires resources, which the planner takes out of the safe asset, so
+$X^S<X^*[K]$: the cross-subsidy runs from the safe asset and the low-$M$ sectors toward the
+marginal high-$M$ sectors.
+
+\emph{The case $s\ge D$.}  If $s\ge D=M(1)$ the planner can set $n^S=1$, $X^S=0$ and
+$I^S(j)=s$ for all $j\in[0,1]$: this satisfies the resource constraint with equality, since
+$\int_0^1s\dd j=s$, and meets every minimum, since $s\ge D\ge M(j)$.  It attains the first-best,
+because consumption is then $R\cdot Qs$ in \emph{every} state --- all risk is diversified --- and
+no resources are wasted on the dominated safe technology ($q<Q$).  The portfolio is balanced,
+and $n^S=n^*=1$, so the equilibrium is Pareto optimal exactly when the economy is rich enough to
+open every sector. $\blacksquare$
+
+\rmk{This is a pecuniary externality that is \emph{not} neutralized by the First Welfare
+Theorem, and it is worth being precise about why.  The set of traded commodities is determined
+endogenously by the free-entry condition $I\ge M$, not by a price system: a security that is not
+traded has no price, whereas in an Arrow--Debreu equilibrium every commodity is priced and is
+untraded only because its price clears at zero excess supply.  Because of the nonconvexity
+introduced by the minimum size requirements, no Arrow--Debreu equilibrium exists here at all, so
+the theorem has nothing to apply to.  Exercise 17.23's result --- that the household's portfolio
+is always balanced --- is the mechanism: prices $P(j,t)=1$ are equal across open sectors, so
+households equalize their holdings, while optimality calls for unequal holdings.  Section
+17.6.5 and \bk{Proposition 17.12} show that this is not repaired by allowing intermediary
+coalitions, provided they cannot exclude non-members from investing.}
 \end{aex}
 
 \end{document}

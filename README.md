@@ -25,7 +25,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 14. Models of Schumpeterian Growth | 35 | 15 | **20** — 14.1, 14.3–14.5, 14.8–14.11, 14.16, 14.17, 14.23–14.25, 14.28–14.34 |
 | 15. Directed Technological Change | 31 | 10 | **21** — 15.1–15.5, 15.7–15.10, 15.12–15.17, 15.21–15.23, 15.25, 15.26, 15.30 |
 | 16. Stochastic Dynamic Programming | 16 | 11 | **5** — 16.1, 16.2, 16.5–16.7 |
-| 17–23 | 176 | 67 | in progress |
+| 17. Stochastic Growth Models | 30 | 7 | **23** — 17.1–17.4, 17.6, 17.8–17.12, 17.14, 17.16, 17.17, 17.19–17.21, 17.23–17.29 |
+| 18–23 | 146 | 60 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -117,6 +118,13 @@ chapter and writes that chapter's figures to `figures/`. So far:
   (Exercise 15.5); how the allocation of scientists responds to research productivity
   (Exercise 15.10); the stability condition for the labour-augmenting BGP (Exercise 15.25); and
   the moments of a Pareto distribution (Exercise 15.30).
+- **`ch17.py`** — the Brock–Mirman policy functions by the endogenous grid method, which locates
+  the curvature below which consumption stops rising in the shock (Exercise 17.1) and confirms
+  that the capital stock keeps fluctuating (Exercise 17.4); the constant-saving-rate economy
+  against the optimal one (Exercise 17.3); the savings rate that is exactly \(\alpha\beta\) at
+  \(\delta = 1\) and varies otherwise (Exercise 17.8); a violating parameter set with two
+  intersections (Exercise 17.25); a check of the discriminant printed in (17.57)
+  (Exercise 17.26); and the peak of the TFP variance (Exercise 17.28).
 
 ## Working files (not part of the document)
 
