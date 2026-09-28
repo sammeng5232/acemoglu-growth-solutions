@@ -47,6 +47,8 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\E}{\mathrm{E}}                  % expectation operator (upright, as in the book)
 \newcommand{\Prob}{\mathrm{Pr}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
 \newcommand{\wh}[1]{\widehat{#1}}
 \newcommand{\wt}[1]{\widetilde{#1}}
 \newcommand{\ol}[1]{\overline{#1}}
@@ -179,9 +181,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--14\par}
+{\large Chapters 2--15\par}
 \vspace{0.6cm}
-{\small The 177 exercises that the instructor's solutions manual of\par
+{\small The 198 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -10492,6 +10494,869 @@ competition and growth.  In Sections 14.1--14.3 any policy that moves rents from
 others reduces growth one for one.  Once the reward to innovation depends on the technology gap,
 policies are evaluated by their effect on the \emph{distribution} of gaps as well as on the level
 of rents, and the two can pull in opposite directions.}
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{15}{Directed Technological Change}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The twenty-one exercises of Chapter 15 left unsolved in the instructor's manual: Exercises
+15.1--15.5, 15.7--15.10, 15.12--15.17, 15.21--15.23, 15.25, 15.26 and 15.30.  The manual solves
+15.6, 15.11, 15.18--15.20, 15.24, 15.27--15.29 and 15.31.  Notation follows the book:
+$\varepsilon$ is the elasticity of substitution between the two intermediate goods,
+$\sigma\equiv1+(\varepsilon-1)\beta$ the derived elasticity of substitution between the factors,
+$\gamma\equiv\gamma_H/\gamma_L$, $\eta\equiv\eta_H/\eta_L$, $\delta$ the degree of state
+dependence in Section 15.4, $\lambda$ the spillover parameter in Section 15.5, and $S$ the supply
+of scientists.  The numerical parts are computed by \texttt{code/ch15.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{15.1}{}
+With
+$Y=\bigl[\gamma_L(A_LL)^{\frac{\sigma-1}{\sigma}}+\gamma_H(A_HH)^{\frac{\sigma-1}{\sigma}}\bigr]^{\frac{\sigma}{\sigma-1}}$,
+differentiate in $L$:
+\[
+\frac{\partial Y}{\partial L}
+=\frac{\sigma}{\sigma-1}\bigl[\cdot\bigr]^{\frac{\sigma}{\sigma-1}-1}
+\gamma_L\frac{\sigma-1}{\sigma}(A_LL)^{-\frac{1}{\sigma}}A_L
+=\bigl[\cdot\bigr]^{\frac{1}{\sigma-1}}\gamma_LA_L^{\frac{\sigma-1}{\sigma}}L^{-\frac{1}{\sigma}}
+=Y^{\frac{1}{\sigma}}\gamma_LA_L^{\frac{\sigma-1}{\sigma}}L^{-\frac{1}{\sigma}} ,
+\]
+using $[\cdot]^{1/(\sigma-1)}=Y^{1/\sigma}$.  The same computation in $H$ gives
+$\partial Y/\partial H=Y^{1/\sigma}\gamma_HA_H^{(\sigma-1)/\sigma}H^{-1/\sigma}$, so the common
+factor $Y^{1/\sigma}$ cancels in the ratio:
+\[
+\boxed{\ \frac{MP_H}{MP_L}
+=\gamma\Bigl(\frac{A_H}{A_L}\Bigr)^{\frac{\sigma-1}{\sigma}}\Bigl(\frac{H}{L}\Bigr)^{-\frac{1}{\sigma}},
+\qquad \gamma\equiv\frac{\gamma_H}{\gamma_L} ,\ }
+\]
+which is \bk{(15.1)}. $\blacksquare$
+
+Three consequences follow by inspection, and they organize the whole chapter.
+
+\emph{$\sigma$ is the elasticity of substitution.}  Taking logarithms,
+$\log(MP_H/MP_L)=\text{const}-\sigma^{-1}\log(H/L)$, so
+$\sigma=-\bigl[\dd\log(MP_H/MP_L)/\dd\log(H/L)\bigr]^{-1}$, as the footnote to \bk{(15.1)}
+records.  The constant-technology relative demand curve is downward sloping with slope $-1/\sigma$.
+
+\emph{Factor-augmenting is not factor-biased.}  The exponent on $A_H/A_L$ is
+$(\sigma-1)/\sigma$, so
+\[
+\frac{\partial}{\partial(A_H/A_L)}\frac{MP_H}{MP_L}\ \gtrless\ 0
+\qquad\text{according as}\qquad
+\sigma\ \gtrless\ 1 .
+\]
+$H$-augmenting technological change is $H$-\emph{biased} only when the factors are gross
+substitutes.  When they are gross complements it is $L$-biased, and when $\sigma=1$ it is neutral.
+
+\emph{Why complementarity reverses the sign.}  With $\sigma<1$ the two factors must be used in
+near-fixed proportions, so raising the productivity of $H$ creates an excess supply of
+$H$-services and an excess demand for $L$.  In the Leontief limit $\sigma\to0$, starting from
+$\gamma_LA_LL=\gamma_HA_HH$, any increase in $A_H$ drives the price of $H$ to zero.
+\end{aex}
+
+\begin{aex}{15.2}{}
+\emph{The technology ratio.}  If both \bk{(15.20)} and \bk{(15.21)} hold as equalities, dividing
+gives $\eta_LV_L=\eta_HV_H$, which is \bk{(15.26)}.  Substituting \bk{(15.25)},
+\[
+\frac{\eta_H}{\eta_L}\,\gamma^{\frac{\varepsilon}{\sigma}}
+\Bigl(\frac{N_H}{N_L}\Bigr)^{-\frac{1}{\sigma}}\Bigl(\frac HL\Bigr)^{\frac{\sigma-1}{\sigma}}=1
+\qquad\Longrightarrow\qquad
+\frac{N_H}{N_L}=\eta^{\sigma}\gamma^{\varepsilon}\Bigl(\frac HL\Bigr)^{\sigma-1} ,
+\]
+which is \bk{(15.27)}.
+
+\emph{The growth rate.}  Free entry in the $L$ sector with $V_L=\beta p_L^{1/\beta}L/r^{*}$ from
+\bk{(15.24)} gives $r^{*}=\eta_L\beta p_L^{1/\beta}L$, so we need $p_L$.  Condition \bk{(15.26)}
+reads $\eta_L p_L^{1/\beta}L=\eta_Hp_H^{1/\beta}H$, that is
+$p_H=p_L\bigl(\eta_LL/\eta_HH\bigr)^{\beta}$.  Substituting into the price normalization
+\bk{(15.10)}, and using $\beta(1-\varepsilon)=-(\sigma-1)$,
+\[
+p_L^{1-\varepsilon}\Bigl[\gamma_L^{\varepsilon}
++\gamma_H^{\varepsilon}\Bigl(\frac{\eta_HH}{\eta_LL}\Bigr)^{\sigma-1}\Bigr]=1
+\qquad\Longrightarrow\qquad
+p_L^{1-\varepsilon}=\frac{(\eta_LL)^{\sigma-1}}
+{\gamma_L^{\varepsilon}(\eta_LL)^{\sigma-1}+\gamma_H^{\varepsilon}(\eta_HH)^{\sigma-1}} .
+\]
+Since $1-\varepsilon=-(\sigma-1)/\beta$, raising to the power $-1/(\sigma-1)$ gives
+$p_L^{1/\beta}$, and
+\[
+r^{*}=\eta_L\beta L\cdot\frac{\bigl[\gamma_H^{\varepsilon}(\eta_HH)^{\sigma-1}
++\gamma_L^{\varepsilon}(\eta_LL)^{\sigma-1}\bigr]^{\frac{1}{\sigma-1}}}{\eta_LL}
+=\beta\bigl[\gamma_H^{\varepsilon}(\eta_HH)^{\sigma-1}
++\gamma_L^{\varepsilon}(\eta_LL)^{\sigma-1}\bigr]^{\frac{1}{\sigma-1}} .
+\]
+The Euler equation \bk{(15.22)} then gives \bk{(15.29)},
+\[
+\boxed{\ g^{*}=\frac{1}{\theta}\Bigl(\beta\bigl[\gamma_H^{\varepsilon}(\eta_HH)^{\sigma-1}
++\gamma_L^{\varepsilon}(\eta_LL)^{\sigma-1}\bigr]^{\frac{1}{\sigma-1}}-\rho\Bigr) .\ }
+\]
+Note that $r^{*}$ is symmetric in the two sectors --- it is a CES aggregate of the two
+\emph{effective} factor supplies $\eta_fF$ --- so the same expression would have followed from
+free entry in the $H$ sector.
+
+\emph{The two conditions.}  The first inequality in \bk{(15.28)} says $r^{*}>\rho$, hence
+$g^{*}>0$.  The second says $(1-\theta)r^{*}<\rho$; since $r^{*}=\theta g^{*}+\rho$, this is
+equivalent to $(1-\theta)g^{*}<\rho$, which makes
+$\int_0^\infty e^{-\rho t}C(t)^{1-\theta}\dd t$ converge.  It is also the transversality
+condition \bk{(15.23)}: free entry gives $V_f=1/\eta_f$, so total corporate wealth is
+$N_L/\eta_L+N_H/\eta_H$, which grows at $g^{*}$, and \bk{(15.23)} requires $g^{*}<r^{*}$ --- the
+same inequality.
+
+\emph{Both free-entry conditions bind.}  Suppose one were slack, say $\eta_HV_H<1$, so that
+$Z_H=0$ and $N_H$ were constant while $N_L$ grew.  Then $N_H/N_L$ would fall without bound, and
+by \bk{(15.25)} $V_H/V_L$ would rise without bound, so $\eta_HV_H$ would eventually exceed
+$\eta_LV_L=1$ --- a contradiction.  Hence in a BGP both hold with equality, and \bk{(15.27)} is
+the unique relative technology. $\blacksquare$
+\end{aex}
+
+\begin{aex}{15.3}{}
+By \bk{(15.25)},
+\[
+\frac{V_H(t)}{V_L(t)}=\gamma^{\frac{\varepsilon}{\sigma}}
+\Bigl(\frac{N_H(t)}{N_L(t)}\Bigr)^{-\frac{1}{\sigma}}\Bigl(\frac HL\Bigr)^{\frac{\sigma-1}{\sigma}} ,
+\]
+which is \emph{strictly decreasing} in $N_H/N_L$, whatever $\sigma$: a larger stock of
+$H$-augmenting machines lowers the relative value of inventing one more, because the intermediate
+good $Y_H$ becomes relatively cheap.
+
+Suppose $N_H(0)/N_L(0)<(N_H/N_L)^{*}$ as given by \bk{(15.27)}.  Then
+\[
+\eta_HV_H(0)>\eta_LV_L(0) ,
+\]
+so the two free-entry conditions \bk{(15.20)}--\bk{(15.21)} cannot both hold as equalities: the
+one that binds is the $H$ condition, $\eta_HV_H=1$, and $\eta_LV_L<1$.  Hence $Z_H(t)>0$ and
+$Z_L(t)=0$: all research is directed at $H$-augmenting machines.  This raises $N_H/N_L$, which
+lowers $V_H/V_L$, until the ratio reaches $(N_H/N_L)^{*}$, at which point both conditions hold as
+equalities and research is split between the two sectors so as to keep the ratio there.  The
+symmetric argument applies when $N_H(0)/N_L(0)>(N_H/N_L)^{*}$. $\blacksquare$
+
+\emph{Uniqueness.}  Along the transition only one sector receives research, so the path of
+$N_H/N_L$ is pinned down; the level of $N_L+N_H$ and the split of output between consumption and
+R\&D follow from the Euler equation and the transversality condition exactly as in Exercise 13.10.
+
+\rmk{The dynamics are unusually simple: the relative technology moves monotonically and the
+economy specializes completely in one direction of research until balance is restored.  That is a
+consequence of the lab-equipment specification, in which the two research technologies are
+perfectly substitutable uses of the final good.  Exercise 15.11 shows that with knowledge
+spillovers and enough state dependence the same comparison can instead be \emph{destabilizing},
+sending $N_H/N_L$ to zero or infinity.}
+\end{aex}
+
+\begin{aex}{15.4}{}
+Substitute \bk{(15.27)} into the constant-technology relative wage \bk{(15.19)}:
+\[
+\omega^{*}=\gamma^{\frac{\varepsilon}{\sigma}}
+\Bigl(\frac{N_H}{N_L}\Bigr)^{\frac{\sigma-1}{\sigma}}\Bigl(\frac HL\Bigr)^{-\frac{1}{\sigma}}
+=\gamma^{\frac{\varepsilon}{\sigma}}
+\Bigl[\eta^{\sigma}\gamma^{\varepsilon}\Bigl(\frac HL\Bigr)^{\sigma-1}\Bigr]^{\frac{\sigma-1}{\sigma}}
+\Bigl(\frac HL\Bigr)^{-\frac{1}{\sigma}} .
+\]
+Collecting the exponents: on $\eta$, $\sigma\cdot\frac{\sigma-1}{\sigma}=\sigma-1$; on $\gamma$,
+$\frac{\varepsilon}{\sigma}+\frac{\varepsilon(\sigma-1)}{\sigma}=\varepsilon$; and on $H/L$,
+\[
+\frac{(\sigma-1)^{2}}{\sigma}-\frac{1}{\sigma}=\frac{\sigma^{2}-2\sigma}{\sigma}=\sigma-2 .
+\]
+Hence
+\[
+\boxed{\ \omega^{*}=\eta^{\sigma-1}\gamma^{\varepsilon}\Bigl(\frac HL\Bigr)^{\sigma-2}\ }
+\]
+which is \bk{(15.30)}. $\blacksquare$
+
+The exponent $\sigma-2$ is the whole content of \bk{Proposition 15.4}.  It exceeds the
+constant-technology exponent $-1/\sigma$ for every $\sigma>0$, since
+$\sigma-2+1/\sigma=(\sigma-1)^{2}/\sigma\ge0$: the endogenous-technology relative demand curve is
+always \emph{shallower} than the constant-technology one, which is \bk{Proposition 15.3}.  And it
+is positive --- an upward-sloping relative demand curve --- exactly when $\sigma>2$.
+\end{aex}
+
+\begin{aex}{15.5}{}
+Write $A_f\equiv\eta_fF$ for the effective supply of factor $f$ and
+\[
+r^{*}=\beta\,R,
+\qquad
+R\equiv\bigl[\gamma_H^{\varepsilon}A_H^{\sigma-1}+\gamma_L^{\varepsilon}A_L^{\sigma-1}
+\bigr]^{\frac{1}{\sigma-1}} ,
+\]
+and recall $\gamma_L+\gamma_H=1$, so raising $\gamma=\gamma_H/\gamma_L$ means raising $\gamma_H$
+and lowering $\gamma_L$.  Then
+\[
+\frac{\partial R^{\sigma-1}}{\partial\gamma_H}
+=\varepsilon\Bigl[\gamma_H^{\varepsilon-1}A_H^{\sigma-1}-\gamma_L^{\varepsilon-1}A_L^{\sigma-1}\Bigr] ,
+\]
+and since $R=\bigl(R^{\sigma-1}\bigr)^{1/(\sigma-1)}$,
+\[
+\boxed{\ \sgn\frac{\partial g^{*}}{\partial\gamma_H}
+=\sgn(\sigma-1)\cdot\sgn\Bigl[\gamma_H^{\varepsilon-1}A_H^{\sigma-1}
+-\gamma_L^{\varepsilon-1}A_L^{\sigma-1}\Bigr] .\ }
+\]
+
+\emph{A cleaner statement.}  Let
+$s_H\equiv\gamma_H^{\varepsilon}A_H^{\sigma-1}/\bigl[\gamma_H^{\varepsilon}A_H^{\sigma-1}
++\gamma_L^{\varepsilon}A_L^{\sigma-1}\bigr]$ be the $H$ sector's share of the aggregate inside
+$R$.  Then the bracket is positive if and only if $s_H/\gamma_H>s_L/\gamma_L$, that is if and only
+if $s_H>\gamma_H$.  So
+\[
+\frac{\partial g^{*}}{\partial\gamma}>0
+\quad\Longleftrightarrow\quad
+\text{either }\sigma>1\text{ and }s_H>\gamma_H,
+\quad\text{or }\sigma<1\text{ and }s_H<\gamma_H .
+\]
+Recall $\sgn(\sigma-1)=\sgn(\varepsilon-1)$.  With $\beta=1/2$, $\eta_HH=\eta_LL$ the program
+gives
+\[
+\begin{array}{ccccc}
+\varepsilon & \gamma_H & s_H & s_H>\gamma_H & \partial r^{*}/\partial\gamma_H\\
+0.5 & 0.2 & 0.333 & \text{yes} & -0.257\\
+0.5 & 0.8 & 0.667 & \text{no} & +0.257\\
+2.0 & 0.2 & 0.059 & \text{no} & -0.816\\
+2.0 & 0.8 & 0.941 & \text{yes} & +0.816
+\end{array}
+\]
+
+\emph{Why it is ambiguous.}  The growth rate is driven by the interest rate, which is the return
+to R\&D, and in a BGP that return is the same in both sectors.  Raising $\gamma_H$ shifts demand
+from $Y_L$ to $Y_H$: it raises the profitability of $H$-research and lowers that of $L$-research.
+Whether the common return rises depends on which sector was contributing more --- and on whether
+the two are substitutes or complements.  With gross substitutes ($\sigma>1$) the aggregate is
+dominated by the \emph{larger} sector, so tilting weight toward a sector that already accounts for
+more than its weight raises $r^{*}$.  With gross complements the aggregate is dominated by the
+\emph{smaller} sector --- the bottleneck --- so the same tilt lowers it.  There is nothing special
+about $\gamma$ here: it is the familiar fact that a CES aggregate responds to a reweighting in a
+direction that depends on the elasticity.
+\end{aex}
+
+\begin{aex}{15.7}{}
+Under \bk{(15.31)}, one scientist employed on $L$-augmenting research generates new machine
+varieties at the flow rate
+\[
+\frac{\partial\dt N_L(t)}{\partial S_L(t)}=\eta_LN_L(t)^{\frac{1+\delta}{2}}N_H(t)^{\frac{1-\delta}{2}} ,
+\]
+each worth $V_L(t)$ by \bk{(15.8)}.  Her cost is the market wage of scientists, $w_S(t)$.  With
+free entry into research, the value of hiring one more scientist cannot be strictly positive, and
+must be exactly zero wherever research is actually undertaken:
+\[
+\boxed{\
+\eta_LN_L^{\frac{1+\delta}{2}}N_H^{\frac{1-\delta}{2}}V_L(t)\le w_S(t),
+\quad\text{with equality if }S_L(t)>0 ,\ }
+\]
+which is \bk{(15.33)}, and symmetrically \bk{(15.34)} with the exponents interchanged.
+
+\emph{Intuition.}  Scientists are a \emph{scarce} factor with a single market wage, so the two
+research sectors bid against each other for them.  In any equilibrium with research in both
+directions their marginal value products must be equal, and equal to $w_S$.  What differs between
+the two conditions is only the productivity term, and there the exponents matter: with $\delta=0$
+both frontiers carry $(N_LN_H)^{1/2}$, so the stock of knowledge helps the two sectors equally and
+drops out of the comparison; with $\delta>0$ a large $N_L$ makes $L$-research more productive than
+$H$-research, so past research in a direction makes further research in the same direction
+cheaper.  That is the state dependence, and it is what distinguishes this section from the
+lab-equipment model, where the frontier \bk{(15.7)} carries no $N$ at all.
+\end{aex}
+
+\begin{aex}{15.8}{}
+Dividing \bk{(15.33)} by \bk{(15.34)}, both holding as equalities, the wage $w_S$ cancels and the
+half-powers combine:
+\[
+\frac{\eta_LN_L^{\frac{1+\delta}{2}}N_H^{\frac{1-\delta}{2}}V_L}
+{\eta_HN_L^{\frac{1-\delta}{2}}N_H^{\frac{1+\delta}{2}}V_H}=1
+\qquad\Longrightarrow\qquad
+\eta_LN_L^{\delta}V_L=\eta_HN_H^{\delta}V_H ,
+\]
+and in a BGP $V_f=\pi_f/r^{*}$, giving \bk{(15.35)}:
+$\eta_LN_L^{\delta}\pi_L=\eta_HN_H^{\delta}\pi_H$.
+
+Now $\pi_H/\pi_L=V_H/V_L$ is given by \bk{(15.25)}, so
+\[
+\frac{1}{\eta}\Bigl(\frac{N_L}{N_H}\Bigr)^{\delta}
+=\gamma^{\frac{\varepsilon}{\sigma}}\Bigl(\frac{N_H}{N_L}\Bigr)^{-\frac{1}{\sigma}}
+\Bigl(\frac HL\Bigr)^{\frac{\sigma-1}{\sigma}}
+\qquad\Longrightarrow\qquad
+\Bigl(\frac{N_H}{N_L}\Bigr)^{\frac{1-\delta\sigma}{\sigma}}
+=\eta\,\gamma^{\frac{\varepsilon}{\sigma}}\Bigl(\frac HL\Bigr)^{\frac{\sigma-1}{\sigma}} ,
+\]
+using $\frac1\sigma-\delta=\frac{1-\delta\sigma}{\sigma}$.  Raising both sides to the power
+$\sigma/(1-\delta\sigma)$,
+\[
+\boxed{\ \Bigl(\frac{N_H}{N_L}\Bigr)^{*}
+=\eta^{\frac{\sigma}{1-\delta\sigma}}\gamma^{\frac{\varepsilon}{1-\delta\sigma}}
+\Bigl(\frac HL\Bigr)^{\frac{\sigma-1}{1-\delta\sigma}}\ }
+\]
+which is \bk{(15.36)}, and reduces to \bk{(15.27)} at $\delta=0$. $\blacksquare$
+
+Substituting into \bk{(15.19)} and collecting exponents exactly as in Exercise 15.4 gives
+\bk{(15.37)}, with the relative wage exponent $\frac{\sigma-2+\delta}{1-\delta\sigma}$; strong
+bias therefore requires only $\sigma>2-\delta$, which is \bk{Proposition 15.8}.  The sign of
+$1-\delta\sigma$ is what decides whether an increase in $N_H/N_L$ raises or lowers the relative
+incentive to do more $H$-research, and hence whether the dynamics are stable --- the subject of
+\bk{Proposition 15.6}.
+\end{aex}
+
+\begin{aex}{15.9}{}
+\emph{The scientist allocation.}  A BGP requires both technologies to grow at the same rate.  From
+\bk{(15.31)},
+\[
+\frac{\dt N_L}{N_L}=\eta_L\Bigl(\frac{N_H}{N_L}\Bigr)^{\frac{1-\delta}{2}}S_L ,
+\qquad
+\frac{\dt N_H}{N_H}=\eta_H\Bigl(\frac{N_H}{N_L}\Bigr)^{-\frac{1-\delta}{2}}S_H ,
+\]
+so equality gives
+\[
+\frac{S_H}{S_L}=\frac{\eta_L}{\eta_H}\Bigl(\frac{N_H}{N_L}\Bigr)^{1-\delta} ,
+\]
+with $N_H/N_L$ pinned down by \bk{(15.36)}.  Together with $S_L+S_H=S$ this determines
+$(S_L^{*},S_H^{*})$ uniquely, and substituting \bk{(15.36)} gives \bk{(15.38)}.
+
+\emph{The growth rate.}  Substituting $S_L^{*}=S\eta_H\bigl/\bigl[\eta_H+\eta_L(N_H/N_L)^{1-\delta}\bigr]$
+into $\dt N_L/N_L$ and multiplying numerator and denominator by $(N_H/N_L)^{\delta-1}$,
+\[
+\boxed{\ g^{*}=\frac{\eta_L\eta_H\bigl(N_H/N_L\bigr)^{\frac{\delta-1}{2}}}
+{\eta_H\bigl(N_H/N_L\bigr)^{\delta-1}+\eta_L}\,S\ }
+\]
+which is \bk{(15.39)}.  It is unique because $N_H/N_L$ is, and strictly positive.
+
+\emph{Transversality.}  In a BGP the profits $\pi_f$ are constant, so $V_f=\pi_f/r^{*}$ is
+constant and total corporate wealth $N_LV_L+N_HV_H$ grows at $g^{*}$.  Condition \bk{(15.23)}
+therefore requires $g^{*}<r^{*}=\theta g^{*}+\rho$, that is $(1-\theta)g^{*}<\rho$, which is
+exactly the hypothesis of \bk{Proposition 15.5}; the same inequality makes utility finite.
+$\blacksquare$
+
+Note the structural difference from Section 15.3: there the growth rate was the interest rate
+divided by $\theta$ and depended on the \emph{levels} $\eta_fF$; here it is proportional to the
+supply of scientists $S$ and does not involve $\theta$ at all, because the R\&D input is a scarce
+factor rather than final output.  What $\theta$ now determines is the interest rate, not the
+growth rate.
+\end{aex}
+
+\begin{aex}{15.10}{}
+From Exercise 15.9, $S_H^{*}/S_L^{*}=\eta^{-1}(N_H/N_L)^{1-\delta}$, and substituting
+\bk{(15.36)} the elasticity with respect to $\eta$ is
+\[
+\frac{\dd\log(S_H^{*}/S_L^{*})}{\dd\log\eta}
+=-1+\frac{\sigma(1-\delta)}{1-\delta\sigma}
+=\frac{-(1-\delta\sigma)+\sigma(1-\delta)}{1-\delta\sigma}
+=\boxed{\ \frac{\sigma-1}{1-\delta\sigma}\ }
+\]
+Assuming $\sigma<1/\delta$, so that the denominator is positive and the dynamics are stable by
+\bk{Proposition 15.6}, this is positive if and only if $\sigma>1$.  The program confirms it:
+with $\beta=1/2$, $\delta=0.3$, $H/L=0.5$,
+\[
+\begin{array}{ccccc}
+\varepsilon & \sigma & \eta=0.8 & \eta=1.0 & \eta=1.25\\
+0.4\ (\sigma<1) & 0.70 & S_H^{*}=0.567 & 0.546 & 0.525\\
+2.0\ (\sigma>1) & 1.50 & S_H^{*}=0.344 & 0.391 & 0.441
+\end{array}
+\]
+
+\emph{Interpretation.}  Two forces act, and the elasticity above is their sum.  A higher $\eta_H$
+makes each $H$-scientist more productive, so \emph{fewer} of them are needed to sustain any given
+growth rate of $N_H$: that is the $-1$.  But it also raises the equilibrium stock $N_H/N_L$, by
+\bk{(15.36)}, and with state dependence a larger $N_H$ makes further $H$-research more productive
+still: that is the $+\sigma(1-\delta)/(1-\delta\sigma)$.
+
+Which dominates turns on $\sigma$ because $\sigma$ governs what happens to the price $p_H$ as
+$N_H$ expands.  With gross substitutes the expansion of $Y_H$ depresses $p_H$ only mildly, so the
+profitability of $H$-research survives and scientists are drawn in.  With gross complements the
+expansion depresses $p_H$ sharply --- the economy needs the two intermediates in near-fixed
+proportions, so producing more $Y_H$ is of little use --- and the improved research technology is
+more than offset: fewer scientists work on $H$.  The same reversal is behind \bk{(15.1)}'s
+distinction between factor-augmenting and factor-biased technological change.
+\end{aex}
+
+\begin{aex}{15.12}{}
+Weak equilibrium bias requires that an increase in $H/L$ move $(A_H/A_L)^{(\sigma-1)/\sigma}$
+upward, where the factor-augmenting technologies are $A_f\propto N_f$.  By \bk{(15.1)} this is
+\[
+\frac{\dd}{\dd\log(H/L)}\Bigl[\frac{\sigma-1}{\sigma}\log\frac{N_H}{N_L}\Bigr]\ \ge\ 0 .
+\]
+From \bk{(15.36)},
+\[
+\frac{\dd\log(N_H/N_L)}{\dd\log(H/L)}=\frac{\sigma-1}{1-\delta\sigma} ,
+\]
+so the quantity to be signed is
+\[
+\frac{\sigma-1}{\sigma}\cdot\frac{\sigma-1}{1-\delta\sigma}
+=\boxed{\ \frac{(\sigma-1)^{2}}{\sigma\,(1-\delta\sigma)}\ \ge\ 0\ }
+\]
+whenever $1-\delta\sigma>0$, with equality only at $\sigma=1$. $\blacksquare$
+
+The square is the point.  Whether $\sigma$ is above or below one changes \emph{both} the
+direction in which $N_H/N_L$ responds to $H/L$ \emph{and} the direction in which $N_H/N_L$ shifts
+the relative marginal product --- and the two reversals cancel.  That is why weak bias is so
+robust: it holds in the lab-equipment model \bk{(Proposition 15.3)}, with state dependence
+\bk{(Proposition 15.7)}, and without scale effects \bk{(Proposition 15.9)}, for every parameter
+value.  Economically, it is the statement that the market size effect always dominates the price
+effect: a factor that becomes more abundant is a larger market for the technologies that
+complement it, and that is what directs research.
+\end{aex}
+
+\begin{aex}{15.13}{}
+\emph{The planner's problem.}  Pricing machines at marginal cost gives
+$x_f^{S}=(1-\beta)^{-1/\beta}p_f^{1/\beta}F$ as in Exercise 15.6, and consumption is then a
+function $C(N_L,N_H)$ of the two technology stocks alone --- the R\&D input is scientists, not
+output.  The planner chooses the split $S_L\in[0,S]$, with $S_H=S-S_L$, to maximize \bk{(15.2)}
+subject to \bk{(15.31)}.  The current-value Hamiltonian is
+\[
+\wh H=\frac{C(N_L,N_H)^{1-\theta}-1}{1-\theta}
++\mu_L\,\eta_LN_L^{\frac{1+\delta}{2}}N_H^{\frac{1-\delta}{2}}S_L
++\mu_H\,\eta_HN_L^{\frac{1-\delta}{2}}N_H^{\frac{1+\delta}{2}}S_H .
+\]
+
+\emph{The allocation of scientists.}  $\wh H$ is linear in $S_L$, so an interior optimum requires
+the two coefficients to be equal:
+\[
+\mu_L\,\eta_LN_L^{\delta}=\mu_H\,\eta_HN_H^{\delta} ,
+\tag{P}
+\]
+which has exactly the form of the market condition \bk{(15.35)} --- but with the \emph{shadow}
+values $\mu_f$ in place of the private values $V_f$.
+
+\emph{The costates.}  Writing $\nu\equiv N_H/N_L$, $g$ for the common growth rate and
+$\Xi\equiv\mu_L\dt N_L+\mu_H\dt N_H$, differentiation gives
+\[
+\rho\mu_L-\dt\mu_L=C^{-\theta}C_{N_L}
++\frac{1+\delta}{2}\,\frac{\mu_L\dt N_L}{N_L}+\frac{1-\delta}{2}\,\frac{\mu_H\dt N_H}{N_L} ,
+\]
+and symmetrically for $N_H$.  The two terms after the first are what the market ignores: they are
+the value of the \emph{spillovers} that a larger $N_L$ confers on future research in both sectors.
+
+\emph{The comparison.}  In a stationary allocation $\mu_H/\mu_L$ is constant, so
+$\dt\mu_L/\mu_L=\dt\mu_H/\mu_H$, and subtracting the two costate equations gives
+\[
+\frac{C^{-\theta}C_{N_H}}{\mu_H}-\frac{C^{-\theta}C_{N_L}}{\mu_L}
+=\frac{1-\delta}{2}\,g\Bigl[\frac{S_H^{S}}{S_L^{S}}-\frac{S_L^{S}}{S_H^{S}}\Bigr] .
+\]
+The market's counterpart is simply $\pi_H/V_H=\pi_L/V_L=r^{*}$, whose right-hand side is zero.
+The planner's condition therefore differs from the market's by the bracketed spillover term, which
+vanishes only in the knife-edge cases $\delta=1$ or $S_H^{S}=S_L^{S}$.  Hence the stationary
+Pareto optimal ratio $(N_H/N_L)^{S}$ differs from the equilibrium \bk{(15.36)}. $\blacksquare$
+
+\emph{Why this differs from Section 15.3.}  There the innovation possibilities frontier
+\bk{(15.7)} is $\dt N_f=\eta_fZ_f$: linear in resources, with no dependence on the existing stocks
+of knowledge.  A unit of R\&D spending in either sector creates exactly $\eta_f$ new varieties,
+whatever has been discovered before, so the \emph{only} wedge between private and social returns
+is the monopoly markup --- and that markup is the same constant $1/(1-\beta)$ in both sectors, so
+it cancels in the ratio.  The planner accumulates faster than the market (Exercise 15.6) but in
+the same proportions, and the optimal ratio is again \bk{(15.27)}.
+
+With knowledge spillovers there is a second wedge, and it does \emph{not} cancel: a unit of
+$L$-research raises the productivity of future research in both sectors, and by different amounts
+unless $\delta=0$ makes the two frontiers carry the same $(N_LN_H)^{1/2}$.  Even then --- as the
+displayed condition shows --- the terms cancel only if the two sectors employ equal numbers of
+scientists.  The direction of technological change is therefore inefficient here in a way it is
+not in the lab-equipment model, and the inefficiency is greater the larger is $\delta$.
+\end{aex}
+
+\begin{aex}{15.14}{}
+With the limited-spillover frontier \bk{(15.40)}, $\dt N_f=\eta_fN_f^{\lambda}S_f$, the growth
+rate of each technology is
+\[
+\frac{\dt N_f(t)}{N_f(t)}=\eta_fN_f(t)^{\lambda-1}S_f(t) .
+\]
+In a BGP the left side is constant, and a constant fraction of the population works in research,
+so $S_f(t)$ grows at the population growth rate $n$.  Taking logarithms and differentiating,
+\[
+0=(\lambda-1)\,g_N+n
+\qquad\Longrightarrow\qquad
+\boxed{\ g^{*}=g_N=\frac{n}{1-\lambda}\ }
+\]
+which is \bk{(15.41)}, requiring $\lambda<1$. $\blacksquare$
+
+Output per capita is $Y/L\propto N$, so it grows at $n/(1-\lambda)$ too, while aggregate output
+grows at $n/(1-\lambda)+n$.  This is exactly the mechanism of Section 13.3: with $\lambda<1$
+research becomes harder as the stock of knowledge grows, and only a growing population of
+researchers can keep the growth rate from falling.  The growth rate depends on demography and on
+$\lambda$ alone --- not on $S$, $\eta_f$, $\beta$ or policy --- so the model is semi-endogenous.
+\end{aex}
+
+\begin{aex}{15.15}{}
+With $\lambda=1$ the frontier \bk{(15.40)} becomes $\dt N_f/N_f=\eta_fS_f(t)$.  In a BGP the
+allocation of researchers between the two sectors is constant \emph{as a share}, so
+$S_f(t)=s_fS(t)$ with $s_f$ constant, and the research population grows with total population at
+the rate $n>0$:
+\[
+\frac{\dt N_f(t)}{N_f(t)}=\eta_fs_fS(0)e^{nt}\ \longrightarrow\ \infty .
+\]
+The growth rate of technology --- and hence of output and consumption --- increases without bound,
+so it cannot be constant: there is no BGP. $\blacksquare$
+
+In fact the situation is worse than a missing BGP.  Since $\dd\log N/\dd t$ grows exponentially,
+$\log N(t)$ grows like $e^{nt}$ and $N(t)$ reaches infinity in finite time, so household utility
+is infinite and no equilibrium with a well-defined intertemporal allocation exists.  This is the
+same explosion the text warns about in Section 13.3, and it is precisely why $\lambda<1$ is
+imposed: with proportional spillovers, population growth compounds on itself.
+
+The case $\lambda=1$ with \emph{constant} population is the model of Section 15.4 with extreme
+state dependence ($\delta=1$), which does have a BGP --- the difference being that there the
+research force is fixed at $S$ rather than growing.
+\end{aex}
+
+\begin{aex}{15.16}{}
+\emph{(15.42).}  With \bk{(15.40)}, a scientist in sector $f$ produces $\eta_fN_f^{\lambda}$
+varieties per unit time, so the free-entry conditions are
+$\eta_fN_f(t)^{\lambda}V_f(t)\le w_S(t)$ with equality when $S_f>0$.  Dividing the two,
+\[
+\eta_LN_L^{\lambda}V_L=\eta_HN_H^{\lambda}V_H .
+\]
+In a BGP, profits grow at the rate of population growth $n$ (the market for each machine is the
+factor supply), so $V_f=\pi_f/(r^{*}-n)$ by the argument of Exercise 13.18; the common
+denominator cancels and
+\[
+\boxed{\ \eta_LN_L^{\lambda}\pi_L=\eta_HN_H^{\lambda}\pi_H\ }
+\]
+which is \bk{(15.42)}, the analogue of \bk{(15.35)} with $\lambda$ in place of $\delta$.
+
+\emph{(15.43).}  Substituting $\pi_H/\pi_L$ from \bk{(15.25)} and solving, exactly as in
+Exercise 15.8 with $\delta$ replaced by $\lambda$,
+\[
+\boxed{\ \Bigl(\frac{N_H}{N_L}\Bigr)^{*}
+=\eta^{\frac{\sigma}{1-\lambda\sigma}}\gamma^{\frac{\varepsilon}{1-\lambda\sigma}}
+\Bigl(\frac HL\Bigr)^{\frac{\sigma-1}{1-\lambda\sigma}}\ }
+\]
+which is \bk{(15.43)}; and substituting into \bk{(15.19)} gives \bk{(15.44)}, with relative-wage
+exponent $(\sigma-2+\lambda)/(1-\lambda\sigma)$. $\blacksquare$
+
+\emph{What the section establishes.}  The exponent structure is identical to Section 15.4 with
+$\lambda$ playing the role of $\delta$, even though the growth rate is now $n/(1-\lambda)$ and
+carries no scale effect at all.  The market size effect that governs the \emph{direction} of
+technological change and the scale effect that governs its \emph{rate} are therefore entirely
+separable: one can remove the counterfactual scale effect without touching the weak and strong
+bias results.  That is the point of the section, and it matters because the scale effect is the
+most criticized feature of endogenous growth models while the bias results are the ones the
+chapter is trying to defend.
+\end{aex}
+
+\begin{aex}{15.17}{}
+\emph{(a) Equilibrium.}  Labor market clearing is now
+\[
+H^{E}(t)+H^{R}_{L}(t)+H^{R}_{H}(t)\le H,
+\qquad
+L^{E}(t)+L^{R}_{L}(t)+L^{R}_{H}(t)\le L ,
+\]
+and both research sectors combine the two factors with the same constant-returns technology
+$\mathcal R(H^{R},L^{R})$.  Let
+\[
+c\bigl(w_L(t),w_H(t)\bigr)
+\]
+be the unit cost function of that technology --- the cost of one unit of ``research input''.
+Since $\mathcal R$ is the same in both sectors, $c$ is too.  The free-entry conditions replace
+$w_S$ in \bk{(15.33)}--\bk{(15.34)} by $c$:
+\[
+\eta_LN_L^{\frac{1+\delta}{2}}N_H^{\frac{1-\delta}{2}}V_L(t)\le c\bigl(w_L,w_H\bigr),
+\qquad
+\eta_HN_L^{\frac{1-\delta}{2}}N_H^{\frac{1+\delta}{2}}V_H(t)\le c\bigl(w_L,w_H\bigr) ,
+\]
+each with equality when the corresponding research activity is positive.  An equilibrium is a path
+of consumption, machine prices and quantities, technologies, research inputs and factor prices
+satisfying these together with \bk{(15.10)}, \bk{(15.19)}, \bk{(15.22)} and \bk{(15.23)}.
+
+\emph{(b) The BGP.}  Dividing the two free-entry conditions, the common cost $c$ cancels exactly
+as $w_S$ did, leaving
+\[
+\eta_LN_L^{\delta}V_L=\eta_HN_H^{\delta}V_H ,
+\]
+which is \bk{(15.35)}.  Hence \emph{the relative technology is again \bk{(15.36)}}, with $H/L$
+replaced by the ratio of the factors actually employed in final good production,
+\[
+\Bigl(\frac{N_H}{N_L}\Bigr)^{*}
+=\eta^{\frac{\sigma}{1-\delta\sigma}}\gamma^{\frac{\varepsilon}{1-\delta\sigma}}
+\Bigl(\frac{H^{E}}{L^{E}}\Bigr)^{\frac{\sigma-1}{1-\delta\sigma}} ,
+\]
+and $H^{E}/L^{E}$ is itself determined by the research sector's factor demands at the equilibrium
+$w_H/w_L$.  The growth rate is determined as in Exercise 15.9, with the quantity of research input
+replacing $S$.
+
+\emph{(c) Bias.}  Since the relative technology condition is unchanged in form, the derivations of
+Exercises 15.4 and 15.12 go through verbatim with $H^{E}/L^{E}$ in place of $H/L$: weak
+equilibrium bias holds always, with the elasticity $(\sigma-1)^{2}/[\sigma(1-\delta\sigma)]\ge0$,
+and strong bias holds when $\sigma>2-\delta$.  The analogues of \bk{Propositions 15.3} and
+\bk{15.4} therefore hold.
+
+\emph{(d) Transitional dynamics.}  The comparison driving Exercise 15.3 is unchanged: $V_H/V_L$
+is decreasing in $N_H/N_L$, so when $\sigma<1/\delta$ research is directed entirely at whichever
+technology is scarce until the ratio \bk{(15.36)} is restored, and both conditions then hold with
+equality.  When $\sigma>1/\delta$ the comparison reverses and the dynamics are divergent, as in
+\bk{Proposition 15.6}.
+
+\emph{(e) The optimum.}  The planner's allocation is characterized as in Exercise 15.13, with
+the research input in place of scientists.  Its first-order condition for the direction of
+research again takes the form $\mu_L\eta_LN_L^{\delta}=\mu_H\eta_HN_H^{\delta}$, and the costate
+equations again carry spillover terms absent from the market's.  The stationary ratio therefore
+coincides with the lab-equipment expression \bk{(15.27)} only when those terms cancel --- which
+happens when $\delta=0$ \emph{and} the two sectors employ equal research inputs, and in the
+knife-edge case $\delta=1$.  The substantive point stands either way: the \emph{direction} of
+technological change is governed by \bk{(15.36)}, and the fact that R\&D uses produced factors
+rather than a separate stock of scientists changes none of the bias results.
+
+\rmk{The exercise is a robustness check with a clear moral.  What drives the direction of
+technological change is the comparison of the \emph{values} $V_L$ and $V_H$ against research costs
+that are \emph{common to the two sectors}.  Anything that leaves that symmetry intact --- final
+output as in Section 15.3, scientists as in Section 15.4, or ordinary labor as here --- delivers
+the same relative technology condition and the same bias results.  What would break them is a
+research technology whose factor intensity differed systematically between the two directions,
+which is a question the chapter does not take up.}
+\end{aex}
+
+\begin{aex}{15.21}{}
+\emph{(a)}  Let $H(t)=K(t)$ with $\dt K/K=s_K>0$ by \bk{(15.45)}, and let $\delta<1$.  In any BGP
+with research in both directions, \bk{(15.36)} holds:
+\[
+\frac{N_K(t)}{N_L(t)}
+=\eta^{\frac{\sigma}{1-\delta\sigma}}\gamma^{\frac{\varepsilon}{1-\delta\sigma}}
+\Bigl(\frac{K(t)}{L}\Bigr)^{\frac{\sigma-1}{1-\delta\sigma}} .
+\]
+Since $K(t)$ grows at $s_K$, the relative technology must grow at
+\[
+\frac{\dd}{\dd t}\log\frac{N_K}{N_L}=\frac{(\sigma-1)s_K}{1-\delta\sigma}\ \neq\ 0
+\qquad\text{unless }\sigma=1 .
+\]
+So the two technologies grow at different rates.  But balanced growth with $K$ growing requires
+Harrod neutrality --- all technological change asymptotically labor-augmenting, that is
+$\dt N_K=0$.  That is incompatible with an interior BGP: with $\delta<1$ the free-entry conditions
+hold as equalities in both sectors, so $S_K>0$ and $N_K$ strictly grows.  Hence no BGP exists.
+$\blacksquare$
+
+\emph{(b)}  Suppose consumption grew at a constant rate.  By \bk{(15.22)} the interest rate would
+then be constant.  But the interest rate is the rental rate of capital, and by \bk{(15.19)} with
+$H=K$,
+\[
+r(t)=w(t)\,\gamma^{\frac{\varepsilon}{\sigma}}
+\Bigl(\frac{N_K(t)}{N_L(t)}\Bigr)^{\frac{\sigma-1}{\sigma}}\Bigl(\frac{K(t)}{L}\Bigr)^{-\frac1\sigma} ,
+\]
+so $r$ can be constant only if $N_K$ and $K$ move together in a particular way.  Repeating the
+argument of part (a), an equilibrium with research in both directions forces $N_K(t)$ to grow
+without bound, and then the term in $N_K$ drives $r(t)$ monotonically --- the capital-augmenting
+technological change keeps raising the marginal product of capital, offsetting the diminishing
+returns from capital deepening.  The interest rate therefore cannot settle down, and neither can
+consumption growth. $\blacksquare$
+
+\emph{The economics.}  \bk{Proposition 15.10} is the good news: with $\sigma<1$ capital deepening
+does direct technological change toward labor, so technology becomes \emph{relatively}
+labor-augmenting.  \bk{Proposition 15.11} is the bad news: relatively is not enough.  Balanced
+growth, by \bk{Theorem 2.6}, needs technological change to be \emph{purely} labor-augmenting, and
+as long as there is any capital-augmenting research at all the economy cannot settle down.  The
+special case that rescues it is $\delta=1$, where, as Exercise 15.22 shows, factor shares are
+pinned down and $N_K$ must asymptotically stop growing.
+\end{aex}
+
+\begin{aex}{15.22}{}
+With $\delta=1$ the innovation possibilities frontier becomes $\dt N_f/N_f=\eta_fS_f$, and the
+free-entry conditions \bk{(15.33)}--\bk{(15.34)} reduce to
+\[
+\eta_LN_L(t)V_L(t)=w_S(t)=\eta_KN_K(t)V_K(t) .
+\]
+In a BGP $V_f=\pi_f/r^{*}$, so the interest rate cancels and
+\[
+\eta_LN_L\pi_L=\eta_KN_K\pi_K .
+\]
+Now $N_f\pi_f$ is the total profit earned by the monopolists in sector $f$.  In each sector,
+profits and factor payments are in a fixed ratio: as in \bk{(13.11)}--\bk{(13.13)}, the machine
+producers earn $\beta$ per unit of quality while the factor earns $\beta/(1-\beta)$ per unit, so
+\[
+N_L\pi_L=(1-\beta)\,w(t)L ,
+\qquad
+N_K\pi_K=(1-\beta)\,r(t)K(t) .
+\]
+Substituting and cancelling $(1-\beta)$,
+\[
+\eta_L\,w(t)L=\eta_K\,r(t)K(t)
+\qquad\Longrightarrow\qquad
+\boxed{\ \frac{r(t)K(t)}{w(t)L}=\frac{\eta_L}{\eta_K}=\eta^{-1}\ }
+\]
+which is \bk{(15.46)}. $\blacksquare$
+
+\emph{Why this is the decisive equation.}  It says that with extreme state dependence, directed
+technological change pins the \emph{factor shares} of national income at a constant determined
+purely by the relative productivity of the two research technologies.  Constant factor shares
+together with capital deepening is exactly the configuration that forces Harrod neutrality:
+by \bk{(15.19)},
+\[
+\frac{rK}{wL}=\gamma^{\frac{\varepsilon}{\sigma}}
+\Bigl(\frac{N_K}{N_L}\Bigr)^{\frac{\sigma-1}{\sigma}}\Bigl(\frac{K}{L}\Bigr)^{\frac{\sigma-1}{\sigma}} ,
+\]
+so constancy of the left side requires $N_KK/N_LL$ to be constant, that is
+\[
+\frac{\dt N_L}{N_L}-\frac{\dt N_K}{N_K}=s_K ,
+\]
+which is \bk{(15.47)}.  Combined with Exercise 15.23's expression for the interest rate, this
+forces $N_K$ itself to be asymptotically constant, so that all long-run technological change is
+labor-augmenting.  The model therefore \emph{derives} the assumption that growth theory has had to
+impose since \bk{Theorem 2.6}.
+\end{aex}
+
+\begin{aex}{15.23}{}
+The rental rate of capital is its marginal value product in the $K$-intensive sector.  With
+machines priced at the monopoly markup, the derived production function of that sector is
+$Y_K=\frac{1}{1-\beta}N_Kp_K^{(1-\beta)/\beta}K$, so by the same computation that gives
+\bk{(13.13)},
+\[
+r(t)=\frac{\beta}{1-\beta}\,p_K(t)^{1/\beta}N_K(t) .
+\]
+It remains to express $p_K$ in terms of quantities.  Final good producers equate the ratio of
+marginal products of the two intermediates to their relative price; using \bk{(15.3)} and
+substituting the sectoral outputs $Y_f=\frac{1}{1-\beta}N_fp_f^{(1-\beta)/\beta}F$, together with
+the price normalization \bk{(15.10)}, one obtains after collecting exponents
+\[
+\boxed{\ r(t)=\beta\,\gamma_K\,N_K(t)
+\Bigl[\gamma_L\Bigl(\frac{N_L(t)L}{N_K(t)K(t)}\Bigr)^{\frac{\sigma-1}{\sigma}}
++\gamma_K\Bigr]^{\frac{1}{\sigma-1}}\ }
+\]
+which is \bk{(15.48)}. $\blacksquare$
+
+\emph{Reading it.}  The interest rate is the product of two objects: the level of
+capital-augmenting technology $N_K(t)$, and a term depending only on the \emph{ratio}
+$N_LL/N_KK$ of the two effective factor supplies.  That separation is what completes the argument
+of \bk{Proposition 15.12}.  A BGP requires $r$ constant; \bk{(15.47)} already requires
+$N_LL/N_KK$ to be constant, so the bracket is constant; therefore $N_K(t)$ must be constant too.
+And if $N_K$ is constant while $N_L$ grows, all long-run technological change is purely
+labor-augmenting.
+
+Note also that $r$ is \emph{increasing} in $N_K$: capital-augmenting technological change raises
+the return to capital directly.  This is the force that Exercise 15.21 showed prevents a BGP when
+$\delta<1$ --- there $N_K$ keeps growing and $r$ never settles.
+\end{aex}
+
+\begin{aex}{15.25}{}
+With $\delta=1$ the two technologies evolve according to $\dt N_f/N_f=\eta_fS_f$, so
+\[
+\frac{\dd}{\dd t}\log\frac{N_K(t)}{N_L(t)}=\eta_KS_K(t)-\eta_LS_L(t) ,
+\]
+and the allocation of scientists responds to the state through the free-entry conditions.  By
+\bk{(15.36)} with $\delta=1$, the relative value of $K$-research satisfies
+\[
+\frac{\eta_KN_KV_K}{\eta_LN_LV_L}
+=\eta\,\gamma^{\frac{\varepsilon}{\sigma}}
+\Bigl(\frac{N_K}{N_L}\Bigr)^{\frac{\sigma-1}{\sigma}}\Bigl(\frac KL\Bigr)^{\frac{\sigma-1}{\sigma}} ,
+\]
+whose elasticity with respect to $N_K/N_L$ is $(\sigma-1)/\sigma$.
+
+\emph{Stability.}  If $\sigma<1$ this elasticity is negative: an increase in $N_K/N_L$ makes
+$K$-research relatively \emph{less} attractive, so scientists move toward $L$-research,
+$\eta_KS_K-\eta_LS_L$ falls, and $N_K/N_L$ is pushed back.  The system is self-correcting, and
+since the feedback operates at every level of the ratio the BGP is globally stable.  The
+additional requirement $S_K<\eta_LS$ ensures that the rate at which capital deepens does not
+exceed what labor-augmenting research can offset, so that $N_LL/N_KK$ can be held constant with
+$S_L\le S$.
+
+\emph{Instability.}  If $\sigma>1$ the elasticity is positive: more $K$-augmenting technology
+makes further $K$-augmenting research more profitable still, so any departure from the BGP is
+amplified and the economy diverges.  With $\beta=1/2$ the program tabulates the boundary:
+\[
+\begin{array}{cccccc}
+\varepsilon & 0.4 & 0.8 & 1.0 & 1.5 & 2.5\\
+\sigma & 0.70 & 0.90 & 1.00 & 1.25 & 1.75\\
+\text{stable} & \text{yes} & \text{yes} & \text{no} & \text{no} & \text{no}
+\end{array}
+\]
+$\blacksquare$
+
+\emph{The connection to Proposition 15.6.}  That proposition required $\sigma<1/\delta$ for stable
+dynamics in the general state-dependent model.  Here $\delta=1$, so the requirement is
+$\sigma<1$ --- exactly what was found.  The two results are the same statement: state dependence
+creates increasing returns in the direction of research, and stability requires the price effect
+(which operates through $\sigma$) to be strong enough to offset them.
+
+This is a fortunate coincidence for the theory, since the empirical evidence on capital-labor
+substitution points to $\sigma<1$, which is precisely the range in which \bk{Proposition 15.12}'s
+purely labor-augmenting BGP is an attractor rather than a knife edge.
+\end{aex}
+
+\begin{aex}{15.26}{}
+\emph{The mechanism.}  Impose a wage floor $\bar w$ above the market-clearing wage.  Employment
+falls to the level $L^{d}$ at which the marginal product of labor equals $\bar w$, and
+$L-L^{d}>0$ workers are unemployed.  The effective relative supply of capital to \emph{employed}
+labor, $K/L^{d}$, is therefore higher than it would have been.  By \bk{Proposition 15.10}, with
+$\sigma<1$ an increase in $K/L^{d}$ directs technological change toward labor --- that is,
+$N_L/N_K$ rises --- and since $\sigma<1$ reverses augmenting into biased, labor-augmenting change
+is \emph{capital-biased}: it lowers the marginal product of labor relative to capital at given
+factor proportions.
+
+That is the mechanism Blanchard describes.  A wage push first raises unemployment directly; the
+induced technological response then makes labor \emph{less} valuable at the margin, so
+unemployment persists even after the initial shock has passed.  The two stages have very different
+time scales --- the employment response is immediate, the technological response accumulates over
+decades --- which matches the European experience of a wage push in the 1970s followed by
+persistently high unemployment through the 1980s and 1990s.
+
+\emph{The two cases.}  The dynamics depend on how the floor evolves.
+
+\emph{A constant floor $\bar w$.}  Real wages grow in the long run, so a fixed nominal or real
+floor is eventually overtaken by the market-clearing wage and ceases to bind.  Unemployment then
+rises on impact, persists while the induced capital-biased technological change works through, and
+finally disappears as growth renders the floor irrelevant.  The model predicts a long but
+ultimately temporary episode --- a hump, not a permanent shift.
+
+\emph{A floor growing at the economy's growth rate.}  Now the constraint binds forever.  The
+economy settles on a new path with permanently lower employment, permanently more capital-biased
+technology, and --- by \bk{Proposition 15.12} --- still a constant growth rate, since the
+technology ratio adjusts to keep factor shares constant.  Unemployment is permanent, and the
+induced bias makes it worse than the static effect alone would imply.
+
+\emph{How much light does it shed?}  Some, and less than one would like.  The mechanism is real
+and gives a reason why a shock in one decade should still be visible two decades later, which
+purely static models of labor market institutions do not.  It also predicts the right sign for the
+accompanying facts: capital deepening in Europe and a rising capital share.  Against that, the
+model treats the wage floor as exogenous, says nothing about why it was imposed or why it
+persisted, and --- because $\sigma$ is difficult to estimate and the model's predictions reverse
+at $\sigma=1$ --- rests on an elasticity that is not securely known.  The most one should claim is
+that directed technological change supplies a propagation mechanism that turns a transitory
+institutional shock into a protracted one, not that it explains the shock.
+\end{aex}
+
+\begin{aex}{15.30}{}
+The distribution is supported on $[y_0,\infty)$ with $y_0=B^{1/\alpha}$, since $G(y_0)=0$, and its
+density is
+\[
+g(y)=\alpha By^{-\alpha-1}=\alpha y_0^{\alpha}y^{-\alpha-1},
+\qquad y\ge y_0 .
+\]
+For any $k$,
+\[
+\E\bigl[y^{k}\bigr]=\int_{y_0}^{\infty}\alpha y_0^{\alpha}y^{k-\alpha-1}\dd y
+=\alpha y_0^{\alpha}\Bigl[\frac{y^{k-\alpha}}{k-\alpha}\Bigr]_{y_0}^{\infty}
+=\begin{cases}
+\dfrac{\alpha\,y_0^{k}}{\alpha-k} & \text{if }k<\alpha,\\[6pt]
++\infty & \text{if }k\ge\alpha ,
+\end{cases}
+\]
+the integral diverging at the upper limit whenever $k\ge\alpha$.  In particular
+\[
+\E[y]=\frac{\alpha y_0}{\alpha-1}\ (\alpha>1),
+\qquad
+\E\bigl[y^{2}\bigr]=\frac{\alpha y_0^{2}}{\alpha-2}\ (\alpha>2) ,
+\]
+and hence, for $\alpha>2$,
+\[
+\boxed{\ \Var[y]=\frac{\alpha y_0^{2}}{\alpha-2}-\frac{\alpha^{2}y_0^{2}}{(\alpha-1)^{2}}
+=\frac{\alpha\,y_0^{2}}{(\alpha-1)^{2}(\alpha-2)}\ }
+\]
+For $\alpha\le2$ the variance is infinite, and for $\alpha\le1$ even the mean is.  With $B=1$ the
+program tabulates
+\[
+\begin{array}{ccccc}
+\alpha & 1.5 & 2.0 & 2.5 & 4.0\\
+\E[y] & 3.000 & 2.000 & 1.667 & 1.333\\
+\Var[y] & \infty & \infty & 2.222 & 0.222
+\end{array}
+\]
+$\blacksquare$
+
+\emph{Why this matters here.}  The Pareto distribution is the one that arises from random
+proportional growth with an exponential exit hazard --- as in Exercise 14.28, and as in the models
+of firm size, income and city size that Part VIII returns to.  Its defining feature is that the
+tail is thick enough that moments fail in order: the variance goes first, at $\alpha=2$, and the
+mean at $\alpha=1$.  Since the empirical estimates for firm sizes and top incomes cluster near
+$\alpha=1$, the second moment is not a usable statistic for these variables, and inequality
+measures built on variances (or on log variances, which is why log specifications are preferred)
+can be badly behaved.  Exercise 15.31 exploits the same algebra to show that the conditional mean
+$\E[y\mid y\ge y']$ is proportional to $y'$ --- the scale invariance that makes the Pareto
+distribution so tractable, and so unforgiving.
 \end{aex}
 
 \end{document}

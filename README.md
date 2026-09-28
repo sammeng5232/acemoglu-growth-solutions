@@ -23,7 +23,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 12. Modeling Technological Change | 14 | 6 | **8** — 12.1, 12.3, 12.4, 12.6–12.8, 12.10, 12.12 |
 | 13. Expanding Variety Models | 27 | 9 | **18** — 13.2–13.4, 13.8–13.12, 13.14, 13.16–13.18, 13.20, 13.21, 13.23, 13.25–13.27 |
 | 14. Models of Schumpeterian Growth | 35 | 15 | **20** — 14.1, 14.3–14.5, 14.8–14.11, 14.16, 14.17, 14.23–14.25, 14.28–14.34 |
-| 15–23 | 223 | 88 | in progress |
+| 15. Directed Technological Change | 31 | 10 | **21** — 15.1–15.5, 15.7–15.10, 15.12–15.17, 15.21–15.23, 15.25, 15.26, 15.30 |
+| 16–23 | 192 | 78 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -111,6 +112,10 @@ chapter and writes that chapter's figures to `figures/`. So far:
   allocation with incumbents and entrants (Exercise 14.25); the Pareto tail of the profit
   distribution (Exercise 14.28); and a grid search establishing that the equilibrium never grows
   faster than the optimum under condition (14.5).
+- **`ch15.py`** — the exact condition under which a higher \(\gamma\) raises BGP growth
+  (Exercise 15.5); how the allocation of scientists responds to research productivity
+  (Exercise 15.10); the stability condition for the labour-augmenting BGP (Exercise 15.25); and
+  the moments of a Pareto distribution (Exercise 15.30).
 
 ## Working files (not part of the document)
 
