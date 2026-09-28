@@ -182,9 +182,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--19\par}
+{\large Chapters 2--20\par}
 \vspace{0.6cm}
-{\small The 270 exercises that the instructor's solutions manual of\par
+{\small The 280 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -15446,6 +15446,746 @@ provided it lasts long enough --- which, read the other way, is not much comfort
 the required duration is the time it takes for $A_s^{\varepsilon-1}$ to grow by a factor of about
 $(\varepsilon+1)/(\varepsilon-1)$, and the analysis says nothing about the cost of forgoing the
 static gains from trade for that long.}
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{20}{Structural Change and Economic Growth}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The ten exercises of Chapter 20 left unsolved in the instructor's manual: 20.1, 20.2, 20.4,
+20.10--20.15 and 20.20.  The manual solves 20.3, 20.5--20.9, 20.16--20.19 and 20.21.  The
+numerical parts are computed by \texttt{code/ch20.py}; Figure~\ref{fig:ch20} is its output.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\solsection{20.1}{Nonbalanced Growth: The Demand Side}
+
+\begin{aex}{20.1}{}
+\emph{The demands.}  The aggregator
+$C=(c^A-\gamma^A)^{\eta^A}(c^M)^{\eta^M}(c^S+\gamma^S)^{\eta^S}$ is Cobb--Douglas in the
+translated variables, so at prices $(p^A,1,p^S)$ and total expenditure $e$ the demands are the
+Stone--Geary ones,
+\[
+p^A\bigl(c^A-\gamma^A\bigr)=\eta^A\wt e,\qquad
+c^M=\eta^M\wt e,\qquad
+p^S\bigl(c^S+\gamma^S\bigr)=\eta^S\wt e ,
+\]
+where $\wt e\equiv e-p^A\gamma^A+p^S\gamma^S$ is \emph{supernumerary} expenditure --- what is
+left after the subsistence food bill has been paid and the notional services endowment has been
+sold.  Note that $c^S>0$ requires $\eta^S\wt e>p^S\gamma^S$, so services are demanded only above
+the threshold $e>\bigl[(1-\eta^S)p^S\gamma^S+\eta^Sp^A\gamma^A\bigr]/\eta^S$, which is the
+feature the text mentions.
+
+\emph{Engel's Law.}  Dividing by $e$, the budget shares are
+\begin{align*}
+\boxed{\ s^A=\eta^A+\frac{(1-\eta^A)p^A\gamma^A+\eta^Ap^S\gamma^S}{e}\ } \qquad
+&\boxed{\ s^S=\eta^S-\frac{\eta^Sp^A\gamma^A+(1-\eta^S)p^S\gamma^S}{e}\ }\\[4pt]
+\boxed{\ s^M=\eta^M\Bigl[1-\frac{p^A\gamma^A-p^S\gamma^S}{e}\Bigr]\ } &
+\end{align*}
+Since $\gamma^A,\gamma^S>0$, the numerator in $s^A$ is strictly positive and
+$\partial s^A/\partial e<0$: \emph{the budget share of food falls as income rises}, which is
+Engel's Law.  Equivalently the income elasticity is
+$\partial\log c^A/\partial\log e=\eta^A/s^A<1$, since $s^A>\eta^A$.  Symmetrically
+$\partial s^S/\partial e>0$ and the income elasticity of services is $\eta^S/s^S>1$: services are
+a luxury.
+
+\emph{Why \bk{(20.18)} is the condition for a constant manufacturing share.}  Manufacturing is
+the residual, and its share is constant \emph{if and only if} $p^A\gamma^A=p^S\gamma^S$.  By
+\bk{Proposition 20.1}, $p^A=B^M/B^A$ and $p^S=B^M/B^S$, so this is
+\[
+\frac{B^M\gamma^A}{B^A}=\frac{B^M\gamma^S}{B^S}
+\qquad\Longleftrightarrow\qquad
+\frac{\gamma^A}{B^A}=\frac{\gamma^S}{B^S} ,
+\]
+which is exactly \bk{(20.18)}.  So the knife-edge condition for a CGP has a direct
+preference-side reading: it is the condition under which the value of the food subsistence
+requirement equals the value of the notional services endowment, so that the two nonhomotheticities
+cancel in the manufacturing budget.  \texttt{code/ch20.py} exhibits this: with
+$\eta=(0.3,0.4,0.3)$, $B=(1,1.2,0.8)$ and $\gamma^A=0.4$, imposing \bk{(20.18)} gives
+$\gamma^S=0.32$ and $s^M=0.40000$ at \emph{every} income, while $s^A$ falls from $0.540$ to
+$0.304$ and $s^S$ rises from $0.060$ to $0.296$ as $e$ goes from $2$ to $128$; with $\gamma^S=0$,
+$s^M$ rises from $0.304$ to $0.399$ instead.  The left panel of Figure~\ref{fig:ch20} plots both
+cases.
+
+\emph{Alternatives.}  Stone--Geary is the simplest, but it has two defects: the income
+elasticities tend to one as income grows, so the structural change it generates dies out, and the
+subsistence terms make the demand system undefined at low incomes.  Four alternatives avoid one or
+both.
+\begin{enumerate}
+\item \emph{Quasi-homothetic (Gorman polar form) preferences} in general, with expenditure
+      function $e(p,u)=a(p)+b(p)u$.  Stone--Geary is the case in which $b$ is Cobb--Douglas.  Any
+      $a(p)\ne0$ gives non-unit income elasticities while preserving exact aggregation across
+      heterogeneous households --- which is what makes the representative household assumption
+      legitimate.
+\item \emph{Non-homothetic CES} (Hanoch; Comin, Lashkari and Mestieri), defined implicitly by
+      $\sum_i\Omega_i^{1/\varepsilon}C^{\epsilon_i(\varepsilon-1)/\varepsilon}
+      c_i^{(\varepsilon-1)/\varepsilon}=1$.  The income elasticities are the constants
+      $\epsilon_i$, so structural change does \emph{not} die out as the economy grows, and there
+      are no subsistence terms.  This is the specification most of the recent quantitative
+      literature uses.
+\item \emph{PIGL preferences} (Boppart), which give Engel curves linear in the logarithm of
+      income and are the only class consistent both with exact aggregation and with a balanced
+      growth path in which relative prices trend.
+\item \emph{Hierarchic preferences} with indivisible goods (Foellmi and Zweim\"uller; Matsuyama):
+      a continuum of goods consumed in zero-one amounts in a fixed hierarchy.  Structural change
+      then operates on the extensive margin --- richer households consume \emph{more kinds} of
+      goods --- and the income elasticity of any good not yet consumed exceeds one.
+\item Simplest of all, additively separable utility with different curvatures,
+      $\sum_i\vartheta_ic_i^{1-\sigma_i}/(1-\sigma_i)$, whose income elasticities are proportional
+      to $1/\sigma_i$.  It does not aggregate exactly, which is why the literature usually prefers
+      the first three.
+\end{enumerate}
+\end{aex}
+
+\begin{aex}{20.2}{}
+\emph{Equal effective capital-labor ratios.}  All three sectors use the same $F$ and the same
+labour-augmenting term $X(t)$, and factors are freely mobile, so competitive pricing equates the
+\emph{values} of the marginal products:
+\[
+p^jB^jF_K\bigl(K_j,XL_j\bigr)=r,
+\qquad
+p^jB^jX\,F_L\bigl(K_j,XL_j\bigr)=w
+\qquad\text{for }j\in\{A,M,S\} ,
+\]
+with $p^M=1$.  Dividing the two and using that $F$ has constant returns, so that
+$F_K=f'(k_j)$ and $F_L=f(k_j)-k_jf'(k_j)$ with $k_j\equiv K_j/(XL_j)$,
+\[
+\frac{f'(k_j)}{f(k_j)-k_jf'(k_j)}=\frac{r}{Xw}\qquad\text{for every }j .
+\]
+The left-hand side is the marginal rate of technical substitution, and it is strictly decreasing
+in $k_j$: its derivative has the sign of
+$f''(f-kf')-f'(-kf'')=f''f<0$ by strict concavity.  A strictly monotone function takes the common
+value $r/(Xw)$ at only one point, so
+\[
+k_A(t)=k_M(t)=k_S(t) .
+\]
+Market clearing \bk{(20.5)}--\bk{(20.6)} then gives
+$K=\sum_jK_j=\sum_jk_jXL_j=k\,XL$, so the common value is
+\[
+\boxed{\ k_A=k_M=k_S=\frac{K(t)}{X(t)L(t)}\equiv k(t) , \ }
+\]
+which is \bk{(20.14)}.
+
+\emph{Prices.}  With $k_j=k$ common, the rental rate read off each sector is
+$r=p^AB^Af'(k)=B^Mf'(k)=p^SB^Sf'(k)$, using $p^M=1$.  Cancelling $f'(k)>0$,
+\[
+\boxed{\ p^A(t)=\frac{B^M}{B^A},\qquad p^S(t)=\frac{B^M}{B^S} \ }
+\]
+for all $t$, which is \bk{(20.15)}.  Condition \bk{(20.13)} guarantees that the economy can
+produce more than the subsistence food requirement at $t=0$, hence that all three sectors are
+active and the interior first-order conditions used above hold. $\blacksquare$
+
+\rmk{This proposition is doing more work than it looks.  Because $p^A$ and $p^S$ are pinned at
+constants \emph{for ever}, no relative price in this economy can ever move --- the only
+Hicks-neutral differences $B^A,B^M,B^S$ are constants, and the single labour-augmenting term
+$X(t)$ is common.  Every source of structural change in Section 20.1 is therefore a
+\emph{quantity} phenomenon driven by Engel's Law, with no relative-price channel at all.  That is
+the exact complement of Section 20.2, where preferences are homothetic and everything runs through
+relative prices, and it is also the reason the answer to Exercise 20.10 is the one given below.}
+\end{aex}
+
+\begin{aex}{20.4}{}
+\emph{\bk{Proposition 20.3}.}  Suppose all three sectors grew at a common rate.  By \bk{(20.8)}
+and $Y^M=c^ML+\dt K$, per capita consumptions $c^A,c^M,c^S$ would then grow at a common rate
+$g_c$.  \bk{(20.17)} requires
+\[
+\frac{B^M\bigl(c^A(t)-\gamma^A\bigr)}{B^A\eta^A}=\frac{c^M(t)}{\eta^M}
+\qquad\text{for all }t .
+\]
+Differentiating logarithmically, the left-hand side grows at
+$\dfrac{\dt c^A}{c^A-\gamma^A}=g_c\dfrac{c^A}{c^A-\gamma^A}$ and the right-hand side at $g_c$.
+Equality at every date forces
+\[
+g_c\,\frac{c^A}{c^A-\gamma^A}=g_c
+\qquad\Longrightarrow\qquad
+g_c\,\gamma^A=0 ,
+\]
+so either $\gamma^A=0$ or $g_c=0$.  The second equation of \bk{(20.17)} gives $g_c\gamma^S=0$ in
+the same way.  Finally $g_c=0$ is impossible when $g>0$: a constant $c^M$ requires, by
+\bk{(20.16)}, $r=\rho$, hence a constant $k$ by \bk{Proposition 20.1} and \bk{(20.12)}; but then
+$K=kX L$ grows at $g+n$ while $Y^M$ and $c^ML$ grow at $n$, contradicting \bk{(20.7)}.  Hence with
+$\gamma^A>0$ or $\gamma^S>0$ there is no equilibrium with equal sectoral growth rates.
+$\blacksquare$
+
+\emph{Existence.}  Reduce the equilibrium to two differential equations.  Since
+$Y^j=B^jXL_jf(k)$ by \bk{Proposition 20.1}, dividing by $B^j$ and summing over $j$ with
+\bk{(20.6)} gives the resource identity
+\[
+\frac{Y^A}{B^A}+\frac{Y^M}{B^M}+\frac{Y^S}{B^S}=X(t)L(t)f\bigl(k(t)\bigr) .
+\]
+Substituting $Y^A=c^AL$, $Y^S=c^SL$, $Y^M=c^ML+\dt K$ from \bk{(20.7)}--\bk{(20.8)}, dividing by
+$XL$, and writing $\wt c^j\equiv c^j/X$,
+\[
+\frac{\wt c^A}{B^A}+\frac{\wt c^M}{B^M}+\frac{\wt c^S}{B^S}
++\frac{\dt K}{B^MXL}=f(k) .
+\]
+Now eliminate $\wt c^A$ and $\wt c^S$ with \bk{(20.17)}.  Since
+$\wt c^A=\gamma^A/X+\frac{B^A\eta^A}{B^M\eta^M}\wt c^M$ and
+$\wt c^S=-\gamma^S/X+\frac{B^S\eta^S}{B^M\eta^M}\wt c^M$, and $\eta^A+\eta^M+\eta^S=1$,
+\[
+\frac{\wt c^A}{B^A}+\frac{\wt c^M}{B^M}+\frac{\wt c^S}{B^S}
+=\frac{1}{X(t)}\Bigl(\frac{\gamma^A}{B^A}-\frac{\gamma^S}{B^S}\Bigr)+\frac{\wt c^M}{B^M\eta^M} .
+\]
+Using $\dt K/(XL)=\dt k+(n+g)k$, the equilibrium is therefore the two-dimensional system
+\begin{equation}
+\boxed{\
+\dt k=B^Mf(k)-\frac{\wt c^M}{\eta^M}
+-\frac{B^M}{X(t)}\Delta-(n+g)k ,
+\qquad
+\frac{\dt{\wt c}^M}{\wt c^M}=\frac{B^Mf'(k)-\rho}{\theta}-g ,\ }
+\label{eq:ch20sys}
+\end{equation}
+with $\Delta\equiv\dfrac{\gamma^A}{B^A}-\dfrac{\gamma^S}{B^S}$.
+
+Existence is now the standard argument of Chapter 8.  Given $k(0)>0$ the system
+\eqref{eq:ch20sys} is a non-autonomous planar system whose non-autonomy enters only through the
+term $B^M\Delta/X(t)$, which decays to zero at the rate $g$.  Its limiting autonomous system has a
+unique saddle-point-stable rest point, and for each $k(0)$ there is exactly one $\wt c^M(0)$ whose
+trajectory satisfies the transversality condition (by \bk{Assumption 4} and the sandwich argument
+between the autonomous systems with $\Delta/X$ replaced by $\pm\varepsilon$).  Feasibility holds
+along it: \bk{(20.13)} makes $c^A>\gamma^A$ at $t=0$, and $c^A$ is increasing along the path;
+$c^S\ge0$ holds once expenditure clears the threshold identified in Exercise 20.1.  The sectoral
+labour allocations are then read off \bk{(20.8)}, and they move over time --- which is
+\bk{Proposition 20.3} --- but nothing prevents the path from existing. $\blacksquare$
+
+\rmk{System \eqref{eq:ch20sys} makes \bk{Proposition 20.4} transparent as well.  It is autonomous
+--- and hence can have a rest point with $k$ and $\wt c^M$ constant --- \emph{if and only if}
+$\Delta=0$, that is if and only if $\gamma^A/B^A=\gamma^S/B^S$, which is \bk{(20.18)}.  The rest
+point is then $B^Mf'(k^*)=\rho+\theta g$, and \bk{(20.19)} follows by differentiating
+\bk{(20.17)} and \bk{(20.8)}.  Conversely, if $\Delta\ne0$ the term $B^M\Delta/X(t)$ is a moving
+target, so no pair $(k,\wt c^M)$ can be a rest point at two different dates.}
+\end{aex}
+
+\begin{aex}{20.10}{}
+Throughout, let $X^A,X^M,X^S$ denote the \emph{inputs} into the final good sector, $p^Y$ the price
+of the final good and $p^M=1$ the numeraire.
+
+\emph{The demand system is unchanged.}  Profit maximization by the final good sector gives
+\[
+p^Y\eta^A\frac{Y}{X^A-\gamma^AL}=p^A,\qquad
+p^Y\eta^M\frac{Y}{X^M}=1,\qquad
+p^Y\eta^S\frac{Y}{X^S+\gamma^SL}=p^S ,
+\]
+which are \bk{(20.9)}--\bk{(20.10)} with $X^j$ in place of $c^jL$ and $p^YY$ in place of the
+consumption aggregate.  \bk{Proposition 20.1} is untouched, since it uses only the production side:
+$k_A=k_M=k_S=k$ and $p^A=B^M/B^A$, $p^S=B^M/B^S$.  Two consequences follow immediately.  First,
+the unit cost of the final good,
+$p^Y=\bigl(p^A/\eta^A\bigr)^{\eta^A}\bigl(1/\eta^M\bigr)^{\eta^M}\bigl(p^S/\eta^S\bigr)^{\eta^S}$,
+is a \emph{constant}.  Second, the final good sector's profit is
+\[
+p^YY-p^AX^A-X^M-p^SX^S=-B^M\Delta L,
+\qquad \Delta\equiv\frac{\gamma^A}{B^A}-\frac{\gamma^S}{B^S} ,
+\]
+so free entry into final good production requires $\Delta=0$, that is \bk{(20.18)}, in either
+variant.  The knife-edge condition has acquired a second interpretation: it is the condition under
+which the final good technology is genuinely constant returns.
+
+\textbf{(a)}  With investment out of $Y^M$, market clearing is $Y^A=X^A$, $Y^S=X^S$,
+$Y^M=X^M+\dt K$, and the household consumes $C=Y$.  The resource identity
+$\sum_jY^j/B^j=XLf(k)$ and the demands above give
+$\sum_jX^j/B^j=\Delta L+p^YY/B^M$, whence
+\[
+\dt k=B^Mf(k)-p^Y\wt C-\frac{B^M\Delta}{X(t)}-(n+g)k ,
+\qquad \wt C\equiv\frac{C}{XL} .
+\]
+This is \eqref{eq:ch20sys} with $p^Y\wt C$ in the role of $\wt c^M/\eta^M$.  The Euler equation is
+unchanged, because the investment good is $Y^M$ with price $1$ and the consumption good is $Y$
+with the constant price $p^Y$, so no relative price moves:
+$\dt C/C=(B^Mf'(k)-\rho)/\theta$.  Hence every result of Section 20.1 --- \bk{Propositions
+20.1}--\bk{20.4} and the sectoral growth rates \bk{(20.19)} --- holds verbatim. $\blacksquare$
+
+\textbf{(b)}  Now $Y^j=X^j$ for all $j$ and $\dt K+cL=Y$.  The same resource identity gives
+\[
+Y=\frac{B^M}{p^Y}\Bigl[X(t)L(t)f(k)-\Delta L(t)\Bigr] ,
+\]
+so
+\[
+\dt k=\frac{B^M}{p^Y}\Bigl[f(k)-\frac{\Delta}{X(t)}\Bigr]-\wt c-(n+g)k ,
+\qquad
+\frac{\dt c}{c}=\frac{1}{\theta}\Bigl(\frac{B^Mf'(k)}{p^Y}-\rho\Bigr) ,
+\]
+the interest rate now being the marginal product of capital divided by the price of the investment
+good.  This is again \eqref{eq:ch20sys} up to the constant $p^Y$, and a CGP exists under exactly
+the same condition $\Delta=0$, with $B^Mf'(k^*)=p^Y(\rho+\theta g)$ and a constant capital share
+$k^*f'(k^*)/f(k^*)$.
+
+\rmk{The exercise asserts that in case (b) a CGP does not exist, and the text draws from it the
+conclusion that the Kuznets and the Kaldor facts can no longer be reconciled.  The computation
+above says otherwise, and it is worth being precise about why.  Any difference between (a) and (b)
+must operate through the \emph{relative price of the investment good in terms of the consumption
+good}, since that is the only thing the identity of the investment good can change --- it is the
+term $\dt p^I/p^I-\dt p^C/p^C$ in the two-sector Euler equation of Section 11.3.  But in this
+model that relative price cannot move: by \bk{Proposition 20.1} the three sectors share a
+production function and a technology term, so $p^A$ and $p^S$ are frozen at $B^M/B^A$ and
+$B^M/B^S$ for ever, and $p^Y$ --- a constant-elasticity aggregate of frozen prices --- is frozen
+too.  The composition of the investment good is therefore irrelevant here, and both variants
+deliver a CGP under \bk{(20.18)}.
+
+The exercise's conclusion \emph{is} correct in the model it is presumably reaching for, namely
+Rebelo's, where the investment sector has a different production function from the consumption
+sector.  There $p^I/p^C$ moves with the capital-labor ratio, an extra term enters the Euler
+equation, and a CGP requires a further restriction.  What Exercise 20.10 shows in the Kongsamut,
+Rebelo and Xie environment is the weaker but still useful point made above: \bk{(20.18)} is needed
+not only for a CGP but simply for the final good sector to break even, since its profit is
+$-B^M\Delta L$.}
+\end{aex}
+
+\solsection{20.2}{Nonbalanced Growth: The Supply Side}
+
+\begin{aex}{20.11}{}
+Suppose for a contradiction that growth is balanced, $\dt Y_l/Y_l=\varsigma$ for every
+$l=1,\dots,N$.  Since $F$ has constant returns, $p_l=\partial F/\partial Y_l$ is homogeneous of
+degree zero in $(Y_1,\dots,Y_N)$, so with all $Y_l$ growing at the same rate every $p_l$ is
+constant:
+\begin{equation}
+\frac{\dt p_l}{p_l}=0\qquad\text{for every }l .
+\label{eq:pconst}
+\end{equation}
+
+\emph{Two conditions from factor pricing.}  With $g_l(k_l)\equiv G_l(K_l,L_l)/L_l$ and
+$k_l\equiv K_l/L_l$, competitive pricing gives $r=p_lA_lg_l'(k_l)$ and
+$w=p_lA_l[g_l(k_l)-k_lg_l'(k_l)]$.  Differentiating logarithmically and using
+\eqref{eq:pconst},
+\[
+\frac{\dt A_l}{A_l}+\varepsilon_{g_l'}\frac{\dt k_l}{k_l}
+=\frac{\dt r}{r},
+\qquad
+\frac{\dt A_l}{A_l}-\frac{\sigma_l}{1-\sigma_l}\varepsilon_{g_l'}\frac{\dt k_l}{k_l}
+=\frac{\dt w}{w} ,
+\]
+where $\varepsilon_{g_l'}\equiv g_l''(k_l)k_l/g_l'(k_l)<0$; the second uses
+$\sigma_l=k_lg_l'(k_l)/g_l(k_l)$ and hence $1-\sigma_l=[g_l-k_lg_l']/g_l$.  Applying both to the
+pair $i,j$, whose technological progress is balanced, and subtracting,
+\begin{equation}
+\varepsilon_{g_i'}\frac{\dt k_i}{k_i}=\varepsilon_{g_j'}\frac{\dt k_j}{k_j},
+\qquad
+\frac{\sigma_i}{1-\sigma_i}\varepsilon_{g_i'}\frac{\dt k_i}{k_i}
+=\frac{\sigma_j}{1-\sigma_j}\varepsilon_{g_j'}\frac{\dt k_j}{k_j} .
+\label{eq:twoconds}
+\end{equation}
+
+\emph{Case 1: the common value in the first equation is nonzero.}  Dividing the second equation
+by the first,
+\[
+\frac{\sigma_i}{1-\sigma_i}=\frac{\sigma_j}{1-\sigma_j}
+\qquad\Longrightarrow\qquad \sigma_i=\sigma_j ,
+\]
+contradicting the factor proportion differences.
+
+\emph{Case 2: the common value is zero.}  Since $\varepsilon_{g_i'}<0$ strictly, this means
+$\dt k_i=0$.  But the wage-rental ratio can be read off \emph{any} sector,
+\[
+\frac{w}{r}=\frac{g_l(k_l)}{g_l'(k_l)}-k_l ,
+\]
+whose derivative in $k_l$ is $-g_lg_l''/(g_l')^2>0$.  So each $k_l$ is a strictly increasing
+function of the \emph{common} $w/r$, and $\dt k_i=0$ forces $\dt k_l=0$ for \emph{every} $l$.
+Then every $\sigma_l=k_lg_l'(k_l)/g_l(k_l)$ is constant; balanced growth and \eqref{eq:pconst}
+make every revenue share $p_lY_l/Y$ constant; hence every
+$rK_l/Y=\sigma_l\,p_lY_l/Y$ and every $K_l/K$ is constant.  Therefore each $K_l$ grows at
+$\dt K/K$, and since $k_l$ is constant each $L_l$ does too, giving $\dt L/L=\dt K/K$ ---
+contradicting capital deepening.
+
+Both cases are impossible, so growth cannot be balanced, and in particular
+$\dt Y_i/Y_i\ne\dt Y_j/Y_j$. $\blacksquare$
+
+\emph{The economics} is exactly \bk{Proposition 20.5}'s.  If capital and labour were allocated in
+fixed proportions, the more capital-intensive sector would grow faster under capital deepening.
+Relative prices then move against it, reallocating factors toward the less intensive sector --- but
+that reallocation cannot be complete, because if it were, the price change that caused it would not
+have happened.  The multi-sector version adds one observation: it is the \emph{common} wage-rental
+ratio that ties the sectors together, which is why a single sector cannot be exempted from the
+capital deepening that the aggregate experiences.
+\end{aex}
+
+\begin{aex}{20.12}{}
+Profit maximization in the final good sector gives \bk{(20.38)},
+\[
+p_s(t)=\frac{\partial Y}{\partial Y_s}
+=\gamma_s\Bigl(\frac{Y_s(t)}{Y(t)}\Bigr)^{-1/\varepsilon},
+\qquad \gamma_1\equiv\gamma,\ \gamma_2\equiv1-\gamma ,
+\]
+directly from \bk{(20.31)}.  The intermediate producers are competitive and Cobb--Douglas, so
+\[
+w=p_1\frac{\partial Y_1}{\partial L_1}=p_1(1-\alpha_1)\frac{Y_1}{L_1},
+\qquad
+r=p_1\frac{\partial Y_1}{\partial K_1}=p_1\alpha_1\frac{Y_1}{K_1} ,
+\]
+and substituting $p_1$ gives \bk{(20.41)} and \bk{(20.42)},
+\[
+\boxed{\ w(t)=\gamma(1-\alpha_1)\Bigl(\frac{Y}{Y_1}\Bigr)^{1/\varepsilon}\frac{Y_1}{L_1},
+\qquad
+r(t)=\gamma\alpha_1\Bigl(\frac{Y}{Y_1}\Bigr)^{1/\varepsilon}\frac{Y_1}{K_1} . \ }
+\]
+Writing the same two expressions for sector 2 and equating --- factors are mobile, so $w$ and $r$
+are common --- gives \bk{(20.39)} and \bk{(20.40)} respectively. $\blacksquare$
+
+\emph{The allocations \bk{(20.43)}--\bk{(20.44)}.}  Dividing \bk{(20.40)} for the two sectors,
+\[
+\frac{K_1}{K_2}=\frac{\gamma\alpha_1}{(1-\gamma)\alpha_2}
+\Bigl(\frac{Y_1}{Y_2}\Bigr)^{\frac{\varepsilon-1}{\varepsilon}} ,
+\]
+and with $\kappa\equiv K_1/K$ this inverts to \bk{(20.43)}.  Dividing \bk{(20.39)} for the two
+sectors gives the same expression with $(1-\alpha_s)$ in place of $\alpha_s$, so taking the ratio
+of the two,
+\[
+\frac{L_1/L_2}{K_1/K_2}=\frac{(1-\alpha_1)/\alpha_1}{(1-\alpha_2)/\alpha_2} ,
+\]
+which with $\lambda\equiv L_1/L$ rearranges to \bk{(20.44)}.  Since $\alpha_1<\alpha_2$ the factor
+$\alpha_1(1-\alpha_2)/[\alpha_2(1-\alpha_1)]$ is below one, so $\lambda>\kappa$: the less
+capital-intensive sector takes a larger share of labour than of capital, as it must.
+\end{aex}
+
+\begin{aex}{20.13}{}
+Write $\Lambda\equiv\dfrac{\alpha_2}{\alpha_1}\dfrac{1-\gamma}{\gamma}
+\bigl(\tfrac{Y_1}{Y_2}\bigr)^{(1-\varepsilon)/\varepsilon}$, so that \bk{(20.43)} is
+$\kappa=(1+\Lambda)^{-1}$ and $1-\kappa=\Lambda/(1+\Lambda)$.  Then
+\begin{equation}
+\dd\log\kappa=-(1-\kappa)\,\dd\log\Lambda
+=-(1-\kappa)\frac{1-\varepsilon}{\varepsilon}\,D,
+\qquad D\equiv\dd\log Y_1-\dd\log Y_2 .
+\label{eq:dlogk}
+\end{equation}
+
+\emph{Expressing $D$.}  From \bk{(20.33)} with $K_1=\kappa K$, $K_2=(1-\kappa)K$,
+$L_1=\lambda L$, $L_2=(1-\lambda)L$,
+\[
+D=\dd\log\frac{A_1}{A_2}+(\alpha_1-\alpha_2)\bigl(\dd\log K-\dd\log L\bigr)
++\Bigl[\alpha_1+\frac{\alpha_2\kappa}{1-\kappa}\Bigr]\dd\log\kappa
++\Bigl[(1-\alpha_1)+\frac{(1-\alpha_2)\lambda}{1-\lambda}\Bigr]\dd\log\lambda .
+\]
+\bk{(20.44)} says $\frac{1-\lambda}{\lambda}=\Theta\frac{1-\kappa}{\kappa}$ with $\Theta$
+constant; differentiating its logarithm gives
+$\frac{\dd\lambda}{\lambda(1-\lambda)}=\frac{\dd\kappa}{\kappa(1-\kappa)}$, that is
+\[
+\dd\log\lambda=\frac{1-\lambda}{1-\kappa}\,\dd\log\kappa .
+\]
+Substituting, the two bracketed terms combine into
+\[
+\frac{\alpha_1(1-\kappa)+\alpha_2\kappa+(1-\alpha_1)(1-\lambda)+(1-\alpha_2)\lambda}{1-\kappa}
+\,\dd\log\kappa
+=\frac{1+(\alpha_2-\alpha_1)(\kappa-\lambda)}{1-\kappa}\,\dd\log\kappa ,
+\]
+since the numerator expands to $1+(\alpha_2-\alpha_1)(\kappa-\lambda)$.
+
+\emph{Solving.}  Write $S\equiv1+(\alpha_2-\alpha_1)(\kappa-\lambda)$.  Substituting
+\eqref{eq:dlogk} for $\dd\log\kappa$,
+\[
+D=\dd\log\frac{A_1}{A_2}-(\alpha_2-\alpha_1)\bigl(\dd\log K-\dd\log L\bigr)
+-S\frac{1-\varepsilon}{\varepsilon}D ,
+\]
+so $D\bigl[\varepsilon+(1-\varepsilon)S\bigr]/\varepsilon$ equals the first two terms, and
+putting this back into \eqref{eq:dlogk},
+\[
+\dd\log\kappa=\frac{-(1-\kappa)(1-\varepsilon)}{\varepsilon+(1-\varepsilon)S}
+\Bigl[\dd\log\frac{A_1}{A_2}-(\alpha_2-\alpha_1)\bigl(\dd\log K-\dd\log L\bigr)\Bigr] .
+\]
+Finally $\varepsilon+(1-\varepsilon)S=1+(1-\varepsilon)(\alpha_2-\alpha_1)(\kappa-\lambda)$, so
+\begin{align*}
+\boxed{\ \frac{\dd\log\kappa}{\dd\log K}=-\frac{\dd\log\kappa}{\dd\log L}
+=\frac{(1-\varepsilon)(\alpha_2-\alpha_1)(1-\kappa)}
+{1+(1-\varepsilon)(\alpha_2-\alpha_1)(\kappa-\lambda)}\ }\\[4pt]
+\boxed{\ \frac{\dd\log\kappa}{\dd\log A_2}=-\frac{\dd\log\kappa}{\dd\log A_1}
+=\frac{(1-\varepsilon)(1-\kappa)}
+{1+(1-\varepsilon)(\alpha_2-\alpha_1)(\kappa-\lambda)}\ }
+\end{align*}
+which are \bk{(20.45)} and \bk{(20.46)}. $\blacksquare$
+
+\emph{Signs.}  The denominator is always strictly positive.  By Exercise 20.12, $\kappa<\lambda$
+whenever $\alpha_1<\alpha_2$, so $(\alpha_2-\alpha_1)(\kappa-\lambda)<0$; for $\varepsilon>1$ the
+factor $(1-\varepsilon)$ is also negative and the denominator exceeds one, while for
+$\varepsilon<1$ the product has magnitude below $(\alpha_2-\alpha_1)(\lambda-\kappa)<1$.  Hence
+\bk{(20.45)} has the sign of $(1-\varepsilon)(\alpha_2-\alpha_1)$ and \bk{(20.46)} the sign of
+$1-\varepsilon$, as the proposition claims.
+
+\emph{Verification.}  \texttt{code/ch20.py} solves the static equilibrium for
+$\alpha_1=0.25$, $\alpha_2=0.55$, $\gamma=\tfrac12$, $K=3$, $L=A_1=A_2=1$, and compares the boxed
+formulas with two-sided numerical derivatives:
+\begin{center}
+\small
+\begin{tabular}{rrrrrrr}
+\toprule
+$\varepsilon$ & $\kappa$ & $\lambda$ & $\dd\log\kappa/\dd\log K$ & \bk{(20.45)} &
+$\dd\log\kappa/\dd\log A_2$ & \bk{(20.46)}\\
+\midrule
+$0.3$ & $0.3671$ & $0.6802$ & $0.14225877$ & $0.14225877$ & $0.47419590$ & $0.47419590$\\
+$0.7$ & $0.3345$ & $0.6482$ & $0.06163747$ & $0.06163747$ & $0.20545824$ & $0.20545824$\\
+$1.5$ & $0.2801$ & $0.5879$ & $-0.10321815$ & $-0.10321815$ & $-0.34406050$ & $-0.34406050$\\
+$3.0$ & $0.2075$ & $0.4899$ & $-0.40660645$ & $-0.40660645$ & $-1.35535482$ & $-1.35535482$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{aex}
+
+\begin{aex}{20.14}{}
+\textbf{(a)}  \emph{The limiting allocation.}  With $\varepsilon>1$ and $g^*_1>g^*_2$ we have
+$Y_1/Y_2\to\infty$ and $(1-\varepsilon)/\varepsilon<0$, so
+$(Y_1/Y_2)^{(1-\varepsilon)/\varepsilon}\to0$ and \bk{(20.43)} gives $\kappa^*=1$; \bk{(20.44)}
+then gives $\lambda^*=1$.  By \bk{Proposition 20.9} with $\varepsilon>1$,
+$g^*=\max\{g^*_1,g^*_2\}=g^*_1$.  So sector 1 is asymptotically dominant for the opposite reason
+to the case in the text --- it grows \emph{faster}, and with substitutable goods the economy moves
+toward the expanding sector.
+
+\emph{The rates.}  With $\kappa^*=\lambda^*=1$, sector 1 asymptotically absorbs all factors, so
+$n^*_1=n$ and $z^*_1=\dt K/K$.  The resource constraint \bk{(20.32)} with consumption growing at
+$g^*$ forces $K$ to grow at $g^*$ as well (if it grew more slowly the consumption--output ratio
+would rise above one; if faster, the transversality condition \bk{(20.56)} would fail), so
+$z^*_1=g^*$.  The sector-1 production function then gives
+$g^*=a_1+\alpha_1g^*+(1-\alpha_1)n$, that is
+\[
+\boxed{\ g^*=g^*_C=g^*_1=z^*_1=n+\frac{a_1}{1-\alpha_1} , \ }
+\]
+which is \bk{(20.62)}.  Now write $x\equiv g^*-g^*_2$ and
+$d\equiv\frac{\varepsilon-1}{\varepsilon}x$.  \bk{(20.57)} and \bk{(20.58)} give
+$n^*_2=n-d$ and $z^*_2=g^*-d$, and the sector-2 production function gives
+$g^*_2=a_2+\alpha_2(g^*-d)+(1-\alpha_2)(n-d)$.  Substituting and solving the resulting linear
+equation in $x$,
+\[
+\boxed{\ x=\varepsilon\Bigl[(1-\alpha_2)\frac{a_1}{1-\alpha_1}-a_2\Bigr] , \ }
+\]
+whence
+\[
+g^*_2=n+\varepsilon a_2+\bigl[1-\varepsilon(1-\alpha_2)\bigr]\frac{a_1}{1-\alpha_1},
+\quad
+z^*_2=n+(\varepsilon-1)a_2+\bigl[1-(\varepsilon-1)(1-\alpha_2)\bigr]\frac{a_1}{1-\alpha_1},
+\]
+\[
+n^*_2=n-(\varepsilon-1)(1-\alpha_2)\Bigl[\frac{a_1}{1-\alpha_1}-\frac{a_2}{1-\alpha_2}\Bigr] ,
+\]
+which are \bk{(20.63)}, \bk{(20.64)} and \bk{(20.65)} \emph{verbatim}.  So the closed forms are
+the same in both branches of \bk{(20.61)}; only the signs need care.  Under \bk{(20.61)} with
+$\varepsilon>1$ we have $a_1/(1-\alpha_1)>a_2/(1-\alpha_2)$, hence $x>0$ and $d>0$, so
+\[
+z^*_2<g^*\ \text{and}\ n^*_2<n^*_1\quad\text{(as in \bk{(20.63)} and \bk{(20.65)}), but }
+g^*_2<g^*
+\]
+--- the inequality in \bk{(20.64)} \emph{reverses}.  That is as it must be: in this branch sector 1
+is dominant because it is the fast one. $\blacksquare$
+
+\textbf{(b)}  Under the converse of \bk{(20.61)} --- either $\varepsilon<1$ with
+$a_1/(1-\alpha_1)>a_2/(1-\alpha_2)$, or $\varepsilon>1$ with
+$a_1/(1-\alpha_1)<a_2/(1-\alpha_2)$ --- the same reasoning applied to \bk{(20.43)} gives
+$\kappa^*=\lambda^*=0$ and $g^*=g^*_2$.  The model is symmetric in the two sectors apart from the
+labelling, so the statement is the mirror image.
+
+\medskip
+\noindent\textbf{Proposition 20.10$'$.}  \emph{Suppose \bk{(20.34)}, \bk{(20.60)} and the converse
+of \bk{(20.61)} hold.  Then there exists a unique CGP with}
+\[
+g^*=g^*_C=g^*_2=z^*_2=n+\frac{a_2}{1-\alpha_2},\qquad n^*_2=n ,
+\]
+\[
+g^*_1=n+\varepsilon a_1+\bigl[1-\varepsilon(1-\alpha_1)\bigr]\frac{a_2}{1-\alpha_2},
+\qquad
+z^*_1=n+(\varepsilon-1)a_1+\bigl[1-(\varepsilon-1)(1-\alpha_1)\bigr]\frac{a_2}{1-\alpha_2},
+\]
+\[
+n^*_1=n-(\varepsilon-1)(1-\alpha_1)\Bigl[\frac{a_2}{1-\alpha_2}-\frac{a_1}{1-\alpha_1}\Bigr] ,
+\]
+\emph{and $z^*_1<g^*$, $n^*_1<n^*_2$; $g^*_1>g^*$ if $\varepsilon<1$ and $g^*_1<g^*$ if
+$\varepsilon>1$.}
+
+\emph{Proof.}  Interchange the indices $1$ and $2$ throughout part (a).  The only asymmetry in the
+model is \bk{(20.34)}, $\alpha_1<\alpha_2$, and it enters nowhere in the derivation above ---
+\bk{(20.62)}--\bk{(20.65)} use only which sector is asymptotically dominant. $\blacksquare$
+
+\emph{Verification.}  \texttt{code/ch20.py} evaluates all four sign configurations with
+$\alpha_1=0.25$, $\alpha_2=0.55$, $n=0.01$, and checks five conditions in each: the two production
+functions, \bk{(20.57)}, \bk{(20.58)} and \bk{Proposition 20.9}.
+\begin{center}
+\small
+\begin{tabular}{rrrlrrrrr}
+\toprule
+$\varepsilon$ & $a_1$ & $a_2$ & branch & dom. & $g^*$ & $g^*$ other & $z^*$ other &
+$n^*$ other\\
+\midrule
+$0.4$ & $0.010$ & $0.030$ & \bk{(20.61)} & 1 & $0.023333$ & $0.032933$ & $0.008933$ & $-0.004400$\\
+$0.4$ & $0.030$ & $0.010$ & converse & 2 & $0.032222$ & $0.037556$ & $0.024222$ & $0.002000$\\
+$2.5$ & $0.030$ & $0.010$ & \bk{(20.61)} & 1 & $0.050000$ & $0.030000$ & $0.038000$ & $-0.002000$\\
+$2.5$ & $0.010$ & $0.030$ & converse & 2 & $0.076667$ & $-0.023333$ & $0.016667$ & $-0.050000$\\
+\bottomrule
+\end{tabular}
+\end{center}
+All five checks pass in every row.  Simulating the static equilibrium along
+$K(t)=K(0)e^{g^*t}$ in the first configuration reproduces the predicted rates: at $t=1000$, with
+$1-\kappa=5.8\times10^{-7}$, the measured $(g_1,g_2,z_2,n_2)$ are
+$(0.023333,\,0.032933,\,0.008933,\,-0.004400)$ against predictions
+$(0.023333,\,0.032933,\,0.008933,\,-0.004400)$.
+
+\rmk{Note the negative $n^*_2$ in three of the four rows: employment in the non-dominant sector
+shrinks \emph{absolutely}, not merely as a share.  That is the strongest form of the Baumol
+prediction, and it is what \bk{(20.65)} delivers whenever
+$(\varepsilon-1)(1-\alpha_2)\bigl|\frac{a_1}{1-\alpha_1}-\frac{a_2}{1-\alpha_2}\bigr|$ exceeds
+the population growth rate.}
+\end{aex}
+
+\begin{aex}{20.15}{}
+\emph{Constancy, directly.}  From \bk{(20.42)},
+$r(t)=\gamma\alpha_1\bigl(\tfrac{Y}{Y_1}\bigr)^{1/\varepsilon}\dfrac{Y_1}{\kappa(t)K(t)}$, so
+\[
+\frac{\dt r}{r}=\frac1\varepsilon\bigl(g(t)-g_1(t)\bigr)+g_1(t)
+-\frac{\dt\kappa}{\kappa}-\frac{\dt K}{K} .
+\]
+Along the CGP, $g(t)\to g^*$ and $g_1(t)\to g^*_1=g^*$, so the first term vanishes;
+$\kappa(t)\to1$, so $\dt\kappa/\kappa\to0$; and $\dt K/K\to z^*_1=g^*$.  Hence
+$\dt r(t)\to0$: the interest rate is asymptotically constant.  Equivalently,
+\[
+\frac{Y}{Y_1}=\Bigl[\gamma+(1-\gamma)\Bigl(\frac{Y_2}{Y_1}\Bigr)^{\frac{\varepsilon-1}{\varepsilon}}\Bigr]^{\frac{\varepsilon}{\varepsilon-1}}
+\longrightarrow\gamma^{\frac{\varepsilon}{\varepsilon-1}} ,
+\]
+because under \bk{(20.61)} the exponent and the limit of $Y_2/Y_1$ have opposite characters in
+both branches, and $Y_1/K_1$ is asymptotically constant since both grow at $g^*$.
+
+\emph{The closed form.}  Along a CGP per capita consumption grows at the constant rate
+$g^*_c=g^*-n$, so the Euler equation \bk{(20.55)} gives $r^*=\rho+\theta g^*_c$, and substituting
+\bk{(20.62)},
+\[
+\boxed{\ r^*=\rho+\frac{\theta\,a_1}{1-\alpha_1}\ }
+\]
+in the case where sector 1 is asymptotically dominant, and $r^*=\rho+\theta a_2/(1-\alpha_2)$ in
+the converse case of Exercise 20.14(b).  In either case,
+\[
+r^*=\rho+\theta\max\Bigl\{\frac{a_1}{1-\alpha_1},\frac{a_2}{1-\alpha_2}\Bigr\}
+\ \text{ if }\varepsilon>1,
+\qquad
+r^*=\rho+\theta\min\Bigl\{\frac{a_1}{1-\alpha_1},\frac{a_2}{1-\alpha_2}\Bigr\}
+\ \text{ if }\varepsilon<1 .
+\]
+$\blacksquare$
+
+\emph{What this says.}  The interest rate is governed entirely by the \emph{augmented} rate of
+technological progress $a_s/(1-\alpha_s)$ of the asymptotically dominant sector --- Hicks-neutral
+progress amplified by the capital deepening it induces.  Condition \bk{(20.60)} is exactly
+$\rho-n\ge(1-\theta)\max_s a_s/(1-\alpha_s)$, which guarantees $r^*>g^*$ and hence that the
+transversality condition holds.  Equating this with the direct expression also yields a by-product:
+the asymptotic output--capital ratio of the dominant sector is
+$\lim Y_1/K_1=\bigl[\rho+\theta a_1/(1-\alpha_1)\bigr]\big/\bigl[\alpha_1
+\gamma^{\varepsilon/(\varepsilon-1)}\bigr]$.
+
+\rmk{The Kaldor facts survive here for a reason worth stating.  The interest rate and, by
+\bk{(20.48)} evaluated at $\kappa^*=1$, the aggregate capital share are asymptotically constant
+even though the two sectors grow at permanently different rates and one of them may be losing
+employment absolutely.  The aggregate looks balanced because one sector comes to dominate the
+aggregate; the structural change is happening entirely in a sector whose share of output is
+vanishing.  That is the sense in which Section 20.2 reconciles Kuznets with Kaldor, and it is a
+different reconciliation from Section 20.1's knife-edge \bk{(20.18)}.}
+\end{aex}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/ch20_structural_change.pdf}
+\caption{Left: Engel curves from the Stone--Geary aggregator \bk{(20.2)}; solid curves impose
+\bk{(20.18)}, which makes $s^M$ exactly constant, dashed curves set $\gamma^S=0$
+(Exercise 20.1).  Right: manufacturing employment in the open-economy Matsuyama model, with the
+home economy's autarky share marked in grey (Exercise 20.20).}
+\label{fig:ch20}
+\end{figure}
+
+\solsection{20.3}{Agricultural Productivity and Industrialization}
+
+\begin{aex}{20.20}{}
+\textbf{(a)}  In either country the allocation of labour equates the value of the marginal product
+across sectors, which is \bk{(20.71)}: $B^AG'(1-n)=pXF'(n)$, so the autarky relative price of
+manufactures is
+\[
+p^{\mathrm{aut}}(n)=\frac{B^A}{X}\cdot\frac{G'(1-n)}{F'(n)} .
+\]
+The second factor is common to the two countries --- $F$ and $G$ are the same everywhere --- so at
+any common allocation the ratio of the two autarky prices is
+\[
+\frac{p^{\mathrm{aut}}}{p^{F,\mathrm{aut}}}=\frac{B^A/X}{B^F/X^F}
+=\frac{X^F(0)/B^F}{X(0)/B^A} .
+\]
+Comparative advantage in manufacturing goes to the country with the \emph{lower} autarky price of
+manufactures, that is
+\[
+\boxed{\ \text{home has a comparative advantage in manufacturing}\iff
+\frac{X(0)}{B^A}>\frac{X^F(0)}{B^F} . \ }
+\]
+
+\emph{Interpretation.}  Comparative advantage is Ricardian and depends on the \emph{ratio} of
+manufacturing to agricultural productivity, not on absolute levels: a country can be better at
+both and still specialize in agriculture.  The sting is that $B^A$ enters with the wrong sign
+relative to the closed economy.  In autarky, \bk{(20.75)} says a higher $B^A$ \emph{raises}
+manufacturing employment, because a smaller workforce suffices to feed the population; in the open
+economy a higher $B^A$ is precisely what gives the country a comparative advantage in agriculture
+and so \emph{lowers} it.  Agricultural productivity is a spur to industrialization behind closed
+borders and a brake on it in an open economy.
+
+\textbf{(b)}  With free trade there is a single world price $p(t)$, and \bk{(20.71)} holds in each
+country at that price:
+\[
+p(t)=\frac{B^AG'(1-n^*(t))}{X(t)F'(n^*(t))}=\frac{B^FG'(1-n^{F*}(t))}{X^F(t)F'(n^{F*}(t))} ,
+\]
+which rearranged at $t=0$ is exactly \bk{(20.78)}.
+
+For the inequality, define
+$\Psi(n)\equiv\dfrac{B^AG'(1-n)}{X(0)F'(n)}$.  Since $G'$ is decreasing, $G'(1-n)$ is increasing
+in $n$; since $F'$ is decreasing, $1/F'(n)$ is increasing in $n$.  So $\Psi$ is strictly
+increasing, and $n=\Psi^{-1}(p)$ is strictly increasing in the price of manufactures.  Free trade
+places the world price strictly between the two autarky prices, and by part (a) the home autarky
+price of manufactures is the higher one; hence $p(0)<\Psi(n^*)=p^{\mathrm{aut}}$ and
+\[
+\boxed{\ n^*(0)=\Psi^{-1}\bigl(p(0)\bigr)<\Psi^{-1}\bigl(p^{\mathrm{aut}}\bigr)=n^* . \ }
+\]
+Opening to trade immediately shifts labour out of home manufacturing.
+
+\textbf{(c)}  Take logarithms of \bk{(20.78)} written for a general $t$ and define
+$H(n)\equiv\log F'(n)-\log G'(1-n)$, which is strictly decreasing.  Then
+\[
+\log X(t)+H\bigl(n(t)\bigr)-\log B^A=\log X^F(t)+H\bigl(n^F(t)\bigr)-\log B^F ,
+\]
+and differentiating with respect to time, using \bk{(20.70)} and its foreign counterpart
+$\dt X^F=\kappa Y^{M,F}$,
+\[
+\boxed{\ \kappa F\bigl(n(t)\bigr)+H'\bigl(n(t)\bigr)\dt n(t)
+=\kappa F\bigl(n^F(t)\bigr)+H'\bigl(n^F(t)\bigr)\dt n^F(t) . \ }
+\]
+By part (b), $n(0)<n^F(0)$, so $F(n(0))<F(n^F(0))$ and the foreign manufacturing technology grows
+strictly faster from the first instant.  The gap $X^F/X$ therefore widens, which by part (a)
+strengthens the foreign comparative advantage, which by part (b) lowers $n$ further.  The process
+is self-reinforcing and $n(t)$ declines monotonically to zero, while $n^F(t)$ rises --- not to one,
+because the world must still be fed, but to the constant at which the foreign country alone
+supplies the residual food demand.
+
+\emph{Numerically}, with $F(x)=G(x)=x^{0.6}$, $\eta=0.4$, $\gamma^A=0.25$, $\kappa=0.02$,
+$B^A=1.6$, $B^F=1$ and $X(0)=X^F(0)=1$, \texttt{code/ch20.py} gives the home autarky share
+$n^*=0.5307$ and
+\begin{center}
+\small
+\begin{tabular}{rrrrr}
+\toprule
+$t$ & $n(t)$ & $n^F(t)$ & $X/B^A$ & $X^F/B^F$\\
+\midrule
+$0$ & $0.3879$ & $0.6723$ & $0.625$ & $1.00$\\
+$50$ & $0.3065$ & $0.7417$ & $1.065$ & $2.25$\\
+$150$ & $0.0660$ & $0.8619$ & $2.182$ & $13.1$\\
+$300$ & $0.0001$ & $0.8813$ & $2.591$ & $209$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The right panel of Figure~\ref{fig:ch20} plots the paths.  Note that the home economy is the
+\emph{more productive farmer} and it is exactly that which de-industrializes it.
+
+\rmk{This is Section 19.7's mechanism with a different source of the initial asymmetry.  There a
+small exogenous productivity gap $\delta$ in the learning sector was amplified by
+learning-by-doing until the South was locked out; here the asymmetry is agricultural productivity,
+which is the very thing the closed-economy model of Section 20.3 identifies as the \emph{cause} of
+industrialization.  The juxtaposition is Matsuyama's point, and it is a caution about reading
+\bk{Proposition 20.11} as a historical account of English industrialization: eighteenth-century
+England had both high agricultural productivity and substantial trade, and which force dominates
+depends on whether one thinks the relevant market for its manufactures was domestic or foreign.
+By the same token, the model gives an infant-industry argument with the same structure --- and the
+same qualification --- as Exercise 19.36: a temporary closure changes the asymptotic outcome only
+if it lasts long enough to reverse the comparative advantage, that is until $X(T_0)/B^A$ exceeds
+$X^F(T_0)/B^F$, which it never does here because the foreign economy is learning faster
+throughout.}
 \end{aex}
 
 \end{document}
