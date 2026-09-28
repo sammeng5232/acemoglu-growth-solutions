@@ -22,7 +22,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 11. First-Generation Models of Endogenous Growth | 21 | 8 | **13** — 11.1–11.3, 11.5–11.7, 11.9–11.13, 11.19, 11.20 |
 | 12. Modeling Technological Change | 14 | 6 | **8** — 12.1, 12.3, 12.4, 12.6–12.8, 12.10, 12.12 |
 | 13. Expanding Variety Models | 27 | 9 | **18** — 13.2–13.4, 13.8–13.12, 13.14, 13.16–13.18, 13.20, 13.21, 13.23, 13.25–13.27 |
-| 14–23 | 258 | 103 | in progress |
+| 14. Models of Schumpeterian Growth | 35 | 15 | **20** — 14.1, 14.3–14.5, 14.8–14.11, 14.16, 14.17, 14.23–14.25, 14.28–14.34 |
+| 15–23 | 223 | 88 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -103,6 +104,13 @@ chapter and writes that chapter's figures to `figures/`. So far:
   optimal growth with knowledge spillovers (Exercise 13.17); the permanent level scale effect and
   the saddle-path dynamics of the Jones model (Exercises 13.20 and 13.21); and the factor
   \(arepsilon\) between optimal and equilibrium growth with product varieties (Exercise 13.27).
+- **`ch14.py`** — the BGP of the baseline Schumpeterian model and its parameter conditions
+  (Exercise 14.4); the drastic threshold and the growth lost to limit pricing (Exercises 14.9 and
+  14.10); Schumpeterian growth without scale effects (Exercise 14.11); the one-sector model and
+  why its growth rate carries \(\log\lambda\) (Exercises 14.16 and 14.17); the planner's
+  allocation with incumbents and entrants (Exercise 14.25); the Pareto tail of the profit
+  distribution (Exercise 14.28); and a grid search establishing that the equilibrium never grows
+  faster than the optimum under condition (14.5).
 
 ## Working files (not part of the document)
 

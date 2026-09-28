@@ -179,9 +179,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--13\par}
+{\large Chapters 2--14\par}
 \vspace{0.6cm}
-{\small The 157 exercises that the instructor's solutions manual of\par
+{\small The 177 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -9499,6 +9499,999 @@ therefore exactly $1/\varepsilon$, and as $\varepsilon\to\infty$ (products becom
 substitutes) the equilibrium growth rate collapses to zero relative to the optimum: with no market
 power there is nothing to finance innovation, which is \bk{Proposition 12.1} seen in general
 equilibrium.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{14}{Models of Schumpeterian Growth}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The twenty exercises of Chapter 14 left unsolved in the instructor's manual: Exercises 14.1,
+14.3--14.5, 14.8--14.11, 14.16, 14.17, 14.23--14.25, 14.28--14.34.  The manual solves 14.2, 14.6,
+14.7, 14.12--14.15, 14.18--14.22, 14.26, 14.27 and 14.35.  Notation follows the book: $q(\nu,t)$
+is the quality of machine line $\nu$, $\lambda>1$ the size of a quality step, $\eta$ the
+productivity of R\&D, $z$ the flow rate of innovation, $Q=\int_0^1q\dd\nu$ average quality,
+$\phi$ the incumbent's incremental R\&D productivity and $\kappa$ the entrant's step size in
+Section 14.3, and $n(\nu,t)$ the technology gap in Section 14.4.  It is convenient to write
+\[
+\chi\equiv(1-\beta)^{-1/\beta}\ \ge\ e
+\]
+for the planner's machine-intensity factor.  The numerical parts are computed by
+\texttt{code/ch14.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{14.1}{}
+Take any machine line $\nu$ with positive R\&D.  Then the free-entry condition \bk{(14.14)} holds
+as an equality,
+\[
+\eta V(\nu,t\mid q)=\lambda^{-1}q(\nu,t) ,
+\]
+and in a BGP the right side is constant between innovations, so $\dt V(\nu,t\mid q)=0$ and
+\bk{(14.13)} gives
+\[
+V(\nu,t\mid q)=\frac{\pi(\nu,t\mid q)}{r^{*}+z(\nu,t\mid q)}=\frac{\beta q(\nu,t)L}{r^{*}+z(\nu,t\mid q)} ,
+\]
+using $\pi=\beta qL$ from \bk{(14.11)}.  Combining the two,
+\[
+\frac{\eta\beta q L}{r^{*}+z(\nu,t\mid q)}=\frac{q}{\lambda}
+\qquad\Longrightarrow\qquad
+r^{*}+z(\nu,t\mid q)=\lambda\eta\beta L .
+\]
+The quality $q$ has cancelled: both the profit from an innovation and the cost of achieving it
+are proportional to quality, which is exactly what the specification of the innovation
+possibilities frontier was designed to deliver.  Since $r^{*}$ is common to all lines,
+\[
+\boxed{\ z(\nu,t\mid q)=z^{*}\equiv\lambda\eta\beta L-r^{*}\qquad\text{for every }\nu .\ }
+\]
+
+It remains to rule out lines with \emph{no} R\&D.  If line $\nu$ had $z(\nu,t)=0$, free entry
+would hold as a weak inequality, $\eta\beta qL/r^{*}\le\lambda^{-1}q$, that is
+$r^{*}\ge\lambda\eta\beta L$.  But $r^{*}$ is common across lines, so this would then hold for
+\emph{every} line, forcing $z^{*}\le0$ everywhere and hence, by \bk{(14.22)}, zero growth --- which
+contradicts the parameter restriction $\lambda\eta\beta L>\rho$ of \bk{Proposition 14.1}.
+$\blacksquare$
+
+\rmk{This is the property that makes the model tractable and, arguably, realistic: research is
+spread evenly across the whole spectrum of machines rather than concentrated on the most or least
+advanced.  It depends on the linearity of \bk{(14.3)} in $q$ together with the assumption that
+R\&D on a machine of quality $q$ is proportionately harder.  Exercise 14.14 shows that changing
+the production function to $q(\nu,t)x^{1-\beta}L_E^{\beta}$ with a common $L_E$ concentrates all
+R\&D on the single highest-quality line.}
+\end{aex}
+
+\begin{aex}{14.3}{}
+Suppose a firm pays $\epsilon$ and acquires the innovator's technology for machine line $\nu$ of
+quality $q$.  The two firms then have \emph{identical} constant marginal costs $\psi q$ and
+produce a homogeneous good --- machines of the same variety and quality are perfect substitutes.
+Bertrand competition between two firms with the same marginal cost has a unique equilibrium in
+which both price at marginal cost and both earn zero operating profits.
+
+The copier therefore earns
+\[
+0-\epsilon=-\epsilon<0 ,
+\]
+a strict loss, whatever $q$, whatever the date, and however small $\epsilon$ is.  No firm copies.
+$\blacksquare$
+
+Since no copying occurs on the equilibrium path, the innovator faces only the previous vintage
+$\lambda^{-1}q$, exactly as in the model with patents.  Every equilibrium object is therefore
+unchanged: the price \bk{(14.6)}, the quantity \bk{(14.7)}, profits \bk{(14.8)}, the value
+function \bk{(14.13)}, free entry \bk{(14.14)} and the growth rate \bk{(14.23)}.
+
+\emph{What the argument uses, and where it breaks.}  Three things.  First, \emph{price}
+competition with a homogeneous product: under Cournot, two identical firms would each earn
+positive duopoly profits, and copying would pay whenever $\epsilon$ was small enough.  Second,
+$\epsilon>0$ \emph{strictly}: the conclusion is discontinuous at $\epsilon=0$, where copying
+becomes weakly optimal and the equilibrium unravels.  Third, that the copier obtains \emph{the
+same} technology, not a better one; a copier who could improve on the technology would be an
+entrant, and entry is already in the model.
+
+\rmk{The result belongs to the same family as contestable-markets arguments and Exercise 12.3's
+observation that trade secrecy can substitute for patents: what protects the innovator is not the
+legal monopoly but the fact that imitation destroys the very rents that would pay for it.  It also
+shows that the extreme policy conclusions of Section 13.1.6 and of this chapter --- that weaker
+intellectual property rights reduce growth --- do not depend on patents \emph{per se}.  What they
+depend on is that the rents from an innovation accrue to whoever makes it, and Section 14.4 is
+where that presumption is finally relaxed.}
+\end{aex}
+
+\begin{aex}{14.4}{}
+\emph{Uniqueness.}  The BGP is determined by three linear relations: \bk{(14.19)}
+$r^{*}+z^{*}=\lambda\eta\beta L$, the Euler equation \bk{(14.20)} $r^{*}=\theta g^{*}+\rho$, and
+the aggregation identity \bk{(14.22)} $g^{*}=(\lambda-1)z^{*}$.  Eliminating $r^{*}$ and $z^{*}$,
+\[
+\theta g^{*}+\rho+\frac{g^{*}}{\lambda-1}=\lambda\eta\beta L
+\qquad\Longrightarrow\qquad
+g^{*}=\frac{\lambda\eta\beta L-\rho}{\theta+(\lambda-1)^{-1}} ,
+\]
+which is \bk{(14.23)}; the system is linear with a nonzero coefficient on $g^{*}$, so the solution
+is unique.
+
+\emph{Positivity.}  $g^{*}>0$ if and only if $\lambda\eta\beta L>\rho$, the first inequality of
+\bk{Proposition 14.1}.  Then $z^{*}=g^{*}/(\lambda-1)>0$ as well.
+
+\emph{Transversality.}  By \bk{(14.17)} the value of every leading-edge patent is
+$q(\nu,t)/(\lambda\eta)$, so total corporate wealth is
+\[
+\int_{0}^{1}V(\nu,t\mid q)\dd\nu=\frac{Q(t)}{\lambda\eta} ,
+\]
+which grows at $g^{*}$.  Condition \bk{(14.16)} therefore holds if and only if $g^{*}<r^{*}$.
+Using $r^{*}=\theta g^{*}+\rho$, this is $(1-\theta)g^{*}<\rho$, and substituting \bk{(14.23)},
+\[
+(1-\theta)\bigl(\lambda\eta\beta L-\rho\bigr)<\rho\Bigl[\theta+\frac{1}{\lambda-1}\Bigr]
+\iff
+(1-\theta)\lambda\eta\beta L<\rho\Bigl[1+\frac{1}{\lambda-1}\Bigr]=\rho\frac{\lambda}{\lambda-1} ,
+\]
+that is
+\[
+\boxed{\ (1-\theta)(\lambda-1)\eta\beta L<\rho\ }
+\]
+exactly the second inequality of \bk{Proposition 14.1}.  The same inequality makes household
+utility finite, by the rearrangement used in Exercise 13.4.
+
+\emph{Positive consumption.}  R\&D spending on line $\nu$ is $Z(\nu,t)=z^{*}q(\nu,t)/\eta$, so
+$Z(t)=z^{*}Q(t)/\eta$, while net output is
+$\wt Y=Y-X=\bigl[\tfrac{1}{1-\beta}-(1-\beta)\bigr]QL=\tfrac{\beta(2-\beta)}{1-\beta}QL$.  Hence
+\[
+C(t)=Q(t)\Bigl[\frac{\beta(2-\beta)L}{1-\beta}-\frac{z^{*}}{\eta}\Bigr] ,
+\]
+positive provided $z^{*}/\eta<\beta(2-\beta)L/(1-\beta)$.  This is automatic when $\theta\ge1$:
+then $\theta(\lambda-1)+1\ge\lambda$, so
+$z^{*}/\eta=\bigl[\lambda\beta L-\rho/\eta\bigr]/[\theta(\lambda-1)+1]\le\beta L$, which is less
+than $\beta(2-\beta)L/(1-\beta)$.  With $\beta=1/2$, $\eta=0.12$, $L=1$, $\rho=0.02$, $\theta=2$
+and $\lambda=2$ the program gives $g^{*}=0.0333$, $r^{*}=0.0867$, $z^{*}=0.0333$ and
+$C/Q=1.500-0.278=1.222>0$. $\blacksquare$
+\end{aex}
+
+\begin{aex}{14.5}{}
+\emph{Free entry binds at every date.}  By the argument of Exercise 14.1, if free entry were slack
+on some interval it would be slack for every machine line, so there would be no R\&D and no growth
+on that interval; but then $r$ would have to satisfy $r\ge\lambda\eta\beta L$, and the Euler
+equation would give consumption growth $\theta^{-1}(r-\rho)\ge\theta^{-1}(\lambda\eta\beta L-\rho)>0$
+while output was constant --- impossible in the long run given the resource constraint.  Hence
+$\eta V(\nu,t\mid q)=\lambda^{-1}q(\nu,t)$ for all $t$.
+
+\emph{The interest rate is constant.}  Since $q(\nu,t)$ is constant between innovations, the
+free-entry equality gives $\dt V(\nu,t\mid q)=0$ at every date, and \bk{(14.13)} becomes
+\[
+r(t)+z(t)=\frac{\pi(\nu,t\mid q)}{V(\nu,t\mid q)}=\lambda\eta\beta L
+\qquad\text{for all }t .
+\]
+
+\emph{The R\&D rate cannot move.}  Write $A\equiv\beta(2-\beta)L/(1-\beta)$, so that
+$C(t)=[A-z(t)/\eta]Q(t)$ by Exercise 14.4, and $\dt Q/Q=(\lambda-1)z(t)$ by \bk{(14.21)}.  Then
+\[
+\frac{\dt C}{C}=(\lambda-1)z(t)-\frac{\dt z(t)/\eta}{A-z(t)/\eta} ,
+\]
+while the Euler equation with $r(t)=\lambda\eta\beta L-z(t)$ gives
+$\dt C/C=\theta^{-1}\bigl(\lambda\eta\beta L-z(t)-\rho\bigr)$.  Equating and rearranging,
+\[
+\dt z(t)=-\eta\Bigl[A-\frac{z(t)}{\eta}\Bigr]F\bigl(z(t)\bigr),
+\qquad
+F(z)\equiv\frac{\lambda\eta\beta L-z-\rho}{\theta}-(\lambda-1)z .
+\]
+$F$ is strictly decreasing, with the unique root $z^{*}$ of \bk{(14.23)}, and $A-z/\eta>0$ at
+$z^{*}$ by Exercise 14.4.  Hence
+\[
+\frac{\partial\dt z}{\partial z}\Big|_{z^{*}}=-\eta\Bigl[A-\frac{z^{*}}{\eta}\Bigr]F'(z^{*})>0 :
+\]
+the rest point is \emph{unstable}.  Since $z$ is a jump variable --- nothing about the R\&D rate
+is predetermined --- any $z(0)\ne z^{*}$ would send $z$ either to zero (contradicting free entry
+binding) or above $\eta A$ (making consumption negative).  Therefore $z(t)=z^{*}$ for all $t$,
+$r(t)=r^{*}$, and the economy grows at $g^{*}$ from the first instant, whatever $Q(0)>0$.
+$\blacksquare$
+
+The economics is the same as in Chapter 13: free entry pins the value of a patent to a constant
+multiple of its quality at every date, which pins the effective discount rate $r+z$, which leaves
+no room for the interest rate or the R\&D rate to move.  Linearity of the innovation possibilities
+frontier is what removes the transitional dynamics, exactly as in the $AK$ model.
+\end{aex}
+
+\begin{aex}{14.8}{}
+\emph{The static step.}  Without markups the planner equates the marginal product of a machine to
+its marginal cost: from \bk{(14.3)}, $q x^{-\beta}L^{\beta}=\psi q$, so
+$x^{S}=(1-\beta)^{-1/\beta}L=\chi L$, which is \bk{(14.24)}.  Then
+$Y^{S}=\chi Q^{S}L$ and
+$X^{S}=\psi\chi Q^{S}L=(1-\beta)\chi Q^{S}L$, so net output is
+\[
+\wt Y^{S}=\chi Q^{S}L\bigl[1-(1-\beta)\bigr]=\beta\chi\,Q^{S}(t)L ,
+\]
+which is \bk{(14.25)}.
+
+\emph{(a) Sufficiency.}  The reduced problem has the current-value Hamiltonian
+\[
+\wh H\bigl(Q^{S},C^{S},\mu^{S}\bigr)=\frac{(C^{S})^{1-\theta}-1}{1-\theta}
++\mu^{S}\eta(\lambda-1)\bigl[\beta\chi Q^{S}L-C^{S}\bigr] ,
+\]
+strictly concave in $C^{S}$ and linear in $Q^{S}$, hence jointly concave; and
+$\lim_{t\to\infty}e^{-\rho t}\mu^{S}(t)Q^{S}(t)\ge0$ for every feasible path, since $\mu^{S}>0$
+and $Q^{S}\ge0$.  Provided the objective is finite --- the condition
+$(1-\theta)\eta(\lambda-1)\beta\chi L<\rho$ of \bk{Proposition 14.3} --- \bk{Theorem 7.14}
+applies, so the listed conditions are sufficient.
+
+\emph{(b) Uniqueness.}  Strict concavity in $C^{S}$ makes the maximizer of the Hamiltonian unique
+at each date; the Euler equation then determines the whole path from $C^{S}(0)$, and, exactly as
+in Exercise 8.11, the transversality condition selects a single $C^{S}(0)$: a larger one violates
+feasibility (capital is driven negative in finite time), a smaller one leaves
+$\lim e^{-\rho t}\mu^{S}Q^{S}>0$.
+
+\emph{(c) The growth rate.}  The conditions are
+\[
+(C^{S})^{-\theta}=\mu^{S}\eta(\lambda-1),
+\qquad
+\mu^{S}\eta(\lambda-1)\beta\chi L=\rho\mu^{S}-\dt\mu^{S} .
+\]
+The second gives $\dt\mu^{S}/\mu^{S}=\rho-\eta(\lambda-1)\beta\chi L$, and differentiating the
+first gives $\dt\mu^{S}/\mu^{S}=-\theta\dt C^{S}/C^{S}$.  Hence
+\[
+\boxed{\ g^{S}=\frac{\dt C^{S}}{C^{S}}
+=\frac{1}{\theta}\Bigl(\eta(\lambda-1)(1-\beta)^{-1/\beta}\beta L-\rho\Bigr)\ }
+\]
+which is \bk{(14.27)}. $\blacksquare$
+
+As in Exercise 13.10, the right side contains no state variable, so the optimal allocation grows
+at $g^{S}$ from $t=0$ with no transitional dynamics; the transversality condition eliminates the
+explosive homogeneous solution for $Q^{S}$ and pins $C^{S}(0)$.
+\end{aex}
+
+\begin{aex}{14.9}{}
+\emph{What the buyer compares.}  A final good producer facing a machine of quality $q$ at price
+$p$ chooses $x=(q/p)^{1/\beta}L$ by \bk{(14.4)}, and its net gain from that machine line is
+\[
+\frac{1}{1-\beta}qx^{1-\beta}L^{\beta}-px
+=\frac{\beta}{1-\beta}L\,q^{1/\beta}p^{-\frac{1-\beta}{\beta}} .
+\]
+So the producer ranks offers by $q^{1/\beta}p^{-(1-\beta)/\beta}$, equivalently by
+$q\,p^{-(1-\beta)}$: a machine is better the higher its quality and the lower its price, with
+quality weighted more heavily the larger is $\beta$.
+
+\emph{The comparison.}  The innovator offers quality $q$ at the unconstrained monopoly price
+$p=\psi q/(1-\beta)$; the previous vintage offers quality $\lambda^{-1}q$ and, under Bertrand
+competition, will go down to its marginal cost $\psi\lambda^{-1}q$.  The buyer prefers the new
+machine if and only if
+\[
+\frac{q}{\bigl[\psi q/(1-\beta)\bigr]^{1-\beta}}\ \ge\ \frac{\lambda^{-1}q}{\bigl[\psi\lambda^{-1}q\bigr]^{1-\beta}} .
+\]
+Cancelling $q^{\beta}\psi^{-(1-\beta)}$ from both sides leaves
+\[
+(1-\beta)^{1-\beta}\ \ge\ \lambda^{-\beta}
+\qquad\Longleftrightarrow\qquad
+\lambda^{\beta}\ \ge\ (1-\beta)^{-(1-\beta)}
+\qquad\Longleftrightarrow\qquad
+\boxed{\ \lambda\ \ge\ \Bigl(\frac{1}{1-\beta}\Bigr)^{\frac{1-\beta}{\beta}}\ }
+\]
+which is exactly \bk{(14.5)}. $\blacksquare$
+
+With $\beta=1/2$ the threshold is $\lambda^{*}=2$: the quality step must at least double
+productivity before the innovator can ignore the machine it replaced.  For $\beta$ near $1$ the
+threshold falls to $1$ (quality matters overwhelmingly), and for $\beta$ near $0$ it rises to $e$.
+\end{aex}
+
+\begin{aex}{14.10}{}
+\emph{(a) The limit price.}  When \bk{(14.5)} fails the buyer would prefer the old vintage at the
+new monopoly price, so the innovator must price low enough to make the buyer indifferent.  Setting
+the two ranking indices of Exercise 14.9 equal,
+\[
+\frac{q}{p^{1-\beta}}=\frac{\lambda^{-1}q}{\bigl(\psi\lambda^{-1}q\bigr)^{1-\beta}}
+\qquad\Longrightarrow\qquad
+p^{1-\beta}=\lambda\bigl(\psi\lambda^{-1}q\bigr)^{1-\beta}
+\qquad\Longrightarrow\qquad
+\boxed{\ p_x=\lambda^{\frac{\beta}{1-\beta}}\psi q\ }
+\]
+This is below the unconstrained monopoly price $\psi q/(1-\beta)$ precisely when
+$\lambda^{\beta/(1-\beta)}<(1-\beta)^{-1}$, that is when \bk{(14.5)} fails --- and the two
+coincide exactly at $\lambda=\lambda^{*}$, as they must.
+
+\emph{(b) The growth rate.}  Write $\Lambda\equiv\lambda^{\beta/(1-\beta)}$ and keep
+$\psi=1-\beta$.  Then $x=(q/p_x)^{1/\beta}L=(\Lambda\psi)^{-1/\beta}L$ and flow profits per unit
+of quality are
+\[
+\wt\pi\equiv\frac{\pi}{q}=(\Lambda-1)\,\Lambda^{-1/\beta}(1-\beta)^{-\frac{1-\beta}{\beta}}L .
+\]
+Everything else in Exercise 14.1 goes through with $\beta L$ replaced by $\wt\pi$, so
+$r^{*}+z^{*}=\lambda\eta\wt\pi$ and
+\[
+g^{*}=\frac{\lambda\eta\wt\pi-\rho}{\theta+(\lambda-1)^{-1}} .
+\]
+Setting $\Lambda=(1-\beta)^{-1}$ recovers $\wt\pi=\beta L$ and \bk{(14.23)}.
+
+\emph{(c) The optimum.}  The planner never faces a price, so \bk{(14.27)} is unchanged; the
+equilibrium falls further short of it, since $\wt\pi<\beta L$.
+
+\emph{(d) Removing the rival.}  If the previous producer disappears, the innovator charges its
+ideal markup and earns $\beta L$ per unit of quality.  Since $p^{M}$ maximizes
+$(p-\psi q)x(p)$ and the limit price differs from it, $\beta L>\wt\pi$ strictly, hence
+\[
+g^{\text{hyp}}=\frac{\lambda\eta\beta L-\rho}{\theta+(\lambda-1)^{-1}}\ >\ g^{*} .
+\]
+With $\beta=1/2$, $\eta=0.12$, $L=1$, $\rho=0.02$, $\theta=2$ the program gives
+\[
+\begin{array}{cccc}
+\lambda & 1.2 & 1.5 & 2.0\ (=\lambda^{*})\\
+\text{regime} & \text{limit} & \text{limit} & \text{monopoly}\\
+g^{*} & 0.00286 & 0.01500 & 0.03333\\
+g^{\text{hyp}} & 0.00743 & 0.01750 & 0.03333
+\end{array}
+\]
+
+\emph{Explanation.}  Competition from the vintage the innovator replaced forces a lower price,
+which lowers flow profits, which lowers the value of a patent, which --- through free entry ---
+lowers R\&D and growth.  The effect vanishes exactly when the innovation is large enough to make
+the old vintage irrelevant.  This is the same message as Section 13.1.6 and Exercise 13.14:
+in this class of models competition is good for static efficiency and bad for growth.  It is worth
+noting what makes the message so stark: the old vintage exerts competitive pressure but
+contributes nothing to innovation.  Section 14.4, where the laggard is a live R\&D competitor, is
+where the sign can flip.
+\end{aex}
+
+\begin{aex}{14.11}{}
+Follow the hint: one unit of the final good spent on R\&D for a machine of quality $q$ generates
+a flow rate $\eta/q^{\phi}$ of innovation with $\phi>1$, and let population grow at $n$.
+
+\emph{Free entry.}  Research aimed at a line whose current quality is $\lambda^{-1}q$ generates
+quality $q$ at flow rate $\eta/(\lambda^{-1}q)^{\phi}$, so
+\[
+\frac{\eta}{(\lambda^{-1}q)^{\phi}}\,V(\nu,t\mid q)\le1 ,
+\qquad\text{with equality when there is research.}
+\]
+Flow profits are $\pi=\beta qL(t)$ and grow at $n$ along a BGP, so, as in Exercise 13.18,
+\[
+V(\nu,t\mid q)=\frac{\beta qL(t)}{r^{*}+z^{*}-n} ,
+\]
+and free entry becomes
+\[
+\frac{\eta\lambda^{\phi}\beta L(t)}{r^{*}+z^{*}-n}=q^{\phi-1} .
+\]
+
+\emph{The growth rate.}  The left side grows at $n$; the right side grows at $(\phi-1)g_Q$, where
+$g_Q$ is the growth rate of quality.  For free entry to hold at every date,
+\[
+\boxed{\ g^{*}=g_Q=\frac{n}{\phi-1}\ }
+\]
+Output is $Y=QL/(1-\beta)$, so output per capita $Q/(1-\beta)$ grows at $n/(\phi-1)>0$ while
+aggregate output grows at $n/(\phi-1)+n$.  The interest rate follows from the Euler equation,
+$r^{*}=\theta g^{*}+\rho$, and the innovation rate from \bk{(14.22)},
+$z^{*}=g^{*}/(\lambda-1)=n/[(\lambda-1)(\phi-1)]$; the level of $Q$ is then pinned down by the
+free-entry condition.  A finite $V$ requires $r^{*}+z^{*}>n$.
+
+\emph{What has changed.}  The growth rate depends on $n$ and $\phi$ alone --- not on $L$, $\eta$,
+$\beta$ or $\lambda$:
+\[
+\begin{array}{ccccc}
+\phi & 1.25 & 1.5 & 2 & 3\\
+g^{*}\ (n=0.01) & 0.040 & 0.020 & 0.010 & 0.005
+\end{array}
+\]
+The scale effect has been removed exactly as in Section 13.3, and for the same reason: research on
+a machine of quality $q$ is now \emph{more} than proportionately harder ($\phi>1$ rather than
+$\phi=1$), so a growing market is needed to keep the incentive to innovate constant.  As in
+Exercise 13.20 a level scale effect survives --- a larger $L$ supports a higher $Q$ at every date
+--- and the model becomes semi-endogenous: policy no longer affects the growth rate.
+\end{aex}
+
+\begin{aex}{14.16}{}
+There is a single machine line.  Between innovations its quality $q$ is constant and the
+allocation of labor is constant at $(L_E^{*},L_R^{*})$, so output
+\[
+Y(t)=\frac{q(t)L_E^{*}}{1-\beta}
+\]
+is constant: the economy does not grow at all.  Output jumps by the factor $\lambda$ at the
+instant of each innovation.
+
+Each of the $L_R^{*}$ research workers generates innovations at flow rate $\eta$, independently,
+so the aggregate arrival process is Poisson with rate $\eta L_R^{*}$.  The waiting time between
+successive arrivals is therefore exponentially distributed with that rate,
+\[
+\Prob\bigl[\text{no innovation in }[t,t+s]\bigr]=e^{-\eta L_R^{*}s} ,
+\]
+whose mean is
+\[
+\boxed{\ \E[\text{interval}]=\frac{1}{\eta L_R^{*}}\ }
+\]
+$\blacksquare$  With the program's parameters ($\lambda=2$, $\eta=0.15$, $\beta=1/2$, $L=1$,
+$\rho=0.05$) one gets $L_R^{*}=1/3$ and an average interval of $20$ periods.
+
+\rmk{This is the price of having one sector rather than a continuum.  In Section 14.1 a law of
+large numbers across a continuum of independent machine lines makes $Q(t)$ deterministic and
+growth perfectly smooth; here there is nothing to average over.  As the text observes, real
+economies lie between the two --- they do not grow at constant rates, but neither do they stand
+still for decades and then jump.}
+\end{aex}
+
+\begin{aex}{14.17}{}
+\emph{(a) The equilibrium.}  Households are risk neutral, so $r(t)=\rho$ at all dates.  With the
+unconstrained monopoly price, $\pi(q)=\beta qL_E$ and $w(q)=\beta q/(1-\beta)$.  A leader is
+replaced at the flow rate $\eta L_R$, so
+\[
+V(q)=\frac{\beta qL_E}{\rho+\eta L_R} .
+\]
+A research worker generates flow rate $\eta$ of an innovation worth $V(\lambda q)$ and costs
+$w(q)$, so free entry requires $\eta V(\lambda q)=w(q)$:
+\[
+\frac{\eta\lambda\beta qL_E}{\rho+\eta L_R}=\frac{\beta q}{1-\beta}
+\qquad\Longrightarrow\qquad
+\eta\lambda(1-\beta)\bigl(L-L_R\bigr)=\rho+\eta L_R ,
+\]
+whose unique solution is
+\[
+\boxed{\ L_R^{*}=\frac{\lambda(1-\beta)\eta L-\rho}{\eta\bigl[1+\lambda(1-\beta)\bigr]}\ }
+\]
+Positive research requires $\lambda(1-\beta)\eta L>\rho$; and $L_R^{*}<L$ holds automatically.
+
+\emph{The growth rate.}  Let $n(t)$ count innovations by date $t$, a Poisson process with rate
+$\eta L_R^{*}$.  Then $q(t)=\lambda^{n(t)}q(0)$ and $Y(t)=q(t)L_E^{*}/(1-\beta)$, so
+\[
+\frac{\log Y(t)-\log Y(0)}{t}=\frac{n(t)}{t}\log\lambda
+\ \xrightarrow[t\to\infty]{}\ \eta L_R^{*}\log\lambda
+\]
+almost surely, by the strong law of large numbers for the Poisson process.  Hence
+$g^{*}=\eta L_R^{*}\log\lambda$.
+
+\emph{The parameter condition.}  With risk neutrality, utility is $\int_0^\infty e^{-\rho t}C(t)\dd t$
+with $C$ growing at $g^{*}$ on average, finite if and only if $\rho>g^{*}$.  Substituting
+$L_R^{*}$,
+\[
+\rho>\log\lambda\,\frac{\lambda(1-\beta)\eta L-\rho}{1+\lambda(1-\beta)}
+\qquad\Longleftrightarrow\qquad
+\lambda(1-\beta)\eta L<\rho\Bigl[1+\frac{1+\lambda(1-\beta)}{\log\lambda}\Bigr] .
+\]
+Together with $\lambda(1-\beta)\eta L>\rho$ this is \bk{(14.30)}, and it is necessary and
+sufficient for the equilibrium of the proposition. $\blacksquare$
+
+With $\lambda=2$, $\eta=0.15$, $\beta=1/2$, $L=1$, $\rho=0.05$: $L_R^{*}=0.333$,
+$g^{*}=0.0347$, and the upper bound is $0.194$ against $\lambda(1-\beta)\eta L=0.15$.
+
+\emph{(b) $\log\lambda$ versus $\lambda-1$.}  The two models average in different places.
+
+In Section 14.1 there is a continuum of machine lines.  In an interval $\dd t$ a fraction
+$z\dd t$ of them innovate, each multiplying its quality by $\lambda$, so the \emph{arithmetic
+average} $Q=\int_0^1q\dd\nu$ grows deterministically at
+\[
+\frac{\dt Q}{Q}=(\lambda-1)z ,
+\]
+and since output is linear in $Q$, that is the growth rate of output.
+
+In Section 14.2 there is one line.  Its quality is $\lambda^{n(t)}q(0)$, a pure jump process, and
+what obeys a law of large numbers is not $q$ but $\log q$:
+\[
+\frac{\log q(t)}{t}\to z\log\lambda .
+\]
+The long-run growth rate of the \emph{level} of output is governed by the geometric mean, not the
+arithmetic one, and Jensen's inequality gives $\log\lambda<\lambda-1$.  (Indeed $\E[q(t)]$ does
+grow at $(\lambda-1)z$ in the one-sector model too, but that expectation is driven by rare paths
+with unusually many innovations and is not the rate almost every realization exhibits.)  With
+$\lambda=2$ the difference is $0.693$ against $1$ --- a third of the growth rate.
+\end{aex}
+
+\begin{aex}{14.23}{}
+\emph{(a) The BGP.}  Since profits $\beta qL$ and both R\&D costs are proportional to $q$, the
+value function is linear, $V(q)=vq$.  The incumbent's first-order condition \bk{(14.43)} then
+gives $\phi(\lambda-1)v=1$, so
+\[
+v=\frac{1}{\phi(\lambda-1)} ,
+\]
+which is \bk{(14.44)}.  Free entry \bk{(14.41)} gives $\eta(\wh z)\kappa v=1$, hence
+\[
+\eta(\wh z^{*})=\frac{\phi(\lambda-1)}{\kappa}
+\qquad\Longrightarrow\qquad
+\wh z^{*}=\eta^{-1}\Bigl(\frac{\phi(\lambda-1)}{\kappa}\Bigr) ,
+\]
+which is \bk{(14.45)}: unique because $\eta$ is continuous and strictly decreasing, and strictly
+positive by the Inada conditions \bk{(14.34)}.  Equating $vq$ with \bk{(14.46)},
+\[
+r^{*}=\frac{\beta L}{v}-\wh z^{*}\eta(\wh z^{*})=\phi(\lambda-1)\beta L-\wh z^{*}\eta(\wh z^{*}) ,
+\]
+which is \bk{(14.47)}, and the Euler equation gives \bk{(14.48)}.  Every step is an equality, so
+the BGP growth rate is unique.
+
+\emph{Incumbent R\&D is positive.}  From the decomposition \bk{(14.52)},
+\[
+z^{*}=\frac{g^{*}-(\kappa-1)\wh z^{*}\eta(\wh z^{*})}{(\lambda-1)\phi}\ >\ 0
+\iff
+\phi(\lambda-1)\beta L-\bigl[1+\theta(\kappa-1)\bigr]\wh z^{*}\eta(\wh z^{*})>\rho ,
+\]
+using \bk{(14.48)} --- the first inequality of \bk{(14.53)}.
+
+\emph{Transversality.}  Total corporate wealth is $\int_0^1V(\nu,t\mid q)\dd\nu=vQ(t)$, growing at
+$g^{*}$, so \bk{(14.16)} holds iff $g^{*}<r^{*}=\theta g^{*}+\rho$, that is $(1-\theta)g^{*}<\rho$,
+which rearranges to
+\[
+\rho>(1-\theta)\Bigl(\phi(\lambda-1)\beta L-\wh z^{*}\eta(\wh z^{*})\Bigr) ,
+\]
+the second inequality of \bk{(14.53)}.
+
+\emph{(b) Uniqueness of the dynamic path.}  Suppose first that \bk{(14.43)} holds everywhere.
+Linearity gives $V(\nu,t\mid q)=v(t)q$, and \bk{(14.43)} reads $\phi(\lambda-1)v(t)=1$ for all
+$t$.  Differentiating, $\dt v(t)=0$, so $v(t)=v$ is constant.  Free entry
+$\eta(\wh z(t))\kappa v=1$ then forces $\wh z(t)=\wh z^{*}$ at every date, and \bk{(14.40)}
+becomes
+\[
+r(t)v=\beta L-\wh z^{*}\eta(\wh z^{*})v ,
+\]
+so $r(t)=r^{*}$ for all $t$.  The Euler equation then gives $g(t)=g^{*}$: every variable takes its
+BGP value immediately.
+
+If instead \bk{(14.43)} fails on some set of lines --- so that those incumbents do no incremental
+R\&D --- then \bk{(14.40)} with $z=0$ gives a differential equation for $\wh z(\nu,t\mid q)$
+along those lines.  Its unique rest point is the BGP allocation, and, exactly as in Exercise 14.5,
+the rest point is \emph{unstable}: a higher $\wh z$ lowers the value of incumbency, which lowers
+$V(\kappa q)$, which by free entry calls forth still more entry.  Since $\wh z$ is a jump
+variable, it must sit at the rest point.  Hence there is no equilibrium other than the BGP.
+$\blacksquare$
+\end{aex}
+
+\begin{aex}{14.24}{}
+Free entry by entrants holds with equality whenever there is entry, \bk{(14.41)}:
+\[
+\eta\bigl(\wh z\bigr)V(\nu,t\mid\kappa q)=q ,
+\]
+that is, one unit of final good spent on radical R\&D buys a flow rate $\eta(\wh z)/q$ of an
+innovation worth $V(\kappa q)$, and the two exactly offset: entrants earn zero.
+
+Now suppose the incumbent --- which currently owns a machine of quality $q$ worth $V(q)>0$ ---
+spends one unit on the same technology.  With probability flow $\eta(\wh z)/q$ it obtains the new
+machine of quality $\kappa q$ worth $V(\kappa q)$, \emph{but in doing so it destroys its own
+existing machine}, giving up $V(q)$.  Its net return per unit spent is therefore
+\[
+\frac{\eta(\wh z)}{q}\Bigl[V(\kappa q)-V(q)\Bigr]-1
+\ <\ \frac{\eta(\wh z)}{q}V(\kappa q)-1=0 ,
+\]
+strictly negative because $V(q)>0$.  The incumbent therefore sets its radical R\&D to zero.
+$\blacksquare$
+
+This is Arrow's replacement effect of \bk{Proposition 12.3} in general equilibrium: the incumbent
+values the same innovation strictly less than an entrant does, by exactly the profits it would
+replace, and free entry has already driven the entrant's return to zero.  It also explains the
+structure of Section 14.3: incumbents innovate only with the \emph{incremental} technology, which
+entrants cannot use and which improves rather than replaces the incumbent's own machine, so that
+the loss $V(q)$ is not incurred --- the incumbent moves from $V(q)$ to $V(\lambda q)$ instead.
+\end{aex}
+
+\begin{aex}{14.25}{}
+\emph{(a) The problem.}  Pricing machines at marginal cost gives $x^{S}=\chi L$ and net output
+$\chi\beta QL$, as in Exercise 14.8.  R\&D absorbs $(z+\wh z)Q$ by \bk{(14.35)}, and average
+quality evolves by \bk{(14.51)}.  So the planner solves
+\[
+\max\ \int_{0}^{\infty}e^{-\rho t}\frac{C^{1-\theta}-1}{1-\theta}\dd t
+\quad\text{s.t.}\quad
+C=\bigl[\chi\beta L-z-\wh z\bigr]Q,
+\qquad
+\frac{\dt Q}{Q}=(\lambda-1)\phi z+(\kappa-1)f(\wh z) ,
+\]
+writing $f(\wh z)\equiv\wh z\,\eta(\wh z)$, which is increasing by assumption; assume it is also
+concave, as the congestion interpretation suggests.  The current-value Hamiltonian
+\[
+\wh H=\frac{\bigl([\chi\beta L-z-\wh z]Q\bigr)^{1-\theta}-1}{1-\theta}
++\mu Q\bigl[(\lambda-1)\phi z+(\kappa-1)f(\wh z)\bigr]
+\]
+is then concave in the controls (a concave increasing transform of a linear function, plus a
+concave term) and \bk{Theorem 7.14} applies.
+
+\emph{The first-order conditions.}  Differentiating in $z$ and in $\wh z$,
+\[
+C^{-\theta}=\mu(\lambda-1)\phi ,
+\qquad
+C^{-\theta}=\mu(\kappa-1)f'(\wh z) ,
+\]
+so the planner's entry rate solves
+\[
+\boxed{\ (\lambda-1)\phi=(\kappa-1)f'\bigl(\wh z^{S}\bigr)\ }
+\]
+against the market's $(\lambda-1)\phi=\kappa\,\eta(\wh z^{*})=\kappa f(\wh z^{*})/\wh z^{*}$.
+Since $f$ is concave with $f(0)=0$, $f'(\wh z)<f(\wh z)/\wh z$, and $\kappa>\kappa-1$, so
+\[
+(\kappa-1)f'(\wh z)<\kappa\frac{f(\wh z)}{\wh z}
+\qquad\Longrightarrow\qquad
+\wh z^{S}<\wh z^{*} :
+\]
+\emph{the planner always chooses less entry than the market}, for two reasons at once --- entrants
+ignore the congestion they impose on other entrants ($f'<f/\wh z$) and they count the whole step
+$\kappa$ rather than the increment $\kappa-1$ (business stealing).
+
+Differentiating in $Q$ and using $C^{-\theta}=\mu(\lambda-1)\phi$, the costate equation and the
+requirement that $C/Q$ be constant give
+\[
+\boxed{\ g^{S}=\frac{(\lambda-1)\phi\bigl[\chi\beta L-\wh z^{S}\bigr]+(\kappa-1)f(\wh z^{S})-\rho}{\theta}\ }
+\]
+
+\emph{(b) The comparison.}  Subtracting \bk{(14.48)},
+\[
+\theta\bigl(g^{S}-g^{*}\bigr)
+=\underbrace{(\lambda-1)\phi\beta L\bigl(\chi-1\bigr)}_{\text{no markup}}
++\underbrace{(\kappa-1)\Bigl[f(\wh z^{S})-\wh z^{S}f'(\wh z^{S})\Bigr]}_{\text{less entry}}
++\underbrace{f(\wh z^{*})}_{\text{entry lowers }g^{*}} .
+\]
+Every term is nonnegative: the first because $\chi>1$; the second because $f$ is concave with
+$f(0)=0$; the third trivially.  Hence
+\[
+g^{S}>g^{*}\qquad\text{always.}
+\]
+With $\eta(z)=\eta_0z^{-\gamma}$ the program confirms this at every parameter combination tried:
+\[
+\begin{array}{cccccc}
+(\phi,\lambda,\kappa,\eta_0,\gamma) & \wh z^{*} & \wh z^{S} & g^{*} & g^{S}\\
+(0.6,1.2,2.0,0.0219,0.5) & 0.1332 & 0.0083 & 0.0160 & 0.1105\\
+(0.6,1.2,3.0,0.0150,0.5) & 0.1406 & 0.0156 & 0.0172 & 0.1109\\
+(0.9,1.3,2.0,0.0300,0.5) & 0.0494 & 0.0031 & 0.0542 & 0.2604
+\end{array}
+\]
+
+\rmk{The exercise asks for numerical examples in which the optimal growth rate is greater
+\emph{or less} than the equilibrium one.  The displayed identity shows the second cannot happen
+once $f=\wh z\eta(\wh z)$ is concave --- which is needed anyway for the planner's problem to be
+well behaved.  The intuition the exercise offers is nonetheless right as far as it goes: the
+planner does cut entry, and cutting entry does remove one source of growth.  But in this model
+more entry \emph{lowers} the equilibrium growth rate as well, through \bk{(14.48)}, because it
+shortens the incumbent's expected life and so discourages incremental innovation.  Cutting entry
+therefore pushes both growth rates the same way, and the markup effect --- worth a factor
+$\chi\ge e$ --- settles the comparison.  A genuine example of excessive growth needs the incumbent
+R\&D margin to be absent, as in Section 14.1 with non-drastic innovations, or a convex $f$.}
+\end{aex}
+
+\begin{aex}{14.28}{}
+\emph{The equilibrium is unchanged.}  With $Y=\frac{1}{1-\beta}\bigl[\int_0^1qx^{1-\beta}\dd\nu\bigr]L^{\beta}$
+and marginal cost $\psi q$, Exercise 14.1's computation applies verbatim: demand is
+$x=(q/p_x)^{1/\beta}L$, the monopoly price is $p_x=q$ after the normalization $\psi=1-\beta$,
+and
+\[
+x(\nu,t\mid q)=L,
+\qquad
+\pi(\nu,t\mid q)=\beta q(\nu,t)L .
+\]
+Profits are exactly as in \bk{(14.8)}, so the value functions \bk{(14.40)}, the free-entry
+condition \bk{(14.41)}, the incumbent's condition \bk{(14.42)}, the entry rate \bk{(14.45)}, the
+growth rate \bk{(14.48)} and the decomposition \bk{(14.52)} are all unchanged.
+
+\emph{But firm size is constant.}  Sales in units are $x=L$ for \emph{every} firm, regardless of
+its quality.  The stochastic process \bk{(14.54)} collapses: a firm's size never changes while it
+survives, and drops to zero when it is replaced.  There are no firm-size dynamics.
+
+\emph{Why.}  In Section 14.3 the marginal cost of a machine is $\psi$, independent of quality, so
+a better machine is cheaper per unit of quality and final good producers buy more of it:
+$x=qL$.  Here the cost is $\psi q$, proportional to quality, so improving a machine raises its
+price and its cost in the same proportion and leaves the quantity untouched.  Quality shows up
+entirely in the price, not in the quantity.
+
+\emph{Profits do have dynamics.}  Flow profits $\pi=\beta qL$ are proportional to quality, so for
+small $\Delta t$
+\[
+\pi(\nu,t+\Delta t)=
+\begin{cases}
+\lambda\,\pi(\nu,t) & \text{with probability }\phi z^{*}\Delta t+o(\Delta t),\\
+0 & \text{with probability }\wh z^{*}\eta(\wh z^{*})\Delta t+o(\Delta t),\\
+\pi(\nu,t) & \text{otherwise,}
+\end{cases}
+\]
+exactly the process \bk{(14.54)} had for sales.
+
+\emph{The stationary distribution.}  A firm that has survived to age $a$ has taken a
+Poisson$(\phi z^{*}a)$ number of incremental steps, and age is exponential with rate
+$\wh z^{*}\eta(\wh z^{*})$.  Integrating,
+\[
+\Prob[n=k]=\int_{0}^{\infty}\wh z^{*}\eta\,e^{-\wh z^{*}\eta a}\,
+\frac{(\phi z^{*}a)^{k}}{k!}e^{-\phi z^{*}a}\dd a
+=(1-p)\,p^{k},
+\qquad
+p\equiv\frac{\phi z^{*}}{\phi z^{*}+\wh z^{*}\eta(\wh z^{*})} ,
+\]
+a geometric distribution.  Relative profits are $\lambda^{k}$, so
+\[
+\Prob\bigl[\pi/\pi_{0}\ge\lambda^{k}\bigr]=p^{k}=\bigl(\lambda^{k}\bigr)^{-\zeta},
+\qquad
+\boxed{\ \zeta=\frac{\log(1/p)}{\log\lambda}\ }
+\]
+--- a \emph{Pareto} tail with index $\zeta$.  With the program's parameters
+$\phi z^{*}=0.0400$ and $\wh z^{*}\eta(\wh z^{*})=0.0080$, giving $p=0.834$ and $\zeta=1.00$:
+Zipf's law, which is what the firm-size data show.
+
+\rmk{This is worth separating from the exercise's main point.  Random proportional growth
+truncated by an exponential exit hazard generates a Pareto distribution whatever the variable
+being grown --- sales in Section 14.3, profits here.  The reason the baseline model of Section
+14.1 is usually described as having no firm dynamics is that its natural size measure, physical
+sales, is constant; measured by revenue $p_xx=qL$ or by profits, the same power law is there.}
+\end{aex}
+
+\begin{aex}{14.29}{}
+Firm $i$ leads with marginal cost $w/q_i$, firm $-i$ follows with $w/q_{-i}\ge w/q_i$, the two
+varieties are perfect substitutes, and they compete in prices.
+
+\emph{The unconstrained monopoly price is infinite.}  Demand \bk{(14.60)} is $y=Y/p^{y}$, which is
+\emph{unit elastic}: revenue $p^{y}y=Y$ does not depend on the price at all.  Profits are
+therefore
+\[
+\bigl(p^{y}-MC\bigr)\frac{Y}{p^{y}}=Y\Bigl(1-\frac{MC}{p^{y}}\Bigr) ,
+\]
+strictly increasing in $p^{y}$ without bound.  An unconstrained monopolist would charge an
+arbitrarily high price; what pins the price down is entirely the rival.
+
+\emph{Bertrand.}  If the leader charged $p>w/q_{-i}$, the follower could set a price in
+$(w/q_{-i},p)$, capture the whole market and make a strictly positive margin --- so no such $p$
+is an equilibrium.  If the leader charged $p<w/q_{-i}$ it would still capture the whole market
+(the follower cannot profitably match) but would earn less than at $w/q_{-i}$, by the
+monotonicity just established.  Hence the unique equilibrium price is
+\[
+\boxed{\ p^{y}_{i}(\nu,t)=\frac{w(t)}{q_{-i}(\nu,t)}\ }
+\]
+$\blacksquare$
+
+Substituting into \bk{(14.60)} gives \bk{(14.64)}, $y_i=q_{-i}Y/w$, and the profits \bk{(14.69)},
+\[
+\Pi_i=\Bigl(\frac{w}{q_{-i}}-\frac{w}{q_i}\Bigr)\frac{q_{-i}Y}{w}
+=\Bigl(1-\frac{q_{-i}}{q_i}\Bigr)Y=\bigl(1-\lambda^{-n}\bigr)Y ,
+\]
+which depend only on the technology gap $n$ and on aggregate output.  That is the feature which
+makes the gap the single industry-level state variable, and it is a consequence of the
+Cobb--Douglas aggregator \bk{(14.59)}: with any other elasticity the profits would depend on the
+levels of $q_i$ and $q_{-i}$ separately, and the state space would be much larger.
+\end{aex}
+
+\begin{aex}{14.30}{}
+Write $q(\nu,t)\equiv q_i(\nu,t)$ for the leader's quality, so that the follower's is
+$q_{-i}=q(\nu,t)\lambda^{-n(\nu,t)}$.  Take logarithms of \bk{(14.59)} and substitute the
+equilibrium quantity \bk{(14.64)}, which is $y(\nu,t)=q_{-i}(\nu,t)Y(t)/w(t)$:
+\[
+\log Y(t)=\int_{0}^{1}\log y(\nu,t)\dd\nu
+=\int_{0}^{1}\Bigl[\log q(\nu,t)-n(\nu,t)\log\lambda+\log\frac{Y(t)}{w(t)}\Bigr]\dd\nu .
+\]
+The last term does not depend on $\nu$, so it integrates to itself; the first is $\log Q(t)$ by
+the definition \bk{(14.74)}; and the second integrates to $\log\lambda$ times the mean technology
+gap,
+\[
+\int_{0}^{1}n(\nu,t)\dd\nu=\sum_{n=0}^{\infty}n\,\mu_n(t) .
+\]
+Hence
+\[
+\log Y(t)=\log Q(t)-\log\lambda\sum_{n=0}^{\infty}n\mu_n(t)+\log Y(t)-\log w(t) ,
+\]
+and cancelling $\log Y(t)$ from both sides leaves
+\[
+\boxed{\ w(t)=Q(t)\,\lambda^{-\sum_{n=0}^{\infty}n\mu_n(t)}\ }
+\]
+which is \bk{(14.75)}. $\blacksquare$
+
+\emph{Reading the formula.}  The wage is the aggregate quality index discounted by the average
+technology gap.  Two economies with the same $Q$ but different distributions of gaps pay different
+wages: the one with larger gaps has higher markups, since by \bk{(14.69)} a gap of $n$ supports a
+markup factor $\lambda^{n}$, and so a smaller labor share.  The mean gap $\sum n\mu_n$ is thus a
+sufficient statistic for the aggregate markup in this economy, which is why competition policy
+here works through the \emph{composition} of industries and not only through their R\&D
+decisions.
+\end{aex}
+
+\begin{aex}{14.31}{}
+By \bk{(14.81)},
+\[
+z_n^{*}=\max\Bigl\{G'^{-1}\Bigl(\frac{\delta_{n+1}}{\omega^{*}}\Bigr),\,0\Bigr\},
+\qquad \delta_{n+1}\equiv v_{n+1}-v_n .
+\]
+The first part of \bk{Proposition 14.8} establishes that $\{v_n\}_{n=0}^{\infty}$ is bounded and
+strictly increasing, hence convergent, so its increments vanish:
+\[
+\delta_{n+1}\longrightarrow0\qquad\text{as }n\to\infty .
+\]
+Now use the assumption $G'(0)>0$ --- the absence of an Inada condition at zero R\&D.  Since $G'$
+is strictly increasing with $G'(0)>0$, the inverse $G'^{-1}(y)$ is defined and positive only for
+$y>G'(0)$; for $y\le G'(0)$ the maximum in \bk{(14.81)} is attained at $z=0$.  Therefore
+\[
+\delta_{n+1}\le\omega^{*}G'(0)\qquad\Longrightarrow\qquad z_n^{*}=0 .
+\]
+Because $\omega^{*}>0$ and $\delta_{n+1}\to0$, there exists $n^{*}\ge1$ such that
+$\delta_{n+1}\le\omega^{*}G'(0)$ for all $n\ge n^{*}$, and hence
+\[
+\boxed{\ z_n^{*}=0\qquad\text{for all }n\ge n^{*} .\ }
+\]
+$\blacksquare$
+
+\emph{What drives it.}  Two ingredients.  Flow profits $1-\lambda^{-n}$ are bounded above by one,
+so the gain from moving one more step ahead shrinks geometrically: a leader $n$ steps ahead
+already captures almost the whole available markup, and step $n+1$ adds only
+$\lambda^{-n}-\lambda^{-n-1}$.  And $G'(0)>0$ means R\&D has a strictly positive marginal cost
+even at zero, so an arbitrarily small benefit does not justify any effort at all.  Without that
+assumption --- with an Inada condition at zero --- every leader would do some R\&D, however far
+ahead, and there would be no $n^{*}$.
+
+This is what makes the composition effects of Section 14.4 operative: industries that drift too far
+from neck-and-neck stop contributing to growth altogether, so policies that pull industries back
+toward $n=0$ can raise aggregate R\&D even though they reduce the reward to leadership.
+\end{aex}
+
+\begin{aex}{14.32}{}
+Since $G'^{-1}$ is strictly increasing, $z_0^{*}>z_1^{*}$ is equivalent to
+$\delta_1>\delta_2$, where $\delta_{n+1}=v_{n+1}-v_n$.
+
+\emph{A convenient form.}  Define
+\[
+\Phi(\delta)\equiv\max_{z\ge0}\bigl\{-\omega^{*}G(z)+z\delta\bigr\} ,
+\]
+which is convex and nondecreasing, with $\Phi'(\delta)=z^{*}(\delta)$.  Writing
+$\bar\rho\equiv\rho+z_{-1}^{*}+\kappa$, the value functions \bk{(14.78)}--\bk{(14.79)} become
+\[
+\bar\rho v_n=\bigl(1-\lambda^{-n}\bigr)+\Phi(\delta_{n+1})+\bigl(z_{-1}^{*}+\kappa\bigr)v_0
+\quad (n\ge1),
+\]
+\[
+\bar\rho v_0=\Phi(\delta_{1})+z_0^{*}\bigl(v_{-1}-v_0\bigr)+\bigl(z_{-1}^{*}+\kappa\bigr)v_0 .
+\]
+Subtracting consecutive equations,
+\[
+\bar\rho\,\delta_1=\bigl(1-\lambda^{-1}\bigr)+\Phi(\delta_2)-\Phi(\delta_1)
+-z_0^{*}\bigl(v_{-1}-v_0\bigr),
+\qquad
+\bar\rho\,\delta_2=\bigl(\lambda^{-1}-\lambda^{-2}\bigr)+\Phi(\delta_3)-\Phi(\delta_2) .
+\]
+
+\emph{The argument.}  Suppose, for contradiction, that $\delta_1\le\delta_2$.  Then
+$\Phi(\delta_2)-\Phi(\delta_1)\ge0$, and $v_{-1}\le v_0$ by \bk{Proposition 14.8} gives
+$-z_0^{*}(v_{-1}-v_0)\ge0$, so
+\[
+\bar\rho\,\delta_1\ \ge\ 1-\lambda^{-1} .
+\]
+On the other hand $\delta_3<\delta_2$ by the part of \bk{Proposition 14.9} already proved, so
+$\Phi(\delta_3)\le\Phi(\delta_2)$ and
+\[
+\bar\rho\,\delta_2\ \le\ \lambda^{-1}-\lambda^{-2}=\lambda^{-1}\bigl(1-\lambda^{-1}\bigr)
+\ <\ 1-\lambda^{-1} ,
+\]
+since $\lambda>1$.  Combining, $\bar\rho\delta_2<\bar\rho\delta_1$, that is $\delta_2<\delta_1$
+--- contradicting the hypothesis.  Hence
+\[
+\boxed{\ \delta_1>\delta_2\qquad\text{and therefore}\qquad z_0^{*}>z_1^{*} .\ }
+\]
+
+\emph{And $z_0^{*}\ge z_{-1}^{*}$.}  Write $d\equiv v_0-v_{-1}\ge0$.  From \bk{(14.80)},
+$\rho v_{-1}=\Phi(d)+\kappa d$, and from the $v_0$ equation above,
+$\rho v_0=\Phi(\delta_1)+z_0^{*}(v_{-1}-v_0)$.  Subtracting,
+\[
+\bigl(\rho+z_0^{*}+\kappa\bigr)d=\Phi(\delta_1)-\Phi(d) .
+\]
+If $d>\delta_1$ the right side would be nonpositive (as $\Phi$ is nondecreasing) while the left
+side is strictly positive --- impossible.  So $d\le\delta_1$, and therefore
+$z_{-1}^{*}=G'^{-1}(d/\omega^{*})\le G'^{-1}(\delta_1/\omega^{*})=z_0^{*}$. $\blacksquare$
+
+\emph{The economics.}  Two forces make neck-and-neck firms the most aggressive innovators.  The
+flow profit $1-\lambda^{-n}$ is concave in $n$, so the first step ahead is worth far more than any
+later one --- moving from a zero markup to a markup of $\lambda$ is a bigger prize than moving
+from $\lambda^{4}$ to $\lambda^{5}$.  And a neck-and-neck firm that fails to innovate risks its
+rival innovating instead, which is a loss as well as a foregone gain.  This is the
+``escape-competition'' effect, and it is the ingredient missing from the models of Sections
+14.1--14.3, where the reward to innovation does not depend on how close the competitor is.
+\end{aex}
+
+\begin{aex}{14.33}{}
+\emph{(a) $\kappa=0$ freezes the economy.}  With $\kappa=0$ a follower can close the gap only by
+innovating, and by \bk{Proposition 14.8} there is an $n^{*}$ beyond which the leader does no R\&D
+either.  Consider the states $n\ge n^{*}$.  The transition equations \bk{(14.68)} with
+$\kappa=0$ and $z_n^{*}=0$ say that such an industry leaves state $n$ only if the follower
+innovates, at rate $z_{-1}^{*}$.  So the question is whether followers keep investing.
+
+They do not, under the exercise's conditions.  With $\kappa=0$ and $z_{-1}^{*}=0$, \bk{(14.80)}
+gives $\rho v_{-1}=0$, so $v_{-1}=0$; and the follower's optimality condition \bk{(14.82)} then
+requires only $\omega^{*}G'(0)\ge v_0$.  When $G'(0)$ is large enough relative to the value of
+being neck-and-neck --- which is what the two displayed inequalities of the exercise say, once
+$(1-\lambda)$ is read as $1-\lambda^{-1}$, the flow profit of a one-step leader --- this holds and
+$z_{-1}^{*}=0$.
+
+Then every state $n\ge n^{*}$ is \emph{absorbing}.  Industries with $n<n^{*}$ keep moving up as
+their leaders innovate, and none ever comes back, so the stationary distribution places all its
+mass on $\{n\ge n^{*}\}$:
+\[
+\mu_n^{*}=0\ \text{ for }n<n^{*},
+\qquad\Longrightarrow\qquad
+g^{*}=\log\lambda\Bigl[2\mu_0^{*}z_0^{*}+\sum_{n\ge1}\mu_n^{*}z_n^{*}\Bigr]=0
+\]
+by \bk{(14.88)}, since $z_n^{*}=0$ wherever $\mu_n^{*}>0$.  The economy ends up with every
+industry a permanent monopoly, and growth ceases. $\blacksquare$
+
+\emph{(b) $\kappa>0$ restores growth.}  A positive patent expiry rate makes every state
+transition to $n=0$ at rate at least $\kappa$, so no state is absorbing and the stationary
+distribution has $\mu_0^{*}>0$.  By \bk{Proposition 14.9}, $z_0^{*}>z_n^{*}$ for every $n\ge1$,
+so the industries that $\kappa$ keeps returning to the neck-and-neck state are exactly the ones
+that do the most R\&D, and \bk{(14.88)} gives $g^{*}>0$.
+
+\emph{The contrast.}  In the baseline Schumpeterian model of Section 14.1 --- and in the expanding
+variety model of Section 13.1.6 --- weakening intellectual property rights unambiguously reduces
+growth, because the only thing patents do is deliver rents to innovators, and rents are what
+finance R\&D.  Here patents do something else as well: they entrench leads.  A permanent patent
+lets leaders accumulate gaps so large that neither they nor their rivals have any reason to
+innovate, and the economy grinds to a halt.  Allowing patents to expire keeps industries
+competitive, and competitive industries innovate hardest.
+
+There are therefore two effects of $\kappa$ pulling in opposite directions: the standard
+\emph{disincentive} effect, which lowers $v_{n+1}-v_n$ and hence every $z_n^{*}$, and a
+\emph{composition} effect, which shifts $\mu^{*}$ toward the low-gap states where R\&D is
+intense.  Part (a) is the extreme case in which the composition effect is everything.  This is why
+the empirical finding that more competitive industries grow faster --- which Sections 14.1--14.3
+cannot accommodate --- is consistent with step-by-step innovation.
+
+\rmk{The exercise as printed writes $G'(0)<(1-\lambda)/\rho$ and
+$z^{*}\equiv G'^{-1}((1-\lambda)/\rho)$.  Since $\lambda>1$ these are negative, and
+$G'^{-1}$ of a negative number is not defined; the intended quantity is $1-\lambda^{-1}$, the flow
+profit of a one-step leader from \bk{(14.69)}, which is what makes the displayed conditions
+comparisons of a marginal cost of R\&D with a value.}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch14_schumpeterian.pdf}
+\caption{Left (Exercises 14.8 and 14.10): equilibrium and Pareto optimal growth in the baseline
+model of Section 14.1, against the size of a quality step.  The vertical line is the drastic
+threshold $\lambda^{*}$; the optimum lies above the equilibrium at every admissible $\lambda$.
+Right (Exercise 14.25): the same comparison in the model with incumbents and entrants, against the
+productivity of entry.  More entry lowers the equilibrium growth rate, and the planner's
+allocation dominates throughout.}
+\label{fig:ch14}
+\end{figure}
+\end{aex}
+
+\begin{aex}{14.34}{}
+\emph{(a) and (b) The value functions.}  A follower who innovates --- now at the flow rate
+$z_{-1}$ from its own R\&D, plus $\kappa$ from patent expiry --- may license the leader's
+technology and emerge one step \emph{ahead}, paying $\zeta$ (normalized by $Y$, so that $\zeta$ is
+measured in the same units as the $v_n$).  The old leader becomes the follower and receives
+$\zeta$.  The normalized value functions of \bk{(14.78)}--\bk{(14.80)} become
+\[
+\rho v_{-1}=\max_{z_{-1}}\Bigl\{-\omega^{*}G(z_{-1})
++\bigl(z_{-1}+\kappa\bigr)\bigl[v_{1}-\zeta-v_{-1}\bigr]\Bigr\},
+\]
+\[
+\rho v_n=\max_{z_n}\Bigl\{\bigl(1-\lambda^{-n}\bigr)-\omega^{*}G(z_n)
++z_n\bigl[v_{n+1}-v_n\bigr]
++\bigl(z_{-1}^{*}+\kappa\bigr)\bigl[v_{-1}+\zeta-v_n\bigr]\Bigr\},
+\qquad n\ge1 ,
+\]
+with the neck-and-neck value \bk{(14.79)} unchanged.  The R\&D decisions are
+\[
+z_{-1}^{*}=\max\Bigl\{G'^{-1}\Bigl(\frac{v_1-\zeta-v_{-1}}{\omega^{*}}\Bigr),0\Bigr\},
+\qquad
+z_n^{*}=\max\Bigl\{G'^{-1}\Bigl(\frac{v_{n+1}-v_n}{\omega^{*}}\Bigr),0\Bigr\} ,
+\]
+and the steady state is completed by the flow equations \bk{(14.84)}--\bk{(14.86)}, with the
+transition out of state $n$ now going to state $1$ rather than state $0$, the labor market
+condition \bk{(14.87)}, and the growth rate \bk{(14.88)}.
+
+For licensing to be used, both sides must gain relative to the no-licence outcome, which requires
+\[
+\underbrace{v_1-v_0}_{\text{follower's gain from leapfrogging rather than levelling}}
+\ \ge\ \zeta\ \ge\
+\underbrace{v_{-1}\ \text{forgone}-v_{-1}}_{\text{leader's loss, zero here}} ,
+\]
+so any $\zeta\in(0,\delta_1]$ is mutually acceptable: the follower pays at most the extra value of
+emerging ahead, and the leader --- who was going to lose its lead in either case --- accepts
+anything positive.
+
+\emph{(c) Why licensing raises growth.}  Two channels, both operating through the composition of
+industries.  First, licensing makes catching up \emph{cheaper} for the follower: it obtains the
+leader's know-how instead of having to reproduce it, so $z_{-1}^{*}$ rises and gaps close faster.
+Second, and more important, the state to which an industry returns is $n=1$ rather than $n=0$ ---
+but the flow out of large gaps is faster, so the stationary distribution shifts mass toward small
+$n$, where \bk{Proposition 14.9} says R\&D is most intense.  Since \bk{(14.88)} weights each
+state's R\&D by its share $\mu_n^{*}$, aggregate R\&D and growth rise.  Against this stands the
+usual disincentive: knowing it can be leapfrogged sooner, the leader's $v_{n+1}-v_n$ falls and its
+own R\&D declines.  The licence fee $\zeta$ is what limits that damage, since the leader is
+compensated rather than simply expropriated.
+
+\emph{The contrast with Exercise 12.9.}  There, in a static Bertrand market, the innovator could
+never gain by licensing: handing a rival the same technology destroys exactly the rents licensing
+was supposed to monetize, and a take-it-or-leave-it fee cannot recover more than the monopoly
+profit the licence destroys.  Two things differ here.  The environment is \emph{dynamic}: the
+leader is going to lose its position anyway, at rate $z_{-1}^{*}+\kappa$, so the licence sells
+something that has a limited life rather than a perpetual monopoly, and $\zeta$ is a payment for
+rents that were partly going to evaporate.  And the incentive to innovate is
+\emph{state-dependent}: what matters for aggregate growth is not only how large the prize is but
+\emph{where in the state space} industries spend their time, and licensing moves them to where the
+prize is most keenly contested.  Neither feature exists in the one-shot problem of Chapter 12.
+
+\rmk{The same logic explains why the model can rationalize the empirical association between
+competition and growth.  In Sections 14.1--14.3 any policy that moves rents from innovators to
+others reduces growth one for one.  Once the reward to innovation depends on the technology gap,
+policies are evaluated by their effect on the \emph{distribution} of gaps as well as on the level
+of rents, and the two can pull in opposite directions.}
 \end{aex}
 
 \end{document}
