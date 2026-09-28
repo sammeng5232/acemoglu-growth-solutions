@@ -49,6 +49,7 @@
 \newcommand{\Prob}{\mathrm{Pr}}
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Corr}{\mathrm{Corr}}
 \newcommand{\wh}[1]{\widehat{#1}}
 \newcommand{\wt}[1]{\widetilde{#1}}
 \newcommand{\ol}[1]{\overline{#1}}
@@ -60,6 +61,7 @@
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -182,9 +184,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--20\par}
+{\large Chapters 2--21\par}
 \vspace{0.6cm}
-{\small The 280 exercises that the instructor's solutions manual of\par
+{\small The 286 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -16187,5 +16189,584 @@ if it lasts long enough to reverse the comparative advantage, that is until $X(T
 $X^F(T_0)/B^F$, which it never does here because the foreign economy is learning faster
 throughout.}
 \end{aex}
+
+
+%% ========================================================================
+\solchapter{21}{Structural Transformations and Market Failures in Development}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The six exercises of Chapter 21 left unsolved in the instructor's manual: 21.3, 21.5, 21.7,
+21.8, 21.13 and 21.14.  The manual solves 21.1, 21.2, 21.4, 21.6, 21.9--21.12.  The numerical
+parts are computed by \texttt{code/ch21.py}; Figure~\ref{fig:ch21} is its output.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\solsection{21.2}{Fertility, Mortality, and the Demographic Transition}
+
+\begin{aex}{21.3}{}
+\emph{The law of motion.}  Individual maximization of \bk{(21.6)} is unaffected by the shock,
+so $n(t+1)=(1-\alpha)\eta_0^{-1}L(t+1)^{-\alpha}$ as in the text.  Substituting,
+\[
+L(t+1)=\epsilon(t)\,\frac{1-\alpha}{\eta_0}\,L(t+1)^{-\alpha}L(t)
+\quad\Longrightarrow\quad
+\boxed{\ L(t+1)=\Bigl[\epsilon(t)\frac{1-\alpha}{\eta_0}\Bigr]^{\frac{1}{1+\alpha}}
+L(t)^{\frac{1}{1+\alpha}} , \ }
+\]
+which is \bk{(21.10)} multiplied by $\epsilon(t)^{1/(1+\alpha)}$.  Taking logarithms with
+$\ell\equiv\log L$ turns this into a \emph{linear} first-order autoregression,
+\begin{equation}
+\ell(t+1)=\varphi\,\ell(t)+\mu+\frac{\log\epsilon(t)}{1+\alpha},
+\qquad
+\varphi\equiv\frac{1}{1+\alpha}\in(0,1),
+\qquad \mu\equiv\frac{1}{1+\alpha}\log\frac{1-\alpha}{\eta_0} .
+\label{eq:malar1}
+\end{equation}
+
+\emph{The stochastic correspondence.}  The dynamics are described by \emph{two} concave curves
+through the origin, one for each realization of $\epsilon$, differing by the constant factor
+$[(1+\epsilon)/(1-\epsilon)]^{1/(1+\alpha)}$.  Each crosses the $45^\circ$ line once, at
+\[
+L^{\pm}=\Bigl[(1\pm\epsilon)\frac{1-\alpha}{\eta_0}\Bigr]^{1/\alpha}
+=(1\pm\epsilon)^{1/\alpha}L^* ,
+\]
+with $L^*$ from \bk{(21.11)}.  Below $L^-$ both branches lie above the $45^\circ$ line, so
+population rises whatever the shock; above $L^+$ both lie below it, so population falls.  Hence
+$[L^-,L^+]$ is forward invariant and absorbing, and this is the Malthusian counterpart of
+Figure 17.1.  The left panel of Figure~\ref{fig:ch21} plots it.
+
+\emph{The invariant distribution.}  Iterating \eqref{eq:malar1},
+\[
+\log L_\infty=\log L^*+\sum_{s=0}^{\infty}\varphi^{\,s}\,\frac{\log\epsilon(t-s)}{1+\alpha} ,
+\]
+using $\mu/(1-\varphi)=\alpha^{-1}\log[(1-\alpha)/\eta_0]=\log L^*$.  With i.i.d.\ shocks,
+\[
+\boxed{\
+\E[\log L_\infty]=\log L^*+\frac{\E[\log\epsilon]}{\alpha},
+\qquad
+\Var(\log L_\infty)=\frac{\Var(\log\epsilon)}{(1+\alpha)^2-1}
+=\frac{\Var(\log\epsilon)}{\alpha(2+\alpha)} , \ }
+\]
+and $\Corr\bigl(\log L(t),\log L(t+1)\bigr)=\varphi$.  Since
+$\E[\log\epsilon]=\tfrac12\log(1-\epsilon^2)<0$, \emph{shocks lower average population}: the law
+of motion is concave, so by Jensen's inequality the mean of $\log L$ falls by
+$|\E\log\epsilon|/\alpha$ --- the effect being $1/\alpha$ times the per-period effect, because
+the deviations are persistent.
+
+The support is the whole interval $[\ell^-,\ell^+]$, where $\ell^{\pm}=\log L^{\pm}$.  Each
+branch maps that interval onto a subinterval of length $\Lambda/(1+\alpha)$, where
+$\Lambda=\alpha^{-1}\log\frac{1+\epsilon}{1-\epsilon}$ is its length, and the two images cover it
+whenever $2/(1+\alpha)\ge1$, that is whenever $\alpha\le1$.  So the invariant distribution has no
+gaps; for $\alpha>1$ it would be supported on a Cantor set.
+
+\emph{Income.}  From \bk{(21.9)}, $\log y(t)=\log(1-\alpha)-\alpha\log L(t)$, so income is an
+affine decreasing function of log population and inherits the same autoregression with the
+opposite sign:
+\[
+\mathrm{sd}\bigl(\log y\bigr)=\alpha\,\mathrm{sd}(\log L)
+=\frac{\mathrm{sd}(\log\epsilon)}{\sqrt{(2+\alpha)/\alpha}} ,
+\qquad
+\Corr\bigl(\log y(t),\log y(t+1)\bigr)=\frac{1}{1+\alpha} .
+\]
+A favourable shock raises population, depresses the real wage, and the depressed wage then
+lowers fertility, bringing population back --- the classical Malthusian cycle.  The half-life of a
+shock is $\log2/\log(1+\alpha)$ generations, and a one-time shock $u$ moves $\log L$ by $u$ and
+$\log y$ by $-\alpha u$, both decaying geometrically at rate $\varphi$.  The narrative fits the
+standard account of the Black Death: a large negative population shock raises real wages, and the
+wage gain erodes over a few generations as population recovers.
+
+\emph{Verification.}  Simulating \eqref{eq:malar1} for $400{,}000$ generations with $\alpha=0.3$
+and $\epsilon=0.15$ gives
+\begin{center}
+\small
+\begin{tabular}{lrr}
+\toprule
+& analytic & simulated\\
+\midrule
+$\E[\log L]$ & $-1.226845$ & $-1.227546$\\
+$\mathrm{sd}(\log L)$ & $0.181952$ & $0.182488$\\
+$\min\log L$ & $-1.730646$ & $-1.725713$\\
+$\max\log L$ & $-0.723043$ & $-0.727835$\\
+autocorrelation & $0.769231$ & $0.770787$\\
+\bottomrule
+\end{tabular}
+\end{center}
+--- the simulated minimum and maximum confirming that the invariant support is exactly
+$[\ell^-,\ell^+]$.
+
+\rmk{The exercise as printed writes $L(t+1)=\epsilon(t)\bigl(n(t+1)-1\bigr)L(t)$.  Taken
+literally, population would shrink whenever $n<2$, so that even the deterministic version of the
+model has no positive steady state unless $\eta_0$ is small enough; the $-1$ is presumably a
+misprint for the $L(t+1)=\epsilon(t)n(t+1)L(t)$ used above.  Nothing qualitative changes if one
+instead reads it as net-of-mortality growth $L(t+1)=L(t)+\epsilon(t)(n(t+1)-1)L(t)$: the law of
+motion is still increasing and concave, and the two-branch correspondence and the invariant
+interval survive, though the log-linearity of \eqref{eq:malar1} does not.}
+\end{aex}
+
+\solsection{21.3}{Migration, Urbanization, and the Dual Economy}
+
+\begin{aex}{21.5}{}
+\emph{The problem.}  Let $\upsilon(\xi)$ be the consumption value of the enforcement services a
+villager enjoys and a city dweller forgoes.  Population is normalized to one, the migration
+margin is $X(t)F_L(L^U(t),Z)=B^A+\xi$ as in the text, so $L^U(t)=\phi\bigl(X(t)/(B^A+\xi)\bigr)$,
+and aggregate consumption is
+\[
+C(t;\xi)=\bigl[B^A+\upsilon(\xi)\bigr]\bigl(1-L^U(t)\bigr)+X(t)F\bigl(L^U(t),Z\bigr),
+\qquad
+\dt X=\eta\,L^U(t)\,X(t)^{\zeta} .
+\]
+Date-$0$ utility is $U(\xi)=\int_0^\infty e^{-\rho t}\frac{C(t;\xi)^{1-\theta}-1}{1-\theta}\dd t$.
+
+\emph{The first-order condition.}  The equilibrium $L^U$ maximizes $C$ given $(X,\xi)$ --- that
+is what $XF_L=B^A+\xi$ says --- so the envelope theorem kills the indirect effect through
+$L^U$ and
+\[
+\boxed{\
+U'(\xi)=\int_0^\infty e^{-\rho t}\,C(t)^{-\theta}
+\Bigl[\upsilon'(\xi)\bigl(1-L^U(t)\bigr)+F\bigl(L^U(t),Z\bigr)\,v(t)\Bigr]\dd t=0 , \ }
+\]
+where $v(t)\equiv\partial X(t)/\partial\xi<0$ solves the variational equation
+\[
+\dt v=\eta\Bigl[\phi'\Bigl(\frac{X}{B^A+\xi}\Bigr)\frac{X^{\zeta}}{B^A+\xi}
++\zeta\,\phi\Bigl(\frac{X}{B^A+\xi}\Bigr)X^{\zeta-1}\Bigr]v
+-\eta\,\phi'\Bigl(\frac{X}{B^A+\xi}\Bigr)\frac{X^{\zeta+1}}{(B^A+\xi)^2},
+\qquad v(0)=0 .
+\]
+The bracket in the boxed expression is exactly the trade-off the text describes: a \emph{static
+gain}, the extra enforcement services enjoyed by the $1-L^U$ villagers, against a \emph{dynamic
+loss}, the reduction in modern-sector productivity caused by slower urbanization.
+
+\emph{But $U$ is not concave, and the maximum is at a corner.}  Two structural facts make the
+two terms fail to balance at an interior point.
+\begin{enumerate}
+\item \emph{The dynamic cost is a bounded delay, not a permanent loss.}  Since $L^U$ is bounded
+      above by one and reaches it, integrating the law of motion gives
+      \[
+      X(t)^{1-\zeta}-X(0)^{1-\zeta}=(1-\zeta)\,\eta\int_0^tL^U(s)\dd s ,
+      \]
+      and two paths with different $\xi$ differ only by the bounded integral of the $L^U$ gap.
+      A higher $\xi$ therefore \emph{delays} the takeoff by a finite time and does not lower $X$
+      permanently --- a delay that is expensive only if it straddles the takeoff.
+\item \emph{The static gain accrues at every date before the takeoff}, when $1-L^U$ is close to
+      one.
+\end{enumerate}
+Consequently $U(\xi)$ first \emph{falls} --- a small $\xi$ buys little extra village consumption
+but already delays the takeoff --- and then \emph{rises} --- a large $\xi$ buys a lot and the
+economy simply never urbanizes within the horizon that matters.  \texttt{code/ch21.py} tabulates
+$U$ with $\upsilon(\xi)=3\xi/(1+\xi)$, $\eta=1$, $\zeta=\tfrac12$, $\theta=1$:
+\begin{center}
+\small
+\begin{tabular}{rrrrrrrr}
+\toprule
+$\rho$ & $\xi=0$ & $1$ & $2$ & $3$ & $4$ & $6$ & argmax\\
+\midrule
+$0.03$ & $70.46$ & $34.75$ & $36.74$ & $39.35$ & $40.85$ & $42.48$ & $\xi=0$\\
+$0.05$ & $20.18$ & $18.58$ & $22.02$ & $23.62$ & $24.52$ & $25.50$ & $\xi=6$\\
+$0.07$ & $7.31$ & $13.15$ & $15.74$ & $16.88$ & $17.52$ & $18.23$ & $\xi=6$\\
+$0.09$ & $3.01$ & $10.22$ & $12.25$ & $13.14$ & $13.64$ & $14.18$ & $\xi=6$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The right panel of Figure~\ref{fig:ch21} plots the curves.  So the welfare-maximizing $\xi$ is at
+one end of the admissible range or the other, and which one wins switches with the discount
+rate: $\xi=0$ for a patient economy, the largest admissible $\xi$ for an impatient one.  (Under
+the alternative reading in which $\xi$ is a pure deadweight urban cost, so that
+$C=B^A(1-L^U)+XF-\xi L^U$, the envelope theorem gives $\dd C/\dd\xi=-L^U<0$ at every date, both
+effects point the same way, and $\xi^*=0$ trivially.)
+
+\emph{If the actual $\xi$ is greater.}  The answer is sharper than ``welfare falls.''  The
+economy is in a \emph{development trap}: it stays rural, learning-by-doing never gets going, and
+--- because $U$ is falling on that branch --- a \emph{small} reduction in $\xi$ makes matters
+\emph{worse}.  Only a reduction past the interior minimum helps.  This is the big-push logic of
+Section 21.5 applied to the dual economy: gradual institutional reform is counterproductive and
+the intervention has to be large.
+
+\rmk{The first-best remedy is different again, and better.  The planner would choose $L^U$ to
+internalize the learning externality, setting
+$XF_L=B^A+\xi-\lambda(t)\eta X^{\zeta}$ with $\lambda$ the shadow value of $X$, so the
+decentralized economy has too few urban workers for \emph{every} $\xi>0$.  A Pigouvian subsidy to
+urban employment equal to $\lambda(t)\eta X(t)^{\zeta}$ restores efficiency at any $\xi$ and
+forfeits none of the static gain --- which is why dismantling community enforcement is the wrong
+policy even when $\xi$ is above its second-best level.}
+\end{aex}
+
+\solsection{21.4}{Distance to the Frontier and the Organization of Production}
+
+\begin{aex}{21.7}{}
+\textbf{(a)}  Flow profits in this class of models are proportional to the firm's own
+productivity, $\pi(\nu,t)=\pi_0A(\nu,t)$.  Comparing the two organizational forms,
+\[
+\pi^{V}=\pi_0\bigl[\eta\ol A(t-1)+\gamma A(t-1)\bigr],
+\qquad
+\pi^{O}=(1-\beta)\,\pi_0\bigl[\eta\ol A(t-1)+(\gamma+\theta)A(t-1)\bigr] .
+\]
+Outsourcing is preferred iff $\pi^O>\pi^V$, that is
+\[
+(1-\beta)\theta\,A(t-1)>\beta\bigl[\eta\ol A(t-1)+\gamma A(t-1)\bigr] .
+\]
+Dividing by $\ol A(t-1)$ and writing $a(t-1)=A(t-1)/\ol A(t-1)$,
+\[
+\boxed{\ \text{outsource}\iff a(t-1)>\ol a\equiv
+\frac{\beta\eta}{(1-\beta)\theta-\beta\gamma} , \ }
+\]
+provided $(1-\beta)\theta>\beta\gamma$; otherwise outsourcing is never profitable.  So there is
+vertical integration for all $a(t)\le\ol a$ and outsourcing for all $a(t)>\ol a$, as claimed.
+
+\emph{Why.}  The \emph{benefit} of outsourcing, $\theta A(t-1)$, is proportional to the economy's
+own knowledge stock, because innovative effort builds on what the country already knows.  The
+\emph{cost}, a fraction $\beta$ of profits, falls on the entire profit stream including the
+imitation component $\eta\ol A(t-1)$, for which the entrepreneur's effort is worthless.  Far from
+the frontier most productivity comes from imitation, so paying $\beta$ to buy innovative effort
+is a bad bargain; close to the frontier innovation is what matters and outsourcing pays.  This is
+the same appropriate-organization logic as the $R=1$ to $R=0$ switch in the text, now applied to
+firm boundaries.
+
+Note also that $\ol a<1$, so that the switch ever occurs, requires
+$\beta\eta<(1-\beta)\theta-\beta\gamma$, that is
+\[
+\beta<\frac{\theta}{\theta+\eta+\gamma} .
+\]
+
+\textbf{(b)}  The growth-maximizing organization is the one that maximizes $a(t)$ given
+$a(t-1)$.  Aggregating and dividing by $\ol A(t)$ as in \bk{(21.39)},
+\[
+a(t)=\frac{1}{1+g}\bigl[\eta+\gamma a(t-1)\bigr]\ \text{under integration},
+\qquad
+a(t)=\frac{1}{1+g}\bigl[\eta+(\gamma+\theta)a(t-1)\bigr]\ \text{under outsourcing},
+\]
+and since $\theta>0$ the second is strictly larger for \emph{every} $a(t-1)>0$.  Hence
+\[
+\boxed{\ \text{the growth-maximizing threshold is }0:\ \text{outsource always.} \ }
+\]
+The private threshold $\ol a$ is strictly positive, so the economy is \emph{vertically integrated
+too often}, for every $a\in(0,\ol a]$.
+
+\emph{The wedge} is a pure externality, and it is worth locating precisely.  The entrepreneur
+does internalize the effect of $\theta$ on his \emph{own} $A(\nu,t)$ --- that is why his profit
+rises with $\theta$.  What he does not internalize is that his higher $A(\nu,t)$ raises the
+\emph{aggregate} $A(t)$, which enters every firm's law of motion at $t+1$ through the term
+$\gamma A(t)$.  The social benefit of outsourcing therefore exceeds the private one by the
+discounted value of that spillover, and a subsidy to outsourcing (or to innovation) of at least
+$\beta$ restores the growth-maximizing organization.
+
+\emph{The consequence for convergence} is not merely transitional.  Under permanent integration
+the economy converges to $a^*=\eta/(1+g-\gamma)$, while under permanent outsourcing it converges
+to $\min\{\eta/(1+g-\gamma-\theta),1\}$.  If $\ol a$ exceeds the first of these, the economy never
+switches and is stuck permanently at $a^*$ --- an organizational nonconvergence trap of exactly
+the kind Figure 21.7 exhibits for $R$.  \texttt{code/ch21.py} tabulates this with $\eta=0.1$,
+$\gamma=0.6$, $g=0.03$:
+\begin{center}
+\small
+\begin{tabular}{rrrlrr}
+\toprule
+$\beta$ & $\theta$ & $\ol a$ & switches? & $a^*$ integrated & limit\\
+\midrule
+$0.10$ & $0.30$ & $0.0476$ & yes & $0.2326$ & $0.7692$\\
+$0.20$ & $0.30$ & $0.1667$ & yes & $0.2326$ & $0.7692$\\
+$0.30$ & $0.30$ & $1.0000$ & no & $0.2326$ & $0.2326$\\
+$0.10$ & $0.15$ & $0.1333$ & yes & $0.2326$ & $0.3571$\\
+$0.35$ & $0.15$ & $\infty$ & no & $0.2326$ & $0.2326$\\
+\bottomrule
+\end{tabular}
+\end{center}
+A country with weak contracting institutions --- a high $\beta$, in the sense of Section 18.5 ---
+therefore ends up not merely with a slower transition but with a permanently larger distance to
+the frontier, because it is locked into the wrong firm boundaries.
+\end{aex}
+
+\solsection{21.5}{Aggregate Demand Externalities and the Big Push}
+
+\begin{aex}{21.8}{}
+All households are identical and own all the firms, so Pareto dominance is simply higher
+utility.  From the text, the two candidate allocations are
+\[
+\text{no investment: } C(1)=C(2)=L,
+\qquad
+\text{investment: } C(1)=L-F,\ C(2)=\alpha L ,
+\]
+with lifetime utilities $U^N=(1+\beta)u(L)$ and $U^I=u(L-F)+\beta u(\alpha L)$, where
+$u(c)=(c^{1-\theta}-1)/(1-\theta)$.
+
+\emph{The argument.}  Write the difference as
+\[
+U^I-U^N=-\bigl[u(L)-u(L-F)\bigr]+\beta\bigl[u(\alpha L)-u(L)\bigr] ,
+\]
+and bound each bracket by concavity:
+\[
+u(L)-u(L-F)\le u'(L-F)\,F=(L-F)^{-\theta}F,
+\qquad
+u(\alpha L)-u(L)\ge u'(\alpha L)\,(\alpha-1)L=(\alpha L)^{-\theta}(\alpha-1)L .
+\]
+Hence
+\[
+U^I-U^N\ \ge\ \beta(\alpha L)^{-\theta}(\alpha-1)L-(L-F)^{-\theta}F ,
+\]
+and the right-hand side is positive if and only if
+\[
+\boxed{\ \beta\Bigl(\frac{\alpha L}{L-F}\Bigr)^{-\theta}(\alpha-1)L\ >\ F , \ }
+\]
+which is \emph{exactly} the left half of \bk{(21.51)} --- the condition $\Delta\pi^I>0$ that makes
+investment profitable when all other firms invest.  Since the existence of multiple equilibria
+requires \bk{(21.50)}, and \bk{(21.50)} contains $\Delta\pi^I>0$, the investment equilibrium
+Pareto dominates whenever both equilibria exist. $\blacksquare$
+
+\emph{The same statement without the inequalities.}  The equilibrium interest rate in the
+investment allocation is $\tilde r$, and by the consumption Euler equation
+\[
+\frac{1}{1+\tilde r}=\beta\Bigl(\frac{\alpha L}{L-F}\Bigr)^{-\theta}
+=\beta\,\frac{u'\bigl(C(2)\bigr)}{u'\bigl(C(1)\bigr)} .
+\]
+So $\Delta\pi^I=-F+\frac{(\alpha-1)L}{1+\tilde r}$ is positive precisely when the household's own
+marginal rate of substitution values the extra date-2 consumption above the date-1 sacrifice.
+Because households are identical and own the firms, \emph{a profit gain evaluated at the
+equilibrium interest rate is a utility gain} --- which is the whole content of the result, and
+the reason the concavity bound above is not merely sufficient but tight.
+
+\emph{Verification.}  A random scan of $200{,}000$ parameter draws over
+$\alpha\in(1.01,3)$, $\beta\in(0.5,0.99)$, $\theta\in(0,4)$, $F/L\in(0.001,0.8)$ in
+\texttt{code/ch21.py} finds $4{,}262$ draws satisfying \bk{(21.50)} --- so that both equilibria
+exist --- and $43{,}790$ satisfying $\Delta\pi^I>0$; in none of them does the investment
+allocation fail to dominate.
+
+\rmk{The economics is Rosenstein-Rodan's, and the model makes the policy statement unusually
+clean.  The failure here is \emph{pure coordination}: the two allocations are both equilibria at
+the same parameters, they differ only in beliefs about what other firms will do, and one makes
+every household strictly better off.  A ``big push'' that does nothing but coordinate
+expectations therefore achieves a Pareto improvement with no subsidies, no transfers and no
+distortions --- unlike almost every other market failure in this chapter, where the remedy
+requires a Pigouvian instrument.  The market cannot do it on its own only because each firm is
+infinitesimal and takes $Y(2)$ and $\tilde r$ as given, so the aggregate demand externality in
+\bk{(21.49)} is external to every one of them.}
+\end{aex}
+
+\solsection{21.6}{Inequality, Credit Market Imperfections, and Occupational Choice}
+
+\begin{aex}{21.13}{}
+\textbf{(a)}  With $u=(1-\delta)^{-(1-\delta)}\delta^{-\delta}c^{1-\delta}b^{\delta}-z$ and
+end-of-period resources $y$ to be split between $c$ and $b$, the Cobb--Douglas optimum is
+$c=(1-\delta)y$, $b=\delta y$, and substituting,
+\[
+\boxed{\ V=(1-\delta)^{-(1-\delta)}\delta^{-\delta}
+\bigl[(1-\delta)y\bigr]^{1-\delta}\bigl[\delta y\bigr]^{\delta}-z=y-z . \ }
+\]
+The normalizing constant is chosen precisely so that indirect utility is \emph{linear} in
+resources --- there is no risk aversion and no wealth effect in occupational choice, only the
+credit constraints.  Comparing occupation 2 with occupation 1 gives $\hat rw+v-1$ against
+$\hat rw$, so nobody supplies labour at a wage below $1$.
+
+\textbf{(b)}  Evaluate the three active occupations against subsistence at the reservation wage
+$v=1$:
+\[
+\underbrace{I(\ol r-\hat r)-1}_{\text{self-employment}},
+\qquad
+\underbrace{\mu\bigl[I(\ol r-\hat r)-1\bigr]-1}_{\text{entrepreneurship}} .
+\]
+The right inequality says self-employment beats subsistence, and the left says entrepreneurship
+beats self-employment --- both at the \emph{lowest possible wage}.  So at $v=1$ the ranking is
+entrepreneurship $\succ$ self-employment $\succ$ subsistence, and it can only be reversed by a
+higher wage.  This is what makes the two wage regimes of part (g) possible.
+
+\textbf{(c)}  With limited enforcement a lender will advance funds only against collateral, so
+the borrowing capacity is increasing in own wealth.  Self-employment requires $I$ and
+entrepreneurship $\mu I>I$, so the wealth thresholds satisfy $w^{**}>w^*$.  The consequence is
+the defining feature of this literature: occupations are allocated \emph{by wealth} rather than
+by ability or comparative advantage, so the wealth distribution is an input into the allocation
+of talent and hence into aggregate output.
+
+\textbf{(d)}  Expected indirect utilities at wealth $w$ and wage $v$ are
+\[
+\hat rw;\qquad \hat rw+v-1;\qquad \hat rw+I(\ol r-\hat r)-1;
+\qquad \hat rw+\mu I(\ol r-\hat r)-\mu v-1 .
+\]
+Self-employment beats entrepreneurship iff
+$I(\ol r-\hat r)>\mu I(\ol r-\hat r)-\mu v$, that is
+\[
+\boxed{\ v>\ol v\equiv\frac{(\mu-1)(\ol r-\hat r)I}{\mu} . \ }
+\]
+
+\textbf{(e)}  Only agents with $w\ge w^{**}$ can be entrepreneurs, and each hires $\mu$ workers.
+They prefer entrepreneurship iff $v<\ol v$ and are indifferent at $v=\ol v$, so
+\[
+x=0\ \text{ if }v>\ol v;\qquad
+x\in\bigl[0,\mu(1-G_t(w^{**}))\bigr]\ \text{ if }v=\ol v;\qquad
+x=\mu(1-G_t(w^{**}))\ \text{ if }v<\ol v .
+\]
+
+\textbf{(f)}  An agent supplies labour iff wage work beats his best alternative.  Against
+subsistence the condition is $v\ge1$; against self-employment, available only to those with
+$w\ge w^*$, it is $v-1\ge I(\ol r-\hat r)-1$, that is $v\ge\tilde v\equiv(\ol r-\hat r)I$.  So
+agents with $w<w^*$ work whenever $v\ge1$, and those with $w\ge w^*$ only when $v\ge\tilde v$,
+giving exactly the correspondence in the exercise.  Note $\tilde v=(\ol r-\hat r)I>\ol v$, since
+$(\mu-1)/\mu<1$.
+
+\textbf{(g)}  Compare the two correspondences on $(1,\tilde v)$, where supply is $G_t(w^*)$.
+\begin{itemize}
+\item If $G_t(w^*)>\mu(1-G_t(w^{**}))$, supply exceeds the maximum demand at every $v>1$, so
+      there is excess supply and the wage falls to the reservation level $v=1$, at which supply
+      is the correspondence $[0,G_t(w^*)]$ and can meet demand.
+\item If $G_t(w^*)<\mu(1-G_t(w^{**}))$, demand exceeds supply just below $\ol v$ and collapses to
+      zero just above it, so the market clears at $v=\ol v$, where demand is the correspondence
+      $[0,\mu(1-G_t(w^{**}))]$.
+\end{itemize}
+
+\textbf{(h)}  By part (a) each agent bequeaths the fraction $\delta$ of end-of-period income, and
+the effort cost is borne in utility, not in income.  Hence $b=\delta\hat rw$ for subsistence,
+$\delta(\hat rw+v)$ for a worker, $\delta[\ol rI+\hat r(w-I)]$ for the self-employed --- the
+amount $I$ earns $\ol r$ and the remainder $\hat r$ --- and
+$\delta[\ol r\mu I+\hat r(w-\mu I)-\mu v]$ for an entrepreneur, whose wage bill is a genuine
+cost.
+
+\textbf{(i)}  Each of these is an affine map $w\mapsto\delta\hat rw+\delta\cdot(\text{extra})$
+with slope $\delta\hat r<1$ (this is where $\hat r<1/\delta$ is used), so it converges to
+\[
+\boxed{\ w_w(v)=\frac{\delta v}{1-\delta\hat r},\qquad
+w_{se}=\frac{\delta(\ol r-\hat r)I}{1-\delta\hat r},\qquad
+w_e(v)=\frac{\delta\bigl[(\ol r-\hat r)\mu I-\mu v\bigr]}{1-\delta\hat r} . \ }
+\]
+If $w_w(1)<w^*$, a worker paid the reservation wage never accumulates enough to become
+self-employed; if $w_e(\ol v)>w^{**}$, an entrepreneur paid the high wage stays rich enough to
+remain one.  Both are statements about the \emph{wage}, which is itself determined by the
+occupational composition --- circular causation, and hence multiplicity.
+
+\textbf{(j)}  Starting from a distribution with $\mu(1-G(w^{**}))<G(w^*)$, part (g) gives $v=1$;
+by (i) the workers stay below $w^*$, so $G(w^*)$ remains high and the configuration reproduces
+itself: a \emph{low-wage steady state with no self-employment}.  Starting from
+$\mu(1-G(w^{**}))>G(w^*)$, part (g) gives $v=\ol v>1$; workers accumulate toward
+$w_w(\ol v)$, which may exceed $w^*$, so a self-employed class emerges and the configuration
+again reproduces itself: a \emph{high-wage steady state with self-employment}.  Output is
+$\hat rW+(\ol r-\hat r)\bigl[I\cdot\#\text{self-employed}+\mu I\cdot\#\text{entrepreneurs}\bigr]$
+with $W$ aggregate wealth, so the second regime, which puts more wealth into the high-return
+technology, has \emph{higher} output.
+
+\textbf{(k)}  The mechanism is attractive and the comparison is not.
+\begin{itemize}
+\item \emph{In its favour.}  The multiplicity requires no nonconvexity in technology --- only the
+      minimum scale $I$ and the collateral constraint --- and it delivers the striking and
+      genuinely useful prediction that \emph{cheap labour is a poverty trap}: the prosperous
+      economy is the high-wage one, because high wages are what let workers accumulate past the
+      collateral threshold.  That is the opposite of the standard development prescription and it
+      is testable.
+\item \emph{Against.}  The prosperous steady state has \emph{more} self-employment and fewer wage
+      employees.  The data run the other way: the self-employment share falls sharply with
+      development, and poor countries are characterized by a mass of tiny own-account firms, not
+      by large employers.  The model also has no productivity growth at all, so the output gap
+      between the two steady states is bounded by $(\ol r-\hat r)$ times the wealth reallocated,
+      which is far too small to speak to observed cross-country differences.
+\item \emph{Against Galor--Zeira.}  There the nonconvexity is in human capital, the multiplicity
+      is in the \emph{long-run distribution} rather than in the aggregate occupational structure,
+      and the prediction --- that initial inequality affects long-run output through education ---
+      maps directly onto schooling data.  But Galor--Zeira takes the wage structure as exogenous
+      and has no feedback from occupational composition to prices, which is exactly what
+      Banerjee--Newman supplies.
+\end{itemize}
+The two are best read as complements: the dynastic human-capital channel and the
+general-equilibrium labour-market channel are different market failures, and a satisfactory
+account of persistent development differences needs both.
+\end{aex}
+
+\solsection{21.7}{Toward a Unified Theory of Development and Growth}
+
+\begin{aex}{21.14}{}
+\textbf{1.}  The locus is $sf(k,x)=\delta k$.  Implicit differentiation gives
+\[
+\frac{\dd x}{\dd k}\Big|_{\dt k=0}
+=-\frac{\partial\bigl[sf(k,x)-\delta k\bigr]/\partial k}
+{\partial\bigl[sf(k,x)-\delta k\bigr]/\partial x}
+=\frac{\delta-sf_k(k,x)}{sf_x(k,x)}
+=\boxed{\ \frac{f(k,x)-kf_k(k,x)}{k\,f_x(k,x)}\ >\ 0 , \ }
+\]
+the last equality using $sf=\delta k$ on the locus.  The numerator is strictly positive because
+$f(\cdot,x)$ is strictly concave with $f(0,x)=0$, so $f(k,x)>kf_k(k,x)$; the denominator is
+positive because $f_x>0$.  When $f_x\equiv0$ the derivative is infinite and the locus is the
+vertical line of Figure 21.10. $\blacksquare$
+
+\textbf{2.}  The Jacobian of $\bigl(\dt k,\dt x\bigr)=\bigl(sf(k,x)-\delta k,\ g(k,x)\bigr)$ at
+$(k^*,x^*)$ is
+\[
+J=\begin{pmatrix} sf_k-\delta & sf_x\\ g_k & g_x\end{pmatrix} .
+\]
+Its entries have known signs.  At the steady state $sf=\delta k$, so
+\[
+sf_k-\delta=sf_k-s\frac{f}{k}=\frac{s}{k}\bigl(kf_k-f\bigr)<0
+\]
+by strict concavity, and $g_x<0$ by assumption.  Hence
+\[
+\tr J=\bigl(sf_k-\delta\bigr)+g_x<0
+\qquad\text{always.}
+\]
+Local asymptotic stability therefore requires only $\det J>0$, and
+\[
+\det J=\bigl(sf_k-\delta\bigr)g_x-sf_xg_k
+=\underbrace{\bigl|sf_k-\delta\bigr|\,\bigl|g_x\bigr|}_{>0}-\underbrace{sf_xg_k}_{>0} ,
+\]
+so
+\[
+\boxed{\ \det J>0
+\iff
+f_x(k^*,x^*)<\frac{\bigl[f(k^*,x^*)/k^*-f_k(k^*,x^*)\bigr]\,|g_x|}{g_k} , \ }
+\]
+which is ``$f_x$ sufficiently small.'' $\blacksquare$
+
+\emph{The geometric reading.}  The condition is exactly that the $\dt k=0$ locus be
+\emph{steeper} than the $\dt x=0$ locus at the intersection.  The slope of the second is
+$-g_k/g_x=g_k/|g_x|$, so
+\[
+\frac{f-kf_k}{kf_x}>\frac{g_k}{|g_x|}
+\iff (f-kf_k)|g_x|>kf_xg_k
+\iff \bigl(\delta-sf_k\bigr)|g_x|>sf_xg_k ,
+\]
+multiplying through by $s/k>0$ --- the same inequality.  This explains the figures.  In
+Figure 21.12 the unique steady state has the $\dt k=0$ locus steeper and is globally stable; in
+Figure 21.11 the outer two intersections have that ordering and are stable, while the middle one
+has it reversed, so $\det J<0$ there and it is a \emph{saddle} whose stable manifold is the
+boundary between the two basins of attraction.
+
+\emph{Verification.}  \texttt{code/ch21.py} takes
+$f(k,x)=k^{0.35}\bigl[1+\psi/\bigl(1+e^{-(x-x_0)/\varsigma}\bigr)\bigr]$ and
+$g(k,x)=0.05k-x$, with $s=0.25$, $\delta=0.06$, $\psi=3$, $x_0=1.5$.  Shrinking $\varsigma$ makes
+$f_x$ large over a narrow range of $x$ without changing $f$ much --- the text's ``$f_x$ large over
+some range'' --- and produces the three intersections:
+\begin{center}
+\small
+\begin{tabular}{rrrrrrl}
+\toprule
+$\varsigma$ & $k^*$ & $x^*$ & $\tr J$ & $\det J$ & slope $\dt k=0$ & slope $\dt x=0$\\
+\midrule
+$1.00$ & $61.128$ & $3.056$ & $-1.039$ & $\phantom{-}0.016246$ & $0.0857$ & $0.05$\\
+$0.30$ & $10.607$ & $0.530$ & $-1.039$ & $\phantom{-}0.028563$ & $0.1868$ & $0.05$\\
+$0.30$ & $25.627$ & $1.281$ & $-1.039$ & $-0.046399$ & $0.0228$ & $0.05$\\
+$0.30$ & $75.775$ & $3.789$ & $-1.039$ & $\phantom{-}0.038724$ & $7.0630$ & $0.05$\\
+$0.10$ & $8.986$ & $0.449$ & $-1.039$ & $\phantom{-}0.038978$ & $88.18$ & $0.05$\\
+$0.10$ & $29.030$ & $1.452$ & $-1.039$ & $-0.248522$ & $0.0068$ & $0.05$\\
+$0.10$ & $75.817$ & $3.791$ & $-1.039$ & $\phantom{-}0.039000$ & $1.0\times10^{7}$ & $0.05$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The sign of $\det J$ and the ordering of the slopes agree in every row, as they must, and the
+middle steady state is a saddle in both multiple-steady-state cases.
+
+\rmk{The result is the formal content of the chapter's closing argument.  Multiple development
+traps require the social variable to feed back strongly enough into productivity --- $f_x$ large
+--- and then history selects among them; a weak feedback leaves a unique globally stable steady
+state in which structural change is a by-product of capital deepening rather than a cause of it.
+Since $\tr J<0$ unconditionally, the only thing that can ever go wrong in this model is
+$\det J\le0$, which is to say the only source of complicated dynamics is the interaction between
+$k$ and $x$, never either equation on its own.}
+\end{aex}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/ch21_development.pdf}
+\caption{Left: the stochastic correspondence of the Malthusian model, with the invariant
+interval $[L^-,L^+]$ marked (Exercise 21.3).  Right: date-$0$ utility against the
+community-enforcement advantage $\xi$, normalized by its maximum, for four discount rates; the
+curve falls and then rises, so the optimum is at a corner (Exercise 21.5).}
+\label{fig:ch21}
+\end{figure}
 
 \end{document}

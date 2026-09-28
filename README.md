@@ -29,7 +29,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 18. Diffusion of Technology | 31 | 9 | **22** — 18.1–18.7, 18.10, 18.11, 18.14, 18.15, 18.17, 18.20, 18.22–18.25, 18.27–18.31 |
 | 19. Trade and Growth | 37 | 15 | **22** — 19.1, 19.5, 19.6, 19.8–19.10, 19.12, 19.14–19.23, 19.30–19.32, 19.35, 19.36 |
 | 20. Structural Change and Economic Growth | 21 | 11 | **10** — 20.1, 20.2, 20.4, 20.10–20.15, 20.20 |
-| 21–23 | 57 | 25 | in progress |
+| 21. Structural Transformations and Market Failures | 14 | 8 | **6** — 21.3, 21.5, 21.7, 21.8, 21.13, 21.14 |
+| 22–23 | 43 | 17 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -144,6 +145,11 @@ chapter and writes that chapter's figures to `figures/`. So far:
   (Exercise 20.13); the asymptotic rates (20.62)–(20.65) in all four sign configurations, and
   the asymptotic interest rate (Exercises 20.14 and 20.15); and the open-economy Matsuyama model
   (Exercise 20.20).
+- **`ch21.py`** — the stochastic Malthusian model as a log-linear AR(1) and its invariant
+  interval (Exercise 21.3); date-0 utility against the community-enforcement advantage, which
+  turns out to be U-shaped (Exercise 21.5); the outsourcing threshold and the long-run distance
+  to the frontier (Exercise 21.7); a scan confirming that the investment equilibrium dominates
+  (Exercise 21.8); and the two loci with three steady states (Exercise 21.14).
 
 ## Working files (not part of the document)
 
