@@ -179,9 +179,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--12\par}
+{\large Chapters 2--13\par}
 \vspace{0.6cm}
-{\small The 139 exercises that the instructor's solutions manual of\par
+{\small The 157 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -8498,6 +8498,1007 @@ not, because prices already exceed marginal cost.  That is what makes the effect
 externality with first-order welfare consequences, and it is the mechanism behind the multiple
 equilibria and poverty traps of Chapter 21 --- and, in a different guise, behind the scale effects
 of Chapter 13.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{13}{Expanding Variety Models}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The eighteen exercises of Chapter 13 left unsolved in the instructor's manual: Exercises 13.2--13.4,
+13.8--13.12, 13.14, 13.16--13.18, 13.20, 13.21, 13.23 and 13.25--13.27.  The manual solves 13.1,
+13.5--13.7, 13.13, 13.15, 13.19, 13.22 and 13.24.  Notation follows the book: $\beta$ is the
+machine-share parameter, $\psi=1-\beta$ the normalized marginal cost of a machine, $\eta$ the
+productivity of R\&D, $N(t)$ the measure of varieties, $V(\nu,t)$ the value of a blueprint,
+$L_E$ and $L_R$ employment in production and research, and $\varepsilon$ the elasticity of
+substitution among products in Section 13.4.  It is convenient to write
+\[
+\chi\equiv(1-\beta)^{-1/\beta}>1
+\]
+for the factor by which the social planner's machine intensity exceeds the market's.  The
+numerical parts are computed by \texttt{code/ch13.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{13.2}{}
+\emph{Demand.}  The first-order condition of \bk{(13.5)} with respect to $x(\nu,t)$ is
+\[
+\frac{1}{1-\beta}(1-\beta)x(\nu,t)^{-\beta}L^{\beta}=p_x(\nu,t)
+\qquad\Longrightarrow\qquad
+x(\nu,t)=p_x(\nu,t)^{-1/\beta}L ,
+\]
+which is \bk{(13.6)}: demand is isoelastic with elasticity $\varepsilon_\beta=1/\beta>1$.
+
+\emph{Pricing.}  Because machines depreciate after use and are rented on the spot, the
+monopolist's problem separates across dates: at each $t$ it solves the static problem
+\[
+\max_{p_x}\ \bigl(p_x-\psi\bigr)p_x^{-1/\beta}L .
+\]
+Differentiating,
+\[
+p_x^{-1/\beta}-\frac{1}{\beta}\bigl(p_x-\psi\bigr)p_x^{-1/\beta-1}=0
+\qquad\Longrightarrow\qquad
+\beta p_x=p_x-\psi
+\qquad\Longrightarrow\qquad
+p_x=\frac{\psi}{1-\beta} ,
+\]
+a constant markup $1/(1-\beta)=\varepsilon_\beta/(\varepsilon_\beta-1)$ over marginal cost --- the
+same formula as \bk{(12.2)} and \bk{(12.15)}, for the same reason.  The second-order condition
+holds because $\varepsilon_\beta>1$.  The solution is independent of $t$, of $N(t)$ and of the
+interest rate, which is what makes the model tractable.
+
+Normalizing $\psi\equiv1-\beta$ gives
+\[
+\boxed{\ p_x(\nu,t)=p_x=1,\qquad x(\nu,t)=L,\qquad \pi(\nu,t)=(1-\psi)L=\beta L\ }
+\]
+which are \bk{(13.9)}, \bk{(13.10)} and \bk{(13.11)}. $\blacksquare$
+
+Substituting into \bk{(13.2)} gives the derived aggregate production function
+$Y(t)=N(t)L/(1-\beta)$, equation \bk{(13.12)}, and the first-order condition in $L$ gives
+$w(t)=\beta N(t)/(1-\beta)$, equation \bk{(13.13)}.  The whole of the model's tractability rests
+on the fact that each monopolist's decision is a static problem whose answer never changes.
+\end{aex}
+
+\begin{aex}{13.3}{}
+The household owns the corporate sector, so its assets are
+\[
+A(t)=\int_{0}^{N(t)}V(\nu,t)\dd\nu ,
+\]
+and it faces the flow budget constraint $\dt A(t)=r(t)A(t)+w(t)L-C(t)$, taking
+$[r(t),w(t)]$ as given.  The current-value Hamiltonian is
+\[
+\wh H\bigl(A,C,\mu\bigr)=\frac{C(t)^{1-\theta}-1}{1-\theta}+\mu(t)\bigl[r(t)A(t)+w(t)L-C(t)\bigr] .
+\]
+\bk{Theorem 7.13} gives
+\[
+\wh H_C=C(t)^{-\theta}-\mu(t)=0,
+\qquad
+\wh H_A=\mu(t)r(t)=\rho\mu(t)-\dt\mu(t),
+\qquad
+\lim_{t\to\infty}\Bigl[e^{-\rho t}\mu(t)A(t)\Bigr]=0 .
+\]
+The second gives $\dt\mu/\mu=\rho-r(t)$, while differentiating the first gives
+$\dt\mu/\mu=-\theta\dt C/C$.  Hence
+\[
+\frac{\dt C(t)}{C(t)}=\frac{1}{\theta}\bigl(r(t)-\rho\bigr),
+\]
+which is \bk{(13.16)}.  For the transversality condition, integrate the costate equation:
+$\mu(t)=\mu(0)\exp\bigl(\rho t-\int_0^{t}r(s)\dd s\bigr)$, so
+\[
+e^{-\rho t}\mu(t)A(t)=\mu(0)\exp\Bigl(-\int_{0}^{t}r(s)\dd s\Bigr)\int_{0}^{N(t)}V(\nu,t)\dd\nu ,
+\]
+and since $\mu(0)>0$ the condition is exactly \bk{(13.17)}. $\blacksquare$
+
+\emph{Sufficiency.}  $\wh H$ is the sum of a strictly concave function of $C$ and a function
+linear in $(A,C)$, so it is concave in $(A,C)$ and strictly concave in $C$; and
+$\lim e^{-\rho t}\mu A\ge0$ holds along any feasible path because $\mu>0$ and the household's
+no-Ponzi condition bounds $A$ below.  \bk{Theorem 7.14} therefore applies, so the Euler equation
+together with \bk{(13.17)} characterizes the unique optimal consumption plan.
+
+The \emph{market value} form of \bk{(13.17)} is worth a comment.  In this economy the only store
+of value is the stock of blueprints, so the household's wealth \emph{is} the market
+capitalization of the monopolists.  The transversality condition then says that this
+capitalization must not grow faster than the interest rate --- which, given free entry
+($\eta V=1$) and hence $A(t)=N(t)/\eta$, becomes simply $g^{*}<r^{*}$.  Exercise 13.4 shows that
+this is exactly the second half of condition \bk{(13.21)}.
+\end{aex}
+
+\begin{aex}{13.4}{}
+\emph{Finite utility.}  Along the BGP $C(t)=C(0)e^{g^{*}t}$ with $g^{*}=\theta^{-1}(\eta\beta L-\rho)$,
+so
+\[
+U=\int_{0}^{\infty}e^{-\rho t}\frac{C(0)^{1-\theta}e^{(1-\theta)g^{*}t}-1}{1-\theta}\dd t
+\]
+converges if and only if $\rho>(1-\theta)g^{*}$.  Substituting $g^{*}$,
+\[
+\theta\rho>(1-\theta)\bigl(\eta\beta L-\rho\bigr)
+\iff \theta\rho+(1-\theta)\rho>(1-\theta)\eta\beta L
+\iff \rho>(1-\theta)\eta\beta L ,
+\]
+which is the second inequality in \bk{(13.21)}.
+
+\emph{Transversality.}  Free entry holds with equality, $\eta V(t)=1$, so total assets are
+$A(t)=N(t)V^{*}=N(t)/\eta$, growing at $g^{*}$; and $r(t)=r^{*}=\eta\beta L$.  Condition
+\bk{(13.17)} therefore reads
+\[
+\lim_{t\to\infty}\frac{N(0)}{\eta}e^{(g^{*}-r^{*})t}=0
+\iff g^{*}<r^{*}=\eta\beta L
+\iff \eta\beta L-\rho<\theta\eta\beta L
+\iff (1-\theta)\eta\beta L<\rho ,
+\]
+the same inequality.  Finite utility and transversality are one condition, as always.
+
+\emph{The resource constraint.}  From \bk{(13.12)} and \bk{(13.15)}, net output is
+\[
+\wt Y(t)=Y(t)-X(t)=\Bigl[\frac{1}{1-\beta}-(1-\beta)\Bigr]N(t)L
+=\frac{\beta(2-\beta)}{1-\beta}N(t)L ,
+\]
+while R\&D absorbs $Z(t)=\dt N(t)/\eta=g^{*}N(t)/\eta$.  Hence
+\[
+C(t)=\wt Y(t)-Z(t)=N(t)\Bigl[\frac{\beta(2-\beta)L}{1-\beta}-\frac{g^{*}}{\eta}\Bigr] ,
+\]
+which grows at $g^{*}$, as required, and is strictly positive because
+\[
+\frac{g^{*}}{\eta}<\frac{r^{*}}{\eta}=\beta L<\frac{\beta(2-\beta)L}{1-\beta} ,
+\]
+the first inequality being the transversality condition just established and the last because
+$(2-\beta)/(1-\beta)>1$. $\blacksquare$
+
+With $\beta=1/2$, $\eta=0.12$, $L=1$, $\rho=0.02$ and $\theta=2$ the program gives
+$g^{*}=0.02$ and $C(0)/N(0)=1.333$.
+\end{aex}
+
+\begin{aex}{13.8}{}
+\emph{The static step.}  For given $N(t)$ the planner maximizes net output, the right side of
+\bk{(13.22)}, over $x(\nu,t)$.  The first-order condition is
+$x^{-\beta}L^{\beta}=\psi=1-\beta$, so
+\[
+x^{S}(\nu,t)=(1-\beta)^{-1/\beta}L=\chi L\ >\ L ,
+\]
+the planner using each machine more intensively than the market precisely because it does not
+mark up.  Net output is then
+\[
+\wt Y^{S}(t)=\frac{\chi^{1-\beta}}{1-\beta}N L-(1-\beta)\chi NL
+=\chi\beta\,N(t)L ,
+\]
+using $\chi^{1-\beta}=(1-\beta)\chi$.
+
+\emph{(a) Sufficiency.}  The reduced problem is
+\[
+\max\ \int_{0}^{\infty}e^{-\rho t}\frac{C(t)^{1-\theta}-1}{1-\theta}\dd t
+\quad\text{s.t.}\quad
+\dt N(t)=\eta\bigl[\chi\beta N(t)L-C(t)\bigr],
+\]
+with current-value Hamiltonian
+\[
+\wh H(N,C,\mu)=\frac{C^{1-\theta}-1}{1-\theta}+\mu\bigl[\eta\chi\beta NL-\eta C\bigr] .
+\]
+This is strictly concave in $C$ and linear in $N$, hence jointly concave in $(N,C)$; and for every
+feasible path $\lim_{t\to\infty}e^{-\rho t}\mu(t)N(t)\ge0$, because $\mu>0$ and $N\ge0$.
+Provided the objective is finite --- which is the condition in \bk{Proposition 13.3},
+$(1-\theta)\eta\chi\beta L<\rho$, verified in Exercise 13.9 --- \bk{Theorem 7.14} applies and the
+necessary conditions are sufficient, with strict concavity in $C$ giving uniqueness.
+
+\emph{(b) The growth rate.}  The conditions are
+\[
+C(t)^{-\theta}=\eta\mu(t),
+\qquad
+\mu(t)\eta\chi\beta L=\rho\mu(t)-\dt\mu(t),
+\qquad
+\lim_{t\to\infty}e^{-\rho t}\mu(t)N(t)=0 .
+\]
+The second gives $\dt\mu/\mu=\rho-\eta\chi\beta L$, and differentiating the first gives
+$\dt\mu/\mu=-\theta\dt C/C$.  Hence
+\[
+\boxed{\ \frac{\dt C^{S}(t)}{C^{S}(t)}
+=\frac{1}{\theta}\Bigl(\eta(1-\beta)^{-1/\beta}\beta L-\rho\Bigr)\ }
+\]
+which is \bk{(13.23)}. $\blacksquare$
+
+Comparing with \bk{(13.20)}, the whole difference is the factor $\chi=(1-\beta)^{-1/\beta}>1$
+multiplying $\beta L$.  The social value of a blueprint exceeds its private value not because of
+any technological spillover --- there is none in the lab-equipment model --- but because the
+planner, pricing at marginal cost, extracts more output from each machine variety.  The
+inefficiency is entirely the pecuniary one created by the markup.
+\end{aex}
+
+\begin{aex}{13.9}{}
+\emph{The two conditions.}  By Exercise 13.4 the equilibrium requires
+$(1-\theta)\eta\beta L<\rho$; by the same computation applied to \bk{(13.23)}, the optimum
+requires
+\[
+(1-\theta)\eta\chi\beta L<\rho ,
+\qquad \chi=(1-\beta)^{-1/\beta}>1 .
+\]
+For $\theta<1$ the left side of the second is strictly larger, so the interval
+\[
+(1-\theta)\eta\beta L\ <\ \rho\ \le\ (1-\theta)\eta\chi\beta L
+\]
+is nonempty, and for $\rho$ in it the equilibrium is well defined with finite utility while the
+planner's objective diverges.  With $\beta=1/2$, $\eta=0.12$, $L=1$ and $\theta=1/2$ the program
+gives the interval $(0.03,0.12]$; at $\rho=0.05$ the market allocation has finite utility and the
+planner's problem has none.
+
+\emph{Interpretation.}  The planner's problem is an $AK$ problem in $N$ with return
+$\eta\chi\beta L$.  When $\theta<1$ and that return is large relative to $\rho$, utility along
+\emph{every} feasible growth path is unbounded: the planner can always do better by postponing
+consumption a little longer, and no maximum exists.  The equilibrium escapes this only because
+the monopoly markup lowers the return on R\&D from $\eta\chi\beta L$ to $\eta\beta L$ --- the
+distortion is what keeps the market problem well posed.
+
+\emph{Does this make the optimum less compelling?}  No.  The pathology is the familiar one of
+infinite-horizon problems whose growth rate is too high relative to discounting --- the same as
+Assumption 4 failing in Chapter 8, or condition \bk{(11.12)} failing in the $AK$ model.  It says
+that the model has been taken outside the parameter region in which its normative question has an
+answer, not that the question is the wrong one.  Nor does it rescue the equilibrium: even where
+the planner's problem is unbounded, the equilibrium is Pareto dominated by allocations with
+faster growth; there is simply no best such allocation.
+
+\emph{Under \bk{Proposition 13.3}'s condition.}  Suppose $(1-\theta)\eta\chi\beta L<\rho$.  Then
+$\rho>(1-\theta)g^{S}$ by the rearrangement of Exercise 13.4, so utility is finite; and
+$\mu(t)=\mu(0)\exp\bigl(\rho t-\eta\chi\beta Lt\bigr)$ gives
+\[
+e^{-\rho t}\mu(t)N(t)=\mu(0)N(0)e^{(g^{S}-\eta\chi\beta L)t}\ \longrightarrow\ 0
+\iff g^{S}<\eta\chi\beta L ,
+\]
+which is the same inequality again.  Both hold. $\blacksquare$
+\end{aex}
+
+\begin{aex}{13.10}{}
+By Exercise 13.8 the planner's Euler equation is
+\[
+\frac{\dt C(t)}{C(t)}=\frac{1}{\theta}\bigl(\eta\chi\beta L-\rho\bigr)=g^{S}
+\]
+at \emph{every} date, not merely asymptotically, because the right side contains no state
+variable: the planner faces a constant return $\eta\chi\beta L$ on the only asset there is.
+Consumption therefore grows at $g^{S}$ from $t=0$ whatever $N(0)$ is.
+
+Substituting $C(t)=C(0)e^{g^{S}t}$ into the accumulation equation gives the linear
+nonautonomous equation
+\[
+\dt N(t)=\eta\chi\beta L\,N(t)-\eta C(0)e^{g^{S}t},
+\]
+whose general solution, exactly as in Exercise 11.1, is
+\[
+N(t)=\kappa\,e^{\eta\chi\beta Lt}+\frac{\eta C(0)}{\eta\chi\beta L-g^{S}}e^{g^{S}t} .
+\]
+The transversality condition $\lim e^{-\rho t}\mu(t)N(t)=0$ becomes, using
+$e^{-\rho t}\mu(t)\propto e^{-\eta\chi\beta Lt}$,
+\[
+\lim_{t\to\infty}N(t)e^{-\eta\chi\beta Lt}=\kappa=0 ,
+\]
+so $\kappa=0$ and
+\[
+N(t)=N(0)e^{g^{S}t},
+\qquad
+C(0)=\frac{\bigl(\eta\chi\beta L-g^{S}\bigr)N(0)}{\eta}\ >\ 0 ,
+\]
+positive because $g^{S}<\eta\chi\beta L$ is the transversality condition of Exercise 13.9.  The
+optimal path therefore grows at the constant rate $g^{S}$ from the first instant, with no
+transitional dynamics. $\blacksquare$
+
+Finally, $g^{S}>g^{*}$ because $\chi>1$, which completes \bk{Proposition 13.3}.  With the
+program's parameters, $g^{*}=0.020$ against $g^{S}=0.110$: the markup costs this economy nine
+percentage points of growth, which is a measure of how strong the pecuniary externality is when
+the elasticity of substitution among machines is only $1/\beta=2$.
+\end{aex}
+
+\begin{aex}{13.11}{}
+\emph{(a) Research subsidies.}  Let the government pay a fraction $s_R$ of R\&D spending,
+financed by lump-sum taxes.  Free entry becomes $\eta V=1-s_R$, so $V^{*}=(1-s_R)/\eta$ and,
+from $V^{*}=\beta L/r^{*}$,
+\[
+r^{*}=\frac{\eta\beta L}{1-s_R},
+\qquad
+g(s_R)=\frac{1}{\theta}\Bigl(\frac{\eta\beta L}{1-s_R}-\rho\Bigr) .
+\]
+Setting $g(s_R)=g^{S}$ requires $\eta\beta L/(1-s_R)=\eta\chi\beta L$, that is
+\[
+\boxed{\ s_R=1-(1-\beta)^{1/\beta}\ }
+\]
+so \emph{yes}, the optimal growth rate is attainable.  With $\beta=1/2$ this is $s_R=0.75$.
+
+It does \emph{not} replicate the Pareto optimal path.  The subsidy leaves the markup untouched,
+so machine use is still $x=L$ rather than $x^{S}=\chi L$, output is still $NL/(1-\beta)$ rather
+than $\chi NL$, and net output per variety is $\beta(2-\beta)L/(1-\beta)$ rather than
+$\chi\beta L$.  The growth rates coincide but the levels do not; the static distortion remains.
+
+\emph{Is it desirable?}  No --- it overshoots.  Given the markup, welfare at $t=0$ is
+\[
+W(g)=\frac{C(0)^{1-\theta}}{(1-\theta)\bigl[\rho-(1-\theta)g\bigr]}-\frac{1}{(1-\theta)\rho},
+\qquad
+C(0)=N(0)\Bigl[\underbrace{\frac{\beta(2-\beta)L}{1-\beta}}_{\textstyle\equiv A}-\frac{g}{\eta}\Bigr],
+\]
+by Exercise 13.4.  The first-order condition in $g$ is
+\[
+\frac{1}{\eta\bigl(A-g/\eta\bigr)}=\frac{1}{\rho-(1-\theta)g}
+\qquad\Longrightarrow\qquad
+g^{SB}=\frac{\eta A-\rho}{\theta}=\frac{1}{\theta}\Bigl(\frac{\eta\beta(2-\beta)L}{1-\beta}-\rho\Bigr),
+\]
+delivered by the subsidy
+\[
+\frac{\eta\beta L}{1-s_R}=\frac{\eta\beta(2-\beta)L}{1-\beta}
+\qquad\Longrightarrow\qquad
+s_R^{SB}=\frac{1}{2-\beta} .
+\]
+Since $1<\frac{2-\beta}{1-\beta}<\chi$, we have
+\[
+g^{*}<g^{SB}<g^{S} ,
+\]
+so the second-best subsidy raises growth but stops well short of the first-best rate.  With the
+program's parameters, $g^{*}=0.020$, $g^{SB}=0.080$, $g^{S}=0.110$, and
+$s_R^{SB}=0.667<0.750$:
+\[
+\begin{array}{cccccc}
+s_R & 0 & 0.25 & 0.50 & 0.667 & 0.75\\
+g & 0.020 & 0.030 & 0.050 & 0.080 & 0.110\\
+\text{welfare} & 31.25 & 34.00 & 36.81 & \mathbf{38.00} & 36.81
+\end{array}
+\]
+Forcing the first-best \emph{growth rate} while leaving the first-best \emph{level} unattainable
+is a classic second-best error: it buys growth by sacrificing more consumption today than the
+distorted economy is worth.
+
+\emph{(b) Machine subsidies.}  Let final good producers pay only $(1-s_x)p_x$ per machine, the
+difference financed lump-sum.  The monopolist still faces elasticity $1/\beta$ and still charges
+$p_x=\psi/(1-\beta)$, but demand is now
+\[
+x=\bigl[(1-s_x)p_x\bigr]^{-1/\beta}L=(1-s_x)^{-1/\beta}L
+\]
+using $\psi=1-\beta$.  Setting $x=x^{S}=\chi L=(1-\beta)^{-1/\beta}L$ requires
+\[
+\boxed{\ s_x=\beta\ }
+\]
+Profits then become $\pi=(p_x-\psi)x=\frac{\beta\psi}{1-\beta}x=\beta\chi L$, and free entry
+$\eta V=1$ with $V=\pi/r$ gives
+\[
+r^{*}=\eta\beta\chi L
+\qquad\Longrightarrow\qquad
+g=\frac{1}{\theta}\bigl(\eta\chi\beta L-\rho\bigr)=g^{S} .
+\]
+So the machine subsidy achieves the optimal growth rate \emph{and} the optimal static allocation:
+it replicates the Pareto optimal path exactly.
+
+\emph{Why one instrument suffices.}  There appear to be two distortions --- too few machines per
+variety, and too little research --- but they are the same distortion.  At the efficient machine
+quantity, where $x^{-\beta}L^{\beta}=\psi$, net output per variety is
+\[
+\frac{\wt Y}{N}=\frac{1}{1-\beta}x^{1-\beta}L^{\beta}-\psi x=\frac{\beta\psi x}{1-\beta}=\beta x ,
+\]
+while the monopolist's flow profit is $(p_x-\psi)x=\frac{\beta\psi}{1-\beta}x=\beta x$ as well.
+The two coincide: once machines are priced at marginal cost \emph{to the user}, the innovator's
+private return equals the social return, and free entry delivers the optimal amount of research
+by itself.  This is a feature of the Dixit--Stiglitz structure, in which the markup
+$1/(1-\beta)$ and the output elasticity $\beta$ are governed by the same parameter.
+
+\emph{(c) The combination.}  Since (b) attains the first best on its own, adding research
+subsidies cannot improve on it, and any positive $s_R$ on top of $s_x=\beta$ would push research
+past the optimum.  The combination is no better --- which is the right conclusion from a
+Tinbergen count once one sees that there is only one independent distortion.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch13_expanding_variety.pdf}
+\caption{Left (Exercise 13.14): welfare against the competition-policy parameter $\gamma$.  Growth
+is maximized at $\gamma=1/(1-\beta)$, the weakest policy, but welfare peaks strictly inside, and
+the optimum moves toward stricter policy as the household becomes more impatient.  Right
+(Exercise 13.11): welfare against the research subsidy.  The welfare-maximizing subsidy
+$s_R=1/(2-\beta)$ lies strictly below the one that matches the Pareto optimal growth rate.}
+\label{fig:ch13}
+\end{figure}
+\end{aex}
+
+\begin{aex}{13.12}{}
+\emph{(a)}  Taxing profits changes nothing on the production side: machines are still priced at
+$p_x=1$, quantities are still $x=L$, output is still $Y=NL/(1-\beta)$ and wages
+$w=\beta N/(1-\beta)$.  What changes is the value of a blueprint, since the monopolist now keeps
+only $(1-\tau)\beta L$:
+\[
+V^{*}=\frac{(1-\tau)\beta L}{r^{*}},
+\qquad
+\eta V^{*}=1
+\quad\Longrightarrow\quad
+r^{*}=\eta(1-\tau)\beta L ,
+\]
+and hence, by \bk{(13.16)},
+\[
+\boxed{\ g(\tau)=\frac{1}{\theta}\Bigl(\eta(1-\tau)\beta L-\rho\Bigr)\ }
+\]
+As in the lab-equipment model without taxes, the argument of Section 13.1.4 applies unchanged:
+free entry pins $V$ at $1/\eta$ at every date, so $\dt V=0$, the interest rate is constant, and
+there are no transitional dynamics.  The equilibrium requires
+$\eta(1-\tau)\beta L>\rho>(1-\theta)\eta(1-\tau)\beta L$.
+
+\emph{(b)}  Two economies with the same $N(0)$ and the same technology but taxes $\tau<\tau'$
+both grow from the first instant, so
+\[
+\frac{Y(\tau,t)}{Y(\tau',t)}=\frac{N(\tau,t)}{N(\tau',t)}
+=\exp\Bigl(\bigl[g(\tau)-g(\tau')\bigr]t\Bigr)
+=\exp\Bigl(\frac{\eta\beta L\,(\tau'-\tau)}{\theta}\,t\Bigr) ,
+\]
+which diverges to infinity.  With $\beta=1/2$, $\eta=0.12$, $L=1$, $\rho=0.02$, $\theta=2$:
+\[
+\begin{array}{ccccc}
+\tau & 0 & 0.10 & 0.20 & 0.30\\
+g(\tau) & 0.0200 & 0.0170 & 0.0140 & 0.0110\\
+\text{income relative to }\tau=0\text{ after 100 years} & 1.00 & 0.74 & 0.55 & 0.41
+\end{array}
+\]
+
+\emph{What this means.}  The model has exactly the property of the $AK$ models of Chapter 11
+(Exercise 11.7): policy has \emph{growth} effects, not level effects, so arbitrarily small
+permanent policy differences generate arbitrarily large income differences in the long run.  The
+mechanism is more satisfying here, because the linearity comes from the innovation possibilities
+frontier $\dt N=\eta Z$ rather than being assumed of the production function, and the policy acts
+on a recognizable margin --- the after-tax value of a patent.  But the empirical objection is the
+same: the postwar world income distribution has been broadly stable, whereas tax and institutional
+differences have been large and persistent.  The models without scale effects of Section 13.3,
+where the growth rate is pinned by demography and does \emph{not} respond to policy, are one
+response; the Schumpeterian models of Chapter 14 are another.
+\end{aex}
+
+\begin{aex}{13.14}{}
+\emph{(a) Equilibrium.}  With a competitive fringe able to produce at $\gamma\psi$, and
+$\gamma\in(1,1/(1-\beta))$, the monopolist limit-prices at $p_x=\gamma\psi=\gamma(1-\beta)$.
+Then
+\[
+x=p_x^{-1/\beta}L=\bigl[\gamma(1-\beta)\bigr]^{-1/\beta}L,
+\qquad
+\pi(\gamma)=(p_x-\psi)x=\gamma^{-1/\beta}(\gamma-1)(1-\beta)^{-\frac{1-\beta}{\beta}}L ,
+\]
+and free entry $\eta V=1$ with $V=\pi/r$ gives $r=\eta\pi(\gamma)$, hence
+\[
+\wh g(\gamma)=\frac{1}{\theta}\Bigl(\eta\gamma^{-1/\beta}(\gamma-1)(1-\beta)^{-\frac{1-\beta}{\beta}}L-\rho\Bigr),
+\]
+the expression in the text.  Output and net output per variety are
+\[
+\frac{Y}{N}=\frac{\bigl[\gamma(1-\beta)\bigr]^{-\frac{1-\beta}{\beta}}L}{1-\beta},
+\qquad
+\Omega(\gamma)\equiv\frac{\wt Y}{NL}=\bigl[\gamma(1-\beta)\bigr]^{-1/\beta}\bigl(\gamma-1+\beta\bigr) .
+\]
+At $\gamma=1/(1-\beta)$ this reduces to $\beta(2-\beta)/(1-\beta)$, the unconstrained-monopoly
+value of Exercise 13.4; at $\gamma=1$ it reduces to $\chi\beta$, the planner's value.  There are
+no transitional dynamics, by the argument of Section 13.1.4.
+
+\emph{Two monotonicities.}  Differentiating logarithms,
+\[
+\frac{\dd\log\pi}{\dd\gamma}=\frac{1}{\gamma-1}-\frac{1}{\beta\gamma},
+\qquad
+\frac{\dd\log\Omega}{\dd\gamma}=\frac{1}{\gamma-1+\beta}-\frac{1}{\beta\gamma} .
+\]
+The first vanishes exactly at $\gamma=1/(1-\beta)$ and is positive below it: \emph{profits, and
+hence growth, are increasing in $\gamma$ over the whole relevant range and are maximized at the
+unconstrained monopoly price}.  The second vanishes at $\gamma=1$ and is negative above it:
+\emph{net output per variety is strictly decreasing in $\gamma$}.  Weaker competition buys growth
+at the cost of the level.
+
+\emph{(b) Welfare.}  Since $C(t)=\bigl[\Omega(\gamma)L-\wh g(\gamma)/\eta\bigr]N(t)$ with
+$N(t)=N(0)e^{\wh gt}$,
+\[
+\boxed{\ W(\gamma)=\frac{C(0)^{1-\theta}}{(1-\theta)\bigl[\rho-(1-\theta)\wh g(\gamma)\bigr]}
+-\frac{1}{(1-\theta)\rho},
+\qquad
+C(0)=N(0)\Bigl[\Omega(\gamma)L-\frac{\wh g(\gamma)}{\eta}\Bigr] .\ }
+\]
+
+\emph{(c) The optimum.}  Maximizing numerically with $\beta=1/2$, $\eta=0.12$, $L=1$,
+$\rho=0.02$, $\theta=2$:
+\[
+\begin{array}{cccccc}
+\gamma & 1.2 & 1.4 & 1.6 & 1.8 & 2.0\\
+\wh g & 0.0067 & 0.0145 & 0.0181 & 0.0196 & 0.0200\\
+\Omega L & 1.944 & 1.837 & 1.719 & 1.605 & 1.500\\
+W & 30.15 & 33.10 & \mathbf{33.27} & 32.49 & 31.25
+\end{array}
+\]
+with the maximum at $\gamma^{\mathrm{opt}}=1.517$, strictly inside $(1,2)$.
+
+\emph{(d) Why not $\gamma\ge1/(1-\beta)$?}  Because growth is not welfare.  Setting
+$\gamma\ge1/(1-\beta)$ frees the monopolist to charge its ideal markup, which maximizes $\wh g$;
+but it also minimizes $\Omega$, and the level of consumption at every $N$ falls.  A household
+that discounts the future trades the two off: the level effect is felt immediately and in full,
+while the growth effect accumulates only gradually and is discounted.  The interior optimum is
+exactly the point at which the marginal gain in $\wh g$, valued at
+$\partial W/\partial\wh g$, equals the marginal loss in $\Omega$.  This is the same second-best
+logic as in Exercise 13.11(a): with the markup distortion unavoidable, the growth-maximizing
+policy is not the welfare-maximizing one.
+
+\emph{(e) The role of $\rho$.}  A more impatient household weights the immediate level effect more
+and the distant growth effect less, so it prefers stricter competition policy.  The program
+confirms this:
+\[
+\begin{array}{ccccc}
+\rho & 0.01 & 0.02 & 0.04 & 0.08\\
+\gamma^{\mathrm{opt}} & 1.545 & 1.517 & 1.470 & 1.400
+\end{array}
+\]
+and $\gamma^{\mathrm{opt}}\to1/(1-\beta)$ as $\rho\to0$: a perfectly patient household would
+tolerate the full monopoly markup for the sake of growth.  The left panel of
+Figure~\ref{fig:ch13} shows the whole curve.
+
+\rmk{The prediction that stricter antitrust reduces growth is a genuine feature of this class of
+models, and it is extreme: growth falls monotonically as competition tightens, all the way to
+zero at $\gamma=1$.  The reason is that the only role of competition here is to reduce the rents
+that finance R\&D.  Real competition also disciplines incumbents and forces them to innovate to
+survive --- the ``escape competition'' effect --- which requires the strategic interaction the
+Schumpeterian models of Chapter 14 supply, and which can reverse the sign.}
+\end{aex}
+
+\begin{aex}{13.16}{}
+\emph{The value of a blueprint is constant.}  Free entry \bk{(13.28)} is $\eta N(t)V(t)=w(t)$,
+and the wage is still $w(t)=\beta N(t)/(1-\beta)$ from \bk{(13.13)}.  Hence
+\[
+V(t)=\frac{\beta}{\eta(1-\beta)}
+\qquad\text{for all }t ,
+\]
+a constant, so $\dt V(t)=0$ identically.  The HJB equation \bk{(13.8)} with $\pi=\beta L_E(t)$
+then gives the interest rate directly:
+\[
+r(t)=\frac{\pi(t)}{V(t)}=(1-\beta)\eta L_E(t) .
+\]
+
+\emph{The labor allocation cannot move.}  Consumption is $C(t)=Y(t)-X(t)=\frac{\beta(2-\beta)}{1-\beta}N(t)L_E(t)$,
+so
+\[
+\frac{\dt C}{C}=\frac{\dt N}{N}+\frac{\dt L_E}{L_E}=\eta\bigl(L-L_E\bigr)+\frac{\dt L_E}{L_E} ,
+\]
+using the innovation possibilities frontier \bk{(13.25)}.  Equating this to the Euler equation
+$\dt C/C=\theta^{-1}(r-\rho)$ gives a scalar differential equation in $L_E$ alone:
+\[
+\frac{\dt L_E}{L_E}=\frac{(1-\beta)\eta L_E-\rho}{\theta}-\eta\bigl(L-L_E\bigr) .
+\]
+Its unique rest point is \bk{(13.31)},
+\[
+L_E^{*}=\frac{\theta\eta L+\rho}{(1-\beta)\eta+\theta\eta} ,
+\]
+and the right side is strictly \emph{increasing} in $L_E$, with derivative
+$(1-\beta)\eta/\theta+\eta>0$.  The rest point is therefore unstable.  Since $L_E$ is a jump
+variable --- nothing is predetermined about the split of a given labor force --- any
+$L_E(0)\ne L_E^{*}$ sends $L_E$ monotonically to $L$ or to $0$ in finite time, violating either
+labor market clearing or the free-entry equality.  Hence $L_E(t)=L_E^{*}$ for all $t$: there are
+no transitional dynamics. $\blacksquare$
+
+\emph{Finiteness and transversality.}  With $L_E$ constant, $r(t)=r^{*}=(1-\beta)\eta L_E^{*}$ and
+\[
+g^{*}=\frac{1}{\theta}\bigl((1-\beta)\eta L_E^{*}-\rho\bigr) .
+\]
+Utility is finite iff $\rho>(1-\theta)g^{*}$, which rearranges as in Exercise 13.4 to
+$\rho>(1-\theta)(1-\beta)\eta L_E^{*}$; and total assets $A(t)=N(t)V$ grow at $g^{*}$, so
+\bk{(13.17)} holds iff $g^{*}<r^{*}$, the same inequality.  Positive growth requires
+$\rho<(1-\beta)\eta L_E^{*}$.  Together these are exactly \bk{(13.32)}.
+
+With $\beta=1/2$, $\eta=0.12$, $L=1$, $\rho=0.02$, $\theta=2$ the program gives
+$L_E^{*}=0.8667$, $L_R^{*}=0.1333$, $r^{*}=0.052$ and $g^{*}=0.016$.
+\end{aex}
+
+\begin{aex}{13.17}{}
+\emph{The planner's problem.}  Pricing machines at marginal cost, net output with $L_E$ workers in
+production is $\chi\beta N L_E$ (Exercise 13.8 with $L\to L_E$), and all of it is consumed, since
+research uses labor rather than final output.  The planner therefore chooses $L_E(t)\in[0,L]$ to
+solve
+\[
+\max\ \int_{0}^{\infty}e^{-\rho t}\frac{C(t)^{1-\theta}-1}{1-\theta}\dd t
+\quad\text{s.t.}\quad
+C(t)=\chi\beta N(t)L_E(t),
+\qquad
+\dt N(t)=\eta N(t)\bigl(L-L_E(t)\bigr) .
+\]
+The current-value Hamiltonian is
+\[
+\wh H=\frac{\bigl(\chi\beta NL_E\bigr)^{1-\theta}-1}{1-\theta}+\mu\,\eta N\bigl(L-L_E\bigr) .
+\]
+
+\emph{The conditions.}  Differentiating in the control,
+\[
+\wh H_{L_E}=\chi\beta N\,C^{-\theta}-\mu\eta N=0
+\qquad\Longrightarrow\qquad
+\chi\beta\,C^{-\theta}=\mu\eta ,
+\]
+and in the state,
+\[
+\wh H_{N}=L_E\chi\beta C^{-\theta}+\mu\eta\bigl(L-L_E\bigr)=\rho\mu-\dt\mu .
+\]
+Substituting the first into the second, the term $L_E\chi\beta C^{-\theta}$ becomes $\mu\eta L_E$,
+so the left side collapses to $\mu\eta L$ and
+\[
+\frac{\dt\mu}{\mu}=\rho-\eta L .
+\]
+Since $\mu\propto C^{-\theta}$, this gives
+\[
+\boxed{\ g^{S}=\frac{\dt C}{C}=\frac{1}{\theta}\bigl(\eta L-\rho\bigr)\ }
+\]
+a constant, with the research allocation $L_R^{S}=g^{S}/\eta$ and $L_E^{S}=L-L_R^{S}$, both
+interior provided $\eta L>\rho>(1-\theta)\eta L$.  Since $C=\chi\beta NL_E$ with $L_E$ constant,
+$N$ grows at $g^{S}$ from $t=0$: no transitional dynamics, by the same instability argument as in
+Exercise 13.16.
+
+\emph{The comparison.}  The equilibrium growth rate is
+$g^{*}=\theta^{-1}\bigl((1-\beta)\eta L_E^{*}-\rho\bigr)$, so the two differ through
+\[
+\underbrace{\eta L}_{\text{social return}}
+\qquad\text{versus}\qquad
+\underbrace{(1-\beta)\eta L_E^{*}}_{\text{private return}} ,
+\]
+and $\eta L>(1-\beta)\eta L_E^{*}$ strictly, for \emph{two} separate reasons.  The factor
+$(1-\beta)<1$ is the markup wedge already present in the lab-equipment model: the innovator
+captures only part of the surplus its variety creates.  The replacement of $L$ by $L_E^{*}<L$ is
+new: it is the \emph{knowledge spillover}.  A research firm values a blueprint only for the
+profits it yields, whereas the planner also values it for raising the productivity of all future
+research through the term $N(t)$ in \bk{(13.25)} --- and that benefit accrues to the whole labor
+force, not merely to the part employed in production.
+
+With the program's parameters, $\eta L=0.120$ against $(1-\beta)\eta L_E^{*}=0.052$, giving
+$g^{S}=0.050$ against $g^{*}=0.016$.  This model therefore has both sources of inefficiency,
+where the lab-equipment model of Section 13.1 had only the first.
+\end{aex}
+
+\begin{aex}{13.18}{}
+The value of a blueprint is, by \bk{(13.7)},
+\[
+V(t)=\int_{t}^{\infty}e^{-r^{*}(s-t)}\pi(s)\dd s,
+\qquad
+\pi(s)=\beta L_E(s) .
+\]
+Along the BGP a constant fraction of the labor force works in production, so $L_E$ grows at the
+rate of population growth, $L_E(s)=L_E(t)e^{n(s-t)}$.  Hence
+\[
+V(t)=\beta L_E(t)\int_{t}^{\infty}e^{-(r^{*}-n)(s-t)}\dd s=\frac{\beta L_E(t)}{r^{*}-n} ,
+\]
+the integral converging precisely because $r^{*}>n$.  The free-entry condition
+$\eta N(t)^{\phi}V(t)=w(t)$ therefore reads
+\[
+\boxed{\ \eta N(t)^{\phi}\,\frac{\beta L_E(t)}{r^{*}-n}=w(t)\ }
+\]
+which is \bk{(13.36)}. $\blacksquare$
+
+\emph{Why $r^{*}-n$.}  In the baseline model of Section 13.1 the profit flow $\beta L$ is constant
+and is discounted at $r^{*}$, giving $V^{*}=\beta L/r^{*}$ as in \bk{(13.18)}.  Here the flow is
+not constant: each monopolist sells one machine to each production worker, and the number of
+production workers grows at $n$, so its profits grow at $n$ too.  A stream growing at $n$ and
+discounted at $r^{*}$ has present value $\pi(t)/(r^{*}-n)$: the \emph{effective} discount rate is
+the excess of the interest rate over the growth rate of the flow.  This is the same arithmetic as
+the Gordon growth formula, and the same reason Exercise 11.3's human wealth was $B/(r-n)$.
+
+Note also what the condition $r^{*}>n$ is doing.  In the BGP of Section 13.3,
+$r^{*}=\theta n/(1-\phi)+\rho>n$ whenever $\rho>(1-\phi-\theta)n/(1-\phi)$ --- exactly the
+condition of \bk{Proposition 13.5}.  If it failed, a single patent would have infinite value and
+no equilibrium with positive research could exist: the market size effect would be unbounded.
+\end{aex}
+
+\begin{aex}{13.20}{}
+Both countries have the same BGP growth rate $g_N^{*}=n/(1-\phi)$ by \bk{(13.37)}, which depends
+on neither $L(0)$ nor anything else that differs between them, and the same interest rate
+$r^{*}=\theta n/(1-\phi)+\rho$.  So growth rates cannot separate them.  Levels can.
+
+\emph{The production share is the same.}  Combining the free-entry condition
+$\eta N^{\phi-1}(1-\beta)L_E=r^{*}-n$ with $\dt N/N=\eta N^{\phi-1}L_R=g_N^{*}$ and dividing,
+\[
+\frac{L_R(t)}{L_E(t)}=\frac{(1-\beta)\,g_N^{*}}{r^{*}-n}=\frac{n(1-\beta)}{(1-\phi)(r^{*}-n)} ,
+\]
+a number built only from $\beta,\phi,n,\rho,\theta$.  Hence $L_E(t)/L(t)$ is the same constant in
+both countries.
+
+\emph{Technology scales with population.}  Solving the free-entry condition for $N$,
+\[
+N(t)=\Bigl[\frac{\eta(1-\beta)L_E(t)}{r^{*}-n}\Bigr]^{\frac{1}{1-\phi}} ,
+\]
+so, since $L_E$ is proportional to $L$ with the same factor in both countries,
+\[
+\frac{N_2(t)}{N_1(t)}=\Bigl[\frac{L_2(t)}{L_1(t)}\Bigr]^{\frac{1}{1-\phi}}
+=\Bigl[\frac{L_2(0)}{L_1(0)}\Bigr]^{\frac{1}{1-\phi}}\ >\ 1 .
+\]
+Finally, output per capita is $y(t)=Y(t)/L(t)=N(t)L_E(t)/[(1-\beta)L(t)]$, and the last factor is
+common, so
+\[
+\boxed{\ \frac{y_2(t)}{y_1(t)}=\frac{N_2(t)}{N_1(t)}
+=\Bigl[\frac{L_2(0)}{L_1(0)}\Bigr]^{\frac{1}{1-\phi}}>1
+\qquad\text{at every }t .\ }
+\]
+$\blacksquare$
+
+The elasticity $1/(1-\phi)>1$ is large: with $\phi=1/2$ the program gives
+\[
+\begin{array}{cccc}
+L_2/L_1 & 1.5 & 2 & 5\\
+y_2/y_1 & 2.25 & 4.00 & 25.0
+\end{array}
+\]
+a twofold population difference producing a fourfold, permanent, income difference.
+
+\rmk{This is the caveat the text attaches to the label ``growth without scale effects''.  Removing
+the scale effect from the \emph{growth rate} does not remove it from the \emph{level}; it relocates
+it.  Indeed the level effect here is stronger than anything in the neoclassical model, and it is
+no more visible in the data --- large countries are not systematically richer.  Together with the
+model's other prediction that faster population growth raises the growth rate, for which the
+postwar evidence is at best absent, this suggests that the semi-endogenous formulation trades one
+awkward implication for two others.}
+\end{aex}
+
+\begin{aex}{13.21}{}
+\emph{Two state-like variables.}  Write $n_E(t)\equiv L_E(t)/L(t)$ for the production share and
+\[
+z(t)\equiv N(t)^{\phi-1}L(t)
+\]
+for a transformed state; $z$ is predetermined (it moves only with $N$ and $L$), while $n_E$ is a
+jump variable.
+
+\emph{The interest rate out of the BGP.}  Free entry $\eta N^{\phi}V=w=\beta N/(1-\beta)$ gives
+\[
+V(t)=\frac{\beta\,N(t)^{1-\phi}}{\eta(1-\beta)}
+\qquad\Longrightarrow\qquad
+\frac{\dt V}{V}=(1-\phi)\frac{\dt N}{N}=(1-\phi)\eta z(t)\bigl(1-n_E(t)\bigr) ,
+\]
+using $\dt N/N=\eta N^{\phi-1}L_R=\eta z(1-n_E)$.  The HJB equation $rV-\dt V=\pi=\beta L_E$ then
+gives
+\[
+r(t)=\frac{\pi}{V}+\frac{\dt V}{V}=\eta z(t)\Bigl[(1-\beta)n_E(t)+(1-\phi)\bigl(1-n_E(t)\bigr)\Bigr]
+=\eta z\bigl[(1-\phi)+(\phi-\beta)n_E\bigr] .
+\]
+
+\emph{The planar system.}  Differentiating $z$ and using the Euler equation for
+$c=C/L$ together with $C\propto NL_E$,
+\[
+\boxed{\
+\dt z=z\Bigl[n-(1-\phi)\eta z\bigl(1-n_E\bigr)\Bigr],
+\qquad
+\dt n_E=n_E\Bigl[\frac{\eta z\bigl[(1-\phi)+(\phi-\beta)n_E\bigr]-\rho}{\theta}
+-\eta z\bigl(1-n_E\bigr)\Bigr] .\ }
+\]
+
+\emph{The steady state.}  Setting $\dt z=0$ gives $\eta z^{*}(1-n_E^{*})=n/(1-\phi)=g_N^{*}$,
+recovering \bk{(13.37)}; setting $\dt n_E=0$ gives
+$\eta z^{*}[(1-\phi)+(\phi-\beta)n_E^{*}]=\rho+\theta n/(1-\phi)=r^{*}$.  Solving the pair,
+\[
+n_E^{*}=\frac{(1-\phi)\bigl(r^{*}-n\bigr)}{r^{*}(1-\phi)+n(\phi-\beta)},
+\qquad
+\eta z^{*}=\frac{n}{(1-\phi)\bigl(1-n_E^{*}\bigr)} ,
+\]
+which one checks is equivalent to the BGP free-entry condition
+$\eta z^{*}n_E^{*}(1-\beta)=r^{*}-n$.
+
+\emph{Saddle-path stability.}  With $\beta=1/2$, $\phi=1/2$, $n=0.01$, $\rho=0.02$, $\theta=2$
+and $\eta=0.12$ the program gives $n_E^{*}=0.8333$, $z^{*}=1.000$, and Jacobian eigenvalues
+\[
+\xi_1=-0.01437,\qquad \xi_2=+0.10437,
+\qquad \det J=-0.00150<0 ,
+\]
+one of each sign.  Since $z$ is predetermined by $N(0)$ and $L(0)$ while $n_E$ jumps, there is
+exactly one initial $n_E(0)$ on the stable manifold, and the equilibrium path is unique.
+
+\emph{The economics of the transition.}  Suppose $N(0)$ is below its BGP level relative to $L(0)$,
+so $z(0)>z^{*}$.  Research is then unusually productive relative to the stock of knowledge, so the
+economy devotes an unusually large share of labor to R\&D: $n_E(0)<n_E^{*}$.  Technology grows
+faster than $n/(1-\phi)$, $z$ falls toward $z^{*}$, and the research share declines to its BGP
+value.  Convergence is slow --- the half-life is $\log2/|\xi_1|\approx48$ periods --- which is a
+point in the model's favor: unlike the lab-equipment model, where there are no transitional
+dynamics at all, this one predicts protracted convergence of the kind Chapter 3 documents.
+\end{aex}
+
+\begin{aex}{13.23}{}
+\emph{(b) first: rentals, not sales.}  The hint matters.  If the monopolist \emph{sold} durable
+machines it would face the Coase problem: having sold to the high-valuation users today it would
+want to cut the price tomorrow, buyers would anticipate this, and with perfectly durable goods the
+monopolist's power would unravel.  Renting avoids the issue entirely, because the monopolist
+retains ownership and re-optimizes each instant against the same demand curve.  So let the
+monopolist build machines at cost $\psi$ each and rent them at $p_x(\nu,t)$ per unit of time.
+
+A machine built at date $t$ yields the rental stream $p_x$ while its physical mass decays at
+$\delta$, so its value to the monopolist is $\int_{0}^{\infty}e^{-(r+\delta)s}p_x\dd s=p_x/(r+\delta)$
+along a path with constant $r$ and $p_x$.  The \emph{user cost} of a unit of machine services is
+therefore
+\[
+(r(t)+\delta)\psi ,
+\]
+interest forgone plus depreciation, and the monopolist's instantaneous problem is
+\[
+\max_{p_x}\ \bigl[p_x-(r+\delta)\psi\bigr]p_x^{-1/\beta}L .
+\]
+
+\emph{(a) and (c).}  This is the problem of Exercise 13.2 with $\psi$ replaced by
+$(r+\delta)\psi$.  Its solution is
+\[
+p_x^{*}=\frac{(r^{*}+\delta)\psi}{1-\beta},
+\qquad
+x^{*}=\bigl(p_x^{*}\bigr)^{-1/\beta}L,
+\qquad
+\pi^{*}=\bigl[p_x^{*}-(r^{*}+\delta)\psi\bigr]x^{*}=\beta\,p_x^{*}x^{*} ,
+\]
+all constant along a BGP.  Free entry $\eta V=1$ with $V=\pi^{*}/r^{*}$ gives
+\[
+r^{*}=\eta\beta\,p_x^{*}x^{*}=\eta\beta L\Bigl[\frac{(r^{*}+\delta)\psi}{1-\beta}\Bigr]^{-\frac{1-\beta}{\beta}} ,
+\]
+an implicit equation whose left side is increasing in $r^{*}$ and whose right side is decreasing,
+so there is a unique root; and then $g^{*}=\theta^{-1}(r^{*}-\rho)$, with no transitional dynamics
+by the argument of Section 13.1.4 ($\eta V=1$ at all dates forces $\dt V=0$ and hence constant
+$r$).
+
+Every structural feature of Section 13.1 survives: a constant markup $1/(1-\beta)$ over the user
+cost, a constant machine quantity per variety, constant profits, an interest rate pinned by free
+entry, and constant growth from the first instant.  And under the natural normalization
+\[
+(r^{*}+\delta)\psi\equiv1-\beta ,
+\]
+which replaces the text's $\psi\equiv1-\beta$, one gets $p_x=1$, $x=L$, $\pi=\beta L$,
+$r^{*}=\eta\beta L$ and
+\[
+g^{*}=\frac{1}{\theta}\bigl(\eta\beta L-\rho\bigr) ,
+\]
+literally \bk{(13.20)}. $\blacksquare$
+
+\rmk{The exercise is a check that the model's conclusions do not depend on the odd assumption that
+machines evaporate after a single use.  They do not: all that assumption does is set the user cost
+equal to $\psi$ rather than $(r+\delta)\psi$.  What \emph{would} change the analysis is selling
+durable machines rather than renting them, which is why the hint points to rentals --- a reminder
+that ``monopoly power'' in a durable-goods market is a subtler object than a markup formula.}
+\end{aex}
+
+\begin{aex}{13.25}{}
+The household allocates a given total expenditure across varieties to maximize the Dixit--Stiglitz
+index \bk{(13.40)}.  The first-order condition between two products $\nu$ and $\nu'$ is
+\[
+\Bigl(\frac{c(\nu,t)}{c(\nu',t)}\Bigr)^{-1/\varepsilon}=\frac{p_c(\nu,t)}{p_c(\nu',t)}
+\qquad\Longrightarrow\qquad
+c(\nu,t)=c(\nu',t)\Bigl(\frac{p_c(\nu,t)}{p_c(\nu',t)}\Bigr)^{-\varepsilon} .
+\]
+Substituting this into the expenditure identity
+$\int_{0}^{N(t)}p_c(\nu,t)c(\nu,t)\dd\nu=E(t)$ and solving for $c(\nu',t)$,
+\[
+c(\nu',t)\,p_c(\nu',t)^{\varepsilon}\int_{0}^{N(t)}p_c(\nu,t)^{1-\varepsilon}\dd\nu=E(t)
+\qquad\Longrightarrow\qquad
+c(\nu',t)=\frac{p_c(\nu',t)^{-\varepsilon}E(t)}{\int_{0}^{N(t)}p_c(\nu,t)^{1-\varepsilon}\dd\nu} .
+\]
+Finally, by Exercise 12.10 the ideal price index is
+$P(t)=\bigl[\int_{0}^{N(t)}p_c(\nu,t)^{1-\varepsilon}\dd\nu\bigr]^{1/(1-\varepsilon)}$ and
+$E(t)=P(t)C(t)$, so
+\[
+c(\nu,t)=p_c(\nu,t)^{-\varepsilon}
+\Bigl[\int_{0}^{N(t)}p_c(\nu,t)^{1-\varepsilon}\dd\nu\Bigr]^{\frac{1}{1-\varepsilon}-1}C(t)
+=\frac{p_c(\nu,t)^{-\varepsilon}}
+{\Bigl[\int_{0}^{N(t)}p_c(\nu,t)^{1-\varepsilon}\dd\nu\Bigr]^{-\frac{\varepsilon}{1-\varepsilon}}}
+\,C(t) ,
+\]
+which is \bk{(13.44)}. $\blacksquare$
+
+The denominator is the ideal price index raised to the power $-\varepsilon$, as the text notes.
+The demand facing each producer is therefore isoelastic with elasticity $\varepsilon$, which is
+why the monopoly price is the constant markup $p_c=\frac{\varepsilon}{\varepsilon-1}w$ --- the
+same structure as the machine demand \bk{(13.6)} with $\varepsilon$ in place of $1/\beta$.  The
+expanding product and expanding input models are the same model with different labels on the
+elasticity.
+\end{aex}
+
+\begin{aex}{13.26}{}
+\emph{The budget constraint.}  By Exercise 13.25 the household's expenditure on the differentiated
+goods is $\int_{0}^{N(t)}p_c(\nu,t)c(\nu,t)\dd\nu=P(t)C(t)$.  With the normalization \bk{(13.45)},
+$P(t)\equiv1$, so expenditure is simply $C(t)$ and $C$ is real consumption.  The household holds
+the corporate sector, $A(t)=\int_{0}^{N(t)}V(\nu,t)\dd\nu$, and supplies $L$ units of labor, so
+\[
+\dt A(t)=r(t)A(t)+w(t)L-C(t) .
+\]
+
+\emph{The Hamiltonian.}  With the logarithmic preferences \bk{(13.39)},
+\[
+\wh H(A,C,\mu)=\log C(t)+\mu(t)\bigl[r(t)A(t)+w(t)L-C(t)\bigr] ,
+\]
+so
+\[
+\wh H_C=\frac{1}{C(t)}-\mu(t)=0,
+\qquad
+\wh H_A=\mu(t)r(t)=\rho\mu(t)-\dt\mu(t),
+\qquad
+\lim_{t\to\infty}e^{-\rho t}\mu(t)A(t)=0 .
+\]
+The costate equation gives $\dt\mu/\mu=\rho-r(t)$, while $\mu=1/C$ gives
+$\dt\mu/\mu=-\dt C/C$.  Hence
+\[
+\boxed{\ \frac{\dt C(t)}{C(t)}=r(t)-\rho\ }
+\]
+which is \bk{(13.46)}: the CRRA Euler equation with $\theta=1$. $\blacksquare$
+
+\emph{Why the numeraire matters.}  Had the wage or a single variety been chosen as numeraire, the
+interest rate in this equation would be a nominal one and the Euler equation would carry an extra
+$\dt P/P$ term, exactly as in Exercise 11.19's second policy.  Setting the ideal price index to
+one means measuring income in constant units of the composite at every date, so $r(t)$ is the real
+interest rate and $C(t)$ is real consumption.  This is also what makes it legitimate to say, as
+the text does, that ``real incomes grow at the same rate as $C(t)$'' even though no individual
+product's technology ever improves: the growth is entirely in the price index, which falls as
+$N^{1/(1-\varepsilon)}$ because of love of variety.
+\end{aex}
+
+\begin{aex}{13.27}{}
+\emph{(a) Finiteness and transversality.}  With logarithmic preferences and
+$C(t)=C(0)e^{g^{*}t}$,
+\[
+U=\int_{0}^{\infty}e^{-\rho t}\bigl[\log C(0)+g^{*}t\bigr]\dd t
+=\frac{\log C(0)}{\rho}+\frac{g^{*}}{\rho^{2}}<\infty
+\]
+for any $\rho>0$ --- no additional parameter restriction is needed, which is the advantage of the
+log specification.  For transversality, the Euler equation \bk{(13.46)} gives
+$r^{*}=g^{*}+\rho>g^{*}$.  Total assets are $A(t)=N(t)V(t)$, and by the free-entry condition
+\bk{(13.50)}, $N V=w/\eta$, so $A$ grows at the growth rate of the wage, which is $g^{*}$.  Hence
+\[
+\lim_{t\to\infty}e^{-r^{*}t}A(t)=A(0)\lim_{t\to\infty}e^{(g^{*}-r^{*})t}=A(0)\lim_{t\to\infty}e^{-\rho t}=0 . \qquad\checkmark
+\]
+
+\emph{(b) No transitional dynamics.}  Write $\ell(t)\equiv L_E(t)$.  With the numeraire
+\bk{(13.45)} and the common price $p_c=\frac{\varepsilon}{\varepsilon-1}w$, the normalization
+$N^{1/(1-\varepsilon)}p_c=1$ gives
+\[
+p_c(t)=N(t)^{\frac{1}{\varepsilon-1}},
+\qquad
+w(t)=\frac{\varepsilon-1}{\varepsilon}N(t)^{\frac{1}{\varepsilon-1}},
+\qquad
+V(t)=\frac{w(t)}{\eta N(t)}=\frac{\varepsilon-1}{\varepsilon\eta}N(t)^{-\frac{\varepsilon-2}{\varepsilon-1}} ,
+\]
+the last from free entry.  Profits \bk{(13.48)} are $\pi=\frac{1}{\varepsilon-1}\frac{\ell}{N}w
+=\frac{\ell}{\varepsilon}N^{-\frac{\varepsilon-2}{\varepsilon-1}}$, so $\pi/V=\eta\ell/(\varepsilon-1)$,
+and the HJB equation gives
+\[
+r(t)=\frac{\pi}{V}+\frac{\dt V}{V}
+=\frac{\eta\ell}{\varepsilon-1}-\frac{\varepsilon-2}{\varepsilon-1}\,\eta\bigl(L-\ell\bigr) .
+\]
+Since $C=\ell\,N^{1/(\varepsilon-1)}$ and $\dt N/N=\eta(L-\ell)$, the Euler equation
+$\dt C/C=r-\rho$ becomes, after cancelling,
+\[
+\frac{\dt\ell}{\ell}=\frac{\eta\ell}{\varepsilon-1}-\eta\bigl(L-\ell\bigr)-\rho ,
+\]
+whose right side has derivative $\eta/(\varepsilon-1)+\eta>0$ in $\ell$: the rest point is
+unstable, so the jump variable $\ell$ must sit at it for all $t$.  Solving,
+\[
+\ell^{*}=\frac{(\varepsilon-1)\bigl(\eta L+\rho\bigr)}{\varepsilon\eta},
+\qquad
+L_R^{*}=L-\ell^{*}=\frac{\eta L-(\varepsilon-1)\rho}{\varepsilon\eta} ,
+\]
+which is \bk{(13.53)}, and $g^{*}=\eta L_R^{*}/(\varepsilon-1)$ gives \bk{(13.54)}.  There are no
+transitional dynamics. $\blacksquare$
+
+\emph{(c) The Pareto optimum.}  Allocating $\ell$ workers symmetrically across the $N$ products
+gives $c(\nu)=\ell/N$ and hence $C=N^{\varepsilon/(\varepsilon-1)}(\ell/N)=N^{1/(\varepsilon-1)}\ell$,
+the same expression as in equilibrium (there is no markup distortion \emph{across} varieties here,
+since all prices are equal).  The planner therefore solves
+\[
+\max\ \int_{0}^{\infty}e^{-\rho t}\log\bigl(N^{\frac{1}{\varepsilon-1}}\ell\bigr)\dd t
+\quad\text{s.t.}\quad
+\dt N=\eta N\bigl(L-\ell\bigr) ,
+\]
+with $\wh H=\log\bigl(N^{1/(\varepsilon-1)}\ell\bigr)+\mu\eta N(L-\ell)$.  The conditions are
+\[
+\wh H_{\ell}=\frac{1}{\ell}-\mu\eta N=0,
+\qquad
+\wh H_{N}=\frac{1}{(\varepsilon-1)N}+\mu\eta\bigl(L-\ell\bigr)=\rho\mu-\dt\mu .
+\]
+In a steady state $\dt\mu/\mu=-\dt N/N=-\eta(L-\ell)$; substituting $\mu=1/(\eta N\ell)$ and
+multiplying through by $N\ell$, the terms in $L-\ell$ cancel and
+\[
+\frac{\ell}{\varepsilon-1}=\frac{\rho}{\eta}
+\qquad\Longrightarrow\qquad
+\ell^{S}=\frac{(\varepsilon-1)\rho}{\eta},
+\qquad
+L_R^{S}=L-\frac{(\varepsilon-1)\rho}{\eta} ,
+\]
+and therefore
+\[
+\boxed{\ g^{S}=\frac{\eta L_R^{S}}{\varepsilon-1}=\frac{\eta L-(\varepsilon-1)\rho}{\varepsilon-1}
+=\varepsilon\,g^{*}\ }
+\]
+The optimal growth rate is \emph{exactly $\varepsilon$ times} the equilibrium rate, and it is
+positive under the same condition $\eta L>(\varepsilon-1)\rho$.  With $\varepsilon=3$,
+$\eta=0.12$, $L=1$ and $\rho=0.02$ the program gives $g^{*}=0.0133$ against $g^{S}=0.0400$.
+
+\emph{Why the factor is $\varepsilon$.}  The monopolist charges $\frac{\varepsilon}{\varepsilon-1}w$
+and so keeps a fraction $1/\varepsilon$ of its revenue as profit.  The planner values a new
+product at its full contribution to the consumption index --- the love-of-variety term
+$N^{1/(\varepsilon-1)}$ --- which corresponds to the whole revenue.  The appropriability wedge is
+therefore exactly $1/\varepsilon$, and as $\varepsilon\to\infty$ (products becoming perfect
+substitutes) the equilibrium growth rate collapses to zero relative to the optimum: with no market
+power there is nothing to finance innovation, which is \bk{Proposition 12.1} seen in general
+equilibrium.
 \end{aex}
 
 \end{document}

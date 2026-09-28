@@ -21,7 +21,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 10. Human Capital and Economic Growth | 20 | 6 | **14** — 10.1, 10.3–10.5, 10.8–10.13, 10.15–10.17, 10.19 |
 | 11. First-Generation Models of Endogenous Growth | 21 | 8 | **13** — 11.1–11.3, 11.5–11.7, 11.9–11.13, 11.19, 11.20 |
 | 12. Modeling Technological Change | 14 | 6 | **8** — 12.1, 12.3, 12.4, 12.6–12.8, 12.10, 12.12 |
-| 13–23 | 285 | 112 | in progress |
+| 13. Expanding Variety Models | 27 | 9 | **18** — 13.2–13.4, 13.8–13.12, 13.14, 13.16–13.18, 13.20, 13.21, 13.23, 13.25–13.27 |
+| 14–23 | 258 | 103 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -95,6 +96,13 @@ chapter and writes that chapter's figures to `figures/`. So far:
   replacement effect (Exercise 12.6); the cost handicap at which entrant and incumbent incentives
   cross (Exercise 12.7); a worked example of excessive innovation (Exercise 12.8); and when a
   larger number of varieties raises Dixit–Stiglitz profits (Exercise 12.12).
+- **`ch13.py`** — parameters for which the equilibrium is well posed but the planner's problem is
+  not (Exercise 13.9); research subsidies against machine subsidies, and the second-best subsidy
+  (Exercise 13.11); the divergence a corporate tax produces (Exercise 13.12); the welfare-maximizing
+  competition policy and its dependence on the discount rate (Exercise 13.14); equilibrium against
+  optimal growth with knowledge spillovers (Exercise 13.17); the permanent level scale effect and
+  the saddle-path dynamics of the Jones model (Exercises 13.20 and 13.21); and the factor
+  \(arepsilon\) between optimal and equilibrium growth with product varieties (Exercise 13.27).
 
 ## Working files (not part of the document)
 
