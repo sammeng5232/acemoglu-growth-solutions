@@ -179,9 +179,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--10\par}
+{\large Chapters 2--11\par}
 \vspace{0.6cm}
-{\small The 118 exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
+{\small The 131 exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
  leaves unsolved: Exercises 2.1--2.6, 2.8--2.10, 2.13, 2.15, 2.24--2.26;\par
  3.3--3.8, 3.11;\ 4.1, 4.2;\ 5.3--5.8;\par
  6.1, 6.4--6.6, 6.10, 6.11, 6.13--6.17, 6.19--6.21;\par
@@ -189,8 +189,8 @@
  8.1, 8.3--8.6, 8.8--8.10, 8.12, 8.14, 8.16--8.18, 8.20--8.22, 8.24, 8.26,\par
  8.28, 8.29, 8.32, 8.35, 8.36, 8.39;\ 9.2, 9.4, 9.5, 9.9--9.14, 9.18, 9.19,\par
  9.22, 9.23, 9.25--9.31, 9.33;\ 10.1, 10.3--10.5, 10.8--10.13, 10.15--10.17,\par
- 10.19 --- with the numerical parts computed by\par
- the Python programs in \texttt{code/}.\par}
+ 10.19;\ 11.1--11.3, 11.5--11.7, 11.9--11.13, 11.19, 11.20\par
+ --- with the numerical parts computed by the Python programs in \texttt{code/}.\par}
 \vspace{0.8cm}
 {\small The exercise statements are not reproduced here: read them in Acemoglu's
 \emph{Introduction to Modern Economic Growth}.\par
@@ -7066,6 +7066,898 @@ sharing rule $\lambda$ means the return each worker captures depends on the capi
 people's investments have called forth; complementarity then turns a private improvement into a
 public one.  This is the mechanism Chapter 21 develops into a full theory of human capital
 externalities and virtuous cycles.}
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{11}{First-Generation Models of Endogenous Growth}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The thirteen exercises of Chapter 11 left unsolved in the instructor's manual: Exercises 11.1--11.3,
+11.5--11.7, 11.9--11.13, 11.19 and 11.20.  The manual solves 11.4, 11.8, 11.14--11.18 and 11.21.
+Notation follows the book: $A$ is the productivity of the linear technology, $g^{*}$ the
+equilibrium growth rate, $\theta$ the inverse of the intertemporal elasticity of substitution,
+$\kappa$ the share of capital in the investment sector of Section 11.3, and
+$\wt f(L)\equiv F(1,BL)$ the normalized production function of the Romer model of Section 11.4.
+The numerical parts are computed by \texttt{code/ch11.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{11.1}{}
+Write $\lambda\equiv A-\delta-n$ and $g\equiv\theta^{-1}(A-\delta-\rho)$, so that \bk{(11.13)} is
+the first-order linear nonautonomous equation
+\[
+\dt k(t)=\lambda k(t)-c(0)e^{gt} .
+\]
+Multiply by the integrating factor $e^{-\lambda t}$:
+\[
+\frac{\dd}{\dd t}\Bigl[k(t)e^{-\lambda t}\Bigr]=-c(0)e^{(g-\lambda)t} ,
+\]
+and integrate.  Provided $g\neq\lambda$,
+\[
+k(t)e^{-\lambda t}=\kappa-\frac{c(0)}{g-\lambda}e^{(g-\lambda)t}
+\qquad\Longrightarrow\qquad
+k(t)=\kappa e^{\lambda t}+\frac{c(0)}{\lambda-g}e^{gt} ,
+\]
+where $\kappa$ is a constant of integration.  Finally,
+\[
+\lambda-g=(A-\delta-n)-\frac{A-\delta-\rho}{\theta}
+=\frac{(A-\delta)(\theta-1)+\rho}{\theta}-n
+=(A-\delta)(\theta-1)\theta^{-1}+\rho\theta^{-1}-n ,
+\]
+so that
+\[
+k(t)=\kappa e^{(A-\delta-n)t}
++\bigl[(A-\delta)(\theta-1)\theta^{-1}+\rho\theta^{-1}-n\bigr]^{-1}
+\Bigl[c(0)\exp\bigl(\theta^{-1}(A-\delta-\rho)t\bigr)\Bigr] ,
+\]
+which is \bk{(11.14)}. $\blacksquare$
+
+\emph{The sign of $\lambda-g$.}  The second inequality in \bk{(11.12)} states
+$\rho+\delta>(1-\theta)(A-\delta)+\theta n+\delta$, that is $\rho>(1-\theta)(A-\delta)+\theta n$;
+dividing by $\theta>0$ gives exactly $\lambda-g>0$.  (This is also what makes the household's
+utility finite: along the equilibrium path consumption grows at $g$, and
+$\int_0^\infty e^{-(\rho-n)t}c(t)^{1-\theta}\dd t$ converges if and only if $\rho-n>(1-\theta)g$,
+which rearranges to the same inequality.)
+
+\emph{Why the constant vanishes.}  Substituting \bk{(11.14)} into the transversality condition
+\bk{(11.10)}, and noting that $k(t)e^{-\lambda t}=\kappa+\frac{c(0)}{\lambda-g}e^{-(\lambda-g)t}$,
+\[
+\lim_{t\to\infty}k(t)e^{-\lambda t}=\kappa ,
+\]
+because $\lambda-g>0$ kills the second term.  The transversality condition therefore forces
+$\kappa=0$, leaving
+\[
+k(t)=\frac{c(0)}{\lambda-g}e^{gt}=k(0)e^{gt},
+\qquad
+c(0)=(\lambda-g)k(0),
+\]
+which are \bk{(11.15)} and \bk{(11.16)}.  Capital, consumption and output all grow at $g$ from the
+very first instant: there are no transitional dynamics.
+
+\rmk{The knife-edge case $g=\lambda$ is excluded by \bk{(11.12)}, but it is worth knowing what it
+looks like: the particular solution is then $-c(0)te^{\lambda t}$ and
+$k(t)=[\kappa-c(0)t]e^{\lambda t}$, which is eventually negative for any $\kappa$.  The condition
+$\lambda>g$ is thus not a technicality --- it is what makes a positive capital stock consistent
+with consumption growing at the Euler rate forever.}
+\end{aex}
+
+\begin{aex}{11.2}{}
+Two proofs; the direct one is more informative.
+
+\emph{The optimal growth problem.}  The planner maximizes \bk{(11.1)} subject to the resource
+constraint $\dt k=(A-\delta-n)k-c$ and $k(0)>0$.  The current-value Hamiltonian is
+\[
+\wh H(k,c,\mu)=\frac{c^{1-\theta}-1}{1-\theta}+\mu\bigl[(A-\delta-n)k-c\bigr] ,
+\]
+so the conditions of \bk{Theorem 7.13} are
+\[
+c(t)^{-\theta}=\mu(t),
+\qquad
+\mu(t)(A-\delta-n)=(\rho-n)\mu(t)-\dt\mu(t),
+\qquad
+\lim_{t\to\infty}e^{-(\rho-n)t}\mu(t)k(t)=0 .
+\]
+The second gives $\dt\mu/\mu=\rho-(A-\delta)$, and since $\mu=c^{-\theta}$ implies
+$\dt\mu/\mu=-\theta\dt c/c$,
+\[
+\frac{\dt c(t)}{c(t)}=\frac{1}{\theta}\bigl(A-\delta-\rho\bigr),
+\]
+which is \bk{(11.9)}.  For the transversality condition, substitute
+$\mu(t)=c(0)^{-\theta}e^{-(A-\delta-\rho)t}$:
+\[
+e^{-(\rho-n)t}\mu(t)k(t)=c(0)^{-\theta}k(t)e^{-(A-\delta-n)t} ,
+\]
+so the condition is exactly \bk{(11.10)}.  Every condition of the planner's problem therefore
+coincides with an equilibrium condition.
+
+\emph{Sufficiency and uniqueness.}  $\wh H$ is the sum of a strictly concave function of $c$ and a
+function linear in $(k,c)$, hence concave in $(k,c)$ and strictly concave in $c$; and
+$\lim_{t\to\infty}e^{-(\rho-n)t}\mu(t)k(t)\ge0$ for every feasible path because $\mu>0$ and
+$k\ge0$.  \bk{Theorem 7.14} therefore applies: the conditions above are sufficient, and by strict
+concavity in $c$ the optimum is unique.  Since the competitive equilibrium of
+\bk{Proposition 11.1} satisfies them, it \emph{is} the optimum, and in particular it is Pareto
+optimal. $\blacksquare$
+
+\emph{The Welfare Theorem route.}  Alternatively, the economy has a representative household, all
+markets are competitive and there are no externalities, so \bk{Theorem 5.6} applies provided the
+value of the aggregate endowment at equilibrium prices is finite.  Here the household's only
+endowment is its initial capital $k(0)$ --- labor earns nothing, since $Y=AK$ does not use labor
+--- so that value is $k(0)<\infty$, trivially.  Hence the equilibrium is Pareto optimal.
+
+\rmk{It is worth being explicit about why sustained endogenous growth and Pareto optimality
+coexist here, when they will not in Section 11.4.  Growth in the $AK$ model comes from the
+\emph{absence of diminishing returns}, not from any externality: each firm's private marginal
+product of capital, $A$, is also its social marginal product.  In the Romer model the two differ,
+and \bk{Proposition 11.6} shows the equilibrium then grows too slowly.  Endogenous growth is not,
+in itself, a source of inefficiency.}
+\end{aex}
+
+\begin{aex}{11.3}{}
+\emph{(a) Equilibrium.}  With $Y(t)=AK(t)+BL(t)$, both factors have constant marginal products,
+so competitive pricing gives
+\[
+R(t)=A,\qquad r(t)=r=A-\delta,\qquad w(t)=w=B
+\qquad\text{for all }t .
+\]
+A competitive equilibrium is a path $[c(t),k(t),w(t),R(t)]_{t=0}^{\infty}$ such that the
+representative household maximizes $\int_0^\infty e^{-(\rho-n)t}\frac{c^{1-\theta}-1}{1-\theta}\dd t$
+subject to $\dt a=(r-n)a+w-c$ and the no-Ponzi condition, given $k(0)$; factor prices are as
+above; and $a(t)=k(t)$.
+
+\emph{(b) Characterization.}  The current-value Hamiltonian is
+\[
+\wh H(a,c,\mu)=\frac{c^{1-\theta}-1}{1-\theta}+\mu\bigl[(r-n)a+w-c\bigr] ,
+\]
+giving $c^{-\theta}=\mu$, $\dt\mu/\mu=\rho-r$ and the transversality condition.  Hence
+\[
+\frac{\dt c(t)}{c(t)}=\frac{1}{\theta}(A-\delta-\rho)\equiv g ,
+\]
+a constant, exactly as in the baseline $AK$ model.  The capital accumulation equation is now
+\[
+\dt k(t)=\lambda k(t)+B-c(0)e^{gt},
+\qquad \lambda\equiv A-\delta-n ,
+\]
+which differs from \bk{(11.13)} by the constant $B$ --- labor income.  Solving as in Exercise 11.1,
+\[
+k(t)=\kappa e^{\lambda t}-\frac{B}{\lambda}+\frac{c(0)}{\lambda-g}e^{gt},
+\]
+and the transversality condition again forces $\kappa=0$, so that
+\[
+\boxed{\ k(t)+\frac{B}{\lambda}=\Bigl[k(0)+\frac{B}{\lambda}\Bigr]e^{gt},
+\qquad
+c(0)=(\lambda-g)\Bigl[k(0)+\frac{B}{\lambda}\Bigr] .\ }
+\]
+The object that grows at the constant rate $g$ is not capital but \emph{total wealth}: physical
+capital plus $B/\lambda$, the present value of the constant labor income stream discounted at the
+effective rate $\lambda=r-n$.
+
+\emph{Transitional dynamics.}  Since $k(t)$ itself is total wealth minus a constant,
+\[
+\frac{\dt k(t)}{k(t)}=g\Bigl[1+\frac{B}{\lambda k(t)}\Bigr]\ >\ g ,
+\]
+which is strictly decreasing in $k$ and tends to $g$ only as $t\to\infty$.  Capital therefore
+grows \emph{faster} than consumption at every finite date, at a rate that falls monotonically
+toward $g$: the economy has nontrivial transitional dynamics even though consumption growth is
+constant.  Output $y=Ak+B$ behaves the same way,
+\[
+\frac{\dt y}{y}=\frac{A\dt k}{Ak+B}=g\,\frac{A(k+B/\lambda)}{Ak+B}\ >\ g
+\quad\text{(because $A/\lambda>1$)},
+\]
+again falling monotonically to $g$.  With $A=0.15$, $B=0.30$, $\delta=0.05$, $\rho=0.02$,
+$n=0.01$, $\theta=3$ and $k(0)=1$ the program gives $g=0.02667$ and
+\[
+\begin{array}{cccccc}
+t & 0 & 25 & 50 & 100 & 200\\
+\dt k/k & 0.1156 & 0.0441 & 0.0334 & 0.0282 & 0.0268\\
+\dt y/y & 0.0385 & 0.0317 & 0.0290 & 0.0272 & 0.0267
+\end{array}
+\]
+
+\emph{(c) The labor share.}  Labor income is $BL$ and output is $AK+BL$, so
+\[
+\frac{w(t)L(t)}{Y(t)}=\frac{B}{Ak(t)+B} ,
+\]
+which is strictly decreasing in $k$ and, since $k(t)\to\infty$, falls monotonically to zero.  In
+the calibration above it goes from $0.667$ at $t=0$ to $0.132$ at $t=50$ and $0.0022$ at
+$t=200$ (Figure~\ref{fig:ch11}, right panel).  The capital share rises to one.  This is the
+baseline $AK$ model's counterfactual prediction arriving more slowly rather than being avoided:
+adding raw labor delays the outcome without changing it, because labor is a factor in fixed
+supply whose marginal product does not grow.
+
+\emph{(d) An unanticipated rise in $B$.}  The growth rate $g$ depends only on $A$, $\delta$,
+$\rho$ and $\theta$, so it is unchanged --- permanently.  What changes is the level.  Human
+wealth $B/\lambda$ jumps up, so consumption jumps up immediately by
+$(\lambda-g)\Delta B/\lambda$; capital is predetermined and does not jump, but its subsequent
+growth rate $g[1+B/(\lambda k)]$ is higher at every $k$, so $k$ and $y$ rise over time relative to
+the old path.  The labor share jumps up and then resumes its decline to zero.  So the effect is a
+level effect asymptotically, arriving through a temporary increase in the growth rate --- the
+opposite pattern from a change in $A$, which changes the asymptotic growth rate itself.
+
+\emph{(e) Pareto optimality.}  The planner's resource constraint is
+$\dt k=(A-\delta-n)k+B-c$ and its Hamiltonian is concave in $(k,c)$, strictly so in $c$;
+repeating Exercise 11.2 word for word gives the same Euler equation, the same transversality
+condition and hence the same allocation.  \bk{Theorem 7.14} makes the conditions sufficient, so
+the equilibrium is the unique optimum.  Equivalently, \bk{Theorem 5.6} applies because the value
+of the aggregate endowment at equilibrium prices, $k(0)+B/\lambda$, is finite --- which is exactly
+the condition $\lambda>g>0$ established in Exercise 11.1.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch11_endogenous_growth.pdf}
+\caption{Left (Exercise 11.6): the growth rate of consumption in the neoclassical model with
+$y=Ak^{\alpha}$ and log preferences.  As $\alpha\to1$ the curve flattens onto the $AK$ line
+$A-\delta-\rho$ and the steady state disappears to infinity.  Right (Exercise 11.3): in the
+$AK+BL$ economy the labor share falls to zero while output growth declines monotonically to $g$
+--- nontrivial transitional dynamics in a model with a constant consumption growth rate.}
+\label{fig:ch11}
+\end{figure}
+\end{aex}
+
+\begin{aex}{11.5}{}
+\emph{The growth rate.}  With the budget constraint \bk{(11.18)},
+$\dt a=((1-\tau)r-n)a+w-c$, the current-value Hamiltonian is
+\[
+\wh H=\frac{c^{1-\theta}-1}{1-\theta}+\mu\bigl[\bigl((1-\tau)r-n\bigr)a+w-c\bigr] ,
+\]
+so $c^{-\theta}=\mu$ and
+\[
+\frac{\dt\mu}{\mu}=(\rho-n)-\bigl((1-\tau)r-n\bigr)=\rho-(1-\tau)r .
+\]
+Using $\dt\mu/\mu=-\theta\dt c/c$ and $r=A-\delta$,
+\[
+g=\frac{\dt c}{c}=\frac{(1-\tau)(A-\delta)-\rho}{\theta} ,
+\]
+which is \bk{(11.19)}.  The tax reduces growth one for one with the after-tax return, and
+$\dd g/\dd\tau=-(A-\delta)/\theta<0$.
+
+\emph{The saving rate.}  Assume, as in Section 8.10, that the revenue is rebated lump-sum, so the
+\emph{aggregate} resource constraint is still $\dt k=(A-\delta-n)k-c$.  Solving it as in Exercise
+11.1 with $g$ now given by \bk{(11.19)}, the transversality condition again eliminates the
+homogeneous solution and $k$ grows at $g$.  The saving rate is therefore
+\[
+s=\frac{\dt K+\delta K}{Y}=\frac{\dt k/k+n+\delta}{A}
+=\frac{1}{A}\Bigl[\frac{(1-\tau)(A-\delta)-\rho}{\theta}+n+\delta\Bigr] .
+\]
+Multiplying numerator and denominator by $\theta$ and collecting the terms in $\delta$,
+\[
+\theta A s=(1-\tau)A-(1-\tau)\delta-\rho+\theta n+\theta\delta
+=(1-\tau)A-\rho+\theta n-\bigl(1-\tau-\theta\bigr)\delta ,
+\]
+that is
+\[
+\boxed{\ s=\frac{(1-\tau)A-\rho+\theta n-(1-\tau-\theta)\delta}{\theta A}\ }
+\]
+which is \bk{(11.20)}; setting $\tau=0$ recovers \bk{(11.17)}.  Differentiating,
+\[
+\frac{\partial s}{\partial\tau}=\frac{-A+\delta}{\theta A}=-\frac{A-\delta}{\theta A}<0
+\qquad\text{provided }A>\delta ,
+\]
+as the text states.
+
+\emph{What is new relative to Chapter 8.}  There the saving rate was also endogenous, but a
+capital tax changed only the \emph{level} of the steady state.  Here the saving rate is constant
+\emph{and} the growth rate depends on it, so a permanent difference in $\tau$ becomes a permanent
+difference in growth --- and hence an unbounded difference in income.  Exercise 11.7 puts numbers
+on this.
+\end{aex}
+
+\begin{aex}{11.6}{}
+\emph{The equilibrium.}  With $\theta=1$ the equilibrium is the planar system
+\[
+\frac{\dt c(t)}{c(t)}=\alpha A k(t)^{\alpha-1}-\delta-\rho,
+\qquad
+\dt k(t)=Ak(t)^{\alpha}-c(t)-(n+\delta)k(t),
+\]
+with $k(0)>0$ given and the transversality condition of Chapter 8.  There is a unique steady
+state,
+\[
+\alpha A(k^{*})^{\alpha-1}=\rho+\delta
+\qquad\Longleftrightarrow\qquad
+k^{*}=\Bigl[\frac{\alpha A}{\rho+\delta}\Bigr]^{\frac{1}{1-\alpha}},
+\qquad
+c^{*}=A(k^{*})^{\alpha}-(n+\delta)k^{*},
+\]
+saddle-path stable with monotone convergence along the stable arm (\bk{Proposition 8.7} with
+$\theta=1$, $g=0$).
+
+\emph{The limit $\alpha\to1$.}  Three things happen at once.
+\begin{enumerate}
+\item \emph{The Euler equation becomes the $AK$ Euler equation.}  For any fixed $k$,
+      \[
+      \alpha Ak^{\alpha-1}-\delta-\rho\ \longrightarrow\ A-\delta-\rho ,
+      \]
+      which is \bk{(11.9)} with $\theta=1$: the growth rate becomes independent of $k$.
+\item \emph{The steady state runs off to infinity.}  Provided $A>\rho+\delta$, the base
+      $\alpha A/(\rho+\delta)$ exceeds one for $\alpha$ close to one while the exponent
+      $1/(1-\alpha)$ diverges, so $k^{*}\to\infty$: there is no finite point at which
+      accumulation stops.
+\item \emph{Convergence becomes infinitely slow.}  The stable eigenvalue of the linearized
+      system is $\xi_1=\tfrac12\bigl[\operatorname{tr}J-\sqrt{(\operatorname{tr}J)^{2}-4\det J}\bigr]$
+      with $\operatorname{tr}J=\rho-n$ and, using $\alpha A(k^{*})^{\alpha-1}=\rho+\delta$ to
+      eliminate $k^{*}$,
+      \[
+      \det J=c^{*}f''(k^{*})=(\alpha-1)(\rho+\delta)
+      \Bigl[\frac{\rho+\delta}{\alpha}-(n+\delta)\Bigr]\ \longrightarrow\ 0 ,
+      \]
+      so $\xi_1\to0$ and the half-life $\log2/|\xi_1|\to\infty$.
+\end{enumerate}
+With $A=0.15$, $\delta=0.05$, $\rho=0.02$, $n=0$ the program gives
+\[
+\begin{array}{cccccc}
+\alpha & 1/3 & 0.6 & 0.9 & 0.99 & 0.9999\\
+\log_{10}k^{*} & -0.22 & 0.27 & 2.85 & 32.66 & 3309.50\\
+\xi_1 & -0.0770 & -0.0343 & -0.0072 & -0.00070 & -0.0000070\\
+\text{half-life} & 9.0 & 20.2 & 96.8 & 990 & 99{,}021\\
+\dt c/c\ \text{at }k=1 & -0.020 & 0.020 & 0.065 & 0.0785 & 0.07999
+\end{array}
+\]
+against the $AK$ growth rate $A-\delta-\rho=0.08$.  The left panel of Figure~\ref{fig:ch11} shows
+the curve $\dt c/c$ flattening onto the $AK$ line.
+
+\emph{Interpretation.}  The $AK$ model is not a different model but the boundary case of the
+neoclassical one.  What stops growth in the neoclassical model is diminishing returns --- the
+failure of $f'$ to stay bounded away from zero --- and $\alpha\to1$ is precisely the limit in
+which that force disappears.  Three familiar statements are the same statement: ``the Inada
+condition $\lim_{k\to\infty}f'(k)=0$ fails,'' ``the steady state is at infinity,'' and ``there are
+no transitional dynamics.''
+
+This also explains why the convergence evidence of Chapter 3 bears directly on endogenous growth.
+Convergence rates of about $2\%$ a year correspond to a capital share well below one; a capital
+share close to one would predict essentially no convergence at all.  The debate over whether
+$\alpha$ should be measured as the narrow physical capital share ($\approx1/3$) or a broad share
+including human capital ($\approx2/3$ or more) is, in this light, a debate about how close the
+world is to the $AK$ boundary.
+\end{aex}
+
+\begin{aex}{11.7}{}
+\emph{The arithmetic.}  By \bk{(11.19)},
+\[
+g(\tau)=\frac{(1-\tau)(A-\delta)-\rho}{\theta}=\frac{(1-\tau)(0.10)-0.02}{3} ,
+\]
+so
+\[
+g(0.2)=\frac{0.08-0.02}{3}=0.0200,
+\qquad
+g(0.4)=\frac{0.06-0.02}{3}=0.0133 ,
+\]
+a growth gap of $0.00667$ a year.  Starting from the same income in 1900, by 2000
+\[
+\frac{Y(0.2,100)}{Y(0.4,100)}=e^{0.00667\times100}=e^{2/3}=1.948 ,
+\]
+so the low-tax country is almost exactly twice as rich.  And the gap keeps widening without
+bound:
+\[
+\begin{array}{ccccc}
+\text{horizon (years)} & 50 & 100 & 200 & 500\\
+\text{income ratio} & 1.396 & 1.948 & 3.794 & 28.03
+\end{array}
+\]
+The saving rates, from \bk{(11.20)}, are $0.467$ and $0.422$: a difference of four and a half
+percentage points, sustained forever.
+
+\emph{Comparison with the neoclassical model.}  The same tax difference in the model of
+Chapter 8 produces only a permanent \emph{level} difference,
+$\bigl[(1-\tau)/(1-\tau')\bigr]^{\alpha/(1-\alpha)}$, which is $1.155$ at $\alpha=1/3$ and
+$1.333$ at $\alpha=1/2$.  The $AK$ model converts a bounded $15\%$ level effect into an unbounded
+growth effect.
+
+\emph{Is it plausible?}  The mechanism is coherent but the implications are hard to accept, for
+four reasons.
+
+\emph{First, the world income distribution would have to diverge without limit.}  Tax rates,
+expropriation risk and other determinants of the after-tax return differ across countries by far
+more than twenty percentage points, and they have done so for decades.  The model then predicts
+that relative incomes should be spreading apart at an accelerating rate.  The evidence in Chapter
+1 is that the postwar world income distribution has been roughly stable, with substantial mobility
+but no systematic divergence of the whole distribution.
+
+\emph{Second, the capital share must tend to one}, since $Y=AK$ leaves nothing for labor.  Factor
+shares have been roughly constant, which is the first of the Kaldor facts.  Exercise 11.3 shows
+that adding raw labor only postpones this problem; Section 11.2 solves it, but by making human
+capital accumulate linearly, which relocates rather than removes the difficulty.
+
+\emph{Third, the sensitivity is extreme.}  Here $\dd g/\dd\tau=-(A-\delta)/\theta=-0.033$, so each
+\emph{percentage point} of capital tax costs a third of a tenth of a percentage point of growth
+forever --- about $3.4\%$ of income per century.  No estimate of the effect of taxation on growth
+is anywhere near this large, and cross-country growth regressions find policy variables
+explaining level differences far better than they explain persistent growth differences.
+
+\emph{Fourth, and most fundamentally, the result is an artifact of exact linearity.}  The reason
+small policy differences compound forever is that the marginal product of capital never falls.
+Any diminishing returns at all --- $\alpha<1$ in Exercise 11.6 --- restores a steady state and
+converts the growth effect into a level effect, however slowly.  A model in which the answer flips
+discontinuously at $\alpha=1$ is not a good guide to a world in which $\alpha$ is measured with
+error.
+
+\rmk{The honest conclusion is the one the text draws: the $AK$ class shows that endogenous growth
+and policy-sensitive growth rates are \emph{possible} in a neoclassical environment, which was
+worth establishing.  It does not show that they are what generates the observed cross-country
+income distribution.  That is why Part IV turns to models in which technology is chosen
+purposefully and in which the linearity that sustains growth is derived from the economics of
+innovation rather than assumed.}
+\end{aex}
+
+\begin{aex}{11.9}{}
+\emph{The effective capital-labor ratio is constant.}  The household's conditions \bk{(11.25)} are
+$\mu_a=\mu_h$, $w(t)-\delta_h=r(t)$ and $\dt c/c=\theta^{-1}(r(t)-\rho)$.  The first says that the
+shadow values of a unit of physical and a unit of human capital must coincide, since both are
+bought with the same good and neither is subject to a nonnegativity constraint; the second is the
+no-arbitrage condition it implies, equating the net returns.  Substituting the competitive factor
+prices \bk{(11.24)}, $R=f'(k)$ and $w=f(k)-kf'(k)$ with $k=K/H$, the no-arbitrage condition reads
+\[
+f'\bigl(k(t)\bigr)-\delta_k=f\bigl(k(t)\bigr)-k(t)f'\bigl(k(t)\bigr)-\delta_h .
+\tag{$*$}
+\]
+The left side is strictly decreasing in $k$ (derivative $f''<0$) and the right side strictly
+increasing (derivative $-kf''>0$), so $(*)$ has at most one solution.  It has at least one:
+as $k\to0$, Assumption 2 gives $f'(k)\to\infty$ while $f(k)-kf'(k)\to0$, so the left side exceeds
+the right; as $k\to\infty$, $f'(k)\to0$ while $f(k)-kf'(k)\to\infty$, so the inequality reverses.
+Hence there is a unique $k^{*}$ solving \bk{(11.26)}, and
+\[
+k(t)=k^{*}\qquad\text{for all }t\ge0 ,
+\]
+\emph{including} $t=0$: the economy jumps immediately to the balanced ratio by reallocating its
+initial stocks, which is feasible because investment in either capital may be negative.
+
+\emph{Growth.}  With $k$ constant, $r(t)=r^{*}=f'(k^{*})-\delta_k$ is constant, so the Euler
+equation gives the constant growth rate
+\[
+g^{*}=\frac{f'(k^{*})-\delta_k-\rho}{\theta} .
+\]
+Since $k=K/H$ is constant, $K$ and $H$ grow at a common rate; output $Y=F(K,H)=Hf(k^{*})$ grows at
+that same rate; and the aggregate resource constraint
+\[
+\dt K+\dt H=F(K,H)-C-\delta_kK-\delta_hH
+\]
+then reads, after dividing by $H$ and using $K=k^{*}H$,
+\[
+g(1+k^{*})=f(k^{*})-\frac{C}{H}-\bigl(\delta_kk^{*}+\delta_h\bigr),
+\]
+so $C/H$ is constant if and only if $g$ is, and the Euler equation pins $g=g^{*}$.
+
+\emph{No transitional dynamics and uniqueness.}  Given $g^{*}$, the accumulation equation for $H$
+is linear and nonautonomous, exactly as in Exercise 11.1; its homogeneous solution is eliminated
+by the transversality condition, so $H$ (and therefore $K$, $Y$ and $C$) grows at $g^{*}$ from the
+first instant.  The current-value Hamiltonian is concave in states and controls and strictly
+concave in $c$ (the argument of Exercise 10.8), so \bk{Theorem 7.14} makes the conditions
+sufficient and the path unique.
+
+\emph{The factor shares.}  The share of capital in national income is
+\[
+\frac{R(t)K(t)}{Y(t)}=\frac{f'(k^{*})k^{*}}{f(k^{*})}\ \in(0,1) ,
+\]
+constant over time and strictly less than one by strict concavity of $f$ with $f(0)=0$.  This is
+the model's advantage over the baseline $AK$ economy.
+
+\emph{The conditions.}  $f'(k^{*})>\rho+\delta_k$ gives $g^{*}>0$, and
+$\rho+\delta_k>(1-\theta)(f'(k^{*})-\delta_k)+\delta_k$, that is $\rho>(1-\theta)(f'(k^{*})-\delta_k)$,
+is equivalent to $\rho>(1-\theta)g^{*}$ --- the finiteness of utility and the transversality
+condition, exactly as in Exercise 11.1. $\blacksquare$
+
+\rmk{The mechanism is worth naming.  The economy behaves like an $AK$ model because, once $k$ is
+pinned at $k^{*}$, the \emph{pair} $(K,H)$ accumulates linearly: $\dt K+\dt H$ is proportional to
+$K+H$.  Diminishing returns to each factor separately are perfectly consistent with constant
+returns to the reproducible factors taken together, and it is the latter that sustains growth.
+This is the observation the text makes at the start of Section 11.3: what matters is that the
+\emph{accumulation} technology is linear, not that the production function is $AK$.}
+\end{aex}
+
+\begin{aex}{11.10}{}
+\emph{The planner's problem.}  With $n=0$ and $L=1$, the planner maximizes \bk{(11.1)} subject to
+\[
+\dt K=i_K-\delta_kK,
+\qquad
+\dt H=i_H-\delta_hH,
+\qquad
+c+i_K+i_H\le F(K,H),
+\]
+given $K(0),H(0)>0$.  The current-value Hamiltonian, after substituting the binding resource
+constraint, is
+\[
+\wh H=\frac{c^{1-\theta}-1}{1-\theta}+\mu_K\bigl(i_K-\delta_kK\bigr)+\mu_H\bigl(i_H-\delta_hH\bigr),
+\qquad c=F(K,H)-i_K-i_H .
+\]
+The conditions in the two investments give
+\[
+\mu_K=\mu_H=c^{-\theta}\equiv\mu ,
+\]
+and the two costate equations give
+\[
+\frac{\dt\mu_K}{\mu_K}=\rho+\delta_k-F_K(K,H),
+\qquad
+\frac{\dt\mu_H}{\mu_H}=\rho+\delta_h-F_H(K,H) .
+\]
+Equality of the costates therefore forces
+\[
+F_K(K,H)-\delta_k=F_H(K,H)-\delta_h .
+\]
+Since $F$ is homogeneous of degree one, $F_K(K,H)=f'(k)$ and $F_H(K,H)=f(k)-kf'(k)$ with
+$k=K/H$, so this is exactly \bk{(11.26)} and hence $k(t)=k^{*}$ for all $t$, by the uniqueness
+established in Exercise 11.9.  The Euler equation is
+\[
+\frac{\dt c}{c}=\frac{1}{\theta}\bigl[F_K(K,H)-\delta_k-\rho\bigr]
+=\frac{1}{\theta}\bigl[r^{*}-\rho\bigr] ,
+\]
+and the two transversality conditions are those of the household's problem.
+
+\emph{Coincidence.}  Every condition of the planner's problem is an equilibrium condition of
+Section 11.2 and conversely: \bk{(11.24)} turns $F_K$ into $R$ and $F_H$ into $w$, so the
+planner's no-arbitrage condition is the market's, and the planner's Euler equation is the
+household's.  $\wh H$ is concave in $(K,H,i_K,i_H)$ by the argument of Exercise 10.8 --- a concave
+increasing $u$ composed with the concave $F(K,H)-i_K-i_H$, plus linear terms --- so
+\bk{Theorem 7.14} applies and both problems have the same unique solution.  The competitive
+equilibrium is therefore the optimal growth path, and in particular Pareto optimal. $\blacksquare$
+
+\emph{The Welfare Theorem route.}  Alternatively, the economy has a representative household,
+competitive markets and no externalities, and the value of its endowment at equilibrium prices ---
+$a(0)$ plus the value of $h(0)$, both finite --- is finite, so \bk{Theorem 5.6} applies.
+
+\rmk{The comparison with Exercise 10.12 is exact and worth making.  There the same no-arbitrage
+condition $F_K-\delta_k=F_H-\delta_h$ defined a \emph{locus} $h=\xi(k)$ along which the economy
+travelled to a steady state; here, because $F$ is homogeneous of degree one in the two
+\emph{reproducible} factors, the same condition pins down a single \emph{ratio} $k^{*}$ and the
+economy grows along it forever.  The difference between a neoclassical model and an endogenous
+growth model, in this family, is entirely whether the third factor --- raw labor in Chapter 10 ---
+is present.}
+\end{aex}
+
+\begin{aex}{11.11}{}
+\emph{The result.}  In Section 11.1 the equilibrium growth rate of consumption, capital and output
+per capita is
+\[
+g^{*}=\frac{A-\delta-\rho}{\theta} ,
+\]
+in which $n$ does not appear.  In Section 11.2 it is
+\[
+g^{*}=\frac{f'(k^{*})-\delta_k-\rho}{\theta},
+\qquad
+f'(k^{*})-\delta_k=f(k^{*})-k^{*}f'(k^{*})-\delta_h ,
+\]
+and again $n$ appears nowhere: $k^{*}=K/H$ is a ratio of two accumulated stocks, so reinstating
+population growth in that section changes nothing.
+
+\emph{Why.}  The growth rate of consumption per capita comes from the Euler equation, which
+compares one number, the net return $r$, with another, the discount rate $\rho$.  In these models
+$r$ is determined by technology alone --- $A-\delta$, or $f'(k^{*})-\delta_k$ --- because returns
+to the reproducible factors do not diminish.  Population growth affects neither.  More precisely,
+$n$ enters the household's problem twice and the two effects cancel exactly: it lowers the
+effective return on assets from $r$ to $r-n$ (assets must be spread over more people) and it
+lowers the effective discount rate from $\rho$ to $\rho-n$ (there are more people to enjoy
+consumption), so the difference $r-\rho$ that drives the Euler equation is untouched.  This is the
+same cancellation as in Exercise 8.1.
+
+Population growth is not entirely without effect.  From \bk{(11.17)},
+\[
+s=\frac{A-\rho+\theta n+(\theta-1)\delta}{\theta A} ,
+\]
+which is strictly increasing in $n$: a faster-growing population requires more capital widening,
+so the economy saves more.  And aggregate output grows at $g^{*}+n$ rather than $g^{*}$.  What is
+invariant is the growth rate of the \emph{per capita} variables.
+
+\emph{Is it plausible?}  The prediction sits at a knife edge between two forces that the models of
+this chapter both switch off.
+
+\emph{Against, from above: scale effects.}  In the Romer model of Section 11.4 the growth rate is
+$\theta^{-1}(\wt f(L)-L\wt f'(L)-\delta-\rho)$, which is strictly increasing in $L$, so a larger
+population grows faster --- and if population were growing the growth rate would rise without
+bound (Exercise 11.18).  Any model in which ideas are nonrival has this feature: more people means
+more people generating ideas that everyone can use.  The very long-run evidence discussed in
+Chapter 4 --- accelerating growth over millennia as population grew --- favors some scale effect.
+Chapter 13 shows how to keep the idea without the counterfactual acceleration.
+
+\emph{Against, from below: diminishing returns to a fixed factor.}  In a Malthusian economy with
+land, faster population growth lowers income per capita.  The $AK$ models have no fixed factor at
+all --- indeed Section 11.1 has no factor but capital --- so this channel is absent too.
+
+The models of this chapter therefore predict exact neutrality precisely because they contain
+neither of the two mechanisms that would break it.  Empirically the cross-country correlation
+between population growth and growth in income per capita is weakly negative rather than zero,
+though, as Chapter 4 discusses, the direction of causation is very hard to establish.  Exact
+neutrality is best read as a benchmark, not a prediction.
+\end{aex}
+
+\begin{aex}{11.12}{}
+Replace \bk{(11.27)} by a general constant-returns technology in the consumption sector,
+$C(t)=G\bigl(K_C(t),L_C(t)\bigr)$, keeping $I(t)=AK_I(t)$.  Write $g(k_C)\equiv G(k_C,1)$ for the
+intensive form, with $k_C\equiv K_C/L_C$.
+
+\emph{Along any growth path, $k_C\to\infty$.}  Labor is used only in the consumption sector and is
+in fixed supply, so $L_C=L$ is constant.  On a BGP the share $\kappa$ of capital in the investment
+sector is constant, so $K_C=(1-\kappa)K$ grows at the rate $g_K>0$ of the capital stock.  Hence
+\[
+k_C(t)=\frac{(1-\kappa)K(t)}{L}\ \longrightarrow\ \infty .
+\]
+
+\emph{The factor shares.}  Labor income arises only in the consumption sector, so with $p_C=1$ the
+wage bill is
+\[
+w(t)L=G\bigl(K_C,L\bigr)-K_CG_K\bigl(K_C,L\bigr)=\bigl[1-\sigma(k_C)\bigr]C(t),
+\qquad
+\sigma(k)\equiv\frac{k\,g'(k)}{g(k)} ,
+\]
+$\sigma$ being the elasticity of the consumption technology with respect to capital.  GDP at
+current prices is $p_CC+p_II$, so the labor share of GDP is
+\[
+\frac{w(t)L}{C(t)+p_I(t)I(t)}=\bigl[1-\sigma(k_C(t))\bigr]\cdot
+\frac{C(t)}{C(t)+p_I(t)I(t)} .
+\]
+On a BGP the two components of GDP must grow at the same rate --- otherwise their ratio diverges
+and the composition of output is not constant --- so the second factor is constant.  The labor
+share of GDP is therefore constant if and only if $\sigma(k_C(t))$ is constant.
+
+\emph{Only Cobb--Douglas has constant $\sigma$.}  Suppose $\sigma(k)=\alpha$ for all $k$ in an
+interval.  Then
+\[
+\frac{\dd\log g(k)}{\dd\log k}=\alpha
+\qquad\Longrightarrow\qquad
+\log g(k)=\alpha\log k+\text{const}
+\qquad\Longrightarrow\qquad
+g(k)=Bk^{\alpha} ,
+\]
+that is $G(K_C,L_C)=BK_C^{\alpha}L_C^{1-\alpha}$.  Since $k_C$ ranges over an unbounded interval
+along the BGP, constancy of $\sigma$ over that whole range forces Cobb--Douglas globally.
+Conversely, for any non-Cobb--Douglas constant-returns $G$ the share drifts.  For the CES family
+$g(k)=B\bigl[\gamma k^{(\sigma_E-1)/\sigma_E}+1-\gamma\bigr]^{\sigma_E/(\sigma_E-1)}$ with
+elasticity of substitution $\sigma_E$,
+\[
+\sigma(k)\longrightarrow
+\begin{cases}
+1 & \text{if }\sigma_E>1,\\
+0 & \text{if }\sigma_E<1,
+\end{cases}
+\qquad\text{as }k\to\infty ,
+\]
+so the capital share in the consumption sector tends to one or to zero. $\blacksquare$
+
+\emph{Why this matters.}  The two-sector model was introduced precisely to deliver sustained growth
+\emph{with} constant factor shares, avoiding the baseline $AK$ model's capital share of one.  This
+exercise shows the achievement is fragile: it rests on Cobb--Douglas, which is exactly the
+functional form that makes factor shares independent of factor proportions.  Since the model's
+whole point is that the capital-labor ratio in the consumption sector rises without bound, any
+departure from unit elasticity of substitution lets the shares drift --- and if $\sigma_E>1$ the
+model reproduces the very defect it was built to avoid.
+\end{aex}
+
+\begin{aex}{11.13}{}
+From \bk{(11.33)} and \bk{(11.34)},
+\[
+g_K^{*}=\frac{A-\delta-\rho}{1-\alpha(1-\theta)},
+\qquad
+g_C^{*}=\alpha\,g_K^{*}=\frac{\alpha(A-\delta-\rho)}{1-\alpha(1-\theta)} .
+\]
+Differentiating, and writing $D\equiv1-\alpha(1-\theta)>0$,
+\[
+\boxed{\
+\frac{\partial g_K^{*}}{\partial\alpha}=\frac{(A-\delta-\rho)(1-\theta)}{D^{2}},
+\qquad
+\frac{\partial g_C^{*}}{\partial\alpha}=\frac{A-\delta-\rho}{D^{2}}>0 .\ }
+\]
+So consumption, output and wages always grow faster when $\alpha$ is larger, but the capital stock
+does so only when $\theta<1$; for $\theta>1$ capital grows \emph{more slowly}, and for $\theta=1$
+its growth rate is independent of $\alpha$ altogether.  With $A=0.15$, $\delta=0.05$, $\rho=0.02$
+the program gives
+\[
+\begin{array}{c|ccc}
+ & \alpha=0.3 & \alpha=0.5 & \alpha=0.7\\\hline
+\theta=0.5\quad(g_K^{*},g_C^{*}) & (0.0941,0.0282) & (0.1067,0.0533) & (0.1231,0.0862)\\
+\theta=1 & (0.0800,0.0240) & (0.0800,0.0400) & (0.0800,0.0560)\\
+\theta=2 & (0.0615,0.0185) & (0.0533,0.0267) & (0.0471,0.0329)\\
+\theta=3 & (0.0500,0.0150) & (0.0400,0.0200) & (0.0333,0.0233)
+\end{array}
+\]
+
+\emph{Why consumption growth rises.}  Two channels, both positive.  The \emph{technological}
+channel is direct: $\alpha$ is the elasticity of consumption output with respect to capital, and
+$g_C=\alpha g_K$, so a given rate of capital accumulation buys more consumption growth.  The
+\emph{price} channel works through the return.  By \bk{(11.30)} the relative price of investment
+goods falls at the rate $(1-\alpha)g_K$, so the consumption-denominated return is
+\[
+r_C=A-\delta-(1-\alpha)g_K .
+\]
+A higher $\alpha$ means the consumption sector uses capital more intensively, so the same capital
+deepening depresses the price of investment goods by less, and $r_C$ is higher.  A higher return
+raises consumption growth through the Euler equation.
+
+\emph{Why capital growth can fall.}  The higher return raises $g_C$, but $g_K=g_C/\alpha$ and
+$\alpha$ has risen too.  Which effect wins is exactly the usual income-versus-substitution
+question: when $\theta>1$ the income effect of a higher return dominates, the household does not
+increase saving proportionately, and $g_K$ falls even though $g_C$ rises.  Intuitively, when
+capital is more productive in making consumption goods, the economy needs \emph{less} capital
+accumulation to deliver any given consumption growth, and a sufficiently income-driven household
+takes part of the gain as a lower rate of accumulation.
+
+\rmk{The exercise asks ``Why does it increase the rate of capital accumulation?'' --- which is
+correct only for $\theta<1$.  The unambiguous statement is about consumption (and hence output and
+wages), whose growth rate rises with $\alpha$ at every $\theta$.  Since most estimates put
+$\theta>1$, the empirically relevant case is the one in which $\alpha$ and $g_K^{*}$ move in
+\emph{opposite} directions.  The rate of capital deepening, $g_K^{*}-g_C^{*}=(1-\alpha)g_K^{*}$,
+falls with $\alpha$ for every $\theta$: a more capital-intensive consumption sector means less
+divergence between the capital stock and output, which is the sense in which raising $\alpha$
+moves the model back toward the Kaldor facts.}
+\end{aex}
+
+\begin{aex}{11.19}{}
+\emph{The wedge.}  By \bk{(11.39)} and \bk{Proposition 11.6},
+\[
+g_C^{*}=\frac{1}{\theta}\bigl(\wt f(L)-L\wt f'(L)-\delta-\rho\bigr),
+\qquad
+g_C^{S}=\frac{1}{\theta}\bigl(\wt f(L)-\delta-\rho\bigr),
+\]
+so the entire gap is the term
+\[
+L\wt f'(L)=\frac{w(t)L}{K(t)} ,
+\]
+using $w(t)=K(t)\wt f'(L)$ from \bk{(11.37)}.  Firms pay capital its \emph{private} marginal
+product $\wt f(L)-L\wt f'(L)$, but a unit of capital also raises $A=BK$ and so raises every
+firm's output; the external part of its social marginal product is exactly the wage bill per unit
+of capital.  Any policy that closes the gap must raise the household's net return from
+$\wt f(L)-L\wt f'(L)-\delta$ to $\wt f(L)-\delta$.
+
+\emph{Policy 1: a Pigouvian subsidy to capital.}  Pay a flow subsidy of $\varsigma$ units of
+output per unit of capital, financed by lump-sum taxes, and set
+\[
+\varsigma^{*}=L\wt f'(L) .
+\]
+The household's net return becomes $\wt f(L)-L\wt f'(L)+\varsigma^{*}-\delta=\wt f(L)-\delta$, so
+its Euler equation delivers $g_C^{S}$ and the equilibrium coincides with the optimum.  As a
+proportional subsidy to capital income the rate is
+\[
+\zeta^{*}=\frac{L\wt f'(L)}{\wt f(L)-L\wt f'(L)}
+=\frac{\text{labor share}}{\text{capital share}} ,
+\]
+which \emph{exceeds} one whenever the labor share exceeds the capital share.  With
+$F=K^{\alpha}(AL)^{1-\alpha}$, $A=BK$ and $\alpha=1/3$, the program gives $\zeta^{*}=2$: the
+subsidy must be $200\%$ of capital income.
+
+The financing has a striking property.  The total cost of the subsidy is $\varsigma^{*}K(t)
+=L\wt f'(L)K(t)=w(t)L$ --- exactly the wage bill, at every date.  Since labor is supplied
+inelastically, a tax on labor income is lump-sum here, so
+\begin{quote}
+\emph{a $100\%$ tax on labor income, handed to capital, balances the budget instant by instant and
+implements the optimum.}
+\end{quote}
+Calibrating $\wt f(L)=0.30$ (a capital-output ratio of $3.3$) with $\alpha=1/3$, $\delta=0.05$,
+$\rho=0.02$ and $\theta=2$, the program gives $R=0.10$, an equilibrium growth rate of $1.5\%$ and
+an optimal growth rate of $11.5\%$.
+
+\emph{Policy 2: a consumption tax falling over time.}  Let consumers face the price
+$q(t)$ per unit of consumption, so that the budget constraint is $\dt a=ra+w-q(t)c$.  The
+current-value Hamiltonian gives $c^{-\theta}=\mu q$, hence
+\[
+\frac{\dt c}{c}=\frac{1}{\theta}\Bigl(r-\rho-\frac{\dt q}{q}\Bigr) .
+\]
+Setting
+\[
+\frac{\dt q(t)}{q(t)}=-L\wt f'(L)
+\]
+--- a consumption tax whose rate declines, equivalently a consumption subsidy growing at the rate
+$L\wt f'(L)$, financed by lump-sum taxes --- again yields $g_C=g_C^{S}$.  This policy leaves the
+return to capital untouched and works purely on the intertemporal price of consumption.
+
+\emph{Why these are genuinely different.}  Policy 1 corrects the externality where it arises, at
+the margin at which capital is rewarded; it would remain correct if the household's preferences
+changed.  Policy 2 corrects the household's intertemporal margin instead, and its required rate
+happens to coincide only because the two margins are linked one for one in this model.  A third
+variant --- an investment subsidy at a \emph{constant} rate, lowering the purchase price of capital
+goods once and for all --- does \emph{not} work: a constant relative price leaves the rate of
+return unchanged, so it produces a level effect and no growth effect at all.
+
+\rmk{The size of the required intervention is the real content here.  The optimal subsidy is not a
+small correction but a transfer of the entire wage bill to capital, and it triples the growth rate
+in the calibration above.  That is a measure of how much work the externality \bk{(11.36)} is
+doing: assuming $A=BK$ makes the social return to capital the whole output-capital ratio rather
+than the capital share of it.  It is a reason to read the Romer model of this section as a
+tractable illustration rather than a quantitative theory --- and a reason why Part IV models the
+returns to knowledge through the profits of innovators, where the wedge is disciplined by the
+market structure rather than assumed.}
+\end{aex}
+
+\begin{aex}{11.20}{}
+\emph{(a) Equilibrium.}  Firms take $A(t)$ as given, so
+\[
+R(t)=F_K\bigl(K(t),A(t)L\bigr),
+\qquad
+w(t)=A(t)F_L\bigl(K(t),A(t)L\bigr) ,
+\]
+where $F_L$ denotes the derivative with respect to the second argument.  Imposing $A(t)=K(t)$ and
+writing $\wt f(L)\equiv F(1,L)$, homogeneity of degree one gives $F(K,KL)=K\wt f(L)$, while
+$F_K$ is homogeneous of degree zero, so
+\[
+R(t)=F_K(1,L)=\wt f(L)-L\wt f'(L)\equiv R,
+\qquad
+w(t)=K(t)\wt f'(L) ,
+\]
+both exactly as in continuous time.  $R$ is a constant, independent of $K$.  A competitive
+equilibrium is a path $[C(t),K(t),R(t),w(t)]_{t=0}^{\infty}$ such that the household maximizes
+$\sum_t\beta^{t}\frac{C(t)^{1-\theta}-1}{1-\theta}$ subject to
+\[
+C(t)+K(t+1)=R(t)K(t)+w(t)L
+\]
+taking $(R,w)$ as given; firms maximize as above; and $A(t)=K(t)$.  (Full depreciation makes $R$
+the gross return.)  Market clearing gives the resource constraint
+\[
+C(t)+K(t+1)=R K(t)+K(t)L\wt f'(L)=\wt f(L)K(t)=Y(t) .
+\]
+
+\emph{(b) The BGP.}  The household's Euler equation is
+\[
+C(t)^{-\theta}=\beta R\,C(t+1)^{-\theta}
+\qquad\Longrightarrow\qquad
+\boxed{\ \frac{C(t+1)}{C(t)}=\bigl(\beta R\bigr)^{1/\theta}\equiv1+g\ }
+\]
+a constant, because $R$ does not depend on $K$.  Positive growth requires
+\[
+\beta R>1 ,
+\]
+and finite utility (equivalently the transversality condition
+$\lim_{t\to\infty}\beta^{t}C(t)^{-\theta}K(t+1)=0$, which reduces to
+$\beta(1+g)^{1-\theta}<1$) requires
+\[
+\beta R^{1-\theta}<1 .
+\]
+Together,
+\[
+\frac{1}{R}<\beta<R^{\theta-1} ,
+\]
+an interval that is nonempty if and only if $R^{\theta}>1$, that is $R>1$: the private gross return
+must exceed one, which with full depreciation is the requirement that capital more than replace
+itself.  Positive consumption also needs $\wt f(L)>1+g$, which holds automatically for
+$\theta\ge1$ since then $(\beta R)^{1/\theta}\le\beta R<R<\wt f(L)$.  With
+$F=K^{\alpha}(AL)^{1-\alpha}$, $\alpha=1/3$ and $\wt f(L)=4$, so that $R=\alpha\wt f(L)=4/3$, the
+program gives
+\[
+\begin{array}{ccccc}
+\theta & 0.5 & 1 & 2 & 3\\
+\text{admissible }\beta & (0.750,0.866) & (0.750,1.000) & (0.750,1.333) & (0.750,1.778)\\
+1+g\ \text{at }\beta=0.8 & 1.1378 & 1.0667 & 1.0328 & 1.0217\\
+\text{planner's }1+g & 10.24 & 3.200 & 1.7889 & 1.4736
+\end{array}
+\]
+The planner internalizes $A=K$ and so faces the return $\wt f(L)$ rather than $R$, giving
+$(\beta\wt f(L))^{1/\theta}>1+g$ --- when her problem is well posed, which for $\theta<1$ it need
+not be (at $\theta=0.5$ and $\beta=0.8$, $\beta\wt f(L)^{1-\theta}=1.6>1$ and her objective is
+infinite).
+
+\emph{(c) No transitional dynamics.}  The Euler equation holds at \emph{every} date, and its right
+side is a constant, so consumption grows at $1+g$ from $t=0$ whatever $K(0)$ is.  Substituting
+$C(t)=C(0)(1+g)^{t}$ into the resource constraint gives the linear difference equation
+\[
+K(t+1)=\wt f(L)K(t)-C(0)(1+g)^{t},
+\]
+whose general solution is
+\[
+K(t)=\kappa\,\wt f(L)^{t}+\frac{C(0)}{\wt f(L)-(1+g)}(1+g)^{t} .
+\]
+Now use the transversality condition.  Since
+$\beta^{t}C(t)^{-\theta}=C(0)^{-\theta}\bigl[\beta(1+g)^{-\theta}\bigr]^{t}=C(0)^{-\theta}R^{-t}$,
+the condition $\lim\beta^{t}C(t)^{-\theta}K(t+1)=0$ becomes
+\[
+\lim_{t\to\infty}R^{-t}K(t+1)=0 .
+\]
+The homogeneous part contributes $\wt f(L)\bigl[\wt f(L)/R\bigr]^{t}\to\infty$, because
+$\wt f(L)>R$; so $\kappa=0$.  The particular part contributes
+$(1+g)\bigl[(1+g)/R\bigr]^{t}\to0$ precisely when $1+g<R$, which is the condition
+$\beta<R^{\theta-1}$ already imposed.  Hence
+\[
+K(t)=K(0)(1+g)^{t},
+\qquad
+C(0)=\bigl[\wt f(L)-(1+g)\bigr]K(0) ,
+\]
+and the economy is on the balanced growth path from the first period. $\blacksquare$
+
+\rmk{The exercise's part (c) refers to ``the BGP characterized in part c'', evidently a slip for
+part (b).  The substantive point is the discrete-time counterpart of Exercise 11.1: a constant
+private return makes the Euler equation autonomous, so consumption growth is immediately constant,
+and the transversality condition then eliminates the explosive homogeneous solution for capital.
+The linearity that produces endogenous growth is also what produces the absence of transitional
+dynamics; the two are the same property seen from different sides.}
 \end{aex}
 
 \end{document}

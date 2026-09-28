@@ -19,7 +19,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 8. The Neoclassical Growth Model | 39 | 15 | **24** — 8.1, 8.3–8.6, 8.8–8.10, 8.12, 8.14, 8.16–8.18, 8.20–8.22, 8.24, 8.26, 8.28, 8.29, 8.32, 8.35, 8.36, 8.39 |
 | 9. Growth with Overlapping Generations | 33 | 12 | **21** — 9.2, 9.4, 9.5, 9.9–9.14, 9.18, 9.19, 9.22, 9.23, 9.25–9.31, 9.33 |
 | 10. Human Capital and Economic Growth | 20 | 6 | **14** — 10.1, 10.3–10.5, 10.8–10.13, 10.15–10.17, 10.19 |
-| 11–23 | 320 | 126 | in progress |
+| 11. First-Generation Models of Endogenous Growth | 21 | 8 | **13** — 11.1–11.3, 11.5–11.7, 11.9–11.13, 11.19, 11.20 |
+| 12–23 | 299 | 118 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -82,6 +83,12 @@ chapter and writes that chapter's figures to `figures/`. So far:
   investment distortions with and without human capital (Exercise 10.11); the identity
   \(F_{KH}=-(K/H)F_{KK}\) (Exercise 10.15); and the dynamic externality of the closed economy with
   imperfect labour markets (Exercise 10.19).
+- **`ch11.py`** — the transitional dynamics and vanishing labour share of the \(AK+BL\) economy
+  (Exercise 11.3); the neoclassical model's steady state, convergence speed and growth rate as
+  \(\alpha\to1\) (Exercise 11.6); the century-long income gap two capital tax rates generate
+  (Exercise 11.7); the effect of \(\alpha\) in the two-sector model (Exercise 11.13); the
+  Pigouvian subsidy that decentralizes the Romer optimum (Exercise 11.19); and the discrete-time
+  balanced growth path and its admissible parameters (Exercise 11.20).
 
 ## Working files (not part of the document)
 
