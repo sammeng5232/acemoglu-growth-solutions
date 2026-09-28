@@ -2776,4 +2776,852 @@ stops: as soon as Chapter 11 onward introduces externalities or monopolistic com
 the equilibrium paths separate, and this shortcut is no longer available.}
 \end{aex}
 
+
+%% ========================================================================
+\solchapter{7}{An Introduction to the Theory of Optimal Control}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The sixteen exercises of Chapter 7 left unsolved in the instructor's manual: Exercises 7.3, 7.4, 7.6--7.9,
+7.11--7.16, 7.20, 7.22, 7.27 and 7.29.  The manual solves 7.1, 7.2, 7.5, 7.10, 7.17--7.19, 7.21,
+7.23--7.26 and 7.28.  Notation follows the book: $x$ is the state, $y$ the control, $\lambda$ the costate,
+$H(t,x,y,\lambda)=f+\lambda g$ the Hamiltonian \bk{(7.16)}, $M(t,x,\lambda)=\max_yH$ the maximized
+Hamiltonian \bk{(7.20)}, and $\wh H=e^{\rho t}H$ the current-value Hamiltonian with costate
+$\mu=e^{\rho t}\lambda$.  The numerical part is computed by \texttt{code/ch7.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{7.3}{}
+Put the problem in control form by treating the derivative as the control: set
+\[
+y(t)\equiv\dt x(t),
+\qquad
+f(t,x,y)\equiv F(t,x,y),
+\qquad
+g(t,x,y)\equiv y ,
+\]
+so the state equation $\dt x=g(t,x,y)=y$ holds by definition and the problem is exactly the one covered by
+\bk{Theorem 7.2}.  The Hamiltonian \bk{(7.16)} is
+\[
+H(t,x,y,\lambda)=F(t,x,y)+\lambda(t)y .
+\]
+\bk{Theorem 7.2} gives a continuously differentiable costate $\lambda$ with, for all $t\in[0,t_1]$,
+\[
+H_y=0:\qquad \frac{\partial F(t,x,\dt x)}{\partial\dt x}+\lambda(t)=0 ,
+\tag{$*$}
+\]
+\[
+\dt\lambda=-H_x:\qquad \dt\lambda(t)=-\frac{\partial F(t,x,\dt x)}{\partial x} .
+\tag{$**$}
+\]
+From ($*$), $\lambda(t)=-F_{\dt x}\bigl(t,x(t),\dt x(t)\bigr)$, which is differentiable in $t$ along the
+(continuously differentiable) solution.  Differentiating and substituting into ($**$),
+\[
+-\frac{\dd}{\dd t}\Bigl[\frac{\partial F(t,x(t),\dt x(t))}{\partial\dt x}\Bigr]
+=-\frac{\partial F(t,x(t),\dt x(t))}{\partial x} ,
+\]
+that is,
+\[
+\boxed{\ \frac{\partial F(t,x(t),\dt x(t))}{\partial x}
+-\frac{\dd}{\dd t}\Bigl[\frac{\partial F(t,x(t),\dt x(t))}{\partial\dt x}\Bigr]=0\ }
+\]
+which is the Euler--Lagrange equation.  The costate has a clean reading here: $\lambda(t)=-F_{\dt x}$ is
+(minus) the marginal value of the rate of change of the state, and the Euler--Lagrange equation is the
+statement that its rate of change must equal the marginal value of the state itself.
+
+\rmk{The book writes the last term as $\partial^2F/\partial\dt x\,\partial t$.  That notation is
+correct only if the symbol is read as the \emph{total} derivative along the solution path,
+\[
+\frac{\dd}{\dd t}F_{\dt x}
+=F_{\dt xt}+F_{\dt xx}\dt x(t)+F_{\dt x\dt x}\ddot x(t),
+\]
+and not as the partial derivative of $F_{\dt x}$ with respect to its explicit time argument, which would
+drop the last two terms.  It is the total derivative that the variational argument produces, as ($*$) and
+($**$) show.}
+\end{aex}
+
+\begin{aex}{7.4}{}
+Here $F(t,x,\dt x)=-\sqrt{1+\dt x^{2}}$, which does not depend on $x$ or on $t$ explicitly, so
+\[
+F_x=0,
+\qquad
+F_{\dt x}=-\frac{\dt x}{\sqrt{1+\dt x^{2}}} .
+\]
+The Euler--Lagrange equation of Exercise 7.3, $F_x-\frac{\dd}{\dd t}F_{\dt x}=0$, therefore reduces to
+\[
+\frac{\dd}{\dd t}\Bigl[\frac{x'(t)}{\sqrt{1+(x'(t))^{2}}}\Bigr]=0 .
+\]
+(The same conclusion follows from the general fact that when $F$ does not depend on $x$, the costate is
+constant: $\dt\lambda=-F_x=0$ and $\lambda=-F_{\dt x}$.)
+
+Carrying out the differentiation,
+\[
+\frac{\dd}{\dd t}\Bigl[x'(1+(x')^{2})^{-1/2}\Bigr]
+=x''(1+(x')^{2})^{-1/2}-x'\cdot x'x''(1+(x')^{2})^{-3/2}
+=\frac{x''(t)}{\bigl(1+(x'(t))^{2}\bigr)^{3/2}} .
+\]
+Since $(1+(x')^{2})^{3/2}>0$ always, the Euler--Lagrange equation holds if and only if
+\[
+x''(t)=0\qquad\text{for all }t ,
+\]
+so $x(t)=a+bt$: the extremal is a straight line, and the constants are pinned down by the endpoints,
+$b=(u_1-u_0)/(z_1-z_0)$ and $a=u_0$ after the normalization $(z_0,u_0)=(0,0)$.
+
+Finally, the extremal really is the minimizer of length rather than merely a stationary point: $F$ does not
+depend on $x$ at all, so the maximized Hamiltonian $M(t,x,\lambda)$ is constant --- in particular concave ---
+in $x$, and \bk{Theorem 7.6} applies, giving a global maximum of $-\int\sqrt{1+(x')^2}$, that is a global
+minimum of arc length.  Equivalently, $p\mapsto-\sqrt{1+p^{2}}$ is strictly concave, so the stationary path
+is the unique minimizer.
+
+\rmk{The expression printed in the book, $\dd\bigl[x'(t)(1+(x'(t))^{2})\bigr]/\dd t=0$, has the bracket
+raised to the power $+1$; the derivative of $-\sqrt{1+\dt x^{2}}$ gives the power $-1/2$, as above.  The
+conclusion $x''=0$ is unaffected --- indeed the misprinted expression also implies $x''=0$, since
+$\frac{\dd}{\dd t}[x'(1+(x')^2)]=x''(1+3(x')^2)$ and $1+3(x')^{2}>0$ --- but only the form with the power
+$-1/2$ is the Euler--Lagrange equation of this problem.}
+\end{aex}
+
+\begin{aex}{7.6}{}
+\emph{Setting.}  The problem is $\max\int_0^1e^{-\rho t}u(c)\dd t$ subject to $\dt a=ra+w-c$, $a(t)\ge0$,
+$a(0)>0$ given, and --- as the book argues --- $a(1)=0$.  \bk{Theorem 7.2} gives the costate equation and
+the first-order condition
+\[
+e^{-\rho t}u'\bigl(c(t)\bigr)=\lambda(t),
+\qquad
+\dt\lambda(t)=-r\lambda(t)
+\quad\Longrightarrow\quad
+\lambda(t)=\lambda(0)e^{-rt} ,
+\]
+so that consumption satisfies
+\[
+u'\bigl(c(t)\bigr)=u'\bigl(c(0)\bigr)e^{(\rho-r)t} .
+\tag{$*$}
+\]
+Integrating the flow constraint with $a(1)=0$ gives the intertemporal budget constraint
+\[
+\int_0^1e^{-rt}c(t)\dd t=a(0)+\int_0^1e^{-rt}w\dd t=a(0)+\frac{w\bigl(1-e^{-r}\bigr)}{r}\equiv\Omega .
+\tag{$**$}
+\]
+
+\emph{(a) Initial consumption.}  Equation ($*$) writes every $c(t)$ as an increasing function of $c(0)$:
+$c(t)=h_t(c(0))$ with $h_t\equiv(u')^{-1}\bigl[u'(c(0))e^{(\rho-r)t}\bigr]$, increasing because $u'$ is
+strictly decreasing.  Substituting into ($**$),
+\[
+\int_0^1e^{-rt}h_t\bigl(c(0)\bigr)\dd t=\Omega ,
+\]
+whose left-hand side is continuous and strictly increasing in $c(0)$, from $0$ to $\infty$: $c(0)$ is
+uniquely determined.  With the CRRA specification $u(c)=c^{1-\theta}/(1-\theta)$ this can be solved in
+closed form.  Then ($*$) gives $c(t)=c(0)e^{(r-\rho)t/\theta}$, and ($**$) gives
+\[
+c(0)\int_0^1e^{-\zeta t}\dd t=\Omega,
+\qquad
+\zeta\equiv r-\frac{r-\rho}{\theta},
+\]
+so that
+\[
+\boxed{\ c(0)=\frac{\zeta}{1-e^{-\zeta}}\Bigl[a(0)+\frac{w(1-e^{-r})}{r}\Bigr]\ }
+\]
+(with $c(0)=\Omega$ in the knife-edge case $\zeta=0$).  For log utility ($\theta=1$), $\zeta=\rho$ and
+$c(0)=\rho\,\Omega/(1-e^{-\rho})$.
+
+\emph{(b) A rise in initial assets.}  Differentiating,
+\[
+\frac{\partial c(0)}{\partial a(0)}=\frac{\zeta}{1-e^{-\zeta}}>0 ,
+\]
+and since $c(t)=c(0)e^{(r-\rho)t/\theta}$ with the growth rate independent of wealth, the \emph{entire}
+consumption path shifts up by the same proportional factor: preferences are homothetic, so wealth effects
+are neutral across dates.  The slope of the path, $(r-\rho)/\theta$, is unchanged --- consumption grows if
+$r>\rho$ and falls if $r<\rho$, whatever the level of assets.  (For general $u$ the same argument gives
+$\partial c(0)/\partial a(0)=\bigl[\int_0^1e^{-rt}h_t'\dd t\bigr]^{-1}>0$, though the path need no longer
+scale proportionally unless $u$ is CRRA.)
+
+\emph{(c) A time-varying earnings profile.}  Replacing $w$ by $[w(t)]_{t=0}^1$ changes \emph{only} the
+constant $\Omega$, which becomes $a(0)+\int_0^1e^{-rt}w(t)\dd t$: the Euler equation ($*$) is untouched,
+because labor income does not enter the first-order conditions.  Hence
+\begin{itemize}
+\item if the present value of earnings is unchanged, the consumption path is exactly unchanged --- only the
+      asset path moves, the household saving when income arrives early and borrowing when it arrives late;
+\item if the present value rises, the whole path shifts up proportionally, as in part (b).
+\end{itemize}
+This is the permanent income logic: with a perfect capital market the timing of income is irrelevant, only
+its present value matters.
+
+The qualification matters here, though, because \bk{Example 7.1} imposes $a(t)\ge0$: the household cannot
+borrow at all.  If the earnings profile is back-loaded enough that the unconstrained solution would require
+$a(t)<0$ on some interval, the constraint binds there.  On such an interval the household simply consumes
+its income, $c(t)=w(t)$ and $a(t)=0$, and the Euler equation holds with an inequality
+($e^{-\rho t}u'(c(t))\ge\lambda(t)$, the multiplier on $a\ge0$ being positive).  In that case the timing of
+income \emph{does} affect consumption, and a shift of income toward the present raises welfare even holding
+its present value fixed.
+\end{aex}
+
+\begin{aex}{7.7}{}
+Let $x_1,x_2$ be in the (convex) domain, $\alpha\in(0,1)$, and let $y_1,y_2$ attain the maxima defining
+$M(x_1)$ and $M(x_2)$.  Then $\bigl(\alpha x_1+(1-\alpha)x_2,\ \alpha y_1+(1-\alpha)y_2\bigr)$ is a feasible
+pair, so
+\[
+M\bigl(\alpha x_1+(1-\alpha)x_2\bigr)
+\ \ge\ \varphi\bigl(\alpha x_1+(1-\alpha)x_2,\ \alpha y_1+(1-\alpha)y_2\bigr)
+\ \ge\ \alpha\varphi(x_1,y_1)+(1-\alpha)\varphi(x_2,y_2),
+\]
+and the right-hand side is $\alpha M(x_1)+(1-\alpha)M(x_2)$: the first inequality holds because $M$ is a
+maximum and the second by joint concavity of $\varphi$.  Hence $M$ is concave.
+
+If $\varphi$ is \emph{strictly} jointly concave and $x_1\neq x_2$, the second inequality is strict ---
+strict concavity applies because the two points $(x_1,y_1)$ and $(x_2,y_2)$ differ (their first coordinates
+do) --- and therefore $M$ is strictly concave.
+
+If the maximum is not attained, the same argument runs with $\varepsilon$-maximizers: choose $y_i$ with
+$\varphi(x_i,y_i)\ge M(x_i)-\varepsilon$, conclude
+$M(\alpha x_1+(1-\alpha)x_2)\ge\alpha M(x_1)+(1-\alpha)M(x_2)-\varepsilon$, and let $\varepsilon\to0$.
+
+\rmk{This little lemma is what makes Arrow's sufficiency conditions usable.  \bk{Theorems 7.6} and
+\bk{7.8} require concavity of the \emph{maximized} Hamiltonian $M(t,x,\lambda)$ in $x$, which is not an
+assumption one can check directly; the lemma reduces it to joint concavity of $H(t,x,y,\lambda)$ in
+$(x,y)$, which is usually immediate from concavity of $f$ and linearity or concavity of $g$ --- provided
+$\lambda(t)\ge0$, since $H=f+\lambda g$ inherits concavity from $g$ only when the multiplier is
+nonnegative.}
+\end{aex}
+
+\begin{aex}{7.8}{}
+\emph{Claim.}  Consider $\max\int_0^{t_1}f(t,x,y)\dd t$ subject to $\dt x=g(t,x,y)$, $x(0)=x_0$ and
+$x(t_1)=x_1$, with $f,g$ continuously differentiable.  Suppose the admissible pair $(\wh x,\wh y)$ satisfies
+the necessary conditions of \bk{Theorem 7.2}: $H_y(t,\wh x,\wh y,\lambda)=0$,
+$\dt\lambda=-H_x(t,\wh x,\wh y,\lambda)$ and $\dt{\wh x}=g$.  If $X$ is convex and
+$M(t,x,\lambda)\equiv\max_{y}H(t,x,y,\lambda)$ is concave in $x$ for every $t\in[0,t_1]$, then
+$(\wh x,\wh y)$ attains the global maximum; if $M$ is strictly concave in $x$, it is the unique solution.
+
+\emph{Proof.}  Let $(x,y)$ be any admissible pair, so that $x(0)=x_0$ and --- this is the only change from
+\bk{Theorem 7.6} --- $x(t_1)=x_1=\wh x(t_1)$.  By definition of $M$ and of the Hamiltonian,
+\[
+f(t,x,y)=H(t,x,y,\lambda)-\lambda g(t,x,y)\le M(t,x,\lambda)-\lambda(t)\dt x(t),
+\]
+with equality along $(\wh x,\wh y)$ because $\wh y$ maximizes $H$ (which is what $H_y=0$ plus concavity
+gives).  Integrating and subtracting,
+\[
+W(x,y)-W(\wh x,\wh y)\le\int_0^{t_1}\bigl[M(t,x,\lambda)-M(t,\wh x,\lambda)\bigr]\dd t
+-\int_0^{t_1}\lambda(t)\bigl[\dt x(t)-\dt{\wh x}(t)\bigr]\dd t .
+\]
+Concavity of $M$ in $x$ gives
+$M(t,x,\lambda)-M(t,\wh x,\lambda)\le M_x(t,\wh x,\lambda)\,[x(t)-\wh x(t)]$, and by the envelope theorem
+(\bk{Exercise 7.2}) $M_x(t,\wh x,\lambda)=H_x(t,\wh x,\wh y,\lambda)=-\dt\lambda(t)$.  Hence
+\[
+W(x,y)-W(\wh x,\wh y)\le-\int_0^{t_1}\dt\lambda\,[x-\wh x]\dd t-\int_0^{t_1}\lambda\,[\dt x-\dt{\wh x}]\dd t
+=-\Bigl[\lambda(t)\bigl(x(t)-\wh x(t)\bigr)\Bigr]_0^{t_1},
+\]
+integrating by parts.  At $t=0$ both paths start at $x_0$, so the lower limit vanishes.  At $t=t_1$ the
+\emph{terminal constraint} gives $x(t_1)=\wh x(t_1)=x_1$, so the upper limit vanishes as well.  Therefore
+\[
+W(x,y)\le W(\wh x,\wh y),
+\]
+which is the assertion.  If $M$ is strictly concave in $x$, the concavity inequality is strict whenever
+$x(t)\neq\wh x(t)$ on a set of positive measure, so any other admissible pair is strictly worse and the
+solution is unique.
+
+\rmk{The comparison with \bk{Theorem 7.6} is instructive: there the boundary term is killed by the
+transversality condition $\lambda(t_1)=0$, which says that leftover state is worthless; here it is killed
+by the constraint $x(t_1)=x_1$, which says that every admissible path ends at the same place, so the value
+of leftover state is irrelevant.  Exactly one of the two is needed, which is why \bk{Theorems 7.2}
+and \bk{7.1} differ only in this boundary condition.}
+\end{aex}
+
+\begin{aex}{7.9}{}
+The problem is that of \bk{Theorem 7.2} with the terminal condition weakened to $x(t_1)\ge x_1$.  Let
+$(\wh x,\wh y)$ be an interior continuous solution and consider, as in the proofs of \bk{Theorems 7.1}
+and \bk{7.2}, the variations $y(t,\varepsilon)=\wh y(t)+\varepsilon\eta(t)$ with the induced state path
+$x(t,\varepsilon)$, $x(0,\varepsilon)=x_0$.  Writing $W(\varepsilon)$ for the value of the objective and
+introducing a continuously differentiable costate $\lambda$, the same integration by parts as in the proof
+of \bk{Theorem 7.1} gives
+\[
+\frac{\dd W}{\dd\varepsilon}\Big|_{\varepsilon=0}
+=\int_0^{t_1}\Bigl[H_x\bigl(t,\wh x,\wh y,\lambda\bigr)+\dt\lambda(t)\Bigr]x_\varepsilon(t,0)\dd t
++\int_0^{t_1}H_y\bigl(t,\wh x,\wh y,\lambda\bigr)\eta(t)\dd t
+-\lambda(t_1)x_\varepsilon(t_1,0).
+\tag{$*$}
+\]
+
+\emph{The interior conditions.}  Restrict attention first to variations with $x_\varepsilon(t_1,0)=0$ ---
+feasible whatever the terminal constraint, since they do not move the endpoint.  Choosing $\lambda$ to
+solve the linear terminal-value problem $\dt\lambda=-H_x(t,\wh x,\wh y,\lambda)$ kills the first integral,
+and optimality then requires $\int H_y\eta\dd t=0$ for all such $\eta$, whence $H_y=0$ for all $t$, that is
+\bk{(7.11)}; and $\dt\lambda=-H_x$ is \bk{(7.12)}.  These are exactly the conditions of \bk{Theorem 7.2}.
+
+\emph{The terminal condition.}  With \bk{(7.11)} and \bk{(7.12)} in hand, ($*$) reduces to
+\[
+\frac{\dd W}{\dd\varepsilon}\Big|_{\varepsilon=0}=-\lambda(t_1)\,x_\varepsilon(t_1,0).
+\]
+Two cases arise.
+\begin{itemize}
+\item \emph{$\wh x(t_1)>x_1$ (the constraint is slack).}  For small $\varepsilon$ the terminal constraint
+      continues to hold whichever sign $x_\varepsilon(t_1,0)$ takes, so both signs are feasible; optimality
+      requires $\dd W/\dd\varepsilon=0$ for both, hence $\lambda(t_1)=0$.
+\item \emph{$\wh x(t_1)=x_1$ (the constraint binds).}  Only variations with $x_\varepsilon(t_1,0)\ge0$ are
+      feasible, so optimality requires $-\lambda(t_1)x_\varepsilon(t_1,0)\le0$ for all such variations,
+      that is $\lambda(t_1)\ge0$; nothing forces it to vanish.
+\end{itemize}
+In both cases
+\[
+\lambda(t_1)\ge0
+\qquad\text{and}\qquad
+\lambda(t_1)\bigl(\wh x(t_1)-x_1\bigr)=0 ,
+\]
+which is the complementary slackness condition of \bk{Theorem 7.3}.
+
+\emph{Interpretation.}  $\lambda(t_1)$ is the shadow value of the state at the terminal date.  If the
+planner ends with more of the state than required, the marginal unit must be worthless --- otherwise it
+would have been converted into payoff earlier; if the terminal requirement binds, the marginal unit has
+positive value, exactly as the multiplier on a binding constraint in static optimization.
+\end{aex}
+
+\begin{aex}{7.11}{}
+The problem is
+\[
+\max_{x,y}\int_0^{t_1}f\bigl(t,x(t),y(t)\bigr)\dd t
+\qquad\text{s.t.}\qquad
+\dt x(t)=G\bigl(t,x(t),y(t)\bigr),\quad x(0)=x_0 ,
+\]
+with $x(t)\in X\subset\R^{K_x}$, $y(t)\in Y\subset\R^{K_y}$, and an interior continuous solution
+$(\wh x,\wh y)$.  The argument is the one-dimensional proof of \bk{Theorem 7.1} written with inner products.
+
+\emph{Variations.}  Take any piecewise continuous $\eta:[0,t_1]\to\R^{K_y}$ and set
+$y(t,\varepsilon)=\wh y(t)+\varepsilon\eta(t)$.  Since $\wh y(t)\in\operatorname{Int}Y$ and $[0,t_1]$ is
+compact, $y(t,\varepsilon)\in Y$ for $|\varepsilon|$ small.  Let $x(t,\varepsilon)$ be the corresponding
+state path, which exists, is unique and is differentiable in $\varepsilon$ because $G$ is continuously
+differentiable; write $x_\varepsilon(t)\equiv\partial x(t,\varepsilon)/\partial\varepsilon|_{\varepsilon=0}$,
+which satisfies the linearized state equation
+\[
+\dt x_\varepsilon(t)=D_xG\bigl(t,\wh x,\wh y\bigr)x_\varepsilon(t)+D_yG\bigl(t,\wh x,\wh y\bigr)\eta(t),
+\qquad x_\varepsilon(0)=0 .
+\]
+
+\emph{The derivative of the objective.}  For any continuously differentiable
+$\lambda:[0,t_1]\to\R^{K_x}$ the state equation lets us write, with $H$ as in \bk{(7.28)},
+\[
+W(\varepsilon)=\int_0^{t_1}\Bigl[H\bigl(t,x(t,\varepsilon),y(t,\varepsilon),\lambda\bigr)
+-\lambda(t)\cdot\dt x(t,\varepsilon)\Bigr]\dd t ,
+\]
+and integrating the last term by parts,
+\[
+W(\varepsilon)=\int_0^{t_1}\Bigl[H+\dt\lambda(t)\cdot x(t,\varepsilon)\Bigr]\dd t
+-\lambda(t_1)\cdot x(t_1,\varepsilon)+\lambda(0)\cdot x_0 .
+\]
+Differentiating at $\varepsilon=0$,
+\[
+\frac{\dd W}{\dd\varepsilon}\Big|_{0}
+=\int_0^{t_1}\Bigl[D_xH\bigl(t,\wh x,\wh y,\lambda\bigr)+\dt\lambda(t)\Bigr]\cdot x_\varepsilon(t)\dd t
++\int_0^{t_1}D_yH\bigl(t,\wh x,\wh y,\lambda\bigr)\cdot\eta(t)\dd t
+-\lambda(t_1)\cdot x_\varepsilon(t_1).
+\]
+
+\emph{Choosing the costate.}  Let $\lambda$ solve the linear terminal-value problem
+\[
+\dt\lambda(t)=-D_xH\bigl(t,\wh x(t),\wh y(t),\lambda(t)\bigr),
+\qquad
+\lambda(t_1)=0 ,
+\]
+which has a unique continuously differentiable solution on $[0,t_1]$ because the right-hand side is linear
+in $\lambda$ with continuous coefficients.  This is \bk{(7.30)} and the terminal condition in \bk{(7.31)},
+and it annihilates the first and third terms above, leaving
+\[
+\frac{\dd W}{\dd\varepsilon}\Big|_{0}=\int_0^{t_1}D_yH\bigl(t,\wh x,\wh y,\lambda\bigr)\cdot\eta(t)\dd t .
+\]
+
+\emph{Conclusion.}  Since $(\wh x,\wh y)$ is optimal and the variations are two-sided, this derivative must
+vanish for every admissible $\eta$.  Taking $\eta$ supported on a small interval around any $t$ and equal to
+each coordinate direction in turn, and using continuity of $D_yH$ along the solution, gives
+\[
+D_yH\bigl(t,\wh x(t),\wh y(t),\lambda(t)\bigr)=0\qquad\text{for all }t\in[0,t_1],
+\]
+which is \bk{(7.29)}.  Finally $\dt x=D_\lambda H=G$ is the state equation with $x(0)=x_0$, completing
+\bk{(7.31)}.  This proves \bk{Theorem 7.7}.
+\end{aex}
+
+\begin{aex}{7.12}{}
+Let $(\wh x,\wh y)$ satisfy \bk{(7.29)}--\bk{(7.31)} and let $X$ be convex.  Write
+\[
+M(t,x,\lambda)\equiv\max_{y\in Y}H(t,x,y,\lambda)
+\]
+and suppose it is concave in $x$.  Take any admissible pair $(x,y)$.  As in Exercise 7.8, for every $t$,
+\[
+f(t,x,y)=H(t,x,y,\lambda)-\lambda(t)\cdot G(t,x,y)\le M(t,x,\lambda)-\lambda(t)\cdot\dt x(t),
+\]
+with equality along $(\wh x,\wh y)$ since $\wh y$ maximizes $H$ pointwise.  Subtracting and using concavity
+of $M$ in $x$ together with the envelope relation
+$D_xM(t,\wh x,\lambda)=D_xH(t,\wh x,\wh y,\lambda)=-\dt\lambda(t)$,
+\begin{align*}
+W(x,y)-W(\wh x,\wh y)
+&\le\int_0^{t_1}\Bigl[D_xM(t,\wh x,\lambda)\cdot\bigl(x-\wh x\bigr)
+-\lambda\cdot\bigl(\dt x-\dt{\wh x}\bigr)\Bigr]\dd t\\
+&=\int_0^{t_1}\Bigl[-\dt\lambda\cdot\bigl(x-\wh x\bigr)-\lambda\cdot\bigl(\dt x-\dt{\wh x}\bigr)\Bigr]\dd t
+=-\Bigl[\lambda(t)\cdot\bigl(x(t)-\wh x(t)\bigr)\Bigr]_0^{t_1} .
+\end{align*}
+The lower limit vanishes because both paths start at $x_0$, and the upper limit vanishes because
+$\lambda(t_1)=0$ by \bk{(7.31)}.  Hence $W(x,y)\le W(\wh x,\wh y)$ for every admissible pair:
+$(\wh x,\wh y)$ is a global maximum.
+
+If $M(t,\cdot,\lambda)$ is strictly concave, the first inequality is strict unless $x(t)=\wh x(t)$ almost
+everywhere, so the maximizer is unique (and then $y=\wh y$ wherever $H$ has a unique maximizer).
+
+\rmk{Exercise 7.7 is what makes the hypothesis checkable: joint concavity of $H$ in $(x,y)$ --- which
+follows from concavity of $f$, linearity of $G$ in $(x,y)$, and $\lambda\ge0$ --- implies concavity of $M$
+in $x$.  In the growth applications of the next chapters $G$ is linear (capital accumulation) and $f$ is
+concave (utility), so the conditions hold automatically.}
+\end{aex}
+
+\begin{aex}{7.13}{}
+Let $(\wh x,\wh y)$ be admissible and satisfy \bk{(7.39)}--\bk{(7.41)}, let $X$ be convex, let
+$M(t,x,\lambda)$ be concave in $x$ for all $t$, and suppose
+\[
+\lim_{t\to\infty}\lambda(t)\bigl(\wh x(t)-\wt x(t)\bigr)\le0
+\qquad\text{for every admissible }\wt x .
+\tag{$*$}
+\]
+Take any admissible pair $(\wt x,\wt y)$.  Exactly as in Exercise 7.8, for each finite $T$,
+\[
+\int_0^{T}f(t,\wt x,\wt y)\dd t-\int_0^{T}f(t,\wh x,\wh y)\dd t
+\le-\Bigl[\lambda(t)\bigl(\wt x(t)-\wh x(t)\bigr)\Bigr]_0^{T}
+=\lambda(T)\bigl(\wh x(T)-\wt x(T)\bigr),
+\]
+using $\wt x(0)=\wh x(0)=x_0$ for the lower limit.  This is the ``additional term'' the hint refers to:
+in finite horizon it was eliminated by $\lambda(t_1)=0$ or by a fixed endpoint, and here it survives.
+
+Now let $T\to\infty$.  The left-hand side converges to $W(\wt x,\wt y)-W(\wh x,\wh y)$ whenever the two
+improper integrals exist (which admissibility guarantees), and the right-hand side is bounded above by
+zero by hypothesis ($*$).  Hence
+\[
+W(\wt x,\wt y)-W(\wh x,\wh y)\le\limsup_{T\to\infty}\lambda(T)\bigl(\wh x(T)-\wt x(T)\bigr)\le0 ,
+\]
+so $(\wh x,\wh y)$ achieves the global maximum of \bk{(7.32)}.  If $M(t,\cdot,\lambda)$ is strictly concave,
+the inequality leading to the display is strict unless $\wt x=\wh x$ almost everywhere, so the solution is
+unique.
+
+\rmk{Condition ($*$) is the honest price of infinite horizon, and the book rightly calls it hard to check:
+it involves \emph{all} admissible comparison paths.  Two special cases make it usable.  If the state is
+nonnegative and $\lambda(t)\ge0$ with $\lim_{t\to\infty}\lambda(t)\wh x(t)=0$ --- the transversality
+condition \bk{(7.69)} --- then
+$\lambda(T)(\wh x(T)-\wt x(T))\le\lambda(T)\wh x(T)\to0$ and ($*$) holds automatically.  This is exactly how
+\bk{Theorem 7.14} is used in the applications: check the transversality condition, and concavity does the
+rest.}
+\end{aex}
+
+\begin{aex}{7.14}{}
+The discounted problem has $f(t,x,y)=e^{-\rho t}f(x,y)$ and $g(t,x,y)=g(x,y)$.  Write the
+present-value Hamiltonian and its current-value counterpart,
+\[
+H(t,x,y,\lambda)=e^{-\rho t}f(x,y)+\lambda(t)g(x,y),
+\qquad
+\wh H(t,x,y,\mu)\equiv e^{\rho t}H(t,x,y,\lambda)=f(x,y)+\mu(t)g(x,y),
+\]
+where the current-value costate is
+\[
+\mu(t)\equiv e^{\rho t}\lambda(t)
+\qquad\Longleftrightarrow\qquad
+\lambda(t)=e^{-\rho t}\mu(t).
+\]
+\bk{Theorem 7.9} applies to the problem and gives, at points of continuity of $\wh y$, the necessary
+conditions \bk{(7.39)}--\bk{(7.41)}.  Translate each in turn.
+
+\emph{\bk{(7.65)}.}  $H_y=0$ reads $e^{-\rho t}f_y+\lambda g_y=0$.  Multiplying by $e^{\rho t}>0$,
+\[
+f_y(x,y)+\mu(t)g_y(x,y)=\wh H_y\bigl(t,\wh x,\wh y,\mu\bigr)=0 ,
+\]
+which is \bk{(7.65)}.
+
+\emph{\bk{(7.66)}.}  Differentiating $\lambda=e^{-\rho t}\mu$,
+\[
+\dt\lambda(t)=e^{-\rho t}\bigl[\dt\mu(t)-\rho\mu(t)\bigr],
+\]
+while $H_x=e^{-\rho t}f_x+\lambda g_x=e^{-\rho t}\bigl[f_x+\mu g_x\bigr]=e^{-\rho t}\wh H_x$.  Substituting
+into $\dt\lambda=-H_x$ and cancelling $e^{-\rho t}>0$,
+\[
+\dt\mu(t)-\rho\mu(t)=-\wh H_x\bigl(t,\wh x,\wh y,\mu\bigr)
+\qquad\Longleftrightarrow\qquad
+\rho\mu(t)-\dt\mu(t)=\wh H_x\bigl(t,\wh x,\wh y,\mu\bigr),
+\]
+which is \bk{(7.66)}.
+
+\emph{\bk{(7.67)}.}  The state equation is unchanged: $\dt x=H_\lambda=g(x,y)=\wh H_\mu$, with $x(0)=x_0$
+and the limiting constraint $\lim_{t\to\infty}b(t)x(t)\ge x_1$ carried over from \bk{(7.41)}.
+
+Since \bk{Theorem 7.9} gives \bk{(7.39)}--\bk{(7.41)} as necessary conditions for an interior piecewise
+continuous solution, and the three translations above are equivalences, \bk{(7.65)}--\bk{(7.67)} are
+necessary as well.
+
+\rmk{The point of the current-value formulation is visible in \bk{(7.66)}: the term $\rho\mu$ appears
+because $\mu$ is measured in date-$t$ rather than date-$0$ units, so its required rate of return has to
+cover the discount rate.  Written as $\dt\mu/\mu=\rho-\wh H_x/\mu$, the condition is an asset-pricing
+equation --- the shadow price of the state must appreciate at the discount rate less its ``dividend''.}
+\end{aex}
+
+\begin{aex}{7.15}{}
+\emph{(a) Rewriting the objective.}  For any continuously differentiable $\lambda$, the constraint
+$\dt x=g$ gives $f=H-\lambda\dt x$ with $H(t,x,y)\equiv f(t,x,y)+\lambda(t)g(t,x,y)$.  Hence
+\[
+W=\int_0^{t_1}f\dd t=\int_0^{t_1}\bigl[H-\lambda(t)\dt x(t)\bigr]\dd t ,
+\]
+and integrating the last term by parts,
+$\int_0^{t_1}\lambda\dt x\dd t=\lambda(t_1)x(t_1)-\lambda(0)x_0-\int_0^{t_1}\dt\lambda x\dd t$, so
+\[
+W\bigl(x(t),y(t)\bigr)=\int_0^{t_1}\bigl[H(t,x(t),y(t))+\dt\lambda(t)x(t)\bigr]\dd t
+-\lambda(t_1)x(t_1)+\lambda(0)x_0 ,
+\]
+as required.
+
+\emph{(b) Feasible variations.}  Let $(\wh x,\wh y,\wh t_1)$ be optimal.  Perturb the control on the
+original interval and extend the horizon:
+\[
+y(t,\varepsilon)=\wh y(t)+\varepsilon\eta(t)\ \ \text{on }[0,\wh t_1],
+\qquad
+y(t,\varepsilon)=\wh y(\wh t_1)+\varepsilon\eta(t)\ \ \text{on }[\wh t_1,\wh t_1+\varepsilon\Delta t],
+\]
+with $t_1=\wh t_1+\varepsilon\Delta t$.  For $|\varepsilon|$ small this is feasible: $\wh y(t)$ is interior
+to $Y$ and $\wh x(t)$ interior to $X$ on a compact interval, so small perturbations stay inside, and the
+state path $x(t,\varepsilon)$ generated by $\dt x=g$ is well defined and differentiable in $\varepsilon$
+(the extension is over an interval of length $O(\varepsilon)$, on which the state moves by $O(\varepsilon)$).
+
+\emph{(c) The derivative.}  Differentiating the expression in (a) at $\varepsilon=0$, three groups of terms
+appear.  The interior variation contributes
+$\int_0^{\wh t_1}\bigl[H_x+\dt\lambda\bigr]x_\varepsilon\dd t+\int_0^{\wh t_1}H_y\eta\dd t$.  The moving
+upper limit contributes $H(\wh t_1,\wh x(\wh t_1),\wh y(\wh t_1))\Delta t$ from the integral and
+$-\lambda(\wh t_1)\dt x(\wh t_1)\Delta t$ from $-\lambda(t_1)x(t_1)$; the endpoint term also contributes
+$-\lambda(\wh t_1)x_\varepsilon(\wh t_1)$.  Since the second of these enters $-\lambda(t_1)x(t_1)$ with a
+minus sign and the total derivative of $x(t_1,\varepsilon)$ with respect to $\varepsilon$ is
+$x_\varepsilon(\wh t_1)+\dt x(\wh t_1)\Delta t$, collecting terms gives exactly
+\[
+\frac{\dd W}{\dd\varepsilon}\Big|_{0}
+=\int_0^{\wh t_1}\bigl[H_x+\dt\lambda\bigr]x_\varepsilon\dd t
++\int_0^{\wh t_1}H_y\,\eta\dd t
++H\bigl(\wh t_1,\wh x(\wh t_1),\wh y(\wh t_1)\bigr)\Delta t
+-\lambda(\wh t_1)x_\varepsilon(\wh t_1)
++\lambda(\wh t_1)\dt x(\wh t_1)\Delta t ,
+\]
+the expression in the exercise.
+
+\emph{(d) Why it vanishes.}  $(\wh x,\wh y,\wh t_1)$ maximizes $W$ over a set that contains the whole
+family $\{(x(\cdot,\varepsilon),y(\cdot,\varepsilon),\wh t_1+\varepsilon\Delta t)\}$ for $\varepsilon$ in a
+neighborhood of $0$ --- both signs are feasible, since the horizon may be lengthened or shortened and the
+control perturbed in either direction.  A differentiable function of $\varepsilon$ attaining an interior
+maximum at $\varepsilon=0$ has zero derivative there.
+
+The conditions of the Maximum Principle follow.  Taking $\Delta t=0$ and $\eta$ arbitrary, and choosing
+$\lambda$ to satisfy $\dt\lambda=-H_x$ with $\lambda(\wh t_1)=0$, gives $H_y=0$ as usual.  Then, with
+$\lambda(\wh t_1)=0$, the remaining terms leave $H(\wh t_1,\wh x(\wh t_1),\wh y(\wh t_1))\Delta t=0$ for
+every $\Delta t$, so
+\[
+\boxed{\ H\bigl(\wh t_1,\wh x(\wh t_1),\wh y(\wh t_1),\lambda(\wh t_1)\bigr)=0\ }
+\]
+--- the extra transversality condition associated with a free terminal date.  Its meaning is an optimal
+stopping rule: continue as long as the flow value of continuing, measured by the Hamiltonian, is positive,
+and stop when it reaches zero.
+
+\emph{(e) Letting $\wh t_1\to\infty$.}  The condition becomes
+\[
+\lim_{t\to\infty}H\bigl(t,\wh x(t),\wh y(t),\lambda(t)\bigr)=0 ,
+\]
+which is precisely the infinite-horizon transversality condition \bk{(7.56)} of \bk{Theorem 7.12}.  So the
+``vanishing Hamiltonian'' that is usually presented as a separate infinite-horizon result is the same
+condition as the free-terminal-time condition of the finite-horizon problem: an infinite horizon is a
+horizon that is optimally never reached, and the value of stopping at the margin must be zero at every
+sufficiently distant date.
+\end{aex}
+
+\begin{aex}{7.16}{}
+The discounted problem has $f(t,x,y)=e^{-\rho t}f(x,y)$ and $g(t,x,y)=g(x,y)$: neither the payoff apart
+from the discount factor nor the constraint depends on calendar time.
+
+\emph{Admissibility.}  The continuation satisfies $\dt{\wh x}(t)=g(\wh x(t),\wh y(t))$ for all $t\ge s$ and
+$\wh x(s)$ is its own initial condition, with $(\wh x(t),\wh y(t))\in X\times Y$; so it is admissible for
+the problem started at $s$ with initial state $\wh x(s)$.
+
+\emph{Optimality.}  The objective of the date-$s$ problem is
+\[
+W_s(x,y)\equiv\int_s^{\infty}e^{-\rho(t-s)}f\bigl(x(t),y(t)\bigr)\dd t
+=e^{\rho s}\int_s^{\infty}e^{-\rho t}f\bigl(x(t),y(t)\bigr)\dd t ,
+\]
+so it ranks continuation plans exactly as the date-$0$ objective does: the two differ by the positive
+constant $e^{\rho s}$.  Suppose the continuation were not optimal.  Then there is an admissible
+$(\wt x,\wt y)$ on $[s,\infty)$ with $\wt x(s)=\wh x(s)$ and
+\[
+\int_s^{\infty}e^{-\rho t}f\bigl(\wt x,\wt y\bigr)\dd t>\int_s^{\infty}e^{-\rho t}f\bigl(\wh x,\wh y\bigr)\dd t .
+\]
+Splice the plans:
+\[
+\bigl(\vec x(t),\vec y(t)\bigr)=
+\begin{cases}
+\bigl(\wh x(t),\wh y(t)\bigr), & t\in[0,s),\\
+\bigl(\wt x(t),\wt y(t)\bigr), & t\ge s .
+\end{cases}
+\]
+This is admissible from $x_0$: it satisfies the state equation on each piece, and the two pieces agree at
+$t=s$ because $\wt x(s)=\wh x(s)$, so $\vec x$ is continuous and satisfies $\dt{\vec x}=g(\vec x,\vec y)$
+throughout.  Its value at date $0$ is
+\[
+\int_0^{s}e^{-\rho t}f\bigl(\wh x,\wh y\bigr)\dd t+\int_s^{\infty}e^{-\rho t}f\bigl(\wt x,\wt y\bigr)\dd t
+>\int_0^{\infty}e^{-\rho t}f\bigl(\wh x,\wh y\bigr)\dd t ,
+\]
+contradicting the optimality of $(\wh x,\wh y)$ from date $0$.  Hence the continuation is optimal for the
+date-$s$ problem.
+
+\rmk{Two features do the work, and both are needed: the objective is \emph{exponentially} discounted, so
+that re-dating multiplies it by a constant and leaves the ranking of continuations unchanged; and $g$ is
+autonomous, so that the constraint faced from $s$ onward is the same correspondence, only with a different
+initial state.  Drop the first and time consistency fails --- this is exactly \bk{Exercise 7.22}(b), where
+$\beta(t)=e^{-\rho t}$ turns out to be necessary as well as sufficient.  The statement in the exercise
+writes the date-$s$ initial condition as $x(s)=x_0$; what is meant, and what is proved above, is that the
+continuation is optimal for the problem started at the state the optimal path has reached,
+$x(s)=\wh x(s)$.}
+\end{aex}
+
+\begin{aex}{7.20}{}
+Recall the problem: maximize $\int_0^{\infty}e^{-\rho t}u(y(t))\dd t$ subject to $\dt x=-y$, $x(0)=1$,
+$x(t)\ge0$, with $u:[0,1]\to\R$ strictly increasing, continuously differentiable and strictly concave.  The
+Hamiltonian is $H(t,x,y,\lambda)=e^{-\rho t}u(y)-\lambda y$, and \bk{Theorem 7.9} gives \bk{(7.58)} and
+\bk{(7.59)}:
+\[
+u'\bigl(\wh y(t)\bigr)=e^{\rho t}\lambda(t),
+\qquad
+\dt\lambda(t)=0\ \Longrightarrow\ \lambda(t)\equiv\lambda(0)>0 ,
+\]
+so that the Hotelling rule $\dt\mu/\mu=\rho$ holds for $\mu=e^{\rho t}\lambda$ and
+\[
+\wh y(t)=\bigl(u'\bigr)^{-1}\bigl[\lambda(0)e^{\rho t}\bigr].
+\]
+Since $u'$ is strictly decreasing and $\lambda(0)e^{\rho t}\to\infty$, extraction falls monotonically with
+$\wh y(t)\to0$; the constant $\lambda(0)$ is fixed by exhaustion,
+$\int_0^{\infty}\wh y(t)\dd t=x(0)$.
+
+\emph{Checking \bk{(7.56)}.}  The condition is $\lim_{t\to\infty}H(t,\wh x(t),\wh y(t),\lambda(t))=0$.  Here
+\[
+H\bigl(t,\wh x(t),\wh y(t),\lambda(t)\bigr)=e^{-\rho t}u\bigl(\wh y(t)\bigr)-\lambda(0)\wh y(t).
+\]
+Both terms vanish in the limit:
+\begin{itemize}
+\item $\wh y(t)\to0$ and $u$ is continuous on $[0,1]$, so $u(\wh y(t))\to u(0)$, a finite number, and
+      $e^{-\rho t}u(\wh y(t))\to0$;
+\item $\lambda(0)\wh y(t)\to0$ because $\wh y(t)\to0$ and $\lambda(0)$ is a constant.
+\end{itemize}
+Hence $\lim_{t\to\infty}H=0$: the transversality condition \bk{(7.56)} holds.
+
+\emph{An explicit case.}  With $u(y)=\log y$ (unbounded below at $0$, so strictly outside the stated
+domain, but the standard illustration), $\wh y(t)=e^{-\rho t}/\lambda(0)$, and exhaustion
+$\int_0^\infty\wh y\dd t=1/(\rho\lambda(0))=x(0)$ gives $\lambda(0)=1/(\rho x(0))$ and
+$\wh y(t)=\rho x(0)e^{-\rho t}$: the resource is depleted at the constant proportional rate $\rho$.  Then
+\[
+H(t)=e^{-\rho t}\log\bigl(\rho x(0)e^{-\rho t}\bigr)-\frac{1}{\rho x(0)}\rho x(0)e^{-\rho t}
+=e^{-\rho t}\bigl[\log(\rho x(0))-\rho t-1\bigr]\longrightarrow0 ,
+\]
+since $te^{-\rho t}\to0$.
+
+\rmk{Note which transversality condition is being verified.  The \emph{stronger} condition \bk{(7.69)}
+requires $\lim_{t\to\infty}e^{-\rho t}\mu(t)\wh x(t)$ to vanish; since $e^{-\rho t}\mu(t)=\lambda(0)$ here,
+it reduces to $\lambda(0)\lim\wh x(t)=0$, which holds precisely because the resource is fully exhausted,
+$\wh x(t)\to0$.  \bk{Exercise 7.18} modifies
+the problem so that a positive stock $x_1$ must be left behind.  The stronger condition then fails, while
+the weaker one still holds --- which is exactly why the book states \bk{(7.56)} as the general
+result.}
+\end{aex}
+
+\begin{aex}{7.22}{}
+\emph{(a) Necessary conditions.}  The Hamiltonian is
+\[
+H(t,x,y,\lambda)=\beta(t)f(x,y)+\lambda(t)g(x,y),
+\]
+and \bk{Theorem 7.9} gives, along an interior solution,
+\[
+H_y=0:\quad\beta(t)f_y(x,y)+\lambda(t)g_y(x,y)=0,
+\qquad
+\dt\lambda=-H_x:\quad\dt\lambda(t)=-\bigl[\beta(t)f_x+\lambda(t)g_x\bigr],
+\]
+together with $\dt x=g(x,y)$, $x(0)=x_0$ and the transversality condition \bk{(7.56)}.  Assume
+$g_y\neq0$, so the first condition can be solved for the costate:
+\[
+\lambda(t)=-\beta(t)\frac{f_y\bigl(x(t),y(t)\bigr)}{g_y\bigl(x(t),y(t)\bigr)}\equiv\beta(t)\,\Lambda(t),
+\tag{$*$}
+\]
+where $\Lambda$ depends on the path only, not on the discount function.
+
+\emph{(b) Time consistency forces exponential discounting.}  Consider re-solving the problem at date $s>0$
+with the same structure --- that is, with discount function $\beta(t-s)$ applied to returns $t-s$ away ---
+starting from the state $\wh x(s)$ that the original plan has reached.  Its necessary conditions are the
+same with $\beta(t)$ replaced by $\beta(t-s)$ and costate $\lambda_s$.  Time consistency means that the
+original path $(\wh x,\wh y)$ continues to solve this problem, so it must satisfy both sets of conditions.
+From ($*$) applied to each,
+\[
+\lambda(t)=\beta(t)\Lambda(t),
+\qquad
+\lambda_s(t)=\beta(t-s)\Lambda(t)
+\qquad\Longrightarrow\qquad
+\lambda_s(t)=k(t)\lambda(t),\quad k(t)\equiv\frac{\beta(t-s)}{\beta(t)} .
+\]
+Both costates satisfy their own costate equations along the \emph{same} path:
+\[
+\dt\lambda=-\bigl[\beta(t)f_x+\lambda g_x\bigr],
+\qquad
+\dt\lambda_s=-\bigl[\beta(t-s)f_x+\lambda_sg_x\bigr]=-\bigl[k(t)\beta(t)f_x+k(t)\lambda g_x\bigr]
+=k(t)\dt\lambda(t).
+\]
+But differentiating $\lambda_s=k\lambda$ directly gives $\dt\lambda_s=\dt k\lambda+k\dt\lambda$.  Comparing,
+$\dt k(t)\lambda(t)=0$, and since $\lambda(t)\neq0$ along an interior solution, $\dt k(t)=0$: the ratio
+$\beta(t-s)/\beta(t)$ is independent of $t$.  Evaluating it at $t=s$ gives
+$k=\beta(0)/\beta(s)$, so for all $t\ge s\ge0$,
+\[
+\beta(t-s)\beta(s)=\beta(t)\beta(0).
+\]
+Normalizing $\beta(0)=1$, this is the Cauchy functional equation $\beta(t-s)\beta(s)=\beta(t)$; its only
+positive continuous solutions are
+\[
+\beta(t)=e^{-\rho t}\qquad\text{for some }\rho ,
+\]
+with $\rho\ge0$ if the discount function is nonincreasing (and $\rho>0$ needed for the objective to
+converge).  Conversely, if $\beta(t)=e^{-\rho t}$, then $\beta(t-s)=e^{\rho s}\beta(t)$, the two systems
+differ by the positive constant $e^{\rho s}$, and the original path satisfies both --- time consistency,
+which is Exercise 7.16.
+
+\emph{(c) Interpretation, and the contrast with \bk{Lemma 7.1}.}  The result is the continuous-time
+counterpart of the discrete-time statement in \bk{Exercise 5.1}: only exponential discounting makes the
+trade-off between two future dates independent of the date from which it is viewed.  With any other
+$\beta$ --- hyperbolic discounting, say --- the planner's relative valuation of dates $t$ and $t'$ changes
+as time passes, so at date $s$ she would like to revise the plan made at date $0$ even though nothing has
+been learned and no state has been surprised.
+
+The contrast with \bk{Lemma 7.1} is worth stating carefully, since the lemma is also called a principle of
+optimality and holds for general $f(t,x,y)$.  \bk{Lemma 7.1} says that the value function computed
+\emph{from the date-$0$ perspective} is recursive: $V(t_0,x)=\int_{t_0}^{t_1}f\dd t+V(t_1,\wh x(t_1))$.
+That is a statement about one fixed objective, and it is true whatever the discount function, because
+$V(t_1,\cdot)$ is itself defined with the date-$0$ weights.  Time consistency in the sense of part (b) is a
+different claim: that the plan optimal under the date-$0$ objective is still optimal under the
+\emph{date-$s$} objective, which applies $\beta(t-s)$ rather than $\beta(t)$.  Only exponential discounting
+makes the two objectives agree, up to scale, on the ranking of continuations.  In short, \bk{Lemma 7.1} is
+about a consistent bookkeeping of one plan; part (b) is about whether a later self would keep it.
+\end{aex}
+
+\begin{aex}{7.27}{}
+The problem of Section 7.8 is
+\[
+\max\int_0^{\infty}e^{-rt}\bigl[f(K)-I-\phi(I)\bigr]\dd t
+\qquad\text{s.t.}\qquad
+\dt K=I-\delta K,\quad K(0)>0 ,
+\]
+with $f$ satisfying Assumptions 1 and 2 of Chapter 2 and $\phi$ strictly increasing, strictly convex,
+continuously differentiable, with $\phi(0)=\phi'(0)=0$.
+
+\emph{(a) \bk{Assumption 7.1} on a compact state space.}  Restrict $K\in[\varepsilon,\bar k]$ with
+$0<\varepsilon<\bar k<\infty$; investment can then also be restricted to a compact interval, since
+$\dt K=I-\delta K$ and $K$ is bounded, and since paying $I+\phi(I)$ for arbitrarily large $I$ is never
+optimal.  Now check the three parts:
+\begin{enumerate}
+\item \emph{Monotonicity.}  The payoff $f(K)-I-\phi(I)$ is increasing in $K$ (as $f'>0$) and decreasing in
+      $I$ (as $1+\phi'>0$), so it is weakly monotone in each argument; $g(K,I)=I-\delta K$ is increasing in
+      $I$, decreasing in $K$, and independent of $t$.
+\item \emph{$|g_I|\ge m$.}  Here $g_I\equiv1$, so the condition holds with $m=1$ --- the control moves the
+      state one for one.
+\item \emph{$|f_I|\le M$.}  Here $|f_I|=1+\phi'(I)$, which is bounded on the compact interval to which $I$
+      has been restricted, so the condition holds with $M=1+\max\phi'$.
+\end{enumerate}
+It is the third condition that fails on the unbounded state space, since $\phi'$ is unbounded; this is
+exactly why the compactification is needed before \bk{Theorem 7.13} can be invoked.
+
+\emph{(b) From the modified problem to the original one.}  Suppose the modified problem has a solution
+$(\wh K,\wh I)$ with $\wh K(t)>\varepsilon$ for all $t$, so the artificial constraint never binds.  Then
+$(\wh K,\wh I)$ satisfies the necessary conditions \bk{(7.85)} of the unconstrained problem, including the
+transversality condition $\lim_{t\to\infty}e^{-rt}q(t)\wh K(t)=0$.  Now appeal to sufficiency rather than
+necessity: the current-value Hamiltonian
+\[
+\wh H(K,I,q)=f(K)-I-\phi(I)+q\bigl[I-\delta K\bigr]
+\]
+is strictly concave in $(K,I)$ --- $f$ is strictly concave, $-\phi$ is strictly concave, and the remaining
+terms are linear --- so by Exercise 7.7 the maximized Hamiltonian is strictly concave in $K$, and
+\bk{Theorem 7.14} applies on the \emph{whole} feasible set $K\in\R_+$: any path satisfying the necessary
+conditions together with the transversality condition is the unique global maximum among all feasible
+paths, not merely among those confined to $[\varepsilon,\bar k]$.  Hence $(\wh K,\wh I)$ solves the original
+problem.  (Note that sufficiency does not use \bk{Assumption 7.1} at all; the assumption was needed only to
+obtain the strong transversality condition as a \emph{necessary} condition.)
+
+\emph{(c) Such an $\varepsilon$ exists.}  The steady state of the system \bk{(7.84)}, \bk{(7.88)} satisfies
+\[
+I^{*}=\delta K^{*},
+\qquad
+f'(K^{*})=(r+\delta)\bigl(1+\phi'(I^{*})\bigr),
+\]
+which has a unique positive solution because the left side is strictly decreasing in $K$ from $\infty$ to
+$0$ (Assumptions 1 and 2) while the right side is strictly increasing in $K$.  The optimal path is the
+stable arm of a saddle point --- the linearized system has one positive and one negative eigenvalue --- and
+$K(t)$ moves monotonically from $K(0)$ to $K^{*}$.  Therefore
+\[
+\inf_{t\ge0}K(t)=\min\bigl\{K(0),K^{*}\bigr\}>0 ,
+\]
+and any $\varepsilon<\min\{K(0),K^{*}\}$ works: the modified problem's solution never touches the
+artificial lower bound, and part (b) applies.
+
+With $f(K)=K^{1/3}$, $\phi(I)=I^{2}$, $\delta=r=0.05$, the numbers are
+\[
+K^{*}=3.767391,
+\qquad
+I^{*}=\delta K^{*}=0.188370,
+\qquad
+q^{*}=1+\phi'(I^{*})=1.376739 ,
+\]
+and the eigenvalues of the linearized system are $-0.108440$ and $+0.158440$ --- one of each sign, as the
+saddle-path structure requires.  Figure~\ref{fig:ch7q} shows the phase diagram and the stable arm, which
+stays well away from $K=0$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch7_qtheory_saddle.pdf}
+\caption{The $q$-theory phase diagram: the loci $\dt K=0$ and $\dt I=0$, their intersection at
+$(K^{*},I^{*})$, and the stable arm along which the firm approaches the steady state.}
+\label{fig:ch7q}
+\end{figure}
+
+\rmk{Adjustment costs lower the steady-state capital stock: with $\phi\equiv0$ the steady state would solve
+$f'(K)=r+\delta$, giving $K=6.085806$ in this parameterization, against $3.767391$ with adjustment costs.
+The reason is visible in the steady-state condition --- the required marginal product is scaled up by
+$q^{*}=1+\phi'(I^{*})>1$, the shadow price of installed capital, because replacing depreciated capital is
+itself costly.}
+\end{aex}
+
+\begin{aex}{7.29}{}
+Suppose the candidate path has $I(t)=0$ for all $t\ge t'$.  Then from \bk{(7.84)} its capital stock decays
+exponentially,
+\[
+K(t)=K(t')e^{-\delta(t-t')}\longrightarrow0
+\qquad\text{as }t\to\infty .
+\]
+
+\emph{The deviation.}  Fix $T>t'$ and $\epsilon>0$ small, and consider investing $\epsilon$ at every date
+$t\ge T$ instead of nothing.  Two things make the accounting simple.  First, the extra \emph{cost} at each
+date is $\epsilon+\phi(\epsilon)$, and since $\phi(0)=\phi'(0)=0$ we have $\phi(\epsilon)=o(\epsilon)$: to
+first order the adjustment cost of a small investment is zero, so the cost is $\epsilon$ per unit time.
+Second, the extra \emph{capital} raises output at the margin by $f'(K(t))$ per unit.  To first order in
+$\epsilon$ the change in the present value of profits is therefore
+\[
+\Delta=\epsilon\int_T^{\infty}e^{-rt}\bigl[f'\bigl(K(t)\bigr)-1\bigr]\dd t+o(\epsilon).
+\]
+
+\emph{The sign.}  By Assumption 2 of Chapter 2, $\lim_{K\to0}f'(K)=\infty$.  Since $K(t)\to0$ along the
+candidate path, there is a $\wt K>0$ with $f'(K)>1$ for all $K<\wt K$, and a date $T$ with
+$K(t)<\wt K$ --- hence $f'(K(t))>1$ --- for all $t\ge T$.  For that $T$ the integrand is strictly positive
+throughout, so $\Delta>0$ for $\epsilon$ small: the deviation strictly raises the present value of profits,
+and the candidate path is not optimal.
+
+\emph{Quantitatively}, with $f(K)=AK^{\alpha}$ the threshold is explicit: $f'(K)>1$ if and only if
+$K<(A\alpha)^{1/(1-\alpha)}$, which equals $0.192450$ for $A=1$, $\alpha=1/3$.  Starting from the steady
+state $K^{*}=3.767391$ and switching investment off, capital falls below that threshold after
+$\log(K^{*}/0.19245)/\delta\approx59.5$ periods, and $f'(K(t))\to\infty$ thereafter.
+
+\emph{Conclusion.}  No optimal path sets investment to zero permanently after a finite date: gross
+investment is strictly positive in the long run, and indeed the optimal path converges to the steady state
+with $I^{*}=\delta K^{*}>0$.  The economics is the Inada condition doing its usual work --- capital that has
+become scarce is arbitrarily productive at the margin, while the marginal cost of a small amount of
+investment is only its purchase price, adjustment costs being second order at $I=0$.
+
+\rmk{The same argument shows why the constraint $I\ge0$ studied in \bk{Exercise 7.28}(f) --- irreversible
+investment --- binds only on the way \emph{down}, never permanently: a firm may wish to disinvest faster
+than depreciation allows, but never to abstain from investment forever.}
+\end{aex}
+
 \end{document}
