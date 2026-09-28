@@ -4,30 +4,29 @@ Authors: Zijun Meng and Claude Opus 5
 
 ## Contents
 
-Chapter 2 (*The Solow Growth Model*) has 27 exercises. The instructor's solutions
-manual of Peters and Simsek (2009) solves 13 of them — 2.7, 2.11, 2.12, 2.14,
-2.16–2.23 and 2.27. This document solves the other **14**:
+The book has 23 chapters with exercises; the instructor's solutions manual of Peters and
+Simsek (2009) solves a selection of them. This document works through the exercises the
+manual leaves out. It is being written chapter by chapter; the table shows where it stands.
 
-| | | |
-|---|---|---|
-| **2.1** competitive labor markets pay a strictly positive wage | **2.2** constant returns imply concavity, but never strict concavity | **2.3** firm size is indeterminate under constant returns |
-| **2.4** a quartic production function with multiple steady states | **2.5** existence and uniqueness of the steady state in continuous time (Proposition 2.7) | **2.6** comparative statics in continuous time (Proposition 2.8) |
-| **2.8** dropping strict concavity (Propositions 2.2 and 2.5) | **2.9** factor prices along the transition path (Proposition 2.6) | **2.10** stability of scalar differential equations (Corollary 2.2) |
-| **2.13** saving out of labor income only | **2.15** the elasticity of output with respect to the wage | **2.24** the CES function and the Inada conditions |
-| **2.25** comparative statics on the BGP (Proposition 2.12) | **2.26** stability of the BGP (Proposition 2.13) | |
+| Chapter | exercises | in the manual | solved here |
+|---|---:|---:|---|
+| 2. The Solow Growth Model | 27 | 13 | **14** — 2.1–2.6, 2.8, 2.9, 2.10, 2.13, 2.15, 2.24, 2.25, 2.26 |
+| 3. The Solow Model and the Data | 11 | 4 | **7** — 3.3–3.8, 3.11 |
+| 4. Fundamental Determinants of Differences in Economic Performance | 3 | 1 | **2** — 4.1, 4.2 |
+| 5. Foundations of Neoclassical Growth | 14 | 8 | **6** — 5.3–5.8 |
+| 6–23 | ~355 | ~133 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
 the part letters (a), (b), … follow the book, and numbered results cited as
-"(2.33)", "Assumption 2" or "Proposition 2.5" refer to Acemoglu (2009). Remarks
-inside the solutions point out two places where the book's own statements do not
-match what the mathematics gives (the stability count in Exercise 2.4(c), and
-whether the CES production function violates Assumption 1 or Assumption 2).
+"(2.33)", "Assumption 2" or "Proposition 3.1" refer to Acemoglu (2009). Remarks
+inside the solutions point out places where the book's own statements do not match
+what the mathematics gives.
 
 | File | Contents |
 |---|---|
-| `AcemogluSolutions.tex` / `.pdf` | the solutions in one self-contained document (17 pages; solutions only, without the exercise statements) |
-| `figures/` | the two figures, produced by the code |
+| `AcemogluSolutions.tex` / `.pdf` | the solutions in one self-contained document (solutions only, without the exercise statements) |
+| `figures/` | figures produced by the code |
 | `code/` | Python for the numerical parts (see below) |
 
 ## Building
@@ -43,24 +42,25 @@ The document needs no local style file; it includes the PDF figures from `figure
 
 ## Code
 
-`code/ch2.py` (with the shared helpers in `code/acemoglulib.py`) needs only `numpy`,
-`scipy` and `matplotlib`. Run it with `python code/ch2.py`: it prints every number
-quoted in the solutions and writes the two figures to `figures/`. It covers
+`code/chN.py` (with the shared helpers in `code/acemoglulib.py`) needs only `numpy`,
+`scipy` and `matplotlib`. Each script prints every number quoted in the corresponding
+chapter and writes that chapter's figures to `figures/`. So far:
 
-- **Exercise 2.4** — the three interior steady states of the quartic economy, the
-  threshold \(2\sqrt3/9\) on \((n+\delta)/s\) below which they exist, and the sign of
-  \(\mathrm{d}(f(k)/k)/\mathrm{d}k\) at each of them, which settles the stability pattern;
-- **Exercise 2.13** — the explicit technology (a CES with a low elasticity of
-  substitution plus a small Cobb–Douglas term) that satisfies Assumptions 1 and 2 and
-  yields three steady states when only labor income is saved, together with the check
-  that \(w(k)/k\) rises exactly where the elasticity of substitution falls below the
-  capital share.
+- **`ch2.py`** — the three interior steady states of the quartic economy of Exercise 2.4
+  and the threshold \(2\sqrt3/9\) on \((n+\delta)/s\) below which they exist; and the
+  technology of Exercise 2.13 (a CES with a low elasticity of substitution plus a small
+  Cobb–Douglas term) that satisfies Assumptions 1 and 2 while producing three steady
+  states when only labour income is saved.
+- **`ch3.py`** — the exact convergence coefficient of the Cobb–Douglas Solow model as a
+  function of the distance from the steady state (Exercise 3.3), and the time a twofold
+  income gap takes to fall to 10%, under the log-linear approximation and under the exact
+  dynamics (Exercise 3.4).
 
 ## Working files (not part of the document)
 
-`Ch2.tex` is the chapter source, in which each solution is preceded by a short
+`ChN.tex` are the chapter sources, in which each solution is preceded by a short
 restatement of the exercise; `tools/build_main.py` strips those restatements when it
 assembles `AcemogluSolutions.tex`, and keeps them in the local
-`AcemogluSolutions_with_exercises.tex`. Rebuild with `sh tools/mkchap.sh 2`,
+`AcemogluSolutions_with_exercises.tex`. Rebuild with `sh tools/mkchap.sh N`,
 `sh tools/mkmain.sh` and `sh tools/mkmain.sh --full`; everything compiles outside the
 project tree, so no `.aux`, `.log` or `.out` is ever left beside the sources.

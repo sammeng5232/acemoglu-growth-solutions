@@ -44,6 +44,8 @@
 %% ---------------------------------------------------------------------------
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathrm{E}}                  % expectation operator (upright, as in the book)
+\newcommand{\Prob}{\mathrm{Pr}}
 \newcommand{\wh}[1]{\widehat{#1}}
 \newcommand{\wt}[1]{\widetilde{#1}}
 \newcommand{\ol}[1]{\overline{#1}}
@@ -176,11 +178,11 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapter 2\quad The Solow Growth Model\par}
+{\large Chapters 2--3\par}
 \vspace{0.6cm}
-{\small The fourteen exercises of the chapter that the instructor's solutions manual\par
- of Peters and Simsek (2009) leaves unsolved: Exercises 2.1--2.6, 2.8, 2.9, 2.10,\par
- 2.13, 2.15, 2.24, 2.25 and 2.26, with the numerical parts computed by\par
+{\small The exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
+ leaves unsolved: Exercises 2.1--2.6, 2.8--2.10, 2.13, 2.15, 2.24--2.26 and\par
+ 3.3--3.8, 3.11, with the numerical parts computed by\par
  the Python programs in \texttt{code/}.\par}
 \vspace{0.8cm}
 {\small The exercise statements are not reproduced here: read them in Acemoglu's
@@ -991,6 +993,991 @@ Since $k(t)\to k^*$ and $y(t)=A(t)f(k(t))$, output per capita converges to the b
 $A(0)e^{gt}f(k^*)$ and grows asymptotically at the rate $g$: with Harrod-neutral progress, transitional
 dynamics and long-run growth separate cleanly, and the model behaves exactly as it did without
 technological change once variables are measured per efficiency unit of labor.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{3}{The Solow Model and the Data}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The seven exercises of Chapter 3 left unsolved in the instructor's manual: Exercises 3.3--3.8 and 3.11.
+The manual solves 3.1, 3.2, 3.9 and 3.10.  Notation follows the book: $k\equiv K/(AL)$ is the effective
+capital-labor ratio, $\hat y\equiv Y/(AL)$, $y\equiv Y/L$, $y^*(t)\equiv A(t)f(k^*)$ is the steady-state
+(BGP) level of output per capita, and $\varepsilon_k(k)\equiv f'(k)k/f(k)$ is the elasticity of the per
+capita production function \bk{(3.9)}.  The numerical parts are computed by \texttt{code/ch3.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{3.3}{}
+Write the technology in labor-augmenting form, $Y=K^{\alpha}(AL)^{1-\alpha}$, so that in terms of the
+effective capital-labor ratio $k=K/(AL)$,
+\[
+\hat y=k^{\alpha},\qquad y=Ak^{\alpha},\qquad
+\frac{\dt k}{k}=sk^{\alpha-1}-(\delta+g+n),\qquad
+k^*=\Bigl(\frac{s}{\delta+g+n}\Bigr)^{\frac{1}{1-\alpha}} .
+\]
+
+\emph{The exact equation.}  Differentiating $y=Ak^{\alpha}$ logarithmically and substituting the law of
+motion, with no approximation at all,
+\[
+\frac{\dt y}{y}=g+\alpha\frac{\dt k}{k}
+=g+\alpha\bigl[sk^{\alpha-1}-(\delta+g+n)\bigr]
+=g+\alpha(\delta+g+n)\Bigl[\Bigl(\frac{k}{k^*}\Bigr)^{\alpha-1}-1\Bigr],
+\]
+the last step using $s(k^*)^{\alpha-1}=\delta+g+n$.  Since $y/y^*=(k/k^*)^{\alpha}$, we have
+$\log k-\log k^*=\alpha^{-1}(\log y-\log y^*)$, and therefore
+\[
+\boxed{\ \frac{\dt y(t)}{y(t)}
+=g+\alpha(\delta+g+n)\Bigl[\exp\Bigl(-\frac{1-\alpha}{\alpha}\bigl(\log y(t)-\log y^*(t)\bigr)\Bigr)-1\Bigr]\ }
+\tag{$*$}
+\]
+which is the exact analogue of \bk{(3.10)}.  Expanding the exponential to first order around
+$\log y=\log y^*$ returns $\dt y/y\approx g-(1-\alpha)(\delta+g+n)(\log y-\log y^*)$, which is
+\bk{(3.11)}: the book's equation is the linearization of ($*$).
+
+\emph{The rate of convergence is not a constant.}  Write $z\equiv\log y(t)-\log y^*(t)$ for the gap and
+define the convergence coefficient implicitly by $\dt y/y=g-\beta(z)\,z$, so that from ($*$)
+\[
+\beta(z)=\alpha(\delta+g+n)\,\frac{1-e^{-cz}}{z},
+\qquad c\equiv\frac{1-\alpha}{\alpha}>0 .
+\]
+The function $\varphi(u)\equiv(1-e^{-u})/u$ has $\varphi'(u)=e^{-u}\bigl[u+1-e^{u}\bigr]/u^{2}<0$ for
+$u\neq0$, because $e^{u}>1+u$; and $\varphi(u)\to1$ as $u\to0$.  Hence
+\[
+\beta \text{ is strictly decreasing in } z,
+\qquad
+\beta(0)=\alpha(\delta+g+n)\,c=(1-\alpha)(\delta+g+n),
+\]
+\[
+\beta(z)\to\infty\ \text{ as } z\to-\infty,
+\qquad
+\beta(z)\to0\ \text{ as } z\to+\infty .
+\]
+So for a country \emph{below} its steady state ($z<0$, the empirically relevant case) the true speed of
+convergence \emph{exceeds} the constant $(1-\alpha)(\delta+g+n)$ of the linearized equation, and it does so
+by more the poorer the country is; for a country above its steady state convergence is slower than the
+linear approximation says.  With the parameter values of \bk{Example 3.1} ($\alpha=1/3$, $\delta+g+n=0.08$,
+so $(1-\alpha)(\delta+g+n)=0.0533$):
+
+\begin{center}
+\begin{tabular}{lrrrrrrr}
+\toprule
+$y/y^*$ & $0.10$ & $0.25$ & $0.50$ & $0.80$ & $1.25$ & $2.00$ & $10.0$\\
+\midrule
+$\beta$ & $1.1465$ & $0.2885$ & $0.1154$ & $0.0672$ & $0.0430$ & $0.0289$ & $0.0115$\\
+$\beta/\beta(0)$ & $21.5$ & $5.41$ & $2.16$ & $1.26$ & $0.81$ & $0.54$ & $0.21$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A country at a tenth of its steady-state income converges twenty times faster than the log-linear
+coefficient suggests.  Figure~\ref{fig:ch3conv} plots $\beta$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch3_convergence_coefficient.pdf}
+\caption{The exact convergence coefficient $\beta$ as a function of the gap $\log y-\log y^*$, against the
+constant coefficient of the log-linearized equation \bk{(3.11)}.}
+\label{fig:ch3conv}
+\end{figure}
+
+\rmk{This is a first hint of why growth regressions of the form \bk{(3.12)}--\bk{(3.14)}, which impose a
+\emph{constant} coefficient $b_1$ on $\log y_{i,t-1}$, are hard to interpret.  Even within the Solow model
+with a common technology, the correct coefficient varies systematically with how far a country is from its
+own steady state, so the estimated $b_1$ is some average of very different speeds --- and the average
+depends on the composition of the sample.}
+\end{aex}
+
+\begin{aex}{3.4}{}
+\emph{Log-linear answer.}  By \bk{(3.11)}, each country's gap $z_i(t)\equiv\log y_i(t)-\log y^*(t)$ obeys
+$\dt z_i=-\beta z_i$ with $\beta=(1-\alpha)(\delta+g+n)$.  Since the two countries share $y^*(t)$, the
+\emph{relative} gap $D(t)\equiv\log y_1(t)-\log y_2(t)=z_1(t)-z_2(t)$ obeys the same linear equation,
+\[
+\dt D=-\beta D
+\qquad\Longrightarrow\qquad
+D(t)=D(0)e^{-\beta t} .
+\]
+With $\alpha=1/3$, $g=0.02$, $n=0.01$ and $\delta=0.05$ we get $\beta=\tfrac23\times0.08=0.0533$ per year.
+Starting from $D(0)=\log2=0.6931$ and requiring $D(T)=\log1.1=0.0953$,
+\[
+T=\frac{1}{\beta}\log\frac{\log 2}{\log 1.1}
+=\frac{\log(7.273)}{0.0533}
+=\frac{1.9843}{0.0533}
+\approx 37.2\ \text{years} .
+\]
+The half-life of the gap is $\log2/\beta=13.0$ years, which is the ``little more than 10 years'' quoted in
+\bk{Example 3.1}.
+
+\emph{Exact answer.}  The Cobb--Douglas model can be solved in closed form, so the approximation can be
+checked.  With $x\equiv k^{1-\alpha}$ the law of motion is linear,
+$\dt x=(1-\alpha)\bigl[s-(\delta+g+n)x\bigr]$, so
+\[
+\frac{x(t)}{x^*}=1+\Bigl(\frac{x(0)}{x^*}-1\Bigr)e^{-\beta t},
+\qquad
+\frac{y(t)}{y^*(t)}=\Bigl(\frac{x(t)}{x^*}\Bigr)^{\frac{\alpha}{1-\alpha}} ,
+\]
+with the \emph{same} $\beta=(1-\alpha)(\delta+g+n)$ now appearing exactly.  The log gap between the two
+countries is no longer exactly exponential, because the map from $x$ to $y$ is concave, so the answer
+depends on where the pair sits relative to the common steady state:
+\[
+\begin{array}{lccc}
+\text{country 1 starts at } y_1(0)/y^* & 0.8 & 1.0 & 2.0\\
+\text{years until } y_1/y_2=1.1 & 21.4 & 27.4 & 49.9
+\end{array}
+\]
+The log-linear figure of $37$ years is of the right order but not accurate: when both countries are below
+the steady state the true convergence is faster (Exercise 3.3), and when both are above it is slower.
+
+Either way the message is the one the book draws: the basic Solow model with a capital share of one third
+predicts that a twofold income gap between otherwise identical countries is largely gone within a few
+decades.  That is far faster than anything in the data --- the gaps documented in Chapter 1 have persisted
+for a century and more --- which is one of the motivations for the augmented model of Section 3.3 (where a
+larger effective capital share slows convergence) and, ultimately, for models in which $y^*$ itself differs
+permanently across countries.
+\end{aex}
+
+\begin{aex}{3.5}{}
+Index economies by $i$ and let each be a Solow economy with its own saving rate $s_i$, depreciation rate
+$\delta_i$, population growth rate $n_i$ and technology level $A_i(t)$, with a common rate of technological
+progress $g$ (so that a stable world income distribution is possible).  Each economy in isolation obeys
+\bk{(3.7)}, so its steady-state effective capital-labor ratio $k_i^*$ solves
+\[
+s_i\frac{f(k_i^*)}{k_i^*}=\delta_i+g+n_i ,
+\]
+and its steady-state output per capita is $y_i^*(t)=A_i(t)f(k_i^*)$.
+
+Repeating the derivation of \bk{(3.10)} economy by economy --- nothing in it used cross-country
+homogeneity --- gives the country-specific convergence equation
+\[
+\frac{\dt y_i(t)}{y_i(t)}\approx g-\bigl(1-\varepsilon_k(k_i^*)\bigr)(\delta_i+g+n_i)
+\bigl(\log y_i(t)-\log y_i^*(t)\bigr).
+\]
+Writing $\beta_i\equiv\bigl(1-\varepsilon_k(k_i^*)\bigr)(\delta_i+g+n_i)$ and discretizing between $t-1$
+and $t$,
+\[
+g_{i,t,t-1}\approx\underbrace{\bigl[g+\beta_i\log y_i^*(t-1)\bigr]}_{\displaystyle b^0_i}
+-\beta_i\log y_{i,t-1} .
+\tag{$*$}
+\]
+This is \bk{(3.13)}, $g_{i,t,t-1}=b^0_i+b_1\log y_{i,t-1}+\varepsilon_{i,t}$, with $b_1=-\beta_i$: the
+constant term is country specific, precisely because the steady state $y^*_i$ is.  Two observations complete
+the derivation.
+
+\emph{The slope is common when the elasticity is.}  With a Cobb--Douglas technology
+$\varepsilon_k\equiv\alpha$ and $\beta_i=(1-\alpha)(\delta_i+g+n_i)$, so the slope varies across countries
+only through $\delta_i+n_i$.  Since $\delta+n$ moves within a narrow range across countries while
+$y^*_i$ varies enormously, treating $b_1$ as common and $b^0_i$ as country specific --- exactly what
+\bk{(3.13)} does --- is the natural first approximation.  (That $b_1$ is in principle country specific is
+the caveat the book records after \bk{(3.13)}.)
+
+\emph{The intercept is a function of observable country characteristics.}  With Cobb--Douglas technology
+$y^*_i(t)=A_i(t)\bigl[s_i/(\delta_i+g+n_i)\bigr]^{\alpha/(1-\alpha)}$, so
+\[
+b^0_i=g+(1-\alpha)(\delta_i+g+n_i)\Bigl[\log A_i(t-1)
++\frac{\alpha}{1-\alpha}\bigl(\log s_i-\log(\delta_i+g+n_i)\bigr)\Bigr].
+\]
+Modeling $b^0_i$ as a linear function of $\log s_i$, $\log(\delta_i+g+n_i)$ and proxies for $\log A_i$ ---
+schooling, institutions, openness, and the rest --- delivers the empirical specification \bk{(3.14)},
+$g_{i,t,t-1}=X_{i,t}^{T}\beta+b_1\log y_{i,t-1}+\varepsilon_{i,t}$.  Conditional convergence is then the
+statement that $b_1<0$ once these characteristics are held fixed, whereas unconditional convergence ---
+the regression \bk{(3.12)} with a common intercept --- need not show $b_1<0$ at all: omitting $b^0_i$ puts
+it in the error term, and since economies with low $y^*_i$ also tend to have low $y_{i,t-1}$, the resulting
+$\mathrm{Cov}(b^0_i,\log y_{i,t-1})>0$ biases the estimate of $b_1$ upward.
+\end{aex}
+
+\begin{aex}{3.6}{}
+The system to be studied is
+\[
+\dt k=G_k(k,h)\equiv s_kf(k,h)-(\delta_k+g+n)k,
+\qquad
+\dt h=G_h(k,h)\equiv s_hf(k,h)-(\delta_h+g+n)h ,
+\]
+on $\R_{++}^2$, where $f(k,h)=F(k,h,1)$ is strictly increasing and strictly concave in $(k,h)$ by
+\bk{Assumption 1$'$} and satisfies the Inada conditions of \bk{Assumption 2$'$}.  By \bk{Proposition 3.1}
+there is exactly one rest point $(k^*,h^*)\in\R_{++}^2$.  We must show that every solution starting in
+$\R^2_{++}$ converges to it.
+
+\emph{Step 1: the system is cooperative, hence the flow is monotone.}  The off-diagonal entries of the
+Jacobian are
+\[
+\frac{\partial G_k}{\partial h}=s_kf_h(k,h)>0,
+\qquad
+\frac{\partial G_h}{\partial k}=s_hf_k(k,h)>0 ,
+\]
+so the vector field is \emph{cooperative}: each variable helps the other accumulate --- more human capital
+raises output and therefore physical investment, and conversely.  By Kamke's comparison theorem the flow
+preserves the componentwise order: if $(k_1(0),h_1(0))\le(k_2(0),h_2(0))$ then
+$(k_1(t),h_1(t))\le(k_2(t),h_2(t))$ for all $t\ge0$.  Two consequences will be used repeatedly.  First, a
+solution that starts above (below) $(k^*,h^*)$ stays above (below) it, since $(k^*,h^*)$ is itself a
+solution.  Second, if the vector field is nonpositive in both coordinates at the initial point, then the
+solution is nonincreasing in both coordinates for all $t$: the solution started at time $\tau>0$ lies below
+the one started at time $0$, and both solve the same autonomous equation.
+
+\emph{Step 2: a supersolution and a subsolution.}  Recall from the proof of \bk{Proposition 3.1} that the
+loci $\{G_k=0\}$ and $\{G_h=0\}$ are increasing curves in $(k,h)$ space that cross exactly once, at
+$(k^*,h^*)$, with $\{G_k=0\}$ steeper there; moreover $\{G_k=0\}$ lies below $\{G_h=0\}$ for small $(k,h)$
+and above it for large $(k,h)$.  Since $G_k$ is increasing in $h$ and $G_h$ is increasing in $k$,
+\[
+G_k<0 \text{ to the right of } \{G_k=0\},
+\qquad
+G_h<0 \text{ above } \{G_h=0\} .
+\]
+For $k>k^*$ the region between the two curves is therefore a set on which $G_k<0$ \emph{and} $G_h<0$; it is
+nonempty and, because both curves are increasing and unbounded (by \bk{Assumption 2$'$}, $f(k,h)/k\to0$ as
+$k\to\infty$ forces $h\to\infty$ along $\{G_k=0\}$), it contains points $(\bar k,\bar h)$ with
+$\bar k\ge k(0)$ and $\bar h\ge h(0)$, as large as we please.  Symmetrically, for $k<k^*$ the region between
+the two curves has $G_k>0$ and $G_h>0$ and contains points $(\underline k,\underline h)$ with
+$\underline k\le k(0)$, $\underline h\le h(0)$, as small as we please.
+
+\emph{Step 3: the sandwich.}  Consider the solution started at $(\bar k,\bar h)$.  By Step 1 it is
+nonincreasing in both coordinates, and it is bounded below by $(k^*,h^*)$ --- it started above the rest
+point, so it stays above.  A monotone bounded trajectory converges, and its limit is a rest point of the
+system; by uniqueness, the limit is $(k^*,h^*)$.  Exactly the same argument applied at
+$(\underline k,\underline h)$ gives a trajectory that is nondecreasing, bounded above by $(k^*,h^*)$, and
+convergent to it.  Finally, by monotonicity of the flow, the solution started at $(k(0),h(0))$ is trapped
+between these two for all $t\ge0$:
+\[
+\bigl(\underline k(t),\underline h(t)\bigr)\le\bigl(k(t),h(t)\bigr)\le\bigl(\bar k(t),\bar h(t)\bigr),
+\]
+and both bounds converge to $(k^*,h^*)$.  Hence $(k(t),h(t))\to(k^*,h^*)$ from any initial condition in
+$\R^2_{++}$, which is the assertion of \bk{Proposition 3.2}.
+
+\rmk{The phase diagram in Figure 3.1 of the book is exactly this argument in pictures: the two loci cut the
+positive quadrant into four regions, in two of which both variables move toward the steady state, while in
+the other two the trajectory must cross into one of those.  What the monotone-flow argument adds is the
+step the picture cannot supply --- that no trajectory can cycle around the rest point instead of converging
+to it.  Cooperativity is what rules that out; for planar cooperative systems there are no closed orbits.}
+\end{aex}
+
+\begin{aex}{3.7}{}
+The steady state solves \bk{(3.17)}--\bk{(3.18)},
+\[
+\Phi_1(k,h)\equiv s_kf(k,h)-(\delta_k+g+n)k=0,
+\qquad
+\Phi_2(k,h)\equiv s_hf(k,h)-(\delta_h+g+n)h=0 .
+\]
+Write $J$ for the Jacobian of $(\Phi_1,\Phi_2)$ in $(k,h)$, evaluated at $(k^*,h^*)$:
+\[
+J=\begin{pmatrix}
+s_kf_k-(\delta_k+g+n) & s_kf_h\\[2pt]
+s_hf_k & s_hf_h-(\delta_h+g+n)
+\end{pmatrix}
+=\begin{pmatrix}
+J_{11}&J_{12}\\ J_{21}&J_{22}
+\end{pmatrix}.
+\]
+
+\emph{Signs of the entries and of $\det J$.}  The off-diagonal entries are positive.  For the diagonal ones,
+substitute $\delta_k+g+n=s_kf(k^*,h^*)/k^*$ from \bk{(3.17)}:
+\[
+J_{11}=s_k\Bigl[f_k(k^*,h^*)-\frac{f(k^*,h^*)}{k^*}\Bigr]<0 ,
+\]
+because strict concavity of $f$ in $k$ together with $f(0,h^*)\ge0$ gives $f>kf_k$; similarly $J_{22}<0$.
+For the determinant, substituting both steady-state conditions,
+\[
+\det J=(\delta_k+g+n)(\delta_h+g+n)-s_kf_k(\delta_h+g+n)-s_hf_h(\delta_k+g+n)
+=\frac{s_ks_hf}{k^*h^*}\bigl[f-k^*f_k-h^*f_h\bigr]>0 ,
+\]
+the bracket being positive by strict concavity of $f$ (this is the same inequality that made the two loci
+cross only once in \bk{Proposition 3.1}).
+
+\emph{The comparative statics.}  By the Implicit Function Theorem,
+$\partial(k^*,h^*)^{T}/\partial\theta=-J^{-1}\,\partial(\Phi_1,\Phi_2)^{T}/\partial\theta$ with
+\[
+J^{-1}=\frac{1}{\det J}\begin{pmatrix}J_{22}&-J_{12}\\ -J_{21}&J_{11}\end{pmatrix}.
+\]
+Since $\partial\Phi/\partial s_k=(f,0)^{T}$, $\partial\Phi/\partial s_h=(0,f)^{T}$ and
+$\partial\Phi/\partial n=(-k^*,-h^*)^{T}$,
+\[
+\frac{\partial k^*}{\partial s_k}=\frac{-J_{22}f}{\det J}>0,
+\qquad
+\frac{\partial h^*}{\partial s_k}=\frac{J_{21}f}{\det J}=\frac{s_hf_kf}{\det J}>0,
+\]
+\[
+\frac{\partial k^*}{\partial s_h}=\frac{J_{12}f}{\det J}=\frac{s_kf_hf}{\det J}>0,
+\qquad
+\frac{\partial h^*}{\partial s_h}=\frac{-J_{11}f}{\det J}>0,
+\]
+\[
+\frac{\partial k^*}{\partial n}=\frac{J_{22}k^*-J_{12}h^*}{\det J}<0,
+\qquad
+\frac{\partial h^*}{\partial n}=\frac{J_{11}h^*-J_{21}k^*}{\det J}<0 ,
+\]
+the last two because $J_{11},J_{22}<0$ while $J_{12},J_{21}>0$.  Since $f$ is increasing in both arguments,
+output per effective unit of labor $\hat y^*=f(k^*,h^*)$ inherits the signs: it rises with either saving
+rate and falls with population growth.
+
+\emph{Interpretation.}  The novelty relative to the basic model is the \emph{cross} effect: a higher saving
+rate in physical capital raises the steady-state stock of \emph{human} capital as well, and vice versa.  The
+mechanism is the complementarity of the two factors in $f$ --- more physical capital raises output, and
+since a constant fraction $s_h$ of output is invested in schooling, it raises human capital investment too.
+This is the ``multiplier'' that makes the augmented model fit cross-country income differences so much
+better than the basic one: the elasticity of steady-state income with respect to $s_k$ is
+$\alpha/(1-\alpha-\beta)$ rather than $\alpha/(1-\alpha)$, as \bk{(3.22)}--\bk{(3.23)} show explicitly for
+the Cobb--Douglas case.
+\end{aex}
+
+\begin{aex}{3.8}{}
+\emph{The accounting equation.}  With $Y=F(K,H,AL)$, differentiate with respect to time and divide by $Y$:
+\[
+\frac{\dt Y}{Y}
+=\frac{F_KK}{Y}\frac{\dt K}{K}
++\frac{F_HH}{Y}\frac{\dt H}{H}
++\frac{F_{AL}\,AL}{Y}\Bigl(\frac{\dt A}{A}+\frac{\dt L}{L}\Bigr),
+\]
+where $F_{AL}$ is the derivative with respect to the third argument.  With competitive factor markets the
+elasticities are the observed income shares: $R=F_K$ gives $\alpha_K=F_KK/Y$; the rental rate of human
+capital $R_H=F_H$ gives $\alpha_H=F_HH/Y$; and the wage per worker is $w=AF_{AL}$, so
+$\alpha_L=wL/Y=F_{AL}AL/Y$.  Constant returns in the three arguments make the three shares sum to one.
+Writing $g_X$ for the growth rate of $X$,
+\[
+\boxed{\ g_Y=\alpha_Kg_K+\alpha_Hg_H+\alpha_L\bigl(g_A+g_L\bigr)\ }
+\]
+so that the estimate of TFP growth --- the part of output growth not accounted for by measured inputs --- is
+\[
+\hat x=g_Y-\alpha_Kg_K-\alpha_Hg_H-\alpha_Lg_L ,
+\qquad\text{and}\qquad
+g_A=\frac{\hat x}{\alpha_L} .
+\]
+Two differences from the fundamental growth accounting equation \bk{(3.3)} of the basic model deserve
+emphasis.  First, the accumulation of human capital is now an \emph{input}, so growth in schooling and
+skills is no longer part of the residual.  Second, because technology is labor augmenting, the residual
+$\hat x$ measures $\alpha_L g_A$, not $g_A$: with a labor share of about $2/3$, the implied rate of
+technological progress is one and a half times the measured residual.
+
+\emph{Using data.}  One needs (i) output growth $g_Y$, from national accounts; (ii) capital stock growth
+$g_K$, from a perpetual inventory calculation on investment series; (iii) growth in efficiency units of
+labor $g_H$, constructed as in Section 3.5 from schooling data and Mincerian returns, and $g_L$ from
+employment; and (iv) the three factor shares.  The last item is the binding constraint, and it is where the
+exercise bites: national accounts report a split of value added into capital income and \emph{labor}
+income, but labor income here is the sum of two conceptually different payments, $R_HH$ and $wL$.  Some
+identifying assumption is unavoidable.  The two used in practice are
+\begin{itemize}
+\item impose a functional form and calibrate: with $Y=K^{\alpha}H^{\beta}(AL)^{1-\alpha-\beta}$ as in
+      \bk{(3.21)}, the shares are the constants $\alpha$, $\beta$ and $1-\alpha-\beta$, and $\beta$ is
+      pinned down from microeconometric (Mincerian) estimates of the return to schooling; or
+\item avoid the split altogether by folding human capital into effective labor, $Y=F(K,AH)$, as in
+      \bk{(3.29)}: then only two shares are needed, $\alpha_K$ and $1-\alpha_K$, and the accounting
+      equation collapses to $g_Y=\alpha_Kg_K+(1-\alpha_K)(g_A+g_H)$, at the price of imposing that raw
+      labor and human capital are perfect substitutes in efficiency units.
+\end{itemize}
+Either way the residual absorbs everything the measurement misses --- quality of schooling, capacity
+utilization, reallocation across sectors and firms, and pure measurement error --- so it remains, in
+Abramovitz's phrase, a measure of our ignorance; adding human capital narrows that ignorance rather than
+eliminating it.
+\end{aex}
+
+\begin{aex}{3.11}{}
+\emph{(a) The accounting.}  Work in per worker terms, $y_j\equiv Y_j/L_j$ and $\kappa_j\equiv K_j/L_j$.
+Constant returns make output per worker a function of the capital-labor ratio and technology alone,
+$y=\phi(\kappa;A)$, and competitive markets make the elasticity of that function equal to the \emph{observed}
+capital share:
+\[
+\frac{\partial\log y}{\partial\log\kappa}=\frac{F_KK}{Y}=\alpha^{K} .
+\]
+This is all that is needed: no functional form, no assumption about how $A$ enters.  Order the countries by
+their capital-labor ratio, $\kappa_{(1)}\le\kappa_{(2)}\le\dots\le\kappa_{(J)}$.  If two adjacent countries
+had the same technology, the whole of their income difference would have to come from capital deepening,
+\[
+\Delta\log y_{\text{capital}}=\bar\alpha^{K}\,\Delta\log\kappa,
+\qquad
+\bar\alpha^{K}=\tfrac12\bigl(\alpha^{K}_{(i)}+\alpha^{K}_{(i+1)}\bigr),
+\]
+a Divisia (T\"ornqvist) index that uses the average of the two observed shares over the interval.  The
+residual is the estimated technology gap,
+\[
+\log\frac{A_{(i+1)}}{A_{(i)}}
+=\bigl(\log y_{(i+1)}-\log y_{(i)}\bigr)-\bar\alpha^{K}\bigl(\log\kappa_{(i+1)}-\log\kappa_{(i)}\bigr),
+\]
+and cumulating these differences along the ordered cross section gives every country's productivity
+relative to a numeraire country (the United States, say).  Equivalently, and in one step for any pair,
+\[
+\log\frac{A_j}{A_{\text{US}}}
+=\log\frac{y_j}{y_{\text{US}}}-\bar\alpha^{K}\log\frac{\kappa_j}{\kappa_{\text{US}}} .
+\]
+The contribution of technology to cross-country income differences is then measured by the dispersion of
+$\log A_j$ relative to the dispersion of $\log y_j$, and the ``predicted'' income of country $j$ under a
+common technology is $\log\hat y_j=\log y_{\text{US}}+\bar\alpha^{K}\log(\kappa_j/\kappa_{\text{US}})$.
+(With a common Cobb--Douglas technology $\alpha^K_j\equiv\alpha$ and this is exactly the calibration of
+Section 3.5.)  Only if the shares vary across countries does the chaining matter, and then the index is
+exact only up to the usual path dependence, which is second order when the share varies slowly.
+
+\emph{(b) What do large $A$ differences mean?}  Not necessarily that countries have access to different
+production possibility sets.  The residual $A_j$ is defined as whatever makes the accounting identity hold,
+so it absorbs every reason why a country produces less from the \emph{measured} inputs than the numeraire
+country does:
+\begin{itemize}
+\item unmeasured or mismeasured inputs --- human capital (part (c)), land and natural resources,
+      capital quality and capacity utilization, hours per worker;
+\item allocative efficiency --- misallocation of capital and labor across firms and sectors, distortions,
+      credit constraints, monopoly power, informality;
+\item organization and institutions --- the efficiency with which given inputs are combined;
+\item genuinely different technical knowledge or its adoption.
+\end{itemize}
+Only the last is technology in the engineering sense.  Since a country can, in principle, adopt known
+technologies, the finding of very large $A$ gaps is better read as a statement that \emph{something other
+than the accumulation of measured factors} accounts for most of cross-country income differences --- which
+is precisely what motivates Chapter 4's search for fundamental causes.
+
+\emph{(c) What data are needed with $F(K,H,A)$?}  Efficiency units of labor must be measured: the schooling
+distribution of the workforce (attainment by level), an estimate of how schooling maps into productivity
+(Mincerian returns, ideally allowing the return to vary by level and country), experience profiles, and
+--- if one wants $\alpha_H$ separately from $\alpha_L$ --- the split of labor income into payments to raw
+labor and to skills.  Data on schooling quality (test scores, expenditure per pupil, teacher quality) are
+needed to avoid the bias in part (d), as are hours worked if labor input is to be measured consistently.
+
+\emph{(d) Quality of schooling shows up as productivity.}  Suppose the truth is
+$Y_j=K_j^{\alpha}\bigl(A H_j\bigr)^{1-\alpha}$ with a \emph{common} $A$, and that the true stock of
+efficiency units is $H_j=Q_j\wh H_j$, where $\wh H_j$ is the measure constructed from years of schooling as
+in Section 3.5 and $Q_j>0$ captures the quality of a year of schooling.  The calibration of Section 3.5
+computes productivity as the residual from the measured stock $\wh H_j$:
+\[
+\wh A_j\equiv\Bigl[\frac{Y_j}{K_j^{\alpha}\wh H_j^{\,1-\alpha}}\Bigr]^{\frac{1}{1-\alpha}}
+=\Bigl[\frac{K_j^{\alpha}(AQ_j\wh H_j)^{1-\alpha}}{K_j^{\alpha}\wh H_j^{\,1-\alpha}}
+\Bigr]^{\frac{1}{1-\alpha}}
+=A\,Q_j .
+\]
+So the estimated productivity of country $j$ relative to the United States is
+\[
+\frac{\wh A_j}{\wh A_{\text{US}}}=\frac{Q_j}{Q_{\text{US}}} ,
+\]
+even though all countries share the same technology: \emph{every} estimated productivity difference is
+schooling quality in disguise.  The bias goes the empirically awkward way, too.  Poor countries are
+generally thought to have lower $Q$, so $\wh A_j$ is understated for them, and the calibration attributes
+to ``technology'' what is really an unmeasured input --- which is exactly the criticism of the Hall--Jones
+and Klenow--Rodr\'iguez calibrations that the quality-adjustment literature (Caselli, 2005) takes up.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{4}{Fundamental Determinants of Differences in Economic Performance}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The two exercises of Chapter 4 left unsolved in the instructor's manual: Exercises 4.1 and 4.2, both on the
+Simon--Kremer model of Section 4.2.  The manual solves 4.3.  Throughout, world output is
+$Y(t)=L(t)^{\alpha}\bigl(A(t)Z\bigr)^{1-\alpha}$ with $Z$ normalized to $1$, so that
+$Y=L^{\alpha}A^{1-\alpha}$, and population responds to output through \bk{(4.2)}, $L(t)=\phi Y(t)$.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{4.1}{}
+\emph{Population as a function of the stock of ideas.}  Substituting the production function into
+\bk{(4.2)},
+\[
+L=\phi Y=\phi L^{\alpha}A^{1-\alpha}
+\qquad\Longrightarrow\qquad
+L^{1-\alpha}=\phi A^{1-\alpha}
+\qquad\Longrightarrow\qquad
+L(t)=\phi^{\frac{1}{1-\alpha}}A(t) .
+\tag{$*$}
+\]
+The Malthusian channel thus ties population to the stock of knowledge one for one: any improvement in
+technology is absorbed by a proportional increase in the number of people it has to feed.
+
+\emph{Equation \bk{(4.3)}.}  Each individual discovers ideas at the rate $\lambda$, so by \bk{(4.1)}
+$\dt A=\lambda L$.  Substituting ($*$),
+\[
+\dt A(t)=\lambda\phi^{\frac{1}{1-\alpha}}A(t),
+\]
+which is \bk{(4.3)}: the \emph{level} of the flow of new ideas is proportional to the existing stock, because
+the population that generates them is.
+
+\emph{Equation \bk{(4.4)}.}  This is a linear differential equation with constant coefficient; separating
+variables, $\dd\log A=\lambda\phi^{1/(1-\alpha)}\dd t$, so with the initial condition $A(0)>0$,
+\[
+A(t)=\exp\bigl(\lambda\phi^{1/(1-\alpha)}t\bigr)A(0),
+\]
+which is \bk{(4.4)}.  Technology grows exponentially at the constant rate $g\equiv\lambda\phi^{1/(1-\alpha)}$,
+and so do population, by ($*$), and world output, since
+\[
+Y=L^{\alpha}A^{1-\alpha}=\bigl(\phi^{\frac{1}{1-\alpha}}A\bigr)^{\alpha}A^{1-\alpha}
+=\phi^{\frac{\alpha}{1-\alpha}}A .
+\]
+
+\rmk{Income per capita, however, does not grow at all: $y=Y/L=1/\phi$ at every date, directly from
+\bk{(4.2)}.  The model produces a growing \emph{world} --- more people, more ideas, more output --- with
+living standards pinned down by the Malthusian relation between income and population.  That is the sense
+in which economies of scale in population are a theory of world growth rather than of prosperity, and it is
+the observation that Exercise 4.3(a) formalizes.}
+\end{aex}
+
+\begin{aex}{4.2}{}
+\emph{Derivation.}  Simon and Kremer replace \bk{(4.1)} by the assumption that population determines the
+\emph{proportional} rate of improvement,
+\[
+\frac{\dt A(t)}{A(t)}=\lambda L(t).
+\]
+The static relations are unchanged, so ($*$) of Exercise 4.1 still gives
+$L(t)=\phi^{1/(1-\alpha)}A(t)$ and therefore
+\[
+\dt A(t)=\lambda\phi^{\frac{1}{1-\alpha}}A(t)^{2}.
+\]
+This is separable: $\dd A/A^{2}=\lambda\phi^{1/(1-\alpha)}\dd t$, and integrating from $0$ to $t$,
+\[
+\frac{1}{A(0)}-\frac{1}{A(t)}=\lambda\phi^{\frac{1}{1-\alpha}}t
+\qquad\Longrightarrow\qquad
+A(t)=\frac{1}{A(0)^{-1}-\lambda\phi^{1/(1-\alpha)}t} ,
+\]
+which is \bk{(4.5)}.
+
+\emph{How the behavior differs.}  Under \bk{(4.4)} the growth rate of technology is the constant
+$\lambda\phi^{1/(1-\alpha)}$.  Under \bk{(4.5)} it is
+\[
+\frac{\dt A(t)}{A(t)}=\lambda\phi^{\frac{1}{1-\alpha}}A(t)
+=\frac{\lambda\phi^{1/(1-\alpha)}}{A(0)^{-1}-\lambda\phi^{1/(1-\alpha)}t},
+\]
+which is increasing in $t$: growth accelerates.  Indeed the acceleration is violent.  The denominator of
+\bk{(4.5)} vanishes at
+\[
+T^{*}=\frac{1}{\lambda\phi^{1/(1-\alpha)}A(0)}<\infty ,
+\]
+so technology, population and output all become infinite in \emph{finite} time; the solution does not
+merely grow fast, it blows up.  Starting from a small $A(0)$, $T^{*}$ is large and the early path is nearly
+flat, which is what gives the model its appeal as a story of millennia of stagnation followed by a takeoff.
+
+\emph{Why.}  The difference is in how an idea is assumed to interact with the stock of ideas already
+available.  Under \bk{(4.1)} a discovery adds a fixed increment to the pool: a person is worth $\lambda$
+units of $A$ per unit of time regardless of how much is already known.  Under the Simon--Kremer assumption a
+discovery raises the stock \emph{proportionally}: each person contributes $\lambda$ percentage points of
+growth per unit of time, so a discovery is worth more the more is already known --- the ``standing on the
+shoulders of giants'' externality.  Since the Malthusian channel makes population itself proportional to
+$A$, the second assumption makes the growth rate proportional to $A$, and a differential equation whose
+growth rate grows linearly in the state explodes in finite time.
+
+\emph{Which is more plausible?}  Neither is comfortable, and they fail in different places.
+
+Taken as a description of the very long run, the Simon--Kremer version is the better one.  It is
+essentially the only simple mechanism that delivers the qualitative shape of the historical record ---
+hundreds of millennia of near-stagnation followed by an acceleration --- and Kremer's evidence that the
+growth rate of world population has risen with the \emph{level} of world population over a million years is
+direct support for the proportional specification.
+
+Taken literally as a model, however, it cannot be right.  Finite-time blow-up is not a prediction about any
+observable world, so the specification must fail at some scale; and the mechanism is a pure scale effect,
+so it predicts that larger populations grow faster --- a prediction rejected when the units are countries
+(the European population was below that of Asia for two millennia, yet modern growth began in Europe), and
+rescued only by insisting that the relevant unit is the world as a whole.
+
+The assumption in \bk{(4.1)} has the more defensible microfoundation --- independent discoveries arriving
+at a constant rate per person, which is exactly the probabilistic story the section tells --- but it can
+only generate steady exponential growth, never a takeoff.
+
+The binding weakness, though, is shared and lies elsewhere: it is \bk{(4.2)}.  Both models force income per
+capita to equal $1/\phi$ at every date, so neither can speak to living standards at all, and the
+Malthusian link between income and population on which they rest broke down precisely when modern growth
+began, with the demographic transition reversing the sign of the relation between income and fertility.  A
+mechanism that is silent about income per capita and about \emph{where} growth started is, as the chapter
+concludes, at best a theory of world growth --- not a fundamental cause of cross-country differences.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{5}{Foundations of Neoclassical Growth}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The six exercises of Chapter 5 left unsolved in the instructor's manual: Exercises 5.3--5.8.  The manual
+solves 5.1, 5.2 and 5.9--5.14.  Notation follows the book: $\mathcal H$ is the set of households,
+$p=(p_1,\dots,p_N)$ the price vector, $w^h$ household $h$'s income, $v^h(p,w^h)$ its indirect utility,
+$\omega^h$ its endowment and $\theta^h_f$ its share in firm $f$.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{5.3}{}
+Each household $h\in\mathcal H$ has indirect utility of the Gorman form \bk{(5.3)},
+\[
+v^h(p,w^h)=a^h(p)+b(p)w^h ,
+\]
+with a common $b(\cdot)$, and a positive demand for every commodity.  We must show that aggregate demand is
+the demand of a single household with indirect utility $v(p,w)=a(p)+b(p)w$, where
+$a(p)\equiv\int_{h\in\mathcal H}a^h(p)\dd h$ and $w\equiv\int_{h\in\mathcal H}w^h\dd h$.
+
+\emph{Step 1: what homogeneity forces.}  Any indirect utility function is homogeneous of degree $0$ in
+$(p,w)$, so for every $\lambda>0$ and every $w^h$,
+\[
+a^h(\lambda p)+b(\lambda p)\lambda w^h=a^h(p)+b(p)w^h .
+\]
+Both sides are affine in $w^h$, and the household's income can be varied freely, so the constant terms and
+the slopes must agree separately:
+\[
+a^h(\lambda p)=a^h(p)
+\qquad\text{and}\qquad
+b(\lambda p)=\lambda^{-1}b(p) ,
+\]
+that is, $a^h$ is homogeneous of degree $0$ and $b$ of degree $-1$.  Since $v^h$ is strictly increasing in
+income, $b(p)>0$.
+
+\emph{Step 2: individual demands.}  Assume $a^h$ and $b$ differentiable.  By Roy's Identity, household
+$h$'s demand for commodity $j$ is
+\[
+x^h_j(p,w^h)
+=-\frac{\partial v^h/\partial p_j}{\partial v^h/\partial w^h}
+=-\frac{1}{b(p)}\frac{\partial a^h(p)}{\partial p_j}
+-\frac{1}{b(p)}\frac{\partial b(p)}{\partial p_j}w^h .
+\tag{$*$}
+\]
+(The hypothesis that each household consumes a positive amount of every commodity is what makes the
+demands interior, so that Roy's Identity applies and no household sits at a corner where the envelope
+argument would fail.)  Note the structure: the Engel curve of household $h$ for commodity $j$ is a straight
+line in $w^h$ whose \emph{slope}, $-b^{-1}\partial b/\partial p_j$, does not depend on $h$.  All the
+household-specific information sits in the intercept.
+
+\emph{Step 3: aggregation.}  Integrating ($*$) over $\mathcal H$ and exchanging differentiation and
+integration,
+\begin{align*}
+x_j(p)\equiv\int_{h\in\mathcal H}x^h_j(p,w^h)\dd h
+&=-\frac{1}{b(p)}\frac{\partial}{\partial p_j}\int_{h\in\mathcal H}a^h(p)\dd h
+-\frac{1}{b(p)}\frac{\partial b(p)}{\partial p_j}\int_{h\in\mathcal H}w^h\dd h\\
+&=-\frac{1}{b(p)}\frac{\partial a(p)}{\partial p_j}-\frac{1}{b(p)}\frac{\partial b(p)}{\partial p_j}w .
+\end{align*}
+Now consider the hypothetical household with indirect utility $v(p,w)=a(p)+b(p)w$.  It is a legitimate
+indirect utility function: $a$ is homogeneous of degree $0$ and $b$ of degree $-1$ by Step 1, so $v$ is
+homogeneous of degree $0$; it is increasing in $w$ and decreasing in each $p_j$ wherever the individual
+ones are.  Applying Roy's Identity to it gives demands
+\[
+-\frac{1}{b(p)}\frac{\partial a(p)}{\partial p_j}-\frac{1}{b(p)}\frac{\partial b(p)}{\partial p_j}w ,
+\]
+which is exactly $x_j(p)$.  Hence aggregate demand is generated by the maximization problem of the single
+household with indirect utility $v(p,w)$: the economy admits a representative household, and
+\bk{Theorem 5.2} is proved.
+
+\emph{Step 4: the representative household is \emph{strong}.}  Aggregate demand depends on the distribution
+of income only through the aggregate $w=\int w^h\dd h$, so any redistribution of income across households
+leaves it unchanged.  The converse also holds, which is why the Gorman form is not merely sufficient but
+necessary: if two households $h$ and $h'$ had Engel curves of different slopes for commodity $j$, that is
+$b_h^{-1}\partial b_h/\partial p_j\neq b_{h'}^{-1}\partial b_{h'}/\partial p_j$, then transferring a unit of
+income from $h'$ to $h$ would change aggregate demand for $j$, and no single household's demand function
+could reproduce aggregate demand at all income distributions.
+
+\rmk{Nothing in the argument used $N<\infty$ beyond writing the derivatives coordinate by coordinate, and
+nothing used $\mathcal H$ finite: the integral is a Lebesgue integral and covers a continuum of households.
+What the theorem does \emph{not} deliver is a \emph{normative} representative household --- the utility
+$v(p,w)$ reproduces aggregate demand but need not rank allocations the way any Pareto criterion would.
+That requires the additional structure of \bk{Theorem 5.3}, in particular $a^h(p)=a^h$ independent of $p$
+for the converse direction.}
+\end{aex}
+
+\begin{aex}{5.4}{}
+Let the commodity space be indexed by $j\in J\equiv[0,1]$ with the Lebesgue measure (nothing depends on the
+particular index set; $J=\R_+$ for a continuous-time horizon reads the same way).  A consumption bundle is
+a measurable function $x:J\to\R$, and we take the commodity space to be $L^{\infty}(J)$ with prices in its
+predual $L^{1}(J)$, so that the value of a bundle is
+\[
+p\cdot x=\int_{J}p(j)x(j)\dd j ,
+\]
+which is finite for $p\in L^{1}$, $x\in L^{\infty}$.  (Any dual pair with a bilinear form of this kind will
+do; what matters is that values are given by integrals and that the dual space is rich enough to separate
+points.)  Household $h$'s preferences have the Gorman representation
+$v^h(p,w^h)=a^h(p)+b(p)w^h$, each household demands a positive amount of (almost) every commodity, and the
+aggregate production possibilities set $Y\subset L^{\infty}(J)$ is convex.  The claim is that
+\bk{Theorem 5.3} survives verbatim:
+\begin{enumerate}
+\item any feasible allocation that maximizes $v(p,w)=\int_{\mathcal H}a^h(p)\dd h+b(p)w$, with
+      $w=\int_{\mathcal H}w^h\dd h$, is Pareto optimal;
+\item if in addition $a^h(p)=a^h$ for all $p$ and all $h$, then every Pareto optimal allocation maximizes
+      $v(p,w)$.
+\end{enumerate}
+
+\emph{What carries over unchanged.}  The proof of \bk{Theorem 5.3} is an argument about the \emph{objective}
+\[
+\max\ \sum_{h\in\mathcal H}\alpha^hv^h(p,w^h)
+=\max\ \Bigl[\int_{\mathcal H}\alpha^ha^h(p)\dd h+b(p)\int_{\mathcal H}\alpha^hw^h\dd h\Bigr]
+\]
+subject to market clearing and to net supplies being profit maximizing at $p$, exactly as in \bk{(5.7)}.
+Every step of it is linear in the commodity index: sums $\sum_{j=1}^{N}p_jy_j$ become integrals
+$\int_Jp(j)y(j)\dd j$, and Roy's Identity becomes the same formula with the functional (G\^ateaux)
+derivatives $\delta a^h(p)/\delta p(j)$ and $\delta b(p)/\delta p(j)$ in place of partial derivatives.  The
+linearity of the Gorman form in $w^h$ --- which is what makes the Pareto weights enter only through the
+weighted aggregate income and lets one substitute income transfers for commodity reallocations --- is a
+statement about incomes, not about commodities, so it is untouched.  With $b(p)>0$, the objective is still
+increasing in aggregate income, and part 1 follows as before; with $a^h(p)=a^h$ constant, the argument by
+contradiction that produced \bk{(5.9)}--\bk{(5.11)} goes through with integrals.
+
+\emph{What genuinely needs an extra assumption.}  Two things that are automatic in $\R^N$ are not automatic
+here.
+\begin{itemize}
+\item \emph{Existence of supporting prices.}  In $\R^N$ a convex set can always be separated from a
+      disjoint convex set.  In an infinite-dimensional space the separating hyperplane theorem requires a
+      topological condition --- for instance that $Y$ (or the set of preferred allocations) have nonempty
+      interior in the sup-norm topology, or that preferences satisfy Mas-Colell's properness condition.
+      Without it a Pareto optimum need not be supported by any price system in the chosen dual space, and
+      the phrase ``at price vector $p$'' in the theorem would be empty.  This is the same hypothesis the
+      book adds in \bk{Theorems 5.6} and \bk{5.7} when it proves the Second Welfare Theorem with infinitely
+      many commodities; here it is needed for exactly the same reason.
+\item \emph{Integrability.}  The aggregates $a(p)=\int_{\mathcal H}a^h(p)\dd h$ and
+      $w=\int_{\mathcal H}w^h\dd h$ must be finite, and the interchange of $\delta/\delta p(j)$ with
+      $\int_{\mathcal H}\dd h$ must be legitimate --- guaranteed, for instance, by a uniform integrable
+      bound on the family $\{\delta a^h(p)/\delta p(j)\}$.  With a continuum of commodities one must also
+      require $p\cdot x^h<\infty$ for each household, which Exercise 5.5 delivers from local
+      nonsatiation.
+\end{itemize}
+
+\emph{Conclusion.}  With these two provisos --- a price system exists in the dual, and the household
+aggregates are well defined --- \bk{Theorem 5.3} holds word for word with $\sum_{j=1}^N$ replaced by
+$\int_J\dd j$.  The economics of the result is therefore robust to the infinite-dimensional setting that
+growth models live in: it is the \emph{linearity of Gorman preferences in income}, not the finiteness of
+the commodity space, that makes the representative household normative.
+\end{aex}
+
+\begin{aex}{5.5}{}
+``Household $h$ chooses $x^h$ at prices $p$'' means that $x^h$ solves
+\[
+\max_{x\in X^h}\ U^h(x)
+\qquad\text{subject to}\qquad
+p\cdot x\le w^h,
+\qquad
+w^h\equiv p\cdot\Bigl(\omega^h+\sum_{f\in\mathcal F}\theta^h_fy^f\Bigr),
+\]
+and local nonsatiation is \bk{Definition 5.3}: at every $x\in X^h$, $U^h$ is strictly increasing in at least
+one of its arguments, and $U^h(x)<\infty$.
+
+\emph{Step 1: the income of a locally nonsatiated household that makes a choice is finite.}  Suppose
+$w^h=\infty$.  Then the budget constraint does not bind anywhere and the problem reduces to maximizing
+$U^h$ over $X^h$.  But local nonsatiation says that at \emph{every} point of $X^h$ there is a coordinate
+$j'$ in which $U^h$ is strictly increasing, so for any candidate $x$ the bundle $x(\varepsilon)$ that adds
+$\varepsilon>0$ to coordinate $j'$ --- which is in $X^h$ for small $\varepsilon$, this being exactly the
+construction used in the proof of \bk{Theorem 5.5} --- satisfies $U^h(x(\varepsilon))>U^h(x)$ and is still
+affordable.  No maximum exists, so no bundle is chosen, contradicting the hypothesis.  Hence $w^h<\infty$.
+
+\emph{Step 2: the chosen bundle is affordable, hence of finite value.}  Since $x^h$ is in the budget set,
+\[
+p\cdot x^h\le w^h<\infty .
+\]
+
+\emph{Step 3: in fact the budget holds with equality.}  Suppose $p\cdot x^h<w^h$.  By local nonsatiation
+there is a coordinate $j'$ in which $U^h$ is strictly increasing at $x^h$; for $\varepsilon$ small enough
+the bundle $x^h(\varepsilon)$ obtained by adding $\varepsilon$ to that coordinate still costs less than
+$w^h$ and yields strictly higher utility, contradicting optimality.  Therefore
+\[
+p\cdot x^h=w^h<\infty .
+\]
+
+\rmk{In a finite-dimensional economy this is a triviality --- a finite sum of finite terms.  Its content is
+in the infinite-dimensional case relevant to growth theory, where $p\cdot x=\sum_{t=0}^{\infty}p_tx_t$ is
+an infinite series that may diverge.  The result says that at any chosen bundle the series converges, and
+this is precisely what the proof of the First Welfare Theorem needs: \bk{(5.17)}--\bk{(5.18)} are summed
+over households, and the sums are meaningless unless each term is finite.  It is also the reason
+\bk{Definition 5.3} builds $U^h(x^h)<\infty$ into local nonsatiation: an infinite-utility plan would allow a
+household to be indifferent to budget constraints, and both the definition of a competitive equilibrium and
+the welfare theorems would lose their force.}
+\end{aex}
+
+\begin{aex}{5.6}{}
+\emph{(a) Demands and indirect utility.}  Write $\hat x^h_j\equiv x^h_j-\xi^h_j$ and
+$\hat w^h\equiv w^h-\sum_{j}p_j\xi^h_j>0$ (positive by the assumption
+$\sum_jp_j\bar\xi<w^h$).  The problem
+\[
+\max\ \Bigl[\sum_{j=1}^N(\hat x^h_j)^{\frac{\sigma-1}{\sigma}}\Bigr]^{\frac{\sigma}{\sigma-1}}
+\qquad\text{s.t.}\qquad
+\sum_{j=1}^Np_j\hat x^h_j\le\hat w^h
+\]
+is the textbook CES problem.  The first-order conditions give
+$(\hat x^h_j)^{-1/\sigma}=\mu p_j$ for a multiplier $\mu>0$, hence
+$\hat x^h_j\propto p_j^{-\sigma}$, and the budget constraint fixes the factor:
+\[
+\hat x^h_j=\frac{\hat w^h\,p_j^{-\sigma}}{P},
+\qquad
+P\equiv\sum_{k=1}^Np_k^{1-\sigma},
+\qquad\text{that is}\qquad
+x^h_j=\xi^h_j+\frac{\bigl(w^h-\sum_kp_k\xi^h_k\bigr)p_j^{-\sigma}}{\sum_kp_k^{1-\sigma}} .
+\]
+Substituting back,
+\[
+\sum_j(\hat x^h_j)^{\frac{\sigma-1}{\sigma}}
+=\Bigl(\frac{\hat w^h}{P}\Bigr)^{\frac{\sigma-1}{\sigma}}\sum_jp_j^{1-\sigma}
+=\Bigl(\frac{\hat w^h}{P}\Bigr)^{\frac{\sigma-1}{\sigma}}P ,
+\]
+so that
+\[
+v^h(p,w^h)=\Bigl[\Bigl(\frac{\hat w^h}{P}\Bigr)^{\frac{\sigma-1}{\sigma}}P\Bigr]^{\frac{\sigma}{\sigma-1}}
+=\hat w^h\,P^{\frac{1}{\sigma-1}}
+=\frac{-\sum_{j}p_j\xi^h_j+w^h}{\bigl[\sum_{j}p_j^{1-\sigma}\bigr]^{\frac{1}{1-\sigma}}} ,
+\]
+which is \bk{(5.5)}.  It is of the Gorman form \bk{(5.3)} with
+\[
+b(p)=P^{\frac{1}{\sigma-1}}>0
+\qquad\text{and}\qquad
+a^h(p)=-\Bigl(\sum_jp_j\xi^h_j\Bigr)P^{\frac{1}{\sigma-1}} ,
+\]
+and the household-specific term enters only through $a^h$, exactly as \bk{Theorem 5.2} requires.  It is
+homogeneous of degree $0$: $\hat w^h$ is homogeneous of degree $1$ in $(p,w)$ and $P^{1/(\sigma-1)}$ of
+degree $-1$.
+
+\emph{(b) The representative household.}  The utility function \bk{(5.6)} is the same CES form with
+$\xi_j\equiv\int_{\mathcal H}\xi^h_j\dd h$, so the computation in (a) applies verbatim and gives
+\[
+v(p,w)=\frac{-\sum_jp_j\xi_j+w}{\bigl[\sum_jp_j^{1-\sigma}\bigr]^{\frac{1}{1-\sigma}}}
+=\int_{\mathcal H}a^h(p)\dd h+b(p)w ,
+\]
+using $\int_{\mathcal H}a^h(p)\dd h=-\bigl(\sum_jp_j\xi_j\bigr)P^{1/(\sigma-1)}$ and
+$w=\int_{\mathcal H}w^h\dd h$.  This is precisely the indirect utility of the representative household
+constructed in \bk{Theorem 5.2}, so \bk{(5.6)} is the utility function that rationalizes aggregate demand.
+
+\emph{(c) Dropping the outer exponent.}  Let now
+$\wt U^h=\sum_{j}(x^h_j-\xi^h_j)^{(\sigma-1)/\sigma}$.  Take $\sigma>1$, so that
+$(\sigma-1)/\sigma>0$ and $\wt U^h=(U^h)^{(\sigma-1)/\sigma}$ is a strictly increasing transformation of the
+utility in part (a).  Demands are therefore unchanged, and the indirect utility function is the same
+transformation of \bk{(5.5)}:
+\[
+\wt v^h(p,w^h)=\bigl[\hat w^hP^{\frac{1}{\sigma-1}}\bigr]^{\frac{\sigma-1}{\sigma}}
+=\bigl(w^h-\textstyle\sum_jp_j\xi^h_j\bigr)^{\frac{\sigma-1}{\sigma}}P^{\frac{1}{\sigma}} .
+\]
+It is still homogeneous of degree $0$ --- the first factor has degree $(\sigma-1)/\sigma$ and the second
+$(1-\sigma)/\sigma$ --- but it is \emph{not} of the Gorman form: it is a strictly concave, not affine,
+function of $w^h$, so the Engel curves are no longer straight lines.  The monotone transformation
+$z\mapsto z^{\sigma/(\sigma-1)}$ restores \bk{(5.5)} and with it the Gorman form.
+
+\emph{Is that enough?}  For the positive question --- does the economy admit a (strong) representative
+household? --- yes.  Demand is an ordinal object: it is invariant to strictly increasing transformations of
+utility, so what matters is whether \emph{some} representation of preferences takes the Gorman form, not
+whether the one we happened to write down does.  This is the point the book makes right after
+\bk{Theorem 5.2}, and part (c) is the example that makes it concrete: aggregate demand here is exactly as in
+part (b).
+
+Two caveats keep the answer from being an unqualified yes.  First, under uncertainty utility is cardinal:
+the transformation $z\mapsto z^{\sigma/(\sigma-1)}$ changes the household's attitude to risk, so two
+representations that are equivalent for a deterministic exchange economy are \emph{not} equivalent once
+expected utility is taken over lotteries --- the aggregation result survives only for the representation
+that is also the Bernoulli utility index.  Second, for a \emph{normative} representative household the
+transformation matters as well: \bk{Theorem 5.3}(2) requires the Gorman representation to have
+$a^h(p)=a^h$ independent of prices, which is a restriction on a particular cardinalization, and Pareto
+weights attached to $\wt v^h$ and to $v^h$ define different social objectives.  Aggregation of demand is
+ordinal; welfare analysis is not.
+\end{aex}
+
+\begin{aex}{5.7}{}
+\emph{Survival.}  Death arrives as the first event of a Poisson process with intensity $\nu$, so the
+random date of death $T$ is exponentially distributed:
+\[
+\Pr\{T>t\}=e^{-\nu t},
+\qquad
+\E[T]=\frac1\nu<\infty .
+\]
+The individual's expected lifetime is $1/\nu$, which is how one calibrates $\nu$.
+
+\emph{Expected utility.}  Normalize the flow utility after death to $u(0)=0$, and let $[c(t)]_{t\ge0}$ be
+the consumption plan conditional on being alive.  Discounting the future at the pure rate $\rho$, expected
+lifetime utility at date $0$ is
+\[
+U_0=\E\Bigl[\int_0^{T}e^{-\rho t}u(c(t))\dd t\Bigr]
+=\E\Bigl[\int_0^{\infty}e^{-\rho t}u(c(t))\,\mathbf{1}\{T>t\}\dd t\Bigr] .
+\]
+The integrand is nonnegative and measurable, so Fubini's theorem allows the expectation to be taken inside:
+\[
+U_0=\int_0^{\infty}e^{-\rho t}u(c(t))\Pr\{T>t\}\dd t
+=\int_0^{\infty}e^{-\rho t}e^{-\nu t}u(c(t))\dd t
+=\int_0^{\infty}e^{-(\rho+\nu)t}u(c(t))\dd t .
+\]
+This is the objective of an infinitely lived individual with discount rate
+\[
+\boxed{\ \rho_{\text{eff}}=\rho+\nu\ }
+\]
+Since the constraint set --- the flow budget constraint and the no-Ponzi condition --- is unaffected by the
+\emph{form} of the objective, the individual's problem is identical to that of an infinitely lived agent
+who discounts at $\rho+\nu$.  Her behavior, in particular her Euler equation
+$\dt c/c=\bigl(r(t)-\rho-\nu\bigr)/\theta$ for the CRRA case, is that of the infinite-horizon model with the
+larger discount rate.
+
+\emph{Consistency with \bk{(5.12)}.}  In discrete time the book obtains
+$\beta=\hat\beta(1-\nu)$; writing $\hat\beta=e^{-\rho\Delta}$ and $1-\nu\approx e^{-\nu\Delta}$ for a
+period of length $\Delta$ gives $\beta\approx e^{-(\rho+\nu)\Delta}$, which is the same statement: the
+probability of not surviving acts exactly like impatience.
+
+\rmk{The result says that mortality raises the \emph{effective discount rate}, not that it makes people
+poorer.  Whether it also changes consumption growth depends on the asset market.  With actuarially fair
+annuities --- the Blanchard--Yaari setting of Chapter 9 --- a surviving individual earns $r+\nu$ rather than
+$r$ on her savings, because the assets of those who die are shared among the survivors, and the two effects
+cancel in the individual Euler equation: $\dt c/c=\bigl[(r+\nu)-(\rho+\nu)\bigr]/\theta=(r-\rho)/\theta$.
+What mortality then changes is the \emph{aggregate}, through the arrival of newborns who hold no assets,
+which is exactly why the perpetual youth model breaks Ricardian equivalence while the individual problem
+looks infinite horizon.}
+\end{aex}
+
+\begin{aex}{5.8}{}
+\emph{(a) Different utility functions across generations.}  Yes --- the dynastic recursion still collapses
+into an infinite-horizon maximization, but the problem loses stationarity.  Let generation $t$ value its
+own consumption through $u_t$ and the continuation value of its descendant with factor $\beta$:
+\[
+V_t(y_t)=\max_{c_t+b_t\le y_t}\bigl\{u_t(c_t)+\beta V_{t+1}(b_t+w)\bigr\} .
+\]
+Iterating forward,
+\[
+V_0=\max\ \sum_{t=0}^{\infty}\beta^tu_t(c_t),
+\]
+provided the sum converges (e.g.\ if the $u_t$ are uniformly bounded).  So a dynasty of one-period-lived
+altruistic individuals again behaves like a single infinitely lived agent.
+
+Two things should be said about what does and does not survive.  The objective remains
+\emph{time-consistent}: viewed from date $t$, the dynasty maximizes $\sum_{s\ge t}\beta^{s-t}u_s(c_s)$,
+which ranks continuation plans exactly as $\sum_{s\ge0}\beta^su_s(c_s)$ does, because the two differ by the
+positive factor $\beta^{t}$ and by terms that are already sunk.  Geometric discounting, not the
+identity of the period utility functions, is what delivers consistency (compare \bk{Exercise 5.1}).  What is
+lost is \emph{stationarity}: the maximization problem is no longer autonomous, so the stationary dynamic
+programming of Chapter 6 does not apply directly and one needs its nonstationary version (Section 6.7),
+with value functions indexed by time.  Balanced growth also imposes a restriction: if
+$u_t(c)=\gamma^tu(c)$ for a constant $\gamma>0$ --- taste change at a constant rate --- the objective is
+$\sum(\beta\gamma)^tu(c_t)$ and stationarity is restored with the modified discount factor $\beta\gamma$,
+which must satisfy $\beta\gamma<1$.  For general sequences $\{u_t\}$ neither a steady state nor a balanced
+growth path need exist.
+
+\emph{(b) Caring about grandchildren directly.}  Now
+\[
+V_t=u(c_t)+\beta V_{t+1}+\delta V_{t+2},
+\qquad \beta,\delta>0 .
+\]
+Expanding, the weight $a_s$ that generation $t$ attaches to $u(c_{t+s})$ obeys the linear recursion
+\[
+a_0=1,\qquad a_1=\beta,\qquad a_s=\beta a_{s-1}+\delta a_{s-2}\quad(s\ge2),
+\]
+whose solution is a combination of the powers of the roots of $x^2=\beta x+\delta$, the dominant one being
+$\varphi=\bigl(\beta+\sqrt{\beta^2+4\delta}\bigr)/2$.  Three consequences follow.
+
+First, the objective is still an infinite discounted sum, $V_t=\sum_{s\ge0}a_su(c_{t+s})$, and it converges
+if and only if $\varphi<1$, which is equivalent to
+\[
+\beta+\delta<1 .
+\]
+So the extra altruism must be paid for out of the total weight on the future.
+
+Second --- and this is the substantive difference --- the discounting is \emph{not} geometric.  The ratios
+of successive weights are
+\[
+\frac{a_1}{a_0}=\beta,
+\qquad
+\frac{a_2}{a_1}=\beta+\frac{\delta}{\beta}>\beta ,
+\]
+and they keep changing (converging to $\varphi$ only in the limit).  A sequence of weights that falls at a
+varying rate is exactly the structure of the hyperbolic discounting of \bk{Exercise 5.1}(b), and it has the
+same consequence: the plan that generation $t$ would like its descendants to follow is not the plan that
+generation $t+1$ chooses, because generation $t$ discounts dates $t+1$ and $t+2$ in the ratio $\beta$ to
+$\beta^2+\delta$, while generation $t+1$ discounts the same two dates in the ratio $1$ to $\beta$.
+Preferences are \emph{time-inconsistent}, and the dynasty can no longer be represented as a single
+maximizing agent.
+
+Third, the modeling consequence: the right solution concept is not a maximization problem but an
+intergenerational \emph{game}, in which each generation takes the decision rules of its descendants as
+given; the natural equilibrium notion is a Markov-perfect (or ``consistent-planning'') equilibrium, and
+saving behavior in it generally differs from the commitment solution --- the dynasty saves less than
+generation $t$ would wish, since it cannot bind its descendant to treat the grandchild as generously as it
+would like.  The economics is the same as in the individual hyperbolic-discounting model: an extra,
+non-geometric concern for a more distant date creates a conflict between successive decision makers.
 \end{aex}
 
 \end{document}
