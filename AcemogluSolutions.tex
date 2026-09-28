@@ -182,9 +182,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--17\par}
+{\large Chapters 2--18\par}
 \vspace{0.6cm}
-{\small The 226 exercises that the instructor's solutions manual of\par
+{\small The 248 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -12975,6 +12975,1273 @@ is always balanced --- is the mechanism: prices $P(j,t)=1$ are equal across open
 households equalize their holdings, while optimality calls for unequal holdings.  Section
 17.6.5 and \bk{Proposition 17.12} show that this is not repaired by allowing intermediary
 coalitions, provided they cannot exclude non-members from investing.}
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{18}{Diffusion of Technology}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The twenty-two exercises of Chapter 18 left unsolved in the instructor's manual: 18.1--18.7,
+18.10, 18.11, 18.14, 18.15, 18.17, 18.20, 18.22--18.25, 18.27--18.31.  The manual solves 18.8,
+18.9, 18.12, 18.13, 18.16, 18.18, 18.19, 18.21 and 18.26.  The numerical parts are computed by
+\texttt{code/ch18.py}; Figure~\ref{fig:ch18} is its output.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\solsection{18.2}{A Benchmark Model of Technology Diffusion}
+
+\begin{aex}{18.1}{}
+Capital accumulates out of a constant saving rate:
+$\dt K_j(t)=s_jY_j(t)-\delta K_j(t)$.  With $k_j\equiv K_j/(A_jL_j)$, take logarithms and
+differentiate:
+\[
+\frac{\dt k_j}{k_j}=\frac{\dt K_j}{K_j}-\frac{\dt A_j}{A_j}-\frac{\dt L_j}{L_j}
+=\Bigl(s_j\frac{Y_j}{K_j}-\delta\Bigr)-g_j(t)-n_j ,
+\]
+using \bk{(18.2)} and $\dt L_j/L_j=n_j$.  Constant returns to scale give
+\[
+\frac{Y_j}{K_j}=\frac{A_jL_jf(k_j)}{A_jL_jk_j}=\frac{f(k_j)}{k_j} ,
+\]
+so multiplying through by $k_j$,
+\[
+\boxed{\ \dt k_j(t)=s_jf\bigl(k_j(t)\bigr)-\bigl(n_j+g_j(t)+\delta\bigr)k_j(t) . \ }
+\]
+$\blacksquare$
+
+This is the Solow equation of Chapter 2 with two changes: the effective depreciation term carries
+the country's own technology growth $g_j(t)$ rather than a common $g$, and $g_j(t)$ is a function
+of time rather than a constant.  The equation is therefore \emph{non-autonomous}, which is what
+makes the stability argument of Exercise 18.4 slightly more delicate than in Chapter 2.
+\end{aex}
+
+\begin{aex}{18.2}{}
+Work with $a_j=A_j/A$, whose law of motion \bk{(18.4)} is
+$\dt a_j=\sigma_j-(\sigma_j+g-\lambda_j)a_j$.  Evaluate the vector field at the boundary
+$a_j=1$:
+\[
+\boxed{\ \dt a_j\big|_{a_j=1}=\sigma_j-\sigma_j-g+\lambda_j=\lambda_j-g . \ }
+\]
+Everything follows from the sign of this single number.
+\begin{enumerate}
+\item If $\lambda_j<g$, then $\dt a_j<0$ at $a_j=1$, so the set $[0,1)$ is forward invariant:
+      a country that starts weakly behind the frontier stays behind, and
+      $a^*_j=\sigma_j/(\sigma_j+g-\lambda_j)<1$.
+\item If $\lambda_j=g$, then $\dt a_j=\sigma_j(1-a_j)$ and $a^*_j=1$: the country converges to
+      the frontier exactly, and $A_j(t)\le A(t)$ survives only as a weak inequality with
+      equality in the limit.
+\item If $g<\lambda_j<g+\sigma_j$, then $\dt a_j>0$ at $a_j=1$, so any trajectory reaches $a_j=1$
+      in finite time and crosses it; it converges to
+      $a^*_j=\sigma_j/\bigl(\sigma_j-(\lambda_j-g)\bigr)>1$.  The country ends up
+      \emph{permanently more advanced than the world technology frontier}.
+\item If $\lambda_j\ge g+\sigma_j$, the coefficient on $a_j$ in \bk{(18.4)} is nonpositive, so
+      $\dt a_j\ge\sigma_j>0$ for every $a_j$ and $a_j(t)\to\infty$: the country's technology
+      grows strictly faster than the frontier forever.
+\end{enumerate}
+Cases 3 and 4 both violate $A_j(t)\le A(t)$, and case 4 also destroys the common long-run growth
+rate that is the point of the model. $\blacksquare$
+
+\emph{Why the restriction is the right one.}  The interpretation of \bk{(18.3)} is that
+$\sigma_j(A-A_j)$ is \emph{absorption} from a stock of knowledge the country does not yet have,
+so it must vanish when the country reaches the frontier, while $\lambda_jA_j$ is \emph{local}
+innovation that builds on what the country already knows.  If local innovation alone could
+sustain growth at the world rate, the country would need no frontier at all --- it would be an
+endogenous growth economy in its own right, and $A(t)$ would no longer deserve the name
+``frontier.''  The restriction $\lambda_j<g$ is exactly the statement that no country can keep up
+with the world by its own efforts alone, and it is what leaves the catch-up term with a job to do.
+\end{aex}
+
+\begin{aex}{18.3}{}
+With $a_j\equiv A_j/A$ and $\dt A/A=g$,
+\[
+\dt a_j=\frac{\dt A_j}{A}-\frac{A_j\dt A}{A^2}
+=\frac{\sigma_j(A-A_j)+\lambda_jA_j}{A}-a_jg
+=\sigma_j(1-a_j)+\lambda_ja_j-ga_j ,
+\]
+so that
+\[
+\boxed{\ \dt a_j(t)=\sigma_j-\bigl(\sigma_j+g-\lambda_j\bigr)a_j(t) . \ }
+\]
+$\blacksquare$
+
+The equation is linear and autonomous, and it involves no variable other than $a_j$ ---
+neither $k_j$, nor $A$, nor any other country's state.  This is the block recursiveness the text
+emphasizes, and it is what makes the whole world equilibrium solvable country by country.  Its
+explicit solution is
+\[
+a_j(t)=a^*_j+\bigl(a_j(0)-a^*_j\bigr)e^{-\mu_jt},\qquad
+a^*_j=\frac{\sigma_j}{\mu_j},\qquad \mu_j\equiv\sigma_j+g-\lambda_j>0 ,
+\]
+so convergence to the steady-state gap is monotone and exponential at rate $\mu_j$.
+\end{aex}
+
+\begin{aex}{18.4}{}
+\emph{Step 1: the technology block.}  \bk{(18.4)} is linear with the strictly positive
+coefficient $\mu_j=\sigma_j+g-\lambda_j$ (strictly positive because $\lambda_j<g$), so it has the
+unique fixed point $a^*_j=\sigma_j/\mu_j\in(0,1)$ and the explicit solution written in Exercise
+18.3.  Hence $a_j(t)\to a^*_j$ monotonically from any $a_j(0)>0$, which is \bk{(18.5)} and its
+global stability.  Since $a_j(t)$ is monotone and bounded between $\min\{a_j(0),a^*_j\}>0$ and
+$\max\{a_j(0),a^*_j\}$, and $\dt a_j$ is bounded, the growth rate
+$g_j(t)=\dt a_j(t)/a_j(t)+g$ is bounded and satisfies $g_j(t)\to g$ exponentially at rate
+$\mu_j$.
+
+\emph{Step 2: the capital block, steady state.}  In a steady state $a_j$ is constant, so
+$g_j=g$, and $\dt k_j=0$ requires
+\[
+s_j\frac{f(k^*_j)}{k^*_j}=n_j+g+\delta .
+\]
+By \bk{Assumptions 1--2}, $f$ is strictly concave with $f(0)=0$, so $f(k)/k$ is strictly
+decreasing, and the Inada conditions give $f(k)/k\to\infty$ as $k\to0$ and $f(k)/k\to0$ as
+$k\to\infty$.  So there is exactly one $k^*_j>0$.
+
+\emph{Step 3: the capital block, global stability.}  \bk{(18.1)} is non-autonomous, so one cannot
+simply read stability off a phase diagram.  Fix $\varepsilon>0$.  By Step 1 there is $T$ with
+$|g_j(t)-g|<\varepsilon$ for all $t\ge T$.  Consider the two \emph{autonomous} comparison
+equations
+\[
+\dt\underline k=s_jf(\underline k)-(n_j+g+\varepsilon+\delta)\underline k,
+\qquad
+\dt\ol k=s_jf(\ol k)-(n_j+g-\varepsilon+\delta)\ol k ,
+\]
+started at $\underline k(T)=\ol k(T)=k_j(T)$.  Each is a standard Solow equation whose right-hand
+side is strictly positive below and strictly negative above its unique positive rest point, so
+each converges globally and monotonically to $k^*_j(g\pm\varepsilon)$, defined by
+$s_jf(k)/k=n_j+g\pm\varepsilon+\delta$.  Since the right-hand side of \bk{(18.1)} lies between the
+two comparison right-hand sides for $t\ge T$, the standard differential inequality gives
+$\underline k(t)\le k_j(t)\le\ol k(t)$ for all $t\ge T$, whence
+\[
+k^*_j(g+\varepsilon)\ \le\ \liminf_{t\to\infty}k_j(t)\ \le\ \limsup_{t\to\infty}k_j(t)
+\ \le\ k^*_j(g-\varepsilon) .
+\]
+Letting $\varepsilon\downarrow0$ and using the continuity of $k^*_j(\cdot)$ --- which follows from
+the strict monotonicity of $f(k)/k$ and the implicit function theorem --- gives
+$k_j(t)\to k^*_j$.  Since $\varepsilon$ and $T$ did not depend on $k_j(0)$, convergence is global.
+$\blacksquare$
+
+\emph{Step 4: income per capita.}  Finally, $y_j(t)=A_j(t)f(k_j(t))\to a^*_jA(0)e^{gt}f(k^*_j)$,
+so income per capita in every country grows asymptotically at the common rate $g$, which
+completes \bk{Proposition 18.1}.
+\end{aex}
+
+\begin{aex}{18.5}{}
+\emph{On \bk{(18.4)}.}  Differentiating $\dt a_j=\sigma_j-(\sigma_j+g-\lambda_j)a_j$
+\emph{at a given $a_j$},
+\[
+\boxed{\ \frac{\partial\dt a_j}{\partial\sigma_j}=1-a_j>0,
+\qquad
+\frac{\partial\dt a_j}{\partial\lambda_j}=a_j>0 . \ }
+\]
+The two derivatives have opposite shapes.  The absorption parameter helps most when the country
+is far behind, and its effect \emph{vanishes at the frontier}; the local-innovation parameter
+helps most when the country is close to the frontier, and its effect \emph{vanishes when the
+country has nothing}.
+
+\emph{On the steady state and the speed of convergence.}  With
+$a^*_j=\sigma_j/\mu_j$ and $\mu_j=\sigma_j+g-\lambda_j$,
+\[
+\frac{\partial a^*_j}{\partial\sigma_j}=\frac{g-\lambda_j}{\mu_j^2}>0,
+\qquad
+\frac{\partial a^*_j}{\partial\lambda_j}=\frac{\sigma_j}{\mu_j^2}>0,
+\qquad
+\frac{\partial\mu_j}{\partial\sigma_j}=+1,
+\qquad
+\frac{\partial\mu_j}{\partial\lambda_j}=-1 .
+\]
+Both raise the steady-state relative technology, in the ratio
+$\dfrac{\partial a^*_j/\partial\sigma_j}{\partial a^*_j/\partial\lambda_j}=\dfrac{g-\lambda_j}{\sigma_j}$.
+But they move the speed of convergence in \emph{opposite} directions: a higher $\sigma_j$ speeds
+convergence, a higher $\lambda_j$ slows it.  The numerical table in \texttt{code/ch18.py} makes
+this concrete at $g=2\%$: raising $\sigma$ from $0.02$ to $0.20$ takes $a^*$ from $0.500$ to
+$0.909$ and cuts the half-life from $17.3$ to $3.2$ years, whereas raising $\lambda$ from $0$ to
+$0.01$ at $\sigma=0.02$ takes $a^*$ from $0.500$ to $0.667$ but \emph{lengthens} the half-life
+from $17.3$ to $23.1$ years.
+
+\emph{On \bk{(18.1)}.}  Neither parameter appears in \bk{(18.1)} except through $g_j(t)$, and in
+steady state $g_j=g$ regardless of both.  Hence
+\[
+\frac{\partial k^*_j}{\partial\sigma_j}=\frac{\partial k^*_j}{\partial\lambda_j}=0 ,
+\]
+and the entire effect on income per capita runs through the level of $A_j$, not through the
+effective capital-labor ratio.  Along the transition the two parameters act only by raising
+$g_j(t)$, which enters \bk{(18.1)} exactly as faster effective-labour growth: it temporarily
+\emph{depresses} $k_j(t)$, so that a country catching up fast has a temporarily low effective
+capital-labor ratio even as its income per capita rises rapidly.
+
+\emph{Why they differ.}  $\sigma_j$ multiplies the \emph{gap} $A(t)-A_j(t)$ and $\lambda_j$
+multiplies the \emph{stock} $A_j(t)$.  A force proportional to the gap is self-limiting: it
+weakens as the country approaches the frontier, which is precisely what makes the world income
+distribution stable and gives relatively backward economies the Gerschenkron advantage.  A force
+proportional to the stock is not self-limiting: it is an endogenous-growth term, it does not
+weaken as the country advances, and if it were large enough it would let the country overtake the
+frontier (Exercise 18.2).  This is also why $\lambda_j$ slows convergence --- it adds a term that
+grows with $a_j$ and therefore partly offsets the restoring force --- while $\sigma_j$ strengthens
+it.
+\end{aex}
+
+\begin{aex}{18.6}{}
+If $g=0$ the restriction $\lambda_j\in[0,g)$ forces $\lambda_j=0$, and $A(t)=A(0)\equiv\ol A$ is
+constant.  \bk{(18.3)} becomes
+\[
+\dt A_j(t)=\sigma_j\bigl(\ol A-A_j(t)\bigr) ,
+\]
+a linear equation with solution $A_j(t)=\ol A+(A_j(0)-\ol A)e^{-\sigma_jt}$.  Hence
+\[
+\boxed{\ A_j(t)\longrightarrow\ol A\quad\text{for every }j,\ \text{whatever }\sigma_j . \ }
+\]
+Equivalently, \bk{(18.5)} gives $a^*_j=\sigma_j/(\sigma_j+0-0)=1$ for every $j$.  The absorption
+rate $\sigma_j$ determines only how fast a country gets there --- the half-life is
+$\log2/\sigma_j$ --- not where it ends up. $\blacksquare$
+
+\emph{Why $g>0$ is different.}  In a steady state with a moving frontier every country must grow
+at $g$, and \bk{(18.3)} says the country's own growth rate is
+\[
+\frac{\dt A_j}{A_j}=\sigma_j\Bigl(\frac{1}{a_j}-1\Bigr)+\lambda_j .
+\]
+Setting this equal to $g$ and solving gives $a^*_j=\sigma_j/(\sigma_j+g-\lambda_j)<1$.  The gap
+is not a friction left over from history; it is the \emph{equilibrium price of keeping up}.
+Absorption is proportional to the gap, so a country that wants to grow at the frontier rate with
+a low $\sigma_j$ must run a correspondingly large gap to generate enough absorption flow.  A
+country with a small $\sigma_j$, or a small $\lambda_j$, or facing a fast-moving frontier (large
+$g$), needs a larger gap; if it ever closed the gap, absorption would stop and it would fall
+behind again.
+
+With $g=0$ the target stops moving, and the required absorption flow in the long run is zero.  A
+zero flow is consistent with a zero gap, so the gap closes completely.  This is exactly the same
+logic as in the Solow model, where the saving rate affects the steady-state capital-labor ratio
+only because capital depreciates and the effective labour force grows: parameters governing the
+speed of adjustment stop mattering for the destination once there is nothing to adjust to.  The
+policy reading is stark: in a world of zero technological progress, barriers to technology
+adoption would delay development but not make any country permanently poor.
+\end{aex}
+
+\begin{aex}{18.7}{}
+From \bk{Proposition 18.1}, in the steady state
+\[
+y^*_j(t)=A_j(t)f\bigl(k^*_j\bigr)=a^*_j\,A(0)e^{gt}f\bigl(k^*_j\bigr)
+\equiv e^{gt}\,y^*_j,\qquad
+y^*_j=a^*_j\,A(0)\,f(k^*_j) ,
+\]
+which is the stated form.  The two factors depend on disjoint sets of parameters, so they may be
+signed separately.
+
+\emph{The technology factor.}  $a^*_j=\sigma_j/(\sigma_j+g-\lambda_j)$ and, as in Exercise 18.5,
+\[
+\frac{\partial a^*_j}{\partial\sigma_j}=\frac{g-\lambda_j}{(\sigma_j+g-\lambda_j)^2}>0,
+\qquad
+\frac{\partial a^*_j}{\partial\lambda_j}=\frac{\sigma_j}{(\sigma_j+g-\lambda_j)^2}>0 ,
+\]
+the first strictly positive precisely because $\lambda_j<g$.
+
+\emph{The capital factor.}  $k^*_j$ solves $\phi(k)\equiv f(k)/k=(n_j+g+\delta)/s_j$, and
+$\phi$ is strictly decreasing under \bk{Assumptions 1--2}.  Hence $k^*_j$ is strictly increasing
+in $s_j$ and strictly decreasing in $n_j$ and $\delta$, and since $f$ is strictly increasing so
+is $f(k^*_j)$.  Explicitly,
+$\partial k^*_j/\partial s_j=-\phi(k^*_j)/(s_j\phi'(k^*_j))>0$.
+
+\emph{Independence of other countries.}  \bk{(18.4)} determines $a_j$ from $(\sigma_j,\lambda_j,g)$
+alone, and \bk{(18.1)} determines $k_j$ from $(s_j,n_j,\delta)$ and the path of $g_j$, which by
+\bk{(18.4)} depends on country $j$'s own parameters only.  The frontier $A(t)$ is exogenous.  So
+no parameter of any country $j'\ne j$ enters, and
+$\partial y^*_j/\partial\sigma_{j'}=\partial y^*_j/\partial\lambda_{j'}
+=\partial y^*_j/\partial s_{j'}=\partial y^*_j/\partial n_{j'}=0$. $\blacksquare$
+
+\rmk{The independence result is a property of this reduced form, not of technology diffusion in
+general, and it is the price paid for the tractability of \bk{(18.3)}.  Every country draws on a
+frontier that no country's behaviour affects, so there is diffusion but no interaction.  Section
+18.3.2 removes it by making $N(t)$ the average of the $N_j(t)$, at which point the block
+recursiveness --- and with it \bk{Proposition 18.2} --- fails: Exercise 18.15 shows that each
+country's parameters then move the world growth rate, and hence every other country's income.}
+\end{aex}
+
+\begin{aex}{18.10}{}
+\textbf{(a)}  Let the firm rent capital at $R=r+\delta$.  With one worker, constant returns give
+an operating surplus
+\[
+\Pi(A_j)=\max_K\bigl\{F(K,A_j)-RK\bigr\}=A_j\,\pi_0,
+\qquad \pi_0\equiv f(k^*)-k^*f'(k^*),\quad f'(k^*)=R ,
+\]
+so $\pi_0$ is the marginal product of a unit of effective labour and is common to all firms.  The
+firm's technology is a match-specific state evolving at a rate that depends on \emph{this}
+worker's human capital,
+\[
+\dt A_j=\sigma(h_j)\bigl(A(t)-A_j\bigr)+\lambda A_j .
+\]
+Write the firm's current-value Hamiltonian, with $q$ the shadow value of a unit of $A_j$:
+\[
+\mathcal H=A_j\pi_0-w+q\bigl[\sigma(h_j)(A-A_j)+\lambda A_j\bigr] .
+\]
+Free entry into firms drives the value of a match to zero, so the wage absorbs the entire flow
+surplus,
+\[
+\boxed{\ w(h_j,t)=\underbrace{A_j(t)\,\pi_0}_{\text{value of marginal product}}
+\ +\ \underbrace{q(t)\,\sigma(h_j)\bigl[A(t)-A_j(t)\bigr]}_{\text{value of the technology the worker absorbs}} \ }
+\]
+--- the decomposition the hint asks for; the purely local term $q\lambda A_j$ is not attributable
+to the worker and is netted out of $\pi_0$ by the same free-entry condition.  The costate obeys
+$\dt q=\bigl(r+\sigma(h_j)-\lambda\bigr)q-\pi_0$, so in a steady state with $\pi_0$ constant,
+\[
+q=\frac{\pi_0}{r+\sigma(h_j)-\lambda} ,
+\]
+and, using $A_j=a^*(h_j)A$ with $a^*(h)=\sigma(h)/(\sigma(h)+g-\lambda)$,
+\[
+w(h,t)=\pi_0A(t)\Bigl[a^*(h)+\frac{\sigma(h)\bigl(1-a^*(h)\bigr)}{r+\sigma(h)-\lambda}\Bigr] .
+\]
+
+\textbf{(b)}  Hold the firm's own technology $A_j$ fixed and let the frontier run faster.  Since
+$a^*(h)$ is decreasing in $g$, a larger $g$ means a larger steady-state gap $A-A_j$ at a given
+$A_j$, and from the boxed expression
+\[
+\frac{\partial w}{\partial(A-A_j)}=q\,\sigma(h)>0 ,
+\]
+so wages rise.  The gain is proportional to $\sigma(h)$: faster frontier growth is worth more to
+workers who can absorb faster.
+
+\emph{Returns to human capital.}  Differentiating the boxed expression,
+\[
+\boxed{\ \frac{\partial w}{\partial h}
+=\pi_0\bigl(A-A_j\bigr)\frac{\sigma'(h)\,(r-\lambda)}{\bigl(r+\sigma(h)-\lambda\bigr)^2}>0,
+\qquad
+\frac{\partial^2w}{\partial h\,\partial(A-A_j)}>0 . \ }
+\]
+The return to human capital is \emph{proportional to the size of the unexploited technology
+gap}, so anything that widens the gap --- a faster-moving frontier, a country further from it,
+a sector undergoing rapid technical change --- raises it.  This is the Nelson--Phelps proposition
+in its sharpest form: human capital is valuable because technology is changing, and its return
+would vanish in a stationary world ($g=\lambda$, whence $A=A_j$ by Exercise 18.6).
+
+\emph{Contrast with Chapter 15.}  There the skill premium rises because innovation is
+\emph{directed}: an increase in the relative supply of skills raises the market size for
+skill-complementary machines, $N_H/N_L$ rises, and with an elasticity of substitution above two
+the induced price effect can even make the relative demand curve slope upward.  The mechanism is
+the endogenous \emph{composition} of technology, it operates through machine prices, and it
+disappears if technology is exogenous.  Here the premium responds to the \emph{rate} rather than
+the direction of technical change; nothing is directed, the technology is entirely exogenous to
+the worker, and the skill is rewarded for \emph{adoption} rather than for production.  The two
+channels are empirically distinguishable: the Chapter 15 channel predicts that the premium tracks
+relative skill supplies and the bias of new technologies, while the Nelson--Phelps channel
+predicts that it is highest in fast-changing sectors and in countries far from the frontier, and
+that the returns should show up in managerial and entrepreneurial positions and in the speed of
+diffusion rather than in routine production.
+\end{aex}
+
+\solsection{18.3}{Technology Diffusion and Endogenous Growth}
+
+\begin{aex}{18.11}{}
+\emph{Step 1: profits and values.}  From the analysis of Section 13.1, the flow profit of a
+technology monopolist in country $j$ is $\pi_j=\beta L_j$, \emph{independent of $N_j$ and of
+time}.  The value of a variety therefore satisfies the Hamilton--Jacobi--Bellman equation
+$rV_j=\beta L_j+\dt V_j$, whose only solution bounded on a path with a constant interest rate
+$r=\rho+\theta g$ is
+\[
+V_j=\frac{\beta L_j}{r} \qquad\text{at every date, not only in steady state.}
+\]
+
+\emph{Step 2: the only common growth rate is $g$.}  Suppose country $j$'s technology grew
+asymptotically at $g_j\ne g$.  If $g_j<g$ then $\mu_j=N_j/N\to0$, the research productivity
+$\eta_j\mu_j^{-\phi}\to\infty$, and $\eta_j\mu_j^{-\phi}V_j>\zeta_j$ eventually --- research is
+strictly profitable, so $Z_j$ is bounded away from zero and $\dt N_j/N_j$ is bounded below by a
+number exceeding $g$, a contradiction.  If $g_j>g$ then $\mu_j\to\infty$,
+$\eta_j\mu_j^{-\phi}V_j<\zeta_j$ eventually, free entry fails, $Z_j=0$ and $\dt N_j=0$, giving
+$g_j=0<g$, again a contradiction.  Hence $g_j=g$ for every $j$.
+
+\emph{Step 3: the steady state.}  With $\mu_j$ constant, free entry with positive research reads
+$\eta_j(\mu^*_j)^{-\phi}V_j=\zeta_j$, and substituting $V_j=\beta L_j/r^*$ with
+$r^*=\rho+\theta g$ gives \bk{(18.11)},
+\[
+\mu^*_j=\Bigl(\frac{\eta_j\beta L_j}{\zeta_jr^*}\Bigr)^{1/\phi} ,
+\]
+which is unique.  The transversality condition requires $\rho>(1-\theta)g$, which is assumed.
+
+\emph{Step 4: convergence.}  Because $V_j=\beta L_j/r$ holds at every date, the free-entry
+condition is an \emph{inequality in $\mu_j$ alone}:
+\[
+\eta_j\mu_j^{-\phi}\frac{\beta L_j}{r}\ \begin{cases}>\zeta_j & \text{if }\mu_j<\mu^*_j,\\
+=\zeta_j & \text{if }\mu_j=\mu^*_j,\\ <\zeta_j & \text{if }\mu_j>\mu^*_j.\end{cases}
+\]
+So if $\mu_j(t)>\mu^*_j$, research is unprofitable, $Z_j=0$, $N_j$ is constant, and
+$\mu_j(t)=\mu_j(0)e^{-gt}$ falls at rate $g$ until it reaches $\mu^*_j$ --- which takes exactly
+$g^{-1}\log\bigl(\mu_j(0)/\mu^*_j\bigr)$ units of time --- after which it stays there.  If
+$\mu_j(t)<\mu^*_j$, research is strictly profitable at any scale, so $Z_j$ is at its upper bound;
+the only thing limiting it is the resource constraint \bk{(18.8)}, $\zeta_jZ_j\le Y_j$, so
+$\mu_j$ rises at the fastest rate the economy's output permits until it reaches $\mu^*_j$.  In
+both directions $\mu_j(t)\to\mu^*_j$ from any $\mu_j(0)>0$, which is the global stability claimed.
+$\blacksquare$
+
+\rmk{Two features of this argument deserve emphasis.  First, ``saddle-path stability'' here is
+not the usual two-dimensional saddle: the value $V_j$ is pinned down at $\beta L_j/r$ by constant
+profits, so the free-entry condition collapses to a condition on the single predetermined
+variable $\mu_j$, and the dynamics are one-dimensional with a corner at $Z_j=0$.  Second, the
+adjustment is \emph{asymmetric}.  A country above its target technology waits for the frontier to
+grow past it, which takes time $g^{-1}\log(\mu_j(0)/\mu^*_j)$; a country below its target adjusts
+as fast as its output allows.  So the model predicts fast catch-up and slow relative decline ---
+a pattern quite different from the symmetric exponential convergence of the reduced-form
+\bk{(18.4)}.}
+\end{aex}
+
+\begin{aex}{18.14}{}
+Define
+\[
+\Psi(g)\ \equiv\ \frac1J\sum_{j=1}^{J}
+\Bigl(\frac{\eta_j\beta L_j}{\zeta_j(\rho+\theta g)}\Bigr)^{1/\phi} ,
+\]
+so that \bk{(18.13)}, the requirement that the $\mu^*_j$ average to one, is $\Psi(g)=1$.
+
+\emph{Necessity and sufficiency.}  $\Psi$ is continuous and, since $\rho+\theta g$ is strictly
+increasing in $g$ and $\phi>0$, strictly decreasing, with $\Psi(g)\to0$ as $g\to\infty$.  A
+strictly decreasing continuous function attains the value $1$ at some $g>0$ if and only if it
+exceeds $1$ at $g=0$, and then at exactly one point.  Hence
+\[
+\boxed{\ g^*>0\iff\Psi(0)=\frac1J\sum_{j=1}^{J}
+\Bigl(\frac{\eta_j\beta L_j}{\zeta_j\rho}\Bigr)^{1/\phi}>1 , \ }
+\]
+which is \bk{(18.14)}. $\blacksquare$
+
+\emph{When it fails.}  Suppose $\Psi(0)\le1$.  A steady state with $g>0$ is impossible, so
+$\dt N(t)=0$: world technology is constant.  Since $\eta_j>0$, $Z_j>0$ would give $\dt N_j>0$ and
+hence $\dt N>0$; so the asymptotic equilibrium has $Z_j=0$ and $N_j(t)=\ol N_j$ constant for every
+$j$, with $r=\rho$.  Writing $\mu_j=\ol N_j/\ol N$ with $\ol N=J^{-1}\sum_j\ol N_j$, the
+equilibrium is characterized by
+\[
+\frac1J\sum_{j=1}^{J}\mu_j=1
+\qquad\text{and}\qquad
+\eta_j\mu_j^{-\phi}\frac{\beta L_j}{\rho}\le\zeta_j\ \text{ for every }j ,
+\]
+the second being free entry holding with \emph{weak} inequality --- no country finds research
+worth undertaking.  Rearranged, the second condition is
+$\mu_j\ge\ol\mu_j\equiv(\eta_j\beta L_j/(\zeta_j\rho))^{1/\phi}$, and such a configuration exists
+precisely because $J^{-1}\sum_j\ol\mu_j=\Psi(0)\le1$.  Starting from arbitrary $N_j(0)$, the
+countries with $\mu_j(0)<\ol\mu_j$ do research --- which raises $\ol N$ and so lowers every other
+country's $\mu$ --- until every inequality holds; growth then stops permanently.  The world
+technology level reached is not pinned down by parameters alone: it depends on the initial
+$\{N_j(0)\}$, so history matters for the level but never for the (zero) long-run growth rate.
+
+\emph{A calibration.}  In \texttt{code/ch18.py}, with $J=5$, $\beta=0.5$, $\phi=2$, $\rho=0.05$,
+$\theta=2$ and the drawn $(\eta_j,L_j,\zeta_j)$, one finds $\Psi(0)=1.2712>1$, so \bk{(18.14)}
+holds, and the unique root is $g^*=0.015399$, with $\mu^*=(0.892,\,1.006,\,1.112,\,1.433,\,0.558)$
+averaging to one to twelve digits.
+\end{aex}
+
+\begin{aex}{18.15}{}
+\emph{Existence and uniqueness.}  Suppose a steady state with common growth rate $g$ exists.
+Then $N(t)$ grows at $g$ by \bk{(18.12)}, consumption grows at $g$ in every country, and the Euler
+equation gives the common interest rate $r^*=\rho+\theta g$.  \bk{Proposition 18.4}'s free-entry
+argument applies country by country --- profits $\beta L_j$ and values $\beta L_j/r^*$ are
+unchanged --- and yields \bk{(18.11)}.  Dividing \bk{(18.12)} by $N(t)$ gives
+$J^{-1}\sum_j\mu^*_j=1$, which is \bk{(18.13)}, that is $\Psi(g)=1$.  By Exercise 18.14, $\Psi$ is
+continuous and strictly decreasing with $\Psi(0)>1$ under \bk{(18.14)}, so there is exactly one
+root $g^*>0$; the assumption $\rho>(1-\theta)g^*$ makes the households' problems well posed.  All
+remaining objects --- $\mu^*_j$, $r^*$, the allocation of each country's output between $C_j$,
+$X_j$ and $\zeta_jZ_j$ --- are then determined uniquely.
+
+\emph{Comparative statics.}  Differentiate $\Psi(g^*)=1$ implicitly.  Since
+$\Psi(g)=J^{-1}\sum_j\mu_j(g)$ with
+$\mu_j(g)=(\eta_j\beta L_j/(\zeta_j(\rho+\theta g)))^{1/\phi}$,
+\[
+\frac{\partial\Psi}{\partial g}=-\frac{\theta}{\phi(\rho+\theta g)}\,\Psi(g),
+\qquad
+\frac{\partial\Psi}{\partial\log\eta_j}=\frac{\partial\Psi}{\partial\log L_j}
+=-\frac{\partial\Psi}{\partial\log\zeta_j}=\frac{\mu^*_j}{J\phi} .
+\]
+At $g^*$ we have $\Psi=1$, so $\partial\Psi/\partial g=-\theta/[\phi(\rho+\theta g^*)]$ and the
+implicit function theorem gives
+\[
+\boxed{\ \frac{\partial g^*}{\partial\log\eta_j}
+=\frac{\partial g^*}{\partial\log L_j}
+=-\frac{\partial g^*}{\partial\log\zeta_j}
+=\frac{\mu^*_j\,(\rho+\theta g^*)}{J\,\theta}\ >\ 0 . \ }
+\]
+So a higher $\eta_j$ or $L_j$, or a lower $\zeta_j$, in \emph{any} country raises the world
+growth rate, which is \bk{Proposition 18.5}. $\blacksquare$
+
+\emph{What the formula says.}  The elasticities are all proportional to $\mu^*_j$: a country's
+influence on world growth is exactly its relative technology level.  Advanced, large and
+unencumbered countries pull the world frontier; a small distorted economy barely moves it.  The
+factor $1/J$ makes the total effect of a uniform proportional improvement in all countries equal
+to $(\rho+\theta g^*)/\theta$, independent of $J$ --- so the result is about the composition of
+world research, not its raw number of participants.  \texttt{code/ch18.py} confirms the formula
+against a numerical derivative of $g^*$ to eight decimal places for each of the five countries.
+
+\rmk{This is where \bk{Proposition 18.2}'s independence result dies.  A change in $\zeta_j$ now
+changes $g^*$, hence $r^*$, hence \emph{every} $\mu^*_{j'}$ through \bk{(18.11)} --- with the
+opposite sign, since a higher $g^*$ raises $r^*$ and so lowers each $\mu^*_{j'}$.  A policy that
+improves one country's innovation environment therefore raises world growth and simultaneously
+lowers every other country's relative technology level.  The two effects work against each other
+for foreigners, and the net effect on their income \emph{levels} is a level--growth trade-off:
+they grow faster forever but start from a lower relative position.}
+\end{aex}
+
+\begin{aex}{18.17}{}
+There is no international asset market in this model, so each country's interest rate is
+determined by its own Euler equation.  If every country's consumption grows at the common rate
+$g$, then
+\[
+r^*_j=\rho_j+\theta g ,
+\]
+and the free-entry condition \bk{(18.11)}, which is country-specific in every other respect too,
+becomes
+\[
+\mu^*_j=\Bigl(\frac{\eta_j\beta L_j}{\zeta_j(\rho_j+\theta g)}\Bigr)^{1/\phi} .
+\]
+Averaging as in \bk{(18.13)}, the steady-state world growth rate solves
+\[
+\Psi_\rho(g)\ \equiv\ \frac1J\sum_{j=1}^{J}
+\Bigl(\frac{\eta_j\beta L_j}{\zeta_j(\rho_j+\theta g)}\Bigr)^{1/\phi}=1 .
+\]
+Every step of Exercise 18.14 goes through verbatim: $\Psi_\rho$ is continuous, strictly
+decreasing in $g$, and tends to zero, so there is at most one root, and there is exactly one
+positive root if and only if
+\[
+\boxed{\ \frac1J\sum_{j=1}^{J}
+\Bigl(\frac{\eta_j\beta L_j}{\zeta_j\rho_j}\Bigr)^{1/\phi}>1 , \ }
+\]
+the obvious generalization of \bk{(18.14)}.  The transversality conditions now require
+$\rho_j>(1-\theta)g^*$ for every $j$, which binds first for the most patient country.  Given
+$g^*$, each $\mu^*_j$ is determined uniquely, and the comparative statics of Exercise 18.15
+carry over with
+$\partial g^*/\partial\log\eta_j=\mu^*_j(\rho_j+\theta g^*)/(J\theta)$. $\blacksquare$
+
+\emph{Why growth rates stay equal.}  Impatience enters only through $r^*_j$, which raises the
+required rate of return on research and hence lowers the level $\mu^*_j$ at which free entry
+binds.  It does not enter the \emph{spillover} term $(N/N_j)^\phi$, which is what forces the
+common growth rate: a country that fell behind would find research more productive and would
+expand until it grew at $g^*$ again.  So the whole effect of a higher $\rho_j$ is a permanently
+lower relative technology level and hence a permanently lower income level --- an impatient
+country is poor, not slow-growing.  This is the same logic as in \bk{Exercise 18.9}, and it is why
+a stable world income distribution does not require equal discount rates or asymptotically equal
+saving rates.
+\end{aex}
+
+\solsection{18.4}{Appropriate and Inappropriate Technologies}
+
+\begin{aex}{18.20}{}
+\textbf{(a)}  Country $1$ saves more, so it is always the leader and $k'(t)=k_1(t)$ for all $t$.
+Its own technology is therefore always appropriate: $A(k_1\mid k_1)=A$ and
+\[
+y_1=Ak_1^{1-\alpha},\qquad
+\dt k_1=s_1Ak_1^{1-\alpha}-\delta k_1
+\quad\Longrightarrow\quad
+k^*_1=\Bigl(\frac{s_1A}{\delta}\Bigr)^{1/\alpha} .
+\]
+Country $2$ uses the leader's technology at a lower capital intensity and by \bk{(18.15)}
+\[
+y_2=Ak_2^{1-\alpha+\gamma}(k^*_1)^{-\gamma},\qquad
+\dt k_2=s_2Ak_2^{1-\alpha+\gamma}(k^*_1)^{-\gamma}-\delta k_2
+\quad\Longrightarrow\quad
+k^*_2=\Bigl(\frac{s_2A(k^*_1)^{-\gamma}}{\delta}\Bigr)^{\frac{1}{\alpha-\gamma}} .
+\]
+A positive steady state exists if and only if $\gamma<\alpha$, so that the exponent on $k_2$ is
+below one.  Since $y^*_i=\delta k^*_i/s_i$ in both countries,
+\[
+\frac{y^*_1}{y^*_2}=\frac{s_2}{s_1}\cdot\frac{k^*_1}{k^*_2},
+\qquad
+\log\frac{k^*_1}{k^*_2}=\frac{1}{\alpha-\gamma}\log\frac{s_1}{s_2} ,
+\]
+the second identity following from substituting $k^*_1$ into $k^*_2$ and collecting terms.
+Therefore
+\[
+\boxed{\ \frac{k^*_1}{k^*_2}=\Bigl(\frac{s_1}{s_2}\Bigr)^{\frac{1}{\alpha-\gamma}},
+\qquad
+\frac{y^*_1}{y^*_2}=\Bigl(\frac{s_1}{s_2}\Bigr)^{\frac{1-\alpha+\gamma}{\alpha-\gamma}} . \ }
+\]
+At $\gamma=0$ this is the Solow benchmark $(s_1/s_2)^{(1-\alpha)/\alpha}$.
+
+\textbf{(b)}  Country $1$'s dynamics are the textbook Solow ones: monotone convergence to
+$k^*_1$ at the local rate $\alpha\delta$.  Country $2$ faces
+$\dt k_2/k_2=s_2Ak_2^{-(\alpha-\gamma)}k_1(t)^{-\gamma}-\delta$, a Solow equation whose
+\emph{productivity term falls over time} as the leader accumulates.  Starting from a common
+$k_0$, both countries grow, but country $1$ grows faster and, as it does, it drags country $2$'s
+total factor productivity down.  The local convergence rate of country $2$ is $(\alpha-\gamma)\delta$,
+so an increase in $\gamma$
+\begin{itemize}
+\item \emph{slows} country $2$'s convergence, since $(\alpha-\gamma)\delta$ falls --- at
+      $\alpha=2/3$ and $\delta=5\%$ the rate falls from $3.33\%$ at $\gamma=0$ to $0.83\%$ at
+      $\gamma=0.5$;
+\item deepens the drag from the leader, since the elasticity of $y_2$ with respect to $k'$ is
+      $-\gamma$;
+\item and lowers $k^*_2$ and $y^*_2$, leaving country $1$ untouched.
+\end{itemize}
+The follower's transition is therefore both slower and aimed at a lower target, and for
+$\gamma$ close to $\alpha$ it becomes arbitrarily slow.
+
+\textbf{(c)}  Writing $E(\gamma)\equiv\dfrac{1-\alpha+\gamma}{\alpha-\gamma}$,
+\[
+E'(\gamma)=\frac{(\alpha-\gamma)+(1-\alpha+\gamma)}{(\alpha-\gamma)^2}=\frac{1}{(\alpha-\gamma)^2}>0 ,
+\]
+so $y^*_1/y^*_2=(s_1/s_2)^{E(\gamma)}$ is strictly increasing in $\gamma$, and
+$E(\gamma)\to\infty$ as $\gamma\uparrow\alpha$.  With $\alpha=2/3$ and $s_1/s_2=4$,
+\begin{center}
+\small
+\begin{tabular}{rrrr}
+\toprule
+$\gamma$ & $E(\gamma)$ & $y^*_1/y^*_2$ & $k^*_1/k^*_2$\\
+\midrule
+$0.0$ & $0.50$ & $2.00$ & $8.0$\\
+$0.2$ & $1.14$ & $4.88$ & $19.5$\\
+$0.3$ & $1.73$ & $10.96$ & $43.9$\\
+$0.5$ & $5.00$ & $1024$ & $4096$\\
+$0.6$ & $14.00$ & $2.68\times10^{8}$ & $1.07\times10^{9}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+(Simulating the two differential equations reproduces these ratios exactly.)  The interpretation
+is a \emph{multiplier on the saving rate}.  Without inappropriateness, a low saving rate costs a
+country output only through the direct diminishing-returns channel.  With it, a low $k_2$ also
+makes the frontier technology work badly, which lowers output further, which lowers saving in
+levels, which lowers $k_2$ again.  The exponent $1/(\alpha-\gamma)$ rather than $1/\alpha$ on the
+capital ratio is exactly this feedback, and it becomes infinite when the inappropriateness
+elasticity $\gamma$ reaches the capital share parameter $\alpha$ --- the point at which the
+private return to capital stops diminishing.
+
+\textbf{(d)}  The mechanism is real --- technologies are designed for particular factor
+intensities, and using them at other intensities does cost efficiency --- but as an account of
+large cross-country income differences it has four problems.
+\begin{enumerate}
+\item \emph{It is knife-edge.}  Large effects require $\gamma$ close to $\alpha$, and at
+      $\gamma=\alpha$ the model has no steady state at all.  The text's illustrative
+      $\gamma=\alpha=2/3$ is legitimate for a level comparison at a \emph{given} capital gap
+      (where an eightfold capital gap gives an eightfold rather than twofold output gap), but it
+      cannot be used for the steady-state comparison of part (a).
+\item \emph{It has the sign of the diffusion externality backwards.}  Here the leader's progress
+      \emph{hurts} the follower, because it moves $k'$ further away.  The rest of this chapter,
+      and the Gerschenkron evidence behind it, says the opposite: a larger gap is an opportunity.
+      Postwar OECD convergence is hard to reconcile with a model in which the leader's
+      accumulation is a negative externality on everyone else.
+\item \emph{It assumes no adaptation.}  Firms in poor countries routinely modify imported
+      technologies for local factor proportions, and much of what multinationals do when they
+      enter low-wage economies is exactly this.  A model in which adaptation is possible at a
+      cost would convert the productivity loss into an investment, with much smaller long-run
+      effects.
+\item \emph{The measured losses are too large.}  A $\gamma$ of $0.5$ implies that halving the
+      capital-labor ratio relative to the design point costs $29\%$ of total factor productivity,
+      which is far more than plant-level studies of technology transfer find.
+\end{enumerate}
+The skill-mismatch version of Section 18.4.3 is the more promising member of the family: skill
+gaps between rich and poor countries are larger, more persistent and harder to arbitrage than
+capital-intensity gaps, and there the direction of technology is endogenous rather than assumed.
+\end{aex}
+
+\begin{aex}{18.22}{}
+Throughout, suppress $j$ and $t$, write $I$ for the threshold, and use \bk{Proposition 18.6}.
+
+\emph{The relative price index, \bk{(18.20)}.}  The Cobb--Douglas aggregator \bk{(18.16)} has
+$\partial Y/\partial y(i)=Y/y(i)=p(i)$, so \emph{revenue is the same in every sector},
+$p(i)y(i)=Y$.  From \bk{(18.18)},
+\[
+p(i)y(i)=\tfrac{1}{1-\beta}p(i)^{1/\beta}\bigl[N_L(1-i)l(i)+N_Hi\omega h(i)\bigr]
+=\begin{cases}
+\tfrac{1}{1-\beta}P_L^{1/\beta}N_LL/I, & i<I,\\[2pt]
+\tfrac{1}{1-\beta}P_H^{1/\beta}N_H\omega H/(1-I), & i>I,
+\end{cases}
+\]
+where both powers of $(1-i)$ and of $i$ cancel.  Equating the two gives \bk{(18.19)}.  The
+threshold sector is indifferent, $P_L(1-I)^{-\beta}=P_HI^{-\beta}$, that is
+$P_H/P_L=[I/(1-I)]^{\beta}$.  Writing $R\equiv(N_H\omega H)/(N_LL)$ and $\tau\equiv I/(1-I)$,
+\bk{(18.19)} reads $P_H/P_L=(R\tau)^{-\beta}$, so
+\[
+\tau^{\beta}=(R\tau)^{-\beta}\ \Longrightarrow\ \tau^2=R^{-1}\ \Longrightarrow\ \tau=R^{-1/2} ,
+\]
+which is \bk{(18.21)}, and substituting back,
+$P_H/P_L=\tau^\beta=R^{-\beta/2}$, which is \bk{(18.20)}.
+
+\emph{Output, \bk{(18.22)}.}  Since $p(i)=Y/y(i)$, the numeraire condition is
+$\int_0^1\log p(i)\dd i=0$.  Using
+$\int_0^{I}\log(1-i)\dd i=-I-(1-I)\log(1-I)$ and $\int_I^1\log i\dd i=-1+I-I\log I$, write
+$S\equiv1+(1-I)\log(1-I)+I\log I$, so the numeraire condition is
+\[
+I\log P_L+(1-I)\log P_H=-\beta S .
+\]
+From \bk{(18.18)}, for $i<I$,
+$\log y(i)=-\log(1-\beta)+\tfrac{1-\beta}{\beta}\log P_L+\beta\log(1-i)+\log(N_LL/I)$, and
+symmetrically for $i>I$.  Integrating and substituting the numeraire condition, the two price
+terms combine to $-(1-\beta)S-\beta S=-S$, leaving
+\[
+\log Y=-\log(1-\beta)-1-2(1-I)\log(1-I)-2I\log I+I\log(N_LL)+(1-I)\log(N_H\omega H) .
+\]
+Now set $u\equiv(N_LL)^{1/2}$ and $v\equiv(N_H\omega H)^{1/2}$, so that \bk{(18.21)} gives
+$I=u/(u+v)$ and $1-I=v/(u+v)$.  Then
+$I\log(N_LL)+(1-I)\log(N_H\omega H)=2I\log u+2(1-I)\log v$ and
+$-2I\log I-2(1-I)\log(1-I)=-2I\log u-2(1-I)\log v+2\log(u+v)$, so everything cancels except
+\[
+\boxed{\ Y_j=\frac{1}{e\,(1-\beta)}\Bigl[(N_LL_j)^{1/2}+(N_H\omega H_j)^{1/2}\Bigr]^{2} . \ }
+\]
+This is \bk{(18.22)} up to the constant, which the text prints as $\exp(-\beta)$.  The check is
+the degenerate case $H_j=0$: then $I=1$, the numeraire condition gives $P_L=e^{-\beta}$ exactly,
+and direct integration gives $Y=N_LL/[e(1-\beta)]$, confirming the constant above.  Nothing
+in the chapter depends on it, since it is common to all countries and all technologies.
+
+\emph{The skill premium, \bk{(18.23)}.}  With the machine price normalized to $1$ and marginal
+cost $\psi=1-\beta$, the demand for each machine is $x=p^{1/\beta}\,i\omega h$ and revenue net of
+machine spending is
+\[
+p\,y-\!\!\int_0^{N_H}\!\!x(\nu)\dd\nu
+=\Bigl(\tfrac{1}{1-\beta}-1\Bigr)p^{1/\beta}N_Hi\omega h
+=\tfrac{\beta}{1-\beta}p^{1/\beta}N_Hi\omega h ,
+\]
+so $w_H=\tfrac{\beta}{1-\beta}p(i)^{1/\beta}N_H\omega\,i$.  With $p(i)=P_Hi^{-\beta}$ the factor
+$i$ cancels and $w_H=\tfrac{\beta}{1-\beta}P_H^{1/\beta}N_H\omega$ --- necessarily independent of
+$i$, as it must be if skilled workers are to be indifferent across sectors.  Symmetrically
+$w_L=\tfrac{\beta}{1-\beta}P_L^{1/\beta}N_L$.  Hence, using \bk{(18.20)},
+\[
+\frac{w_{H,j}}{w_{L,j}}=\Bigl(\frac{P_{H,j}}{P_{L,j}}\Bigr)^{1/\beta}\frac{N_H\omega}{N_L}
+=R^{-1/2}\frac{N_H\omega}{N_L}
+=\boxed{\ \omega\Bigl(\frac{N_H}{N_L}\Bigr)^{1/2}\Bigl(\frac{\omega H_j}{L_j}\Bigr)^{-1/2} \ }
+\]
+which is \bk{(18.23)}. $\blacksquare$
+
+\rmk{The square roots in \bk{(18.22)} are not an assumption but a consequence of the linear
+comparative-advantage schedule $(1-i,\ i\omega)$ in \bk{(18.17)}: the multisector economy
+aggregates \emph{exactly} into a CES production function in $N_LL$ and $N_H\omega H$ with an
+elasticity of substitution of $2$.  Replacing $(1-i,i)$ by a different pair of schedules changes
+that elasticity, which is what the text means by saying the phenomenon is more general.  The
+aggregation is what makes the model of Section 18.4.3 a directed technological change model of
+exactly the Chapter 15 kind, with $\sigma=2>1$ so that the market size effect dominates.}
+\end{aex}
+
+\begin{aex}{18.23}{}
+\emph{Machine profits.}  A monopolist owning a skill-complementary variety sells to all Northern
+sectors $i>I^n$.  From Exercise 18.22, the quantity demanded in sector $i$ is
+$x_H(i,\nu)=p^n(i)^{1/\beta}i\omega h^n(i)=P_H^{n\,1/\beta}\omega H^n/(1-I^n)$, independent of
+$i$, so total sales are $\int_{I^n}^{1}x_H\dd i=P_H^{n\,1/\beta}\omega H^n$.  With price $1$ and
+cost $\psi=1-\beta$, the markup is $\beta$ per unit and
+\[
+\pi_H=\beta\,P_H^{n\,1/\beta}\,\omega H^n ,
+\qquad
+\pi_L=\beta\,P_L^{n\,1/\beta}\,L^n .
+\]
+Only Northern sales appear: there are no IPR in the South, so the Southern copier collects the
+Southern profits.
+
+\emph{Relative prices.}  Along a BGP with $\eta_L=\eta_H=\eta$ and the lab-equipment
+specification \bk{(18.24)}, both sectors must be researched, so
+$V_H=\pi_H/r=\pi_L/r=V_L$, that is $\pi_H=\pi_L$:
+\[
+\Bigl(\frac{P^n_H}{P^n_L}\Bigr)^{1/\beta}=\frac{L^n}{\omega H^n}
+\qquad\Longrightarrow\qquad
+\boxed{\ \frac{P^n_H}{P^n_L}=\Bigl(\frac{\omega H^n}{L^n}\Bigr)^{-\beta} . \ }
+\]
+
+\emph{Relative technologies.}  Equating this with \bk{(18.20)} evaluated in the North,
+\[
+\Bigl(\frac{\omega H^n}{L^n}\Bigr)^{-\beta}
+=\Bigl(\frac{N_H}{N_L}\frac{\omega H^n}{L^n}\Bigr)^{-\beta/2}
+\ \Longrightarrow\
+\Bigl(\frac{\omega H^n}{L^n}\Bigr)^{2}=\frac{N_H}{N_L}\frac{\omega H^n}{L^n}
+\ \Longrightarrow\
+\boxed{\ \Bigl(\frac{N_H}{N_L}\Bigr)^{*}=\frac{\omega H^n}{L^n} , \ }
+\]
+which is \bk{(18.25)}.  Substituting into \bk{(18.21)} gives
+$I^{n*}/(1-I^{n*})=(\omega H^n/L^n)^{-1}$, that is $(1-I^{n*})/I^{n*}=\omega H^n/L^n$, and into
+\bk{(18.23)} gives
+\[
+\Bigl(\frac{w^n_H}{w^n_L}\Bigr)^{*}
+=\omega\Bigl(\frac{\omega H^n}{L^n}\Bigr)^{1/2}\Bigl(\frac{\omega H^n}{L^n}\Bigr)^{-1/2}=\omega .
+\]
+The skill premium equals the pure absolute-advantage parameter: at the BGP, directed
+technological change has exactly undone the effect of relative supplies on relative wages.
+
+\emph{Stability.}  Off the BGP the relative profitability of the two kinds of research is
+\[
+\frac{\pi_H}{\pi_L}=\Bigl(\frac{P^n_H}{P^n_L}\Bigr)^{1/\beta}\frac{\omega H^n}{L^n}
+=\Bigl(\frac{N_H}{N_L}\Bigr)^{-1/2}\Bigl(\frac{\omega H^n}{L^n}\Bigr)^{1/2} ,
+\]
+using \bk{(18.20)} again.  This is \emph{strictly decreasing} in $N_H/N_L$: if the skill-biased
+technology is ahead of its BGP level, the price effect outweighs the market size effect and all
+research goes to the unskilled-complementary sector, pushing the ratio back.  Hence the BGP is
+globally stable, and since the level of $N_H+N_L$ is a jump-free state with the value of research
+pinned by $V=\pi/r$, the equilibrium is saddle-path stable in the usual sense. $\blacksquare$
+
+\rmk{The exponent $-1/2$ is $1-\sigma/2$ with $\sigma=2$, the elasticity of substitution
+implied by \bk{(18.22)}.  The knife-edge of Chapter 15 --- the strong equilibrium bias that
+appears when $\sigma$ exceeds a threshold --- is therefore not reached here, and the comparative
+statics are the ``weak bias'' ones: a higher $H^n/L^n$ raises $N_H/N_L$ one for one, which is
+just enough to leave the skill premium at $\omega$.}
+\end{aex}
+
+\begin{aex}{18.24}{}
+\emph{Preliminary: net output is proportional to gross output.}  Since revenue is equal across
+sectors, summing the two expressions in Exercise 18.22 gives
+$P_L^{1/\beta}N_LL=(1-\beta)YI$ and $P_H^{1/\beta}N_H\omega H=(1-\beta)Y(1-I)$, so the total
+number of machines used is $(1-\beta)Y$ and total machine expenditure at cost $\psi=1-\beta$ is
+$X_j=(1-\beta)^2Y_j$.  Hence
+\[
+Y^N_j=Y_j-X_j=\bigl[1-(1-\beta)^2\bigr]Y_j ,
+\]
+a fixed multiple of $Y_j$.  Maximizing net output is therefore the same as maximizing $Y_j$.
+
+\emph{Part 1.}  Fix $N_L+N_H=\ol N$ and maximize \bk{(18.22)} for the North.  Since $Y_n$ is a
+strictly increasing transformation of $\sqrt{N_LL^n}+\sqrt{N_H\omega H^n}$, differentiate that
+sum:
+\[
+\frac{\dd}{\dd N_H}\Bigl[\sqrt{(\ol N-N_H)L^n}+\sqrt{N_H\omega H^n}\Bigr]
+=-\frac12\sqrt{\frac{L^n}{N_L}}+\frac12\sqrt{\frac{\omega H^n}{N_H}}=0
+\ \Longleftrightarrow\
+\frac{N_H}{N_L}=\frac{\omega H^n}{L^n} ,
+\]
+which is exactly the BGP ratio \bk{(18.25)}.  The objective is strictly concave in $N_H$ on
+$(0,\ol N)$ --- it is a sum of two strictly concave square roots --- so this stationary point is
+the unique maximum.  The BGP technology is therefore the one that maximizes Northern net output
+given the total stock of technology.
+
+\emph{Part 2.}  Write $E_j\equiv L_j+\omega H_j$ and $\lambda_j\equiv\omega H_j/E_j$, the share of
+effective labour that is skilled.  Then $N_LL_j=N_L(1-\lambda_j)E_j$ and
+$N_H\omega H_j=N_H\lambda_jE_j$, so
+\[
+y^{\mathrm{eff}}_j=\frac{Y_j}{E_j}
+=\frac{1}{e(1-\beta)}\Bigl[\sqrt{N_L(1-\lambda_j)}+\sqrt{N_H\lambda_j}\Bigr]^{2}
+\equiv\frac{1}{e(1-\beta)}\Theta(\lambda_j) .
+\]
+By the same computation as in Part 1, $\Theta$ is strictly concave on $(0,1)$ with its unique
+maximum at
+\[
+\lambda^{\dagger}=\frac{N_H}{N_L+N_H} ,
+\]
+and at the BGP ratio $N_H/N_L=\omega H^n/L^n=\lambda_n/(1-\lambda_n)$, so
+$\lambda^{\dagger}=\lambda_n$ \emph{exactly}.  Since $H^n/L^n>H^s/L^s$ implies
+$\lambda_s<\lambda_n=\lambda^{\dagger}$, strict concavity gives
+\[
+\boxed{\ y^{\mathrm{eff}}_s=\tfrac{1}{e(1-\beta)}\Theta(\lambda_s)
+<\tfrac{1}{e(1-\beta)}\Theta(\lambda_n)=y^{\mathrm{eff}}_n . \ }
+\]
+Finally, for income per capita,
+\[
+\frac{y_j}{y^{\mathrm{eff}}_j}=\frac{L_j+\omega H_j}{L_j+H_j}=\frac{1+\omega H_j/L_j}{1+H_j/L_j} ,
+\]
+which is strictly increasing in $H_j/L_j$ whenever $\omega>1$.  Both factors are larger in the
+North, so $y_n>y_s$ as well. $\blacksquare$
+
+\emph{What drives it.}  The whole result rests on the coincidence
+$\lambda^{\dagger}=\lambda_n$: research firms sell only to the North, so they choose the
+technology mix that is optimal for the Northern factor proportions, and the South is then
+necessarily off the peak of a strictly concave function.  The size of the loss is governed by the
+curvature of $\Theta$ near its maximum --- that is, by the elasticity of substitution of $2$
+implied by \bk{(18.22)} --- and by the distance $\lambda_n-\lambda_s$.  In
+\texttt{code/ch18.py}, with $\omega=2$, $H^n/L^n=2/3$ and $H^s/L^s=1/9$, the ratio
+$y^{\mathrm{eff}}_n/y^{\mathrm{eff}}_s$ is $1.196$ at unchanged $N_H+N_L$: directed technological
+change alone opens a $20\%$ productivity gap between two economies with identical access to
+identical blueprints.
+\end{aex}
+
+\begin{aex}{18.25}{}
+\textbf{(a)}  Let there be $J^n$ Northern and $J^s$ Southern countries, and write
+$H^w=J^nH^n+J^sH^s$, $L^w=J^nL^n+J^sL^s$.  With IPR everywhere, a technology monopolist collects
+the markup on every sale in the world, so the profits of Exercise 18.23 become
+\[
+\pi_H=\beta\,P_H^{1/\beta}\,\omega H^w ,
+\qquad
+\pi_L=\beta\,P_L^{1/\beta}\,L^w ,
+\]
+taking the hint's assumption that final good prices are common across countries.  The BGP
+requires $\pi_H=\pi_L$, so $(P_H/P_L)^{1/\beta}=L^w/(\omega H^w)$, and combining with
+\bk{(18.20)} evaluated at world factor proportions exactly as in Exercise 18.23,
+\[
+\boxed{\ \Bigl(\frac{N_H}{N_L}\Bigr)^{\mathrm{IPR}}=\frac{\omega H^w}{L^w}
+\qquad\text{in place of}\qquad
+\Bigl(\frac{N_H}{N_L}\Bigr)^{*}=\frac{\omega H^n}{L^n} . \ }
+\]
+The thresholds and skill premia follow from \bk{(18.21)} and \bk{(18.23)} country by country, now
+with this common $N_H/N_L$.
+
+\textbf{(b)}  Since $H^n/L^n>H^s/L^s$, the world ratio lies strictly between the two, so
+\[
+\Bigl(\frac{N_H}{N_L}\Bigr)^{\mathrm{IPR}}<\Bigl(\frac{N_H}{N_L}\Bigr)^{*} .
+\]
+IPR enforcement in the South makes world technology \emph{less skill-biased}.  By Exercise 18.24,
+$y^{\mathrm{eff}}_j$ peaks at $\lambda^{\dagger}=N_H/(N_L+N_H)$, so lowering $N_H/N_L$ moves
+$\lambda^{\dagger}$ from $\lambda_n$ down toward the world average, which lies between $\lambda_s$
+and $\lambda_n$: the South moves \emph{closer} to the peak and the North moves \emph{away} from
+it.  In the calibration of \texttt{code/ch18.py} ($\omega=2$, one Northern and one Southern
+country, $H^n/L^n=2/3$, $H^s/L^s=1/9$, $N_L+N_H$ held fixed), $N_H/N_L$ falls from $1.333$ to
+$0.667$, $y^{\mathrm{eff}}_n$ falls from $2.000$ to $1.941$, $y^{\mathrm{eff}}_s$ rises from
+$1.673$ to $1.883$, and the North--South ratio narrows from $1.196$ to $1.031$.  Enforcing IPR in
+the South is thus, in this model, a redirection of world technology toward Southern needs, and it
+compresses the income distribution.  There is also a \emph{scale} effect: profits per variety are
+higher, so $V$ is higher, free entry supports more research, and the BGP growth rate of
+$N_L+N_H$ rises.
+
+\textbf{(c)}  Yes --- and the answer turns on whether the South acts alone.  Enforcing IPR has two
+effects on a Southern country.  First, a \emph{pure transfer}: without enforcement, the Southern
+copier charges the same markup to Southern producers, so machine prices and hence the static
+allocation are unchanged, but the monopoly rents accrue to a Southern firm instead of a Northern
+inventor.  Enforcement hands those rents abroad.  Second, a \emph{redirection}: the country's
+factor proportions now enter the world market size, which pulls $N_H/N_L$ toward the South.
+\begin{itemize}
+\item With a \emph{single small} Southern country, the redirection is of order $J^s/J^w\to0$ while
+      the transfer is first order.  The country strictly prefers no enforcement.
+\item With \emph{many} Southern countries enforcing together, the world ratio moves
+      substantially, and the appropriateness gain can dominate the transfer.
+\end{itemize}
+Southern IPR is therefore a coordination problem with a free-rider structure: each Southern
+country would like the \emph{others} to enforce so that technology is redirected, while itself
+keeping the rents.  This is a precise reason why individually rational Southern policy resists
+enforcement even when a collective Southern commitment --- of the kind a multilateral agreement
+attempts --- could raise Southern welfare.  The growth effect noted in part (b) works in favour of
+enforcement and matters more the more patient the South is.
+
+\textbf{(d)}  For the North the two effects have opposite signs.  Northern \emph{innovators}
+unambiguously gain, since they now collect the Southern rents.  Northern \emph{output at a given
+technology stock} falls, because by Exercise 18.24 the North was sitting exactly at the maximum of
+$\Theta$ and any redirection moves it off ($y^{\mathrm{eff}}_n$ falls by $2.9\%$ in the
+calibration above).  Against this, the larger market raises the growth rate of $N_L+N_H$, which
+benefits the North forever.  A level loss against a growth gain is settled by discounting, so for
+$\rho$ small enough the North gains and for $\rho$ large enough it does not --- but the
+distributional point inside the North is unambiguous: the gains accrue to the owners of
+technology and the losses to Northern workers through the composition of technology.
+\end{aex}
+
+\solsection{18.5}{Contracting Institutions and Technology Adoption}
+
+\begin{aex}{18.27}{}
+With complete contracts the firm dictates every $x(i,j)$ and pays each supplier her outside
+option, so \bk{(18.34)} binds and the problem reduces to the unconstrained \bk{(18.35)},
+\[
+\max_{N,x}\ A^{1-\beta}N^{\beta(\kappa+1)}x^{\beta}-\psi Nx-\Gamma(N)-w_0N .
+\]
+The objective is strictly concave in $x$ for each $N$, so the first-order conditions are
+necessary and sufficient given the restrictions on $\Gamma$.
+
+\emph{The condition in $x$.}
+$\beta A^{1-\beta}N^{\beta(\kappa+1)}x^{\beta-1}=\psi N$, that is
+\begin{equation}
+A^{1-\beta}N^{\beta(\kappa+1)-1}x^{\beta-1}=\frac{\psi}{\beta} .
+\label{eq:cx}
+\end{equation}
+
+\emph{The condition in $N$.}
+$\beta(\kappa+1)A^{1-\beta}N^{\beta(\kappa+1)-1}x^{\beta}-\psi x=\Gamma'(N)+w_0$.  Multiplying
+\eqref{eq:cx} by $x$ turns the first term into $(\kappa+1)\psi x$, so the left-hand side collapses
+to $\kappa\psi x$ and
+\[
+\boxed{\ x^*=\frac{\Gamma'(N^*)+w_0}{\kappa\psi} \ }
+\]
+which is \bk{(18.37)}.  Substituting back into \eqref{eq:cx} and solving for $\Gamma'+w_0$,
+\[
+\bigl(N^*\bigr)^{\frac{\beta(\kappa+1)-1}{1-\beta}}A\kappa\beta^{1/(1-\beta)}
+\psi^{-\beta/(1-\beta)}=\Gamma'(N^*)+w_0 ,
+\]
+which is \bk{(18.36)}.
+
+\emph{Uniqueness.}  Write $\theta_0\equiv[\beta(\kappa+1)-1]/(1-\beta)$ and
+$\Xi(N)\equiv\log\bigl(\Gamma'(N)+w_0\bigr)-\theta_0\log N$.  Then \bk{(18.36)} is
+$\Xi(N^*)=\log\bigl(A\kappa\beta^{1/(1-\beta)}\psi^{-\beta/(1-\beta)}\bigr)$, and
+\[
+\Xi'(N)=\frac{\Gamma''(N)}{\Gamma'(N)+w_0}-\frac{\theta_0}{N}>0
+\iff
+\frac{N\Gamma''(N)}{\Gamma'(N)+w_0}>\theta_0 ,
+\]
+which is exactly restriction 2 on $\Gamma$.  So $\Xi$ is strictly increasing and \bk{(18.36)} has
+at most one root; the boundary behaviour of $\Gamma$ gives existence, and $x^*>0$ follows.
+
+\emph{Comparative statics.}  The right-hand side of $\Xi(N^*)=\log(A\kappa\beta^{1/(1-\beta)}
+\psi^{-\beta/(1-\beta)})$ is strictly increasing in $A$ and $\Xi$ is strictly increasing, so
+$\partial N^*/\partial A>0$; then
+$\partial x^*/\partial A=\Gamma''(N^*)\,\partial N^*/\partial A\,/(\kappa\psi)\ge0$.  Finally
+$\alpha$ appears nowhere in \bk{(18.35)}--\bk{(18.37)}, so
+$\partial N^*/\partial\alpha=\partial x^*/\partial\alpha=0$. $\blacksquare$
+
+\emph{Why $\alpha$ is irrelevant here.}  The elasticity of substitution between inputs,
+$\varepsilon=1/(1-\alpha)$, enters the model only through the firm's ex post bargaining power
+$\gamma=\alpha/(\alpha+\beta)$ of \bk{(18.43)}.  Under complete contracts there is no ex post
+bargaining --- the firm is the residual claimant on every investment and pays each supplier her
+outside option --- so $\alpha$ has nothing to act on.  The contrast with \bk{Proposition 18.11},
+where $\partial\wt N/\partial\alpha>0$, is therefore the cleanest possible statement that the
+effect of input substitutability on technology adoption is entirely a contracting phenomenon.
+
+\rmk{Restriction 2 as printed, $N\Gamma''(N)/[\Gamma'(N)+w_0]>\theta_0$ ``for all $N>0$,'' cannot
+hold at $N\to0$ when $w_0>0$ and $\theta_0>0$, since the left-hand side then tends to zero.  It
+should be read as holding on the relevant range, or one should restrict attention to
+$\beta(\kappa+1)<1$, in which case $\theta_0<0$ and the restriction holds automatically for any
+convex $\Gamma$ and any $w_0\ge0$.  The numerical illustrations below use the latter.}
+\end{aex}
+
+\begin{aex}{18.28}{}
+Write $m\equiv1-\mu$ and $a\equiv\alpha(1-\gamma)=\alpha\beta/(\alpha+\beta)$, and note
+$a<\beta$ and $a/\beta=\gamma$.  By \bk{(18.46)},
+$\ol x_n(N,x_c)=\bigl[a\psi^{-1}x_c^{\beta\mu}A^{1-\beta}N^{\beta(\kappa+1)-1}\bigr]^{1/(1-\beta m)}$.
+
+\emph{Step 1: a simplification of the objective.}  Write
+$\Omega\equiv A^{1-\beta}x_c^{\beta\mu}N^{\beta(\kappa+1)-1}$, so
+$\ol x_n^{1-\beta m}=a\Omega/\psi$, and the revenue term in \bk{(18.47)} is
+$\Omega N\ol x_n^{\beta m}=\tfrac{\psi}{a}N\ol x_n$.  Hence \bk{(18.47)} equals
+\[
+\Pi(N,x_c)=\psi N\Bigl[\Bigl(\tfrac1a-m\Bigr)\ol x_n-\mu x_c\Bigr]-\Gamma(N)-w_0N .
+\]
+
+\emph{Step 2: the condition in $x_c$.}  Since $\ol x_n\propto x_c^{\beta\mu/(1-\beta m)}$,
+$\partial\ol x_n/\partial x_c=\tfrac{\beta\mu}{1-\beta m}\ol x_n/x_c$, and
+$\partial\Pi/\partial x_c=0$ gives
+\[
+\Bigl(\tfrac1a-m\Bigr)\frac{\beta}{1-\beta m}\frac{\ol x_n}{x_c}=1
+\qquad\Longleftrightarrow\qquad
+\boxed{\ \frac{\wt x_n}{\wt x_c}
+=\frac{a\,(1-\beta m)}{\beta\,(1-a m)}
+=\frac{\alpha(1-\gamma)\bigl[1-\beta(1-\mu)\bigr]}{\beta\bigl[1-\alpha(1-\gamma)(1-\mu)\bigr]} \ }
+\]
+which is \bk{(18.51)}, and is $<1$ because $a(1-\beta m)<\beta(1-am)\iff a<\beta$.
+
+\emph{Step 3: the condition in $N$.}  Since $\ol x_n\propto N^{[\beta(\kappa+1)-1]/(1-\beta m)}$,
+$\partial\Pi/\partial N=0$ gives, after substituting
+$(\tfrac1a-m)\ol x_n=\tfrac{1-\beta m}{\beta}x_c$ from Step 2,
+\[
+\psi x_c\Bigl[\frac{1-\beta m}{\beta}-\mu\Bigr]
++\psi x_c\frac{1-\beta m}{\beta}\cdot\frac{\beta(\kappa+1)-1}{1-\beta m}
+=\psi x_c\Bigl[\frac{1-\beta}{\beta}+\frac{\beta(\kappa+1)-1}{\beta}\Bigr]=\kappa\psi x_c ,
+\]
+so $\kappa\psi\wt x_c=\Gamma'(\wt N)+w_0$, which is \bk{(18.49)} --- \emph{identical} to
+\bk{(18.37)}.
+
+\emph{Step 4: the technology condition.}  Writing $\wt x_n=\rho_0\wt x_c$ with
+$\rho_0=a(1-\beta m)/[\beta(1-am)]$ and substituting into \bk{(18.46)},
+$\rho_0^{1-\beta m}x_c^{1-\beta m-\beta\mu}=a\psi^{-1}A^{1-\beta}N^{\beta(\kappa+1)-1}$, and
+$1-\beta m-\beta\mu=1-\beta$, so
+\[
+x_c^{1-\beta}=\frac{a\,\rho_0^{-(1-\beta m)}}{\psi}A^{1-\beta}N^{\beta(\kappa+1)-1} .
+\]
+Comparing with \eqref{eq:cx} of Exercise 18.27, incomplete contracts replace $\beta$ by
+$a\rho_0^{-(1-\beta m)}$.  Combining with Step 3,
+\[
+\boxed{\ \bigl(\wt N\bigr)^{\theta_0}A\kappa\beta^{1/(1-\beta)}\psi^{-\beta/(1-\beta)}\,\Lambda
+=\Gamma'(\wt N)+w_0 ,
+\qquad
+\Lambda\equiv\Bigl[\frac{a}{\beta}\,\rho_0^{-(1-\beta m)}\Bigr]^{\frac{1}{1-\beta}} , \ }
+\]
+so that $\Xi(\wt N)=\Xi(N^*)+\log\Lambda$, and \bk{(18.50)} follows from
+$\wt x_n=\rho_0\wt x_c$.  Existence and uniqueness are as in Exercise 18.27, since $\Xi$ is
+strictly increasing.
+
+\emph{Step 5: the comparative statics.}  $\Xi$ is strictly increasing, so the sign of
+$\partial\wt N/\partial z$ is the sign of $\partial\log(A\Lambda)/\partial z$.
+\begin{itemize}
+\item $\partial\wt N/\partial A>0$ and hence $\partial\wt x_c/\partial A\ge0$, exactly as before;
+      and $\partial\wt x_n/\partial A\ge0$ since $\wt x_n=\rho_0\wt x_c$ with $\rho_0$
+      independent of $A$.
+\item $\Lambda=1$ at $\mu=1$ and $\Lambda<1$ for $\mu<1$, and $\Lambda$ is strictly increasing in
+      $\mu$ and in $\alpha$.  The numerical table in \texttt{code/ch18.py} records, at
+      $\beta=0.5$ and $\kappa=0.8$, $\Lambda=0.609,\,0.813,\,1$ at $\mu=0,\,0.5,\,1$ for
+      $\alpha=0.3$, and $0.793,\,0.913,\,1$ for $\alpha=0.6$.  Hence
+      $\partial\wt N/\partial\mu>0$, $\partial\wt N/\partial\alpha>0$, and
+      $\partial\wt x_c/\partial\mu\ge0$, $\partial\wt x_c/\partial\alpha\ge0$ through
+      \bk{(18.49)}.
+\item $\partial(\wt x_n/\wt x_c)/\partial\mu>0$: from Step 2 the ratio is
+      $\rho_0(m)=a(1-\beta m)/[\beta(1-am)]$ and
+      $\dfrac{\dd\log\rho_0}{\dd m}=\dfrac{a}{1-am}-\dfrac{\beta}{1-\beta m}<0$
+      because $z\mapsto z/(1-zm)$ is increasing and $a<\beta$; so $\rho_0$ is decreasing in $m$
+      and increasing in $\mu$.
+\item $\partial(\wt x_n/\wt x_c)/\partial\alpha>0$: $a=\alpha\beta/(\alpha+\beta)$ is increasing
+      in $\alpha$, and $\rho_0$ is increasing in $a$ (numerator up, denominator down).
+\end{itemize}
+$\blacksquare$
+
+\emph{Numerical verification.}  Maximizing \bk{(18.47)} directly over $(N,x_c)$ by
+Nelder--Mead, with $\alpha=0.6$, $\beta=0.5$, $\kappa=0.8$, $A=3$, $\Gamma(N)=N^4/4$ and
+$w_0=0.05$, reproduces the boxed closed form at every $\mu$ to six decimals, and confirms
+$\kappa\psi\wt x_c=\Gamma'(\wt N)+w_0$ and the ratio \bk{(18.51)}:
+\begin{center}
+\small
+\begin{tabular}{rrrrr}
+\toprule
+$\mu$ & $\wt N$ (brute force) & $\wt N$ (boxed) & $\wt x_n/\wt x_c$ & \bk{(18.51)}\\
+\midrule
+$0.05$ & $0.973935$ & $0.973935$ & $0.38650$ & $0.38650$\\
+$0.25$ & $0.993601$ & $0.993601$ & $0.42857$ & $0.42857$\\
+$0.50$ & $1.013847$ & $1.013847$ & $0.47368$ & $0.47368$\\
+$0.75$ & $1.030523$ & $1.030523$ & $0.51220$ & $0.51220$\\
+$1.00$ & $1.044519$ & $1.044519$ & $0.54545$ & $0.54545$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\rmk{The exponent printed on the first bracketed term of \bk{(18.48)} is
+$-\tfrac{1-\beta(1-\mu)}{1-\beta}$ applied to
+$\tfrac{1-\alpha(1-\gamma)(1-\mu)}{1-\beta(1-\mu)}$, which is the reciprocal of what the algebra
+of Step 4 gives.  With the printed exponent the implied $\wt N$ is $0.764$, $0.882$ and $0.959$ at
+$\mu=0.05$, $0.5$ and $0.75$ against the true $0.974$, $1.014$ and $1.031$; the two agree only at
+$\mu=1$.  The sign of the exponent does not affect any of the comparative statics in
+\bk{Proposition 18.11}, nor \bk{Proposition 18.12}, since both forms give $\Lambda<1$ increasing
+in $\mu$ and $\alpha$ --- it changes only the magnitude of the distortion.}
+\end{aex}
+
+\begin{aex}{18.29}{}
+Three claims, in the order in which they follow.
+
+\emph{(i) $\wt N<N^*$.}  From Exercise 18.28, $\Xi(\wt N)=\Xi(N^*)+\log\Lambda$ with
+\[
+\Lambda=\Bigl[\gamma\,\rho_0^{-(1-\beta m)}\Bigr]^{\frac{1}{1-\beta}},
+\qquad
+\rho_0=\frac{a(1-\beta m)}{\beta(1-am)},\qquad \gamma=\frac{a}{\beta}=\frac{\alpha}{\alpha+\beta} .
+\]
+At $\mu=1$ ($m=0$) we have $\rho_0=\gamma$ and $\Lambda=1$.  For $\mu<1$, $\Lambda<1$: the
+supplier is not the residual claimant on her own noncontractible investment, so $\ol x_n$ falls
+short of what the firm would choose, and since $x_c$ and $x_n$ are complements in \bk{(18.28)}
+this lowers the marginal return to a higher $N$.  Since $\Xi$ is strictly increasing,
+$\log\Lambda<0$ gives
+\[
+\boxed{\ \wt N<N^* . \ }
+\]
+
+\emph{(ii) $\wt x_c<x^*$.}  By \bk{(18.37)} and \bk{(18.49)} the two investment levels in
+contractible activities are given by the \emph{same} function of the technology level,
+$x=\bigl[\Gamma'(N)+w_0\bigr]/(\kappa\psi)$, evaluated at $N^*$ and $\wt N$ respectively.  Since
+$\Gamma''>0$ and $\wt N<N^*$, it follows that $\wt x_c<x^*$.  Note what this says: for a
+\emph{given} technology level the two environments would produce the same contractible
+investment, so the entire shortfall in $\wt x_c$ is inherited from the shortfall in technology.
+
+\emph{(iii) $\wt x_n<\wt x_c$.}  Immediate from \bk{(18.51)}, since
+$\alpha(1-\gamma)=\alpha\beta/(\alpha+\beta)<\beta$, as shown in Exercise 18.28 Step 2.
+$\blacksquare$
+
+\emph{The chain of causation.}  Contractual incompleteness bites in exactly one place: suppliers
+choose the noncontractible investments and capture only the fraction $1-\gamma$ of the revenue
+they generate, so $\wt x_n<\wt x_c$.  Because inputs are produced by a Cobb--Douglas aggregate of
+contractible and noncontractible activities \bk{(18.29)}, the shortfall in one lowers the
+marginal product of the other, and hence the payoff to a wider range of inputs; so the firm
+adopts a less advanced technology, $\wt N<N^*$.  The lower $N$ then feeds back into
+\emph{contractible} investment through \bk{(18.49)}.  Measured productivity is
+$\wt P=\wt N^{\kappa}<(N^*)^{\kappa}=P^*$, so weak contracting institutions show up in the data as
+a total factor productivity gap even though nothing about the physical technology differs across
+countries.
+
+Figure~\ref{fig:ch18} plots $\wt N/N^*$ against $\mu$ for three values of $\alpha$: the loss is
+largest when contracts are worst and when inputs are most complementary --- at $\mu=0$ and
+$\alpha=0.3$ the firm adopts only $85\%$ of the first-best technology, while at $\alpha=0.9$ it
+adopts $96\%$.  The interaction is the model's sharpest prediction: weak courts should depress
+technology adoption most in exactly those industries whose inputs are least substitutable.
+\end{aex}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/ch18_diffusion.pdf}
+\caption{Left: the Basu--Weil steady-state income ratio against the inappropriateness parameter
+$\gamma$ (Exercise 18.20), on a logarithmic scale; the exponent diverges as
+$\gamma\uparrow\alpha$.  Right: technology adoption relative to the complete-contracts benchmark
+against the contractible share $\mu$, for three elasticities of substitution between inputs
+(Exercises 18.28 and 18.29).}
+\label{fig:ch18}
+\end{figure}
+
+\begin{aex}{18.30}{}
+\textbf{(a)}  Labour is the only factor, and a worker is indifferent between the two occupations,
+so $w_0=w$: the supplier's outside option \emph{is} the wage.  A product that adopts technology
+$N$ employs $N$ suppliers and $\Gamma_0(N)$ adoption workers, so total labour demand is
+$M[\Gamma_0(N)+N]$ and labour market clearing is
+\[
+\boxed{\ M\bigl[\Gamma_0(N^*)+N^*\bigr]=L . \ }
+\]
+The firm's condition is \bk{(18.48)} with $\Gamma'(N)=w\Gamma_0'(N)$ and $w_0=w$, that is
+\[
+\bigl(N^*\bigr)^{\theta_0}A\kappa\beta^{1/(1-\beta)}\psi^{-\beta/(1-\beta)}\Lambda(\mu,\alpha,\beta)
+=w\bigl[\Gamma_0'(N^*)+1\bigr] .
+\]
+The equilibrium is the pair $(N^*,w)$ solving these two equations, together with
+$\wt x_c=w[\Gamma_0'(N^*)+1]/(\kappa\psi)$ and \bk{(18.50)}.  Note the recursive structure: since
+$\Gamma_0(N)+N$ is strictly increasing, market clearing determines $N^*$ \emph{by itself}, as the
+unique solution of $\Gamma_0(N^*)+N^*=L/M$, and the firm's condition then determines $w$.
+
+\textbf{(b)}  Therefore
+\[
+\boxed{\ \frac{\partial N^*}{\partial\mu}=0 . \ }
+\]
+Better contracting institutions raise the \emph{demand} for technology at any given wage, exactly
+as in \bk{Proposition 18.11}, but with $M$ fixed the supply of labour to be divided between
+adoption and supply is fixed too, so the technology level cannot move.  The entire effect is
+absorbed by the wage: from the firm's condition,
+$\partial\log w/\partial\log\Lambda=1$, so $w$ rises one for one with $\Lambda$.  The partial
+equilibrium result of \bk{Proposition 18.11} is thus a statement about the \emph{returns} to
+better institutions, not about the quantity of technology adopted, once the resource constraint
+is imposed at fixed $M$.
+
+\textbf{(c)}  If each product $z$ has its own $\alpha$, drawn from $G$, then each solves its own
+version of \bk{(18.48)} facing the common wage $w$, giving $N^*(\alpha)$ with
+$\partial N^*(\alpha)/\partial\alpha>0$ by \bk{Proposition 18.11}.  Labour demand aggregates
+across products, so market clearing is
+\[
+\boxed{\ M\int_0^1\bigl[\Gamma_0\bigl(N^*(\alpha)\bigr)+N^*(\alpha)\bigr]\dd G(\alpha)=L . \ }
+\]
+
+\textbf{(d)}  Now a higher $\mu$ raises $\Lambda(\mu,\alpha)$ for \emph{every} $\alpha$, so at a
+given $w$ every $N^*(\alpha)$ rises and aggregate labour demand exceeds $L$; the wage rises until
+the integral is back to $L$.  The \emph{aggregate} amount of labour devoted to technology is
+therefore again unchanged, but the \emph{composition} is not, because
+$\partial\log\Lambda/\partial\mu$ is not the same for all $\alpha$: by the numbers in
+Exercise 18.28, $\Lambda$ rises from $0.609$ to $1$ as $\mu$ goes from $0$ to $1$ when
+$\alpha=0.3$, but only from $0.872$ to $1$ when $\alpha=0.9$.  Improving contracting institutions
+therefore \emph{reallocates} technology adoption toward the complementarity-intensive products
+--- those with low $\alpha$, for which the hold-up problem was worst --- at the expense of the
+substitutable ones.  This is the general-equilibrium counterpart of Nunn's finding that
+contract-intensive industries are disproportionately large in countries with good courts, and it
+survives even when the aggregate scale of technology adoption is pinned down by resources.
+
+\textbf{(e)}  Endogenize $M$ by free entry into product creation: let creating a product cost
+$\chi$ units of labour, and require that the equilibrium profit of a producer, $\Pi(N^*,w)$ from
+Exercise 18.28's Step 1, equal $\chi w$.  Market clearing becomes
+$M[\Gamma_0(N^*)+N^*+\chi]=L$, and the two equations determine $(M,N^*)$ jointly with $w$
+following.  The insight this generates is a \emph{variety--depth trade-off}: an improvement in
+contracting institutions raises producer profits, which draws entry, which raises $M$, which
+lowers $L/M$ and hence \emph{lowers} $N^*$ per product.  Better institutions may therefore show up
+as a wider range of goods produced with shallower supply chains rather than as deeper supply
+chains, and which margin dominates depends on $\chi$ relative to the curvature of $\Gamma_0$.
+Since measured productivity in this model is $N^\kappa$ per product but total output also rises
+with $M$, the two margins have opposite implications for firm-level and aggregate productivity ---
+which is a useful caution when mapping \bk{Proposition 18.12} to plant-level data.
+\end{aex}
+
+\begin{aex}{18.31}{}
+The model of Section 18.5 holds the organization of production fixed: arm's-length suppliers,
+one-shot interaction, Shapley bargaining.  Each of those three assumptions can be relaxed, and
+each relaxation is a substitute for formal contract enforcement.
+
+\emph{1. Vertical integration.}  Integration transfers residual control rights over the
+supplier's assets to the producer.  Model it as in Grossman--Hart--Moore: for an integrated input,
+the producer can direct the activities that were noncontractible with an arm's-length supplier, so
+the effective contractible share rises from $\mu$ to some $\mu^V>\mu$; but the supplier, now an
+employee, loses her claim on the marginal return, so her bargaining share falls from $1-\gamma$
+toward zero and the residual activities she still controls receive even less investment.  The
+firm integrates input $j$ when the first effect dominates:
+\[
+\Pi\bigl(\mu^V,\ \gamma^V\bigr)>\Pi\bigl(\mu,\ \gamma\bigr) ,
+\]
+with $\Pi$ the maximized objective \bk{(18.40)}.  Two predictions follow.  Integration is more
+attractive the lower is $\mu$, so weak-court economies should be more vertically integrated ---
+which is what the data on firm boundaries across countries show.  And integration is more
+attractive the higher is $\beta$ relative to $\alpha$, since $\gamma=\alpha/(\alpha+\beta)$ is
+then low and the producer is capturing little of the surplus anyway.  Integration mitigates but
+does not undo \bk{Proposition 18.12}, because the activities the producer cannot monitor even
+inside the firm remain under-supplied.
+
+\emph{2. Relational contracts.}  If the producer and its suppliers interact repeatedly with
+discount factor $\delta$, the producer can promise a discretionary bonus $b$ conditional on an
+observed but unverifiable investment, enforced by the threat of terminating the relationship.  The
+self-enforcement constraint is
+\[
+\frac{\delta}{1-\delta}\Bigl[\Pi^{\mathrm{rel}}-\Pi^{\mathrm{spot}}\Bigr]\ \ge\ N b ,
+\]
+where $\Pi^{\mathrm{rel}}$ is the per-period profit under the relational contract and
+$\Pi^{\mathrm{spot}}$ the one-shot profit of Exercise 18.28.  Whenever this binds slackly for
+activities in $(\mu,\hat\mu]$, the effective contractible share rises from $\mu$ to
+$\hat\mu(\delta)$, and everything in \bk{Propositions 18.11} and \bk{18.12} goes through with
+$\hat\mu$ in place of $\mu$.  The comparative statics are the interesting part: since the
+constraint's left-hand side is increasing in the value of the relationship and hence in $N$, while
+the right-hand side is proportional to $N$, relational contracting is \emph{hardest to sustain
+precisely where technology is most advanced} --- a large $N$ means many suppliers, each of whom is
+individually small and easily replaced, so the rents at stake in any one relationship are thin.
+This generates a complementarity between formal and relational enforcement rather than pure
+substitution.
+
+\emph{3. What this does to the cross-country predictions.}  Both margins compress the technology
+gap that \bk{Proposition 18.12} attributes to contracting institutions, so the raw correlation
+between $\mu$ and productivity overstates the causal effect of courts.  But both leave a residual,
+and they predict \emph{where} it should be concentrated: in industries with many suppliers, high
+supplier turnover, thin or spot markets, and inputs that are neither standardizable (which would
+raise $\alpha$) nor producible in house (which would allow integration).  Other substitutes worth
+modelling the same way are input standardization, which raises $\alpha$ and by
+\bk{Proposition 18.11} raises $\wt N$ directly; third-party certification and reputation, which
+raise $\mu$ at a cost; and business groups and family firms, which extend the relational
+mechanism to a network by making deviations observable across relationships.
 \end{aex}
 
 \end{document}
