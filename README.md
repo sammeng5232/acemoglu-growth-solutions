@@ -27,7 +27,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 16. Stochastic Dynamic Programming | 16 | 11 | **5** — 16.1, 16.2, 16.5–16.7 |
 | 17. Stochastic Growth Models | 30 | 7 | **23** — 17.1–17.4, 17.6, 17.8–17.12, 17.14, 17.16, 17.17, 17.19–17.21, 17.23–17.29 |
 | 18. Diffusion of Technology | 31 | 9 | **22** — 18.1–18.7, 18.10, 18.11, 18.14, 18.15, 18.17, 18.20, 18.22–18.25, 18.27–18.31 |
-| 19–23 | 115 | 51 | in progress |
+| 19. Trade and Growth | 37 | 15 | **22** — 19.1, 19.5, 19.6, 19.8–19.10, 19.12, 19.14–19.23, 19.30–19.32, 19.35, 19.36 |
+| 20–23 | 78 | 36 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -132,6 +133,11 @@ chapter and writes that chapter's figures to `figures/`. So far:
   (Exercise 18.20); the effect of Southern IPR on the direction of technology
   (Exercise 18.25); and a brute-force check of the closed form for technology adoption under
   incomplete contracts (Exercises 18.28 and 18.29).
+- **`ch19.py`** — the Acemoglu–Ventura world equilibrium written as a replicator equation on the
+  simplex, with the Kullback–Leibler Lyapunov function (Exercise 19.17); autarky growth rates
+  against the world rate (Exercise 19.18); the sign of \(dg^*/d\tau\) (Exercise 19.23); the
+  product cycle with and without trade (Exercise 19.30); and learning-by-doing under autarky,
+  trade and temporary protection (Exercises 19.35 and 19.36).
 
 ## Working files (not part of the document)
 

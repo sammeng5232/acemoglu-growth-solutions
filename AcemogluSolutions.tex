@@ -182,9 +182,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--18\par}
+{\large Chapters 2--19\par}
 \vspace{0.6cm}
-{\small The 248 exercises that the instructor's solutions manual of\par
+{\small The 270 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -14242,6 +14242,1210 @@ modelling the same way are input standardization, which raises $\alpha$ and by
 \bk{Proposition 18.11} raises $\wt N$ directly; third-party certification and reputation, which
 raise $\mu$ at a cost; and business groups and family firms, which extend the relational
 mechanism to a network by making deviations observable across relationships.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{19}{Trade and Growth}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The twenty-two exercises of Chapter 19 left unsolved in the instructor's manual: 19.1, 19.5,
+19.6, 19.8--19.10, 19.12, 19.14--19.23, 19.30--19.32, 19.35 and 19.36.  The manual solves 19.2,
+19.3, 19.4, 19.7, 19.11, 19.13, 19.24--19.29, 19.33, 19.34 and 19.37.  The numerical parts are
+computed by \texttt{code/ch19.py}; Figure~\ref{fig:ch19} is its output.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\solsection{19.1}{Growth and Financial Capital Flows}
+
+\begin{aex}{19.1}{}
+\emph{\bk{Proposition 19.1}.}  Capital is rented by competitive firms in every country at the
+world rental rate $r(t)+\delta$ --- free capital flows make the opportunity cost of a unit of
+capital the same wherever it is installed.  Profit maximization by the representative firm in
+country $j$,
+\[
+\max_{K_j}\ F\bigl(K_j,A_j(t)L_j(t)\bigr)-\bigl(r(t)+\delta\bigr)K_j ,
+\]
+has the first-order condition $F_K(K_j,A_jL_j)=r(t)+\delta$, and by constant returns
+$F_K(K_j,A_jL_j)=f'(k_j(t))$ with $k_j\equiv K_j/(A_jL_j)$.  Hence
+\[
+\boxed{\ k_j(t)=f'^{-1}\bigl(r(t)+\delta\bigr)\equiv k(t)\quad\text{for every }j , \ }
+\]
+the inverse being well defined because $f'$ is strictly decreasing with range $(0,\infty)$ under
+\bk{Assumptions 1--2}. $\blacksquare$
+
+Note carefully what is \emph{not} equalized: $K_j/L_j=A_j(t)k(t)$ differs across countries in
+exact proportion to $A_j$.  This is the observation that Section 19.2 turns into
+\bk{Proposition 19.4}.
+
+\emph{\bk{Proposition 19.2}.}  Each country solves
+$\max\int_0^\infty e^{-(\rho-n)t}\frac{c_j^{1-\theta}-1}{1-\theta}\dd t$ subject to \bk{(19.2)},
+\bk{(19.4)} and \bk{(19.5)}.  The two constraints can be consolidated.  Multiplying
+\bk{(19.4)} by the discount factor $\exp(-\int_0^t(r-g-n))$ and integrating, \bk{(19.5)} is
+equivalent to the intertemporal budget constraint
+\[
+\int_0^\infty \exp\Bigl(-\int_0^t\bigl(r(s)-g-n\bigr)\dd s\Bigr)\,b_j(t)\dd t=a_j(0) ,
+\]
+so that the household may choose any path of $b_j$ with this present value.  Substituting into
+\bk{(19.2)}, the country's problem is the standard one-sector problem with the \emph{additional}
+intertemporal technology of borrowing at $r(t)$.
+
+Now the Euler equation and the two first-order conditions give
+\[
+\frac{\dt c_j}{c_j}=\frac1\theta\bigl(r(t)-\rho\bigr),\qquad
+r(t)=f'(k(t))-\delta ,
+\]
+where the second is \bk{Proposition 19.1}.  Both are the same for every $j$, so
+$\dt c_j/c_j$ is common: the world behaves as a single closed neoclassical economy whose
+aggregate effective capital-labor ratio is $k(t)$ and whose aggregate resource constraint is
+obtained by summing \bk{(19.2)} and using $\sum_jA_jb_j=0$ from \bk{(19.6)}:
+\[
+\dt{\ol k}(t)=f\bigl(k(t)\bigr)-\ol{\wt c}(t)-(n+g+\delta)k(t) ,
+\]
+with $\ol{\wt c}$ the productivity-weighted average of $\wt c_j$.  Chapter 8 then gives a unique
+steady state with $\dt c=0$, that is $r^*=\rho+\theta g$ and
+\[
+\boxed{\ k^*_j=k^*=f'^{-1}(\rho+\delta+\theta g)\quad\text{for every }j , \ }
+\]
+with all per capita quantities growing at $g$, and \bk{Assumption 4} ($\rho-n>(1-\theta)g$) makes
+lifetime utility finite and the transversality condition hold.
+
+\emph{Why $\dt a_j(t)\to0$.}  From \bk{(19.4)}, $\dt a_j=(r-g-n)a_j-b_j$.  In the steady state
+$r^*-g-n=\rho+\theta g-g-n=\rho-n-(1-\theta)g>0$ by \bk{Assumption 4}.  Suppose
+$\dt a_j(t)\to\alpha\ne0$.  Then $a_j(t)$ grows linearly in $t$ while the no-Ponzi condition
+\bk{(19.5)} requires $a_j(t)e^{-(r^*-g-n)t}\to0$ --- which a linearly growing $a_j$ satisfies, so
+\bk{(19.5)} alone is not enough.  Local nonsatiation makes \bk{(19.5)} hold with equality, which
+combined with \bk{(19.4)} forces the present value of the $b_j$ path to equal $a_j(0)$ exactly.
+If $\dt a_j\to\alpha>0$ the country is accumulating claims whose present value it never spends,
+which is dominated by consuming them; if $\dt a_j\to\alpha<0$ it is running down claims at a
+constant rate, which eventually violates \bk{(19.5)}.  Hence $\dt a_j(t)\to0$: in the steady state
+each country's \emph{normalized} asset position is constant, and with equal $\rho$ there is no
+systematic long-run lending. $\blacksquare$
+
+\rmk{The last step is the one that fails when discount rates differ (\bk{Exercise 19.2}).  With
+$\rho_j<\rho_{j'}$ the patient country's consumption grows faster than the world rate for ever, so
+its asset position must keep rising relative to effective labour, and $\dt a_j(t)\not\to0$.  No
+steady state with a nondegenerate world distribution then exists --- the same mechanism that
+Exercise 19.9 exhibits in the Heckscher--Ohlin model of Section 19.3.}
+\end{aex}
+
+\begin{aex}{19.5}{}
+\emph{Why the interpretation fails.}  The neoclassical reading of a $2\%$ convergence rate is that
+capital-poor regions have a high marginal product of capital, accumulate faster, and close the gap
+slowly because of diminishing returns.  That story requires capital to be \emph{immobile}:
+its entire content is that a region can raise its capital stock only out of its own saving.
+
+\bk{Corollary 19.1} says that when capital is mobile the transitional dynamics of an individual
+economy disappear.  The effective capital-labor ratios $k_j(t)$ are equalized at every instant by
+\bk{Proposition 19.1}; if a fraction $\lambda$ of a region's capital is destroyed, capital flows in
+immediately ($\dt a_j\to-\infty$) and $k_j$ is restored at once.  Between U.S.\ states the
+conditions for mobility are as close to ideal as anywhere in the world: a common currency and
+legal system, no capital controls, no exchange-rate or sovereign risk, an integrated banking and
+equity market, and firms that operate across state lines.  Whatever is converging slowly, it is
+not the capital stock.
+
+There is also a quantitative embarrassment.  In the closed-economy model the convergence rate
+near the steady state is approximately $(1-\alpha)(\rho+\delta)$ with $\alpha$ the capital share,
+so matching $2\%$ per year requires $\alpha\approx0.75$ --- roughly twice the measured share.
+This is the same puzzle that motivated broad capital in Chapter 3.
+
+\emph{An alternative.}  What is slow across regions is \emph{technology}, not capital.  The
+Chapter 18 model gives the natural formulation: let $A_j$ obey
+$\dt A_j=\sigma_j(A-A_j)+\lambda_jA_j$ with $A$ the national frontier.  Capital-labor ratios adjust
+instantly to the world (national) rental rate, while $a_j=A_j/A$ converges at the rate
+$\sigma_j+g-\lambda_j$.  The observed $2\%$ is then an estimate of \emph{that} rate, which requires
+no implausible capital share, and it is consistent with the microeconomic evidence in Section 18.1
+that technologies diffuse slowly even within a country.  This reading also explains why
+convergence is faster where the mechanisms of technology diffusion are stronger --- more
+education, more mobility of managers, more entry --- rather than where saving rates are higher.
+
+Two further candidates, not exclusive of this one: \emph{labour mobility}, which makes the
+relevant adjustment migration rather than accumulation, so that the regression coefficient on
+initial income partly measures the speed of population reallocation; and \emph{sectoral
+reallocation} out of agriculture, which is a compositional convergence with its own time scale.
+Distinguishing these is exactly the empirical programme the corollary points to.
+\end{aex}
+
+\begin{aex}{19.6}{}
+\emph{The equilibrium.}  With $Y_j=AK_j$ in every country, the marginal product of capital is $A$
+regardless of where or how much capital is installed, so the world interest rate is
+\[
+r=A-\delta\qquad\text{at every date and in every country.}
+\]
+Because $r$ is independent of the capital stock, \emph{there is no arbitrage incentive for capital
+to move at all}: a dollar earns $A-\delta$ wherever it is placed.  Free capital mobility is
+therefore vacuous here, and the no-flow allocation is an equilibrium (the location of the world
+capital stock is indeterminate, and autarky is one of the indeterminate allocations).
+
+Each country's wealth obeys $\dt W_j=rW_j-C_j$ with, from the CRRA Euler equation,
+$C_j=\vartheta_jW_j$ and $\vartheta_j=\rho_j+\bigl(1-\tfrac1\theta\bigr)(r-\rho_j)$, which for
+$\theta=1$ is simply $\rho_j$.  Hence
+\[
+\boxed{\ s_j=\frac{\dt W_j}{rW_j}=1-\frac{\vartheta_j}{r}
+\qquad\text{and, in the no-flow allocation,}\qquad i_j=s_j . \ }
+\]
+Saving and investment rates are constant, differ across countries with $\rho_j$, and are
+\emph{perfectly correlated in the cross section} --- with no financial friction whatsoever.  The
+lesson is Obstfeld and Rogoff's: a saving--investment correlation is evidence of a common cause,
+not of immobility.  Here the common cause is that the reason a country saves more --- patience ---
+does not change the return, so nothing pushes its saving abroad.
+
+\emph{Why this does not settle the puzzle.}  Feldstein and Horioka's regression, and the
+literature after it, is not about the cross section of \emph{levels} but about co-movement in
+\emph{differences}: within a country over time, changes in the saving rate are matched almost
+one for one by changes in the investment rate.  In the model just written, $s_j$ and $i_j$ are
+constants, so $\Delta s_j=\Delta i_j=0$ and the model has nothing to say about that regression.
+It explains the level correlation and is silent on the one that is puzzling.
+
+\emph{An extension that does.}  Let productivity be country-specific and time-varying,
+$Y_j(t)=A_j(t)K_j(t)$ with $A_j$ following a persistent stochastic process.  Then
+\begin{itemize}
+\item a positive shock to $A_j$ raises the return $A_j-\delta$, so domestic investment rises ---
+      and with a country-specific return, capital now genuinely wants to flow in;
+\item the same shock raises current and permanent income; with $\theta>1$ the consumption response
+      is less than one for one, so the saving rate rises too.
+\end{itemize}
+Both series move together in differences, with a coefficient that is closer to one the more
+persistent the shocks and the larger $\theta$.  Nothing in this requires a barrier to capital
+flows: the correlation in differences comes from the fact that investment opportunity shocks are
+country-specific and are also income shocks.  The same construction with $\rho_j(t)$ stochastic
+would generate a negative co-movement instead, which is how one could in principle separate the
+two.  What the exercise establishes is that the Feldstein--Horioka coefficient is not, by itself,
+a measure of capital market integration.
+\end{aex}
+
+\solsection{19.3}{Economic Growth in a Heckscher--Ohlin World}
+
+\begin{aex}{19.8}{}
+The rate of return to capital in country $j$ is \bk{(19.10)}:
+\[
+r_j(t)=p_K(t)-\delta\qquad\text{for every }j ,
+\]
+because capital is used only in the production of the capital-intensive intermediate and that
+intermediate is freely traded at the world price $p_K(t)$.  Two consequences follow immediately.
+
+\emph{No arbitrage exists to be exploited.}  Rates of return are already equalized at every date,
+so an international bond paying $r(t)$ can be introduced only at $r(t)=p_K(t)-\delta$.  At that
+rate no country has any incentive to take a nonzero position for \emph{arbitrage} reasons.
+
+\emph{The bond is a redundant asset.}  The substantive question is whether the bond enlarges the
+country's intertemporal opportunity set.  It does not.  The country's own capital already offers
+exactly the same intertemporal technology: by \bk{(19.12)} and conditional factor price
+equalization, one unit of the final good saved at $t$ returns $1+ (p_K(t)-\delta)\dd t$, and ---
+crucially --- this return \emph{does not depend on the country's own capital stock}, since
+$p_K$ is a world price and the country is small.  Each country therefore faces a linear (AK)
+intertemporal technology at precisely the rate a bond would pay, so a bond spans nothing new.
+Formally, replacing \bk{(19.11)}--\bk{(19.12)} by
+\[
+\dt K_j=F(X^K_j,X^L_j)-C_j-\delta K_j+B_j,\qquad \dt{\mathcal A}_j=r(t)\mathcal A_j-B_j
+\]
+and eliminating $B_j$ gives
+$\dt{(K_j+\mathcal A_j)}=p_KK_j+p_LA_jL_j-C_j-\delta K_j+r\mathcal A_j$, which depends on
+$K_j$ and $\mathcal A_j$ only through $K_j+\mathcal A_j$ when $r=p_K-\delta$.  Only total wealth
+matters, and the split between domestic capital and foreign claims is indeterminate.  Hence
+\[
+\boxed{\ \text{the equilibrium allocation }\{c_j(t),\ x_j(t),\ p_K(t),\ p_L(t)\}
+\text{ is unchanged.} \ }
+\]
+$\blacksquare$
+
+The one caveat is the nonnegativity constraint $K_j\ge0$: a country that wished to hold negative
+wealth could do so only with a bond.  On the equilibrium path wealth is strictly positive in every
+country, so the constraint never binds.
+
+\rmk{This is the sharpest statement of the theme running through Sections 19.1--19.3.  Trade in
+goods and trade in assets are substitutes for the purpose of equalizing rates of return, and
+either one suffices to make the world economy behave as a single integrated neoclassical economy.
+Since Heckscher--Ohlin trade already does the job, observing little net capital flow in the data
+is not evidence that capital markets are closed.}
+\end{aex}
+
+\begin{aex}{19.9}{}
+Suppose, for a contradiction, that a steady-state world equilibrium exists.  By definition all
+prices are constant, say at $p_K^*$ and $p^*_L$, and each $k_j(t)$ and $c_j(t)$ is constant.
+By \bk{(19.10)} every country faces the same rate of return $r^*=p^*_K-\delta$, so the Euler
+equation of country $j$ gives
+\[
+\frac{\dt c_j(t)}{c_j(t)}=\frac{1}{\theta}\bigl(p^*_K-\delta-\rho_j\bigr) .
+\]
+Constancy of $c_j$ requires $p^*_K=\rho_j+\delta$ \emph{for every $j$}.  With $\rho_j$ differing
+across countries this is impossible, so no steady state exists. $\blacksquare$
+
+\emph{What happens instead.}  Order the countries so that $\rho_1<\rho_2\le\dots\le\rho_J$.  At any
+constant $p_K$, country 1 grows at the highest rate and its share of the world capital stock rises
+without bound.  Two things then happen.
+\begin{enumerate}
+\item By \bk{Proposition 19.7}, the world price satisfies $f'(x)=p_K$ with
+      $x=\sum_jK_j/\sum_jA_jL_j$, so as country 1 accumulates, $x$ rises and $p_K$ falls toward
+      the level $\rho_1+\delta$ at which country 1 itself stops growing.
+\item At that price every other country has
+      $\dt c_j/c_j=(\rho_1-\rho_j)/\theta<0$ and shrinks to zero.
+\end{enumerate}
+The limit is therefore \emph{degenerate}: the most patient country owns the entire world capital
+stock and the world income distribution collapses.  Along the way the small-country assumption
+fails --- which is the caveat the text attaches to \bk{Proposition 19.9}, and the reason the
+``growth miracle'' there can only be a medium-run phenomenon.
+
+\emph{Why the model is knife-edge.}  A country in this world faces an AK technology: its return
+$p_K-\delta$ is independent of its own capital stock.  Nothing inside the country stops
+accumulation, and the only restraining force is the world price, which responds to the world
+capital stock and therefore treats all countries symmetrically.  With identical $\rho$ this is
+enough; with different $\rho$ it is not, because a common world price cannot simultaneously
+satisfy $J$ different Euler equations.  The model of Section 19.4 repairs exactly this by giving
+each country its \emph{own} price --- its terms of trade --- which falls as it accumulates.
+\end{aex}
+
+\begin{aex}{19.10}{}
+\emph{The closed economy.}  Without trade the country must use what it produces, so
+\bk{(19.11)} is replaced by $X^K_j=Y^K_j=K_j$ and $X^L_j=Y^L_j=A_jL_j$.  Then
+\[
+x_j(t)=\frac{K_j(t)}{A_jL_j(t)}=\frac{k_j(t)}{A_j}
+\quad\text{and}\quad
+Y_j(t)=A_jL_j(t)f\Bigl(\frac{k_j(t)}{A_j}\Bigr) ,
+\]
+the standard neoclassical production function.  Factor prices are now domestic:
+$R_j=f'(k_j/A_j)$ and $w_j=A_j[f-\frac{k_j}{A_j}f']$, both functions of the country's own factor
+proportions.  The resource constraint and the Euler equation give the Chapter 8 system
+\[
+\dt k_j=A_jf\Bigl(\frac{k_j}{A_j}\Bigr)-\wt c_j-(n+\delta)k_j ,
+\qquad
+\frac{\dt c_j}{c_j}=\frac1\theta\Bigl(f'\Bigl(\frac{k_j}{A_j}\Bigr)-\delta-\rho\Bigr) ,
+\]
+with the unique saddle-path-stable steady state
+\[
+\boxed{\ f'\Bigl(\frac{k^*_j}{A_j}\Bigr)=\rho+\delta
+\quad\Longrightarrow\quad
+\frac{k^*_j}{A_j}=x^*\ \text{for every }j,\qquad y^*_j=A_jf(x^*) . \ }
+\]
+
+\emph{Comparison.}  Three differences matter and one similarity is worth stating.
+\begin{enumerate}
+\item \emph{The steady-state effective ratio is the same.}  \bk{(19.17)} gives
+      $f'(x^*)=\rho+\delta$ under trade too.  So in the long run trade changes neither the
+      world's effective capital-labor ratio nor the rate of return.
+\item \emph{The transitional dynamics are completely different.}  In the closed economy the
+      return $f'(k_j/A_j)-\delta$ is strictly decreasing in the country's own capital stock, so
+      there is a within-country convergence force of the familiar strength and slow convergence
+      to $x^*$ is the central prediction.  Under trade the return is $p_K(t)-\delta$, independent
+      of $k_j$: there is \emph{no} within-country convergence force at all, only convergence of
+      the world average (\bk{Proposition 19.8}).  This is the point Exercise 19.5 turns on.
+\item \emph{The cross-country distribution is pinned down in one case and not the other.}  In the
+      closed economy $y^*_j=A_jf(x^*)$: relative incomes are determined by technology alone and
+      are independent of initial conditions.  Under trade, the steady-state conditions leave
+      $(k^*_j,\wt c^*_j)$ satisfying the single equation
+      $0=(\rho-n)k^*_j+p^*_LA_j-c^*_j$ per country, with only the world average pinned down by
+      \bk{(19.18)}.  The distribution is therefore \emph{history dependent}: a country that starts
+      rich stays permanently richer than its technology alone would warrant, and a transitory
+      episode of high saving has permanent level effects (which is \bk{Proposition 19.9}).
+\item \emph{A change in a country's discount rate.}  In the closed economy a fall in $\rho$ raises
+      $k^*_j$ and produces a transition with a declining growth rate.  Under trade
+      (\bk{Proposition 19.9}) it produces growth at the \emph{constant} rate
+      $(\rho-\rho')/\theta$ for as long as the country stays small.
+\end{enumerate}
+Trade therefore does not change where the world ends up; it changes the speed with which
+individual countries can get there, and it converts level differences from a technological
+consequence into a historical one.
+\end{aex}
+
+\begin{aex}{19.12}{}
+\textbf{(a)}  The only step in Section 19.3 that used $L_j(t)=L(t)$ is the last line of the proof
+of \bk{Proposition 19.5}.  Redo it without that assumption.  Cost minimization in the final good
+sector gives, exactly as before,
+\[
+\frac{f'(x_j(t))}{f(x_j(t))-x_j(t)f'(x_j(t))}=\frac{p_K(t)}{p_L(t)} ,
+\]
+whose left-hand side is strictly decreasing, so $x_j(t)$ is the same for all $j$.  World market
+clearing \bk{(19.13)} then gives
+\[
+\boxed{\ x_j(t)=x(t)=\frac{\sum_{j=1}^{J}K_j(t)}{\sum_{j=1}^{J}A_jL_j(t)}\quad\text{for every }j . \ }
+\]
+Define the world aggregates
+\[
+\ol A(t)\equiv\frac{\sum_jA_jL_j(t)}{\sum_jL_j(t)},\qquad
+k(t)\equiv\frac{\sum_jK_j(t)}{\sum_jL_j(t)},\qquad
+c(t)\equiv\frac{\sum_jC_j(t)}{\sum_jL_j(t)} ,
+\]
+so that $x(t)=k(t)/\ol A(t)$.  With a common $n$, $\ol A$ is constant and the proof of
+\bk{Proposition 19.6} goes through verbatim with $A$ replaced by $\ol A$: summing the
+country-level laws of motion and using the homogeneity of $F$,
+\[
+\frac{\dt c}{c}=\frac1\theta\Bigl(f'\Bigl(\frac{k}{\ol A}\Bigr)-\delta-\rho\Bigr),
+\qquad
+\dt k=\ol Af\Bigl(\frac{k}{\ol A}\Bigr)-c-(n+\delta)k .
+\]
+\bk{Propositions 19.7} and \bk{19.8} follow unchanged, with $f'(x^*)=\rho+\delta$ and
+$p^*_K=\rho+\delta$.  Unequal populations change the weights in the world average and nothing
+else --- large countries count for more in determining world prices, exactly as they should.
+
+\textbf{(b)}  Now let $n_j$ differ, with $\rho>n_j$ for every $j$ so that each country's utility is
+finite.  Two things change.
+\begin{itemize}
+\item \emph{The world average is no longer constant.}  Let $j^*=\arg\max_jn_j$ and suppose it is
+      unique.  Then $L_{j^*}(t)/\sum_jL_j(t)\to1$, so $\ol A(t)\to A_{j^*}$: asymptotically the
+      world's average productivity is that of the fastest-breeding country, whatever its level.
+      A country with a high $A_j$ and a low $n_j$ becomes demographically negligible and stops
+      influencing world prices.
+\item \emph{A steady state in effective terms still exists.}  The Euler equations are still
+      identical across countries (they involve $\rho$ and $p_K$ only), so $p^*_K=\rho+\delta$ and
+      $f'(x^*)=\rho+\delta$ as before, and $x(t)\to x^*$.  What fails is stationarity of the
+      \emph{composition}: $k(t)=\ol A(t)x^*\to A_{j^*}x^*$ and the world income distribution is
+      dominated in the limit by country $j^*$.  Per capita consumption still grows at the common
+      rate in every country, so the differences remain level differences.
+\end{itemize}
+The substantive point is that with a common $\rho$ the \emph{prices} are insensitive to
+demographics, while the \emph{weights} are not; a model in which demography mattered for growth
+would need $\rho_j$ or $A_j$ to respond to $n_j$.
+\end{aex}
+
+\solsection{19.4}{Trade, Specialization, and the World Income Distribution}
+
+\begin{aex}{19.14}{}
+Write $Z_j\equiv\bigl[\int_0^Nx_j(\nu)^{(\varepsilon-1)/\varepsilon}\dd\nu\bigr]^{\varepsilon/(\varepsilon-1)}$,
+so that \bk{(19.24)} is $C_j=\chi(K^C_j)^{1-\tau}Z_j^{\tau}$, a Cobb--Douglas in two composites.
+
+\emph{The inner nest.}  Minimizing $\int_0^Np(\nu)x(\nu)\dd\nu$ subject to $Z=1$ gives the
+familiar CES demands $x(\nu)\propto p(\nu)^{-\varepsilon}$ and the ideal price index
+\[
+P(t)\equiv\Bigl[\int_0^Np(t,\nu)^{1-\varepsilon}\dd\nu\Bigr]^{\frac{1}{1-\varepsilon}} .
+\]
+
+\emph{The outer nest.}  Minimize $r_jK^C+PZ$ subject to $\chi(K^C)^{1-\tau}Z^{\tau}=1$.  The
+Cobb--Douglas first-order conditions make each factor's expenditure a fixed share of the unit
+cost $c$: $r_jK^C=(1-\tau)c$ and $PZ=\tau c$.  Substituting into the constraint,
+\[
+\chi\Bigl(\frac{(1-\tau)c}{r_j}\Bigr)^{1-\tau}\Bigl(\frac{\tau c}{P}\Bigr)^{\tau}=1
+\quad\Longrightarrow\quad
+c=\frac{1}{\chi}\,(1-\tau)^{-(1-\tau)}\tau^{-\tau}\,r_j^{1-\tau}P^{\tau} .
+\]
+So \bk{(19.27)} holds exactly, $B^C_j=r_j^{1-\tau}P^\tau$, if and only if
+\[
+\boxed{\ \chi=(1-\tau)^{-(1-\tau)}\,\tau^{-\tau} . \ }
+\]
+For the investment good, \bk{(19.25)} multiplies output by $\zeta_j^{-1}$, hence the unit cost by
+$\zeta_j$, giving \bk{(19.28)}, $B^I_j=\zeta_jr_j^{1-\tau}P^\tau$. $\blacksquare$
+
+\rmk{$\chi$ is not innocuous.  It is chosen so that the unit cost has \emph{no} $\tau$-dependent
+constant in front of it, which means the model's normalization has removed the static level gain
+that a higher $\tau$ would otherwise produce.  Since $p^I_j/p^C_j=\zeta_j$ regardless of $\tau$,
+the consumption function \bk{(19.31)} gives $C_j(t)=\rho_j\zeta_jK_j(t)$, and \emph{every} effect
+of openness on welfare in the AK version must therefore run through the growth rate $g^*$.  This
+is what makes Exercise 19.23 as delicate as it is.}
+\end{aex}
+
+\begin{aex}{19.15}{}
+Write the household's problem as the maximization of \bk{(19.20)} subject to \bk{(19.21)}.  It is
+convenient to use the value of the capital stock, $W_j(t)\equiv p^I_j(t)K_j(t)$, as the state.
+The rate of return on a unit of that value is the rental yield plus the capital gain,
+\[
+R_j(t)\ \equiv\ \frac{r_j(t)}{p^I_j(t)}+\frac{\dt p^I_j(t)}{p^I_j(t)} ,
+\]
+and \bk{(19.21)} becomes $\dt W_j=R_jW_j-p^C_jC_j$.  The current-value Hamiltonian is
+$\mathcal H=\log C_j+\lambda_j\bigl[R_jW_j-p^C_jC_j\bigr]$, with
+\[
+\frac{1}{C_j}=\lambda_jp^C_j,\qquad
+\dt\lambda_j=\rho_j\lambda_j-\lambda_jR_j .
+\]
+Taking logarithms of the first, differentiating and substituting the second,
+\[
+-\frac{\dt C_j}{C_j}=\frac{\dt\lambda_j}{\lambda_j}+\frac{\dt p^C_j}{p^C_j}
+=\rho_j-R_j+\frac{\dt p^C_j}{p^C_j} ,
+\]
+that is
+\[
+\boxed{\ \frac{r_j(t)}{p^I_j(t)}+\frac{\dt p^I_j(t)}{p^I_j(t)}-\frac{\dt p^C_j(t)}{p^C_j(t)}
+=\rho_j+\frac{\dt C_j(t)}{C_j(t)} , \ }
+\]
+which is \bk{(19.29)}.  The transversality condition of the maximum principle is
+\[
+\lim_{t\to\infty}e^{-\rho_jt}\lambda_j(t)W_j(t)=0 ,
+\]
+and substituting $\lambda_j=1/(p^C_jC_j)$ and $W_j=p^I_jK_j$ gives
+\[
+\lim_{t\to\infty}\Bigl[\exp(-\rho_jt)\,\frac{p^I_j(t)K_j(t)}{p^C_j(t)C_j(t)}\Bigr]=0 ,
+\]
+which is \bk{(19.30)}. $\blacksquare$
+
+\emph{Integrating to the consumption function.}  Solving $\dt\lambda_j=(\rho_j-R_j)\lambda_j$ and
+using \bk{(19.30)} to rule out explosive paths, the intertemporal budget constraint
+$\int_0^\infty e^{-\int_0^tR_j}p^C_jC_j\dd t=W_j(0)$ combines with
+$p^C_jC_j=\lambda_j^{-1}=\lambda_j(0)^{-1}e^{(R_j-\rho_j)t}\!\cdot$ to give
+$p^C_j(t)C_j(t)=\rho_jp^I_j(t)K_j(t)$, which is \bk{(19.31)}: with logarithmic utility the
+household spends the fraction $\rho_j$ of its wealth at every instant, whatever the path of
+returns.
+
+\rmk{The symbol $r_j$ does double duty in this section.  In \bk{(19.23)} it is the rental
+\emph{price} of capital --- and hence, by the one-for-one technology, the price of country $j$'s
+intermediates.  In \bk{(19.29)}, \bk{(19.43)} and \bk{(19.47)} it must be read as the \emph{rate of
+return} on the value of capital, $r_j/p^I_j=\zeta_j^{-1}r_j^{\tau}$, since $p^I_j=\zeta_jr_j^{1-\tau}$
+by \bk{(19.33)}.  With the first reading, \bk{(19.29)} would give $\dt K_j/K_j=r_j-\rho_j$, which
+contradicts \bk{(19.35)}.  Everything is consistent once the substitution is made, and
+\bk{(19.35)} is stated in the correct form.}
+\end{aex}
+
+\begin{aex}{19.16}{}
+\textbf{(a)}  Cobb--Douglas cost shares give the capital used in each activity.  In the
+consumption and investment sectors capital takes the share $1-\tau$ of expenditure,
+\[
+r_jK^C_j=(1-\tau)\,p^C_jC_j,\qquad r_jK^I_j=(1-\tau)\,p^I_jI_j ,
+\]
+and the capital used to produce intermediates is valued at their sales.  Each country spends the
+share $\tau$ of its income on the world bundle of intermediates, so world spending on the $\mu_j$
+intermediates produced by country $j$ --- which by the CES demand system is the fraction
+$\mu_jp_j^{1-\varepsilon}$ of all intermediate spending, using the normalization \bk{(19.32)} --- is
+\[
+r_jK^{\mu}_j=\tau\,\mu_jr_j^{1-\varepsilon}\,Y(t) ,
+\]
+where $p_j=r_j$ by \bk{(19.23)}.  Adding the three and imposing \bk{(19.26)} with equality,
+\[
+r_jK_j=(1-\tau)\bigl(p^C_jC_j+p^I_jI_j\bigr)+\tau\mu_jr_j^{1-\varepsilon}Y
+=(1-\tau)Y_j+\tau\mu_jr_j^{1-\varepsilon}Y ,
+\]
+using \bk{(19.21)}.  Since $Y_j=r_jK_j$ in the AK version, the left-hand side is $Y_j$, and
+cancelling $(1-\tau)Y_j$ and dividing by $\tau$,
+\[
+\boxed{\ Y_j(t)=\mu_j\,r_j(t)^{1-\varepsilon}\,Y(t) , \ }
+\]
+which is \bk{(19.34)}.  Walras's Law is thus verified: capital market clearing and trade balance
+are the same equation.
+
+\textbf{(b)}  Country $j$ spends $\tau Y_j$ on intermediates, of which the fraction
+$\mu_jr_j^{1-\varepsilon}=y^*_j$ is on its own goods.  So
+\[
+\text{imports}=\tau\bigl(1-y^*_j\bigr)Y_j,\qquad
+\boxed{\ \frac{\text{imports}}{\text{GDP}}=\tau\bigl(1-y^*_j\bigr)\ \approx\ \tau\ }
+\]
+for a small country.  Exports are the rest of the world's spending on $j$'s goods,
+$\tau y^*_j(Y-Y_j)$, and setting exports equal to imports reproduces $Y_j=y^*_jY$ --- balanced
+trade again.  The parameter $\tau$ is therefore directly measurable as the share of imported
+intermediates in GDP, which is what makes the calibration in Exercise 19.19 possible.
+\end{aex}
+
+\begin{aex}{19.17}{}
+\emph{Reduction to the simplex.}  Let $y_j(t)\equiv Y_j(t)/Y(t)$ be country $j$'s share of world
+income, so that $y\in\Delta^{J-1}$.  \bk{(19.36)} says $y_j=\mu_jr_j^{1-\varepsilon}$, which inverts
+to
+\[
+r_j=\Bigl(\frac{\mu_j}{y_j}\Bigr)^{\frac{1}{\varepsilon-1}} ,
+\]
+a strictly decreasing function of the country's own income share --- this is the terms-of-trade
+effect, stated as an identity.  From $Y_j=r_jK_j$ and \bk{(19.35)},
+\[
+\frac{\dt Y_j}{Y_j}=\frac{\dt r_j}{r_j}+\frac{\dt K_j}{K_j}
+=-\frac{1}{\varepsilon-1}\frac{\dt y_j}{y_j}+\frac{r_j^{\tau}}{\zeta_j}-\rho_j ,
+\]
+while by definition $\dt Y_j/Y_j=\dt y_j/y_j+g(t)$ with $g\equiv\dt Y/Y$.  Solving,
+\begin{equation}
+\boxed{\ \frac{\dt y_j}{y_j}=\frac{\varepsilon-1}{\varepsilon}\Bigl[h_j(y_j)-\bar h(y)\Bigr],
+\qquad
+h_j(y)\equiv\frac{1}{\zeta_j}\Bigl(\frac{\mu_j}{y}\Bigr)^{\frac{\tau}{\varepsilon-1}}-\rho_j ,\ }
+\label{eq:rep}
+\end{equation}
+where $\bar h(y)=\sum_iy_ih_i(y_i)$ is forced by $\sum_j\dt y_j=0$, and $\bar h(y)=g(t)$.  This is
+a \emph{replicator equation} on the simplex, autonomous, with each $h_j$ continuous and strictly
+decreasing.  There is no jump variable: \bk{(19.31)} pins consumption to the predetermined capital
+stock, so the whole equilibrium is the solution of \eqref{eq:rep} from the given $y(0)$.
+
+\emph{The rest point.}  $\dt y=0$ on the interior requires $h_j(y_j)=\bar h$ for all $j$; calling
+the common value $g^*$ and inverting $h_j$ gives
+$y^*_j=\mu_j[\zeta_j(\rho_j+g^*)]^{(1-\varepsilon)/\tau}$, which is \bk{(19.40)}, and
+$\sum_jy^*_j=1$ is \bk{(19.38)}.  Since each $h_j$ is strictly decreasing, $y^*_j$ is a strictly
+decreasing function of $g^*$, so $\sum_jy^*_j(g)$ is strictly decreasing and the rest point is
+unique.
+
+\emph{A Lyapunov function.}  Take the Kullback--Leibler divergence of $y$ from $y^*$,
+\[
+V(y)\equiv\sum_{j=1}^{J}y^*_j\log\frac{y^*_j}{y_j}\ \ge\ 0,
+\qquad V(y)=0\iff y=y^* ,
+\]
+which is continuous on the interior of the simplex and tends to $+\infty$ at its boundary.  Along
+\eqref{eq:rep}, and using $\sum_jy^*_j=1$ and $\sum_j(y^*_j-y_j)=0$,
+\[
+\dt V=-\sum_jy^*_j\frac{\dt y_j}{y_j}
+=-\frac{\varepsilon-1}{\varepsilon}\Bigl[\sum_jy^*_jh_j(y_j)-\bar h(y)\Bigr]
+=-\frac{\varepsilon-1}{\varepsilon}\sum_j\bigl(y^*_j-y_j\bigr)\bigl[h_j(y_j)-g^*\bigr] .
+\]
+Each summand is strictly positive unless $y_j=y^*_j$: if $y_j<y^*_j$ then, $h_j$ being strictly
+decreasing and $h_j(y^*_j)=g^*$, we have $h_j(y_j)>g^*$, so both factors are positive; if
+$y_j>y^*_j$ both are negative.  Hence
+\[
+\boxed{\ \dt V<0\ \text{ for every } y\ne y^*\ \text{ in the interior of }\Delta^{J-1} . \ }
+\]
+$V$ is a strict Lyapunov function with compact sublevel sets, so $y^*$ is globally asymptotically
+stable on the interior, and $g(t)=\bar h(y(t))\to g^*$. $\blacksquare$
+
+\emph{Verification.}  \texttt{code/ch19.py} integrates \eqref{eq:rep} for $J=6$ with
+$\varepsilon=4$, $\tau=0.3$ and drawn $(\mu_j,\zeta_j,\rho_j)$, from the uniform distribution and
+from random Dirichlet draws.  Every trajectory reaches \bk{(19.40)} to within $3\times10^{-14}$,
+$V$ falls monotonically along each of them, and the realized growth rate converges to
+$g^*=0.024275$.  The left panel of Figure~\ref{fig:ch19} shows the shares.
+
+\rmk{The reduction to a replicator equation explains the economics in one line.  A country's
+``fitness'' $h_j(y_j)$ is its own growth rate $\zeta_j^{-1}r_j^{\tau}-\rho_j$, and it is
+\emph{decreasing in the country's own share} because a larger share means worse terms of trade.
+Shares grow when fitness is above the average and shrink when it is below, and a strictly
+decreasing fitness is exactly frequency-dependent selection with a stable polymorphic rest point.
+It is the terms-of-trade effect, and nothing else, that supplies the monotonicity.}
+\end{aex}
+
+\begin{aex}{19.18}{}
+\emph{Autarky.}  Country $j$ now uses only the $\mu_j$ intermediates it can produce, all priced at
+$r_j$, so the ideal price index of the bundle it buys is
+\[
+P_j=\Bigl[\int_0^{\mu_j}r_j^{1-\varepsilon}\dd\nu\Bigr]^{\frac{1}{1-\varepsilon}}
+=\mu_j^{-\frac{1}{\varepsilon-1}}r_j ,
+\]
+rather than the world index $1$.  The unit cost functions \bk{(19.27)}--\bk{(19.28)} become
+\[
+p^C_j=r_j^{1-\tau}P_j^{\tau}=\mu_j^{-\frac{\tau}{\varepsilon-1}}r_j ,
+\qquad
+p^I_j=\zeta_j\mu_j^{-\frac{\tau}{\varepsilon-1}}r_j ,
+\]
+so the rate of return on the value of capital is
+\[
+\frac{r_j}{p^I_j}=\frac{\mu_j^{\tau/(\varepsilon-1)}}{\zeta_j} ,
+\]
+\emph{independent of $r_j$}: a pure AK economy, exactly as the text says each country would be
+without the terms-of-trade effect.  From \bk{(19.35)} with $p^I_j$ replaced by its autarky value,
+\[
+\boxed{\ g^A_j=\frac{\mu_j^{\tau/(\varepsilon-1)}}{\zeta_j}-\rho_j , \ }
+\]
+which differs across countries whenever $(\mu_j,\zeta_j,\rho_j)$ do.  There is no world income
+distribution: relative incomes diverge at the rate $g^A_j-g^A_{j'}$, and the most advanced,
+least distorted, most patient country eventually has all of world output.
+
+\emph{Comparison.}  Solve the boxed equation for $\zeta_j$ and substitute into \bk{(19.38)}.  Since
+$\zeta_j(\rho_j+g^*)=\mu_j^{\tau/(\varepsilon-1)}\frac{\rho_j+g^*}{\rho_j+g^A_j}$, the term
+$\mu_j[\zeta_j(\rho_j+g^*)]^{(1-\varepsilon)/\tau}$ collapses to
+$\bigl[\frac{\rho_j+g^A_j}{\rho_j+g^*}\bigr]^{(\varepsilon-1)/\tau}$ and \bk{(19.38)} becomes
+\[
+\boxed{\ \sum_{j=1}^{J}\Bigl[\frac{\rho_j+g^A_j}{\rho_j+g^*}\Bigr]^{\frac{\varepsilon-1}{\tau}}=1 . \ }
+\]
+With $J\ge2$ these are $J$ strictly positive numbers summing to one, so \emph{every} one of them
+is strictly below one, and therefore
+\[
+g^*>g^A_j\qquad\text{for every }j .
+\]
+The world growth rate under trade exceeds the autarky growth rate of \emph{every} country,
+including the fastest-growing one.  The intuition is love of variety: in autarky the effective
+productivity of capital is $\mu_j^{\tau/(\varepsilon-1)}/\zeta_j$ and under trade it is governed by
+the whole world stock $N=\sum_j\mu_j$; the terms-of-trade effect redistributes the gain but does
+not destroy it.
+
+\emph{Welfare.}  Since $p^I_j/p^C_j=\zeta_j$ in \emph{both} regimes, \bk{(19.31)} gives
+$C_j(t)=\rho_j\zeta_jK_j(t)$ in both, and with $K_j(0)$ given, steady-state welfare is
+\[
+U_j=\frac{\log\bigl(\rho_j\zeta_jK_j(0)\bigr)}{\rho_j}+\frac{g}{\rho_j^{2}} ,
+\qquad g\in\{g^A_j,\ g^*\} .
+\]
+It is strictly increasing in $g$, so
+\[
+\boxed{\ \text{no: every country, including the fastest-growing one, strictly prefers trade.} \ }
+\]
+The calibration in \texttt{code/ch19.py} (with $\varepsilon=4$, $\tau=0.3$ and six drawn
+countries) gives $g^*=0.024275$ against autarky rates ranging from $-0.014$ to $0.018$, and the
+displayed identity holds to twelve digits.
+\end{aex}
+
+\begin{aex}{19.19}{}
+\textbf{(a)}  \bk{(19.40)} is immediate: \bk{(19.34)} gives $Y_j/Y=\mu_jr_j^{1-\varepsilon}$, and
+substituting the steady-state terms of trade \bk{(19.39)}, $r^*_j=[\zeta_j(\rho_j+g^*)]^{1/\tau}$,
+\[
+\boxed{\ y^*_j=\mu_j\bigl[\zeta_j(\rho_j+g^*)\bigr]^{\frac{1-\varepsilon}{\tau}} . \ }
+\]
+For \bk{(19.41)}, take the Solow model with $Y_j=K_j^{\alpha}(A_jL_j)^{1-\alpha}$, saving rate
+$s_j$, population growth $n$, depreciation $\delta$ and common technology growth $g^*$.  The
+steady-state effective capital-labor ratio solves $s_j\kappa^{\alpha-1}=n+g^*+\delta$, so
+$\kappa^*_j=[s_j/(n+g^*+\delta)]^{1/(1-\alpha)}$ and
+\[
+y^*_j=A_j(\kappa^*_j)^{\alpha}=A_j\Bigl(\frac{s_j}{n+g^*+\delta}\Bigr)^{\frac{\alpha}{1-\alpha}} ,
+\]
+which is \bk{(19.41)} once $n+\delta$ is absorbed into $g^*$, as the text does.
+
+\textbf{(b)}  Taking logarithms of \bk{(19.40)},
+\[
+\frac{\partial\log y^*_j}{\partial\log\mu_j}=1 ,
+\qquad
+\frac{\partial\log y^*_j}{\partial\log\zeta_j}
+=\frac{\partial\log y^*_j}{\partial\log(\rho_j+g^*)}=-\frac{\varepsilon-1}{\tau} ,
+\]
+against $\partial\log y^*_j/\partial\log A_j=1$ and
+$\partial\log y^*_j/\partial\log s_j=\alpha/(1-\alpha)$ in the Solow model.  The correspondence
+the text draws is exact: $\mu_j$ plays the role of $A_j$ with the same unit elasticity, $\zeta_j$
+and $\rho_j$ play the role of the saving rate, and $(\varepsilon-1)/\tau$ replaces
+$\alpha/(1-\alpha)$ as the amplification factor.
+
+The difference is one of magnitude.  With $\alpha=1/3$ the Solow amplification is $1/2$, so a
+fourfold difference in saving rates produces only a twofold difference in income --- the familiar
+failure of the neoclassical model.  Here the amplification is $(\varepsilon-1)/\tau$, and
+plausible values make it an order of magnitude larger:
+\begin{center}
+\small
+\begin{tabular}{rrrrr}
+\toprule
+$\varepsilon$ & $\tau$ & $(\varepsilon-1)/\tau$ & $2\times\zeta$ & $4\times\zeta$\\
+\midrule
+$3$ & $0.30$ & $6.67$ & $102$ & $1.0\times10^{4}$\\
+$4$ & $0.30$ & $10.0$ & $1024$ & $1.0\times10^{6}$\\
+$4$ & $0.15$ & $20.0$ & $1.0\times10^{6}$ & $1.1\times10^{12}$\\
+$8$ & $0.30$ & $23.3$ & $1.1\times10^{7}$ & $1.1\times10^{14}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+$\tau$ is directly measurable as the import share of intermediates in GDP (Exercise 19.16), which
+puts it in the range $0.15$--$0.30$ for most countries, and the trade literature estimates
+$\varepsilon$ between $3$ and $8$.  So the model can generate \emph{any} observed income
+difference from tiny differences in $\zeta_j$ or $\rho_j$ --- which is its strength relative to
+the neoclassical model and, equally, its weakness.  A theory that can explain a factor of $30$
+with a $10\%$ difference in distortions is not disciplined by the income data at all; what would
+discipline it is independent measurement of $\zeta_j$, of the terms of trade $r^*_j$ (which the
+model says are observable and satisfy $y^*_j=\mu_j(r^*_j)^{1-\varepsilon}$), and of $\mu_j$
+through the range of goods a country exports.  That is the sense in which \bk{(19.40)} is more
+useful as a set of cross-equation restrictions than as a calibration.
+\end{aex}
+
+\begin{aex}{19.20}{}
+In the general model the household owns capital and supplies one unit of labour.  Write, as in
+Exercise 19.15, $R_j(t)\equiv r_j(t)/p^I_j(t)+\dt p^I_j(t)/p^I_j(t)$ for the rate of return on the
+value of capital.  The flow constraint \bk{(19.21)} is
+\[
+\frac{\dd}{\dd t}\bigl[p^I_jK_j\bigr]=R_j\,p^I_jK_j+w_j-p^C_jC_j .
+\]
+Multiply by $\exp(-\int_0^tR_j)$, integrate from $t$ to $\infty$, and impose the transversality
+condition \bk{(19.30)}, which kills the boundary term.  This gives the intertemporal budget
+constraint
+\[
+\int_t^\infty\exp\Bigl(-\int_t^zR_j(s)\dd s\Bigr)p^C_j(z)C_j(z)\dd z
+\ =\ \underbrace{p^I_j(t)K_j(t)+\int_t^\infty\exp\Bigl(-\int_t^zR_j(s)\dd s\Bigr)w_j(z)\dd z}
+_{\textstyle \equiv\ \mathcal W_j(t)} ,
+\]
+so that total wealth is the value of the capital stock plus the present value of labour income,
+discounted at the return on capital.
+
+From the first-order conditions of Exercise 19.15, $p^C_jC_j=1/\lambda_j$ and
+$\dt\lambda_j/\lambda_j=\rho_j-R_j$, so
+$p^C_j(z)C_j(z)=p^C_j(t)C_j(t)\exp\bigl(\int_t^z(R_j-\rho_j)\bigr)$.  Substituting into the
+left-hand side, the discount factors cancel and
+\[
+p^C_j(t)C_j(t)\int_t^\infty e^{-\rho_j(z-t)}\dd z=\frac{p^C_j(t)C_j(t)}{\rho_j}=\mathcal W_j(t) ,
+\]
+that is
+\[
+\boxed{\ p^C_j(t)C_j(t)=\rho_j\Bigl[p^I_j(t)K_j(t)
++\int_t^\infty\exp\Bigl(-\int_t^zR_j(s)\dd s\Bigr)w_j(z)\dd z\Bigr] , \ }
+\]
+which is \bk{(19.43)}. $\blacksquare$
+
+\emph{The simplification \bk{(19.45)}.}  Labour market clearing \bk{(19.44)} makes
+$w_j(t)=(1-\gamma)(1-\tau)p^C_j(t)C_j(t)$ at every date.  Substituting this into the human wealth
+term and using the same discounting identity backwards,
+\[
+\int_t^\infty e^{-\int_t^zR_j}w_j(z)\dd z
+=(1-\gamma)(1-\tau)\int_t^\infty e^{-\int_t^zR_j}p^C_jC_j\dd z
+=(1-\gamma)(1-\tau)\,\mathcal W_j(t) ,
+\]
+so $\mathcal W_j=p^I_jK_j+(1-\gamma)(1-\tau)\mathcal W_j$ and hence
+$\mathcal W_j=\frac{p^I_jK_j}{1-(1-\gamma)(1-\tau)}$, giving \bk{(19.45)}.  Human wealth is a fixed
+multiple of physical wealth, which is what keeps the model as tractable as the AK version.
+\end{aex}
+
+\begin{aex}{19.21}{}
+\emph{The trade balance \bk{(19.46)}.}  Repeat Exercise 19.16(a) with labour added.  Cost shares
+now give
+\[
+r_jK^C_j=(1-\tau)\gamma\,p^C_jC_j,\quad
+w_j=(1-\tau)(1-\gamma)\,p^C_jC_j,\quad
+r_jK^I_j=(1-\tau)\,p^I_jI_j,\quad
+r_jK^{\mu}_j=\tau\mu_jr_j^{1-\varepsilon}Y .
+\]
+Adding the capital uses and imposing \bk{(19.26)} with equality,
+\[
+r_jK_j=(1-\tau)\gamma p^C_jC_j+(1-\tau)p^I_jI_j+\tau\mu_jr_j^{1-\varepsilon}Y .
+\]
+Adding $w_j=(1-\tau)(1-\gamma)p^C_jC_j$ to both sides and using
+$Y_j=r_jK_j+w_j=p^C_jC_j+p^I_jI_j$,
+\[
+Y_j=(1-\tau)\bigl(p^C_jC_j+p^I_jI_j\bigr)+\tau\mu_jr_j^{1-\varepsilon}Y
+=(1-\tau)Y_j+\tau\mu_jr_j^{1-\varepsilon}Y ,
+\]
+and cancelling,
+\[
+\boxed{\ r_jK_j+w_j=\mu_jr_j^{1-\varepsilon}\sum_{i=1}^{J}\bigl[r_iK_i+w_i\bigr] , \ }
+\]
+which is \bk{(19.46)}.
+
+\emph{The labour share \bk{(19.47)}.}  Combine \bk{(19.44)} and \bk{(19.45)}:
+\[
+w_j=(1-\gamma)(1-\tau)\,p^C_jC_j
+=\frac{(1-\gamma)(1-\tau)\rho_j}{1-(1-\gamma)(1-\tau)}\,p^I_jK_j .
+\]
+Write $a\equiv\gamma+(1-\gamma)\tau=1-(1-\gamma)(1-\tau)$ and divide by $r_jK_j$, using
+$p^I_j=\zeta_jr_j^{1-\tau}$ so that $p^I_j/r_j=\zeta_jr_j^{-\tau}$:
+\[
+\frac{w_j}{r_jK_j}=\frac{(1-\gamma)(1-\tau)\rho_j}{a\,\zeta_j^{-1}r_j^{\tau}} ,
+\]
+and therefore
+\[
+\boxed{\ \frac{w_j}{r_jK_j+w_j}
+=\frac{(1-\gamma)(1-\tau)\rho_j}
+{\bigl[\gamma+(1-\gamma)\tau\bigr]\zeta_j^{-1}r_j^{\tau}+(1-\gamma)(1-\tau)\rho_j} , \ }
+\]
+which is \bk{(19.47)} once $r_j$ inside it is read --- as in Exercise 19.15 --- as the rate of
+return $\zeta_j^{-1}r_j^{\tau}$ rather than the rental price.  Equation \bk{(19.35)} is unchanged,
+since it follows from \bk{(19.21)} and \bk{(19.45)} exactly as before. $\blacksquare$
+
+\emph{A check.}  At $g^*=0$ the boxed expression reduces to
+$w_j/Y_j=(1-\gamma)(1-\tau)$, since $\zeta_j^{-1}(r^*_j)^{\tau}=\rho_j+g^*=\rho_j$ then.  That is
+right: with no growth all income is consumed, and labour's share of consumption-good expenditure
+is exactly $(1-\gamma)(1-\tau)$.  It also confirms that the correct exponent on $r_j$ is $\tau$:
+with $r_j$ in place of $r_j^{\tau}$ the check fails.
+\end{aex}
+
+\begin{aex}{19.22}{}
+\emph{A common growth rate.}  In a steady state all prices, hence all $r_j$, are constant.  By
+\bk{(19.47)} the labour share $s^w_j\equiv w_j/Y_j$ is then constant too, so
+$Y_j=r_jK_j/(1-s^w_j)$ is proportional to $K_j$ and grows at $\dt K_j/K_j$.  Taking the ratio of
+\bk{(19.46)} for two countries $j$ and $j'$,
+\[
+\frac{Y_j}{Y_{j'}}=\frac{\mu_jr_j^{1-\varepsilon}}{\mu_{j'}r_{j'}^{1-\varepsilon}}=\text{constant},
+\]
+so $Y_j$ and $Y_{j'}$ grow at the same rate; call it $g^*$.  Then \bk{(19.35)} gives
+$\zeta_j^{-1}(r^*_j)^{\tau}=\rho_j+g^*$, that is \bk{(19.39)}, and substituting into
+\bk{(19.46)} summed over $j$ gives \bk{(19.38)}.  Uniqueness is as in \bk{Proposition 19.10}: the
+left-hand side of \bk{(19.38)} is strictly decreasing in $g^*$.
+
+\emph{Global stability.}  Run the argument of Exercise 19.17.  With $y_j=Y_j/Y=\mu_jr_j^{1-\varepsilon}$
+we still have $\dt r_j/r_j=-\frac{1}{\varepsilon-1}\dt y_j/y_j$, and now
+$Y_j=r_jK_j/(1-s^w_j(r_j))$ with, from \bk{(19.47)},
+\[
+\frac{1}{1-s^w_j(r_j)}=1+\frac{(1-\gamma)(1-\tau)\rho_j\zeta_j}{a\,r_j^{\tau}},
+\qquad
+\Upsilon_j\equiv\frac{\dd\log\bigl[1/(1-s^w_j)\bigr]}{\dd\log r_j}\in(-\tau,0) .
+\]
+Hence
+\[
+\frac{\dt y_j}{y_j}\Bigl[1+\frac{1+\Upsilon_j}{\varepsilon-1}\Bigr]=h_j(y_j)-g(t),
+\qquad h_j\ \text{as in \eqref{eq:rep}},
+\]
+and since $\tau<1<\varepsilon$ the bracket is strictly positive.  The system is therefore again a
+replicator equation with a strictly decreasing fitness $h_j$ --- only the (positive,
+state-dependent) speed factor differs --- and the same Lyapunov function
+$V(y)=\sum_jy^*_j\log(y^*_j/y_j)$ has
+\[
+\dt V=-\sum_j\frac{y^*_j-y_j}{1+(1+\Upsilon_j)/(\varepsilon-1)}\bigl[h_j(y_j)-g^*\bigr]<0
+\qquad\text{for }y\ne y^* .
+\]
+So $y^*$ is globally asymptotically stable and $g(t)\to g^*$. $\blacksquare$
+
+\emph{The relative price of investment goods.}  The substantive gain from the general model is
+\[
+\frac{p^I_j}{p^C_j}=\zeta_j\Bigl(\frac{r_j}{w_j}\Bigr)^{(1-\tau)(1-\gamma)} ,
+\]
+so investment goods are expensive not only where distortions $\zeta_j$ are large but also where
+wages are low --- and by \bk{(19.47)} wages are low where $\mu_j$ is small and $\rho_j$ is large.
+The model therefore reproduces the observed cross-section of investment-good prices without
+attributing all of it to investment-sector distortions, which is a warning about the one-sector
+closed-economy calibrations that read the relative price directly as a measure of $\zeta_j$.
+\end{aex}
+
+\begin{aex}{19.23}{}
+\textbf{(a)}  Write $\phi\equiv(\varepsilon-1)/\tau$ and $z_j\equiv\zeta_j(\rho_j+g^*)=(r^*_j)^{\tau}$,
+so that \bk{(19.38)} reads $\Theta(g,\phi)\equiv\sum_j\mu_jz_j^{-\phi}=1$.  The crucial observation
+is that the terms of this sum \emph{are} the relative incomes: by \bk{(19.40)},
+$y^*_j=\mu_jz_j^{-\phi}$ and $\sum_jy^*_j=1$.  Differentiating,
+\[
+\frac{\partial\Theta}{\partial\phi}=-\sum_jy^*_j\log z_j,
+\qquad
+\frac{\partial\Theta}{\partial g}=-\phi\sum_j\frac{y^*_j}{\rho_j+g^*} ,
+\]
+and since $\dd\phi/\dd\tau=-\phi/\tau$, the implicit function theorem gives
+\[
+\boxed{\ \frac{\dd g^*}{\dd\tau}
+=\frac{\sum_jy^*_j\log z_j}{\tau\sum_jy^*_j/(\rho_j+g^*)}
+\qquad\Longrightarrow\qquad
+\operatorname{sgn}\frac{\dd g^*}{\dd\tau}=\operatorname{sgn}\sum_jy^*_j\log r^*_j . \ }
+\]
+So $g^*$ rises with openness exactly when the income-weighted geometric mean of the terms of trade
+exceeds one.  It need not.  Using $y^*_j=\mu_jz_j^{-\phi}$ to eliminate $z_j$,
+\[
+\sum_jy^*_j\log z_j=-\frac{1}{\phi}\sum_jy^*_j\log\frac{y^*_j}{\mu_j}
+=\frac{1}{\phi}\Bigl[\log N-D\bigl(y^*\,\big\|\,\mu/N\bigr)\Bigr] ,
+\]
+where $N=\sum_j\mu_j$ and $D(\cdot\|\cdot)$ is the Kullback--Leibler divergence.  Hence
+\[
+\boxed{\ \frac{\dd g^*}{\dd\tau}>0
+\iff
+D\bigl(y^*\,\big\|\,\mu/N\bigr)<\log N . \ }
+\]
+\emph{Intuition.}  A higher $\tau$ shifts weight in production from domestic capital toward the
+world bundle of intermediates.  That has two effects.  The \emph{variety} effect is a gain of
+$\log N$: the world bundle contains $N$ goods and, with love of variety, is more productive per
+unit of expenditure than any single country's own output --- this is the only effect when
+countries are identical.  The \emph{dispersion} effect works the other way: relying more heavily
+on traded goods amplifies the differences in terms of trade $r^*_j$ across countries, and since
+those differences are precisely what makes the income distribution unequal, they subtract
+$D(y^*\|\mu/N)$.  When the world income distribution is very unequal relative to the distribution
+of technological capabilities, openness lowers world growth.  \texttt{code/ch19.py} confirms the
+sign rule against numerical derivatives in four configurations, including one with $N>1$ and
+$D=1.05>\log N=0.18$ where $\dd g^*/\dd\tau<0$.
+
+\textbf{(b)}  In the AK version this cannot happen, and it is worth saying why.  By Exercise
+19.14, $p^I_j/p^C_j=\zeta_j$ independently of $\tau$, so
+\bk{(19.31)} gives $C_j(t)=\rho_j\zeta_jK_j(t)$ and steady-state welfare is
+\[
+U_j=\frac{\log\bigl(\rho_j\zeta_jK_j(0)\bigr)}{\rho_j}+\frac{g^*}{\rho_j^{2}} ,
+\]
+which depends on $\tau$ through $g^*$ alone.  The normalization $\chi=(1-\tau)^{-(1-\tau)}\tau^{-\tau}$
+has removed every static level gain from openness, so welfare and growth must move together.
+
+The general model of Section 19.4.3 supplies the missing channel.  There
+$p^C_j=w_j^{(1-\tau)(1-\gamma)}r_j^{(1-\tau)\gamma}$ with $w_j$ proportional to $K_j$, so
+$p^C_j\propto K_j^{b}$ with $b\equiv(1-\tau)(1-\gamma)$, while $p^C_jC_j\propto K_j$.  Hence
+\emph{physical} consumption grows more slowly than capital,
+\[
+\boxed{\ \frac{\dt C_j}{C_j}=\bigl[\gamma+(1-\gamma)\tau\bigr]\,g^*=(1-b)\,g^* , \ }
+\]
+because the consumption good uses a fixed factor whose relative price rises.  Openness raises
+$1-b=\gamma+(1-\gamma)\tau$, so
+\[
+\frac{\dd}{\dd\tau}\bigl[(1-b)g^*\bigr]=(1-\gamma)g^*+(1-b)\frac{\dd g^*}{\dd\tau} ,
+\]
+which is positive whenever $\dd g^*/\dd\tau>-(1-\gamma)g^*/[\gamma+(1-\gamma)\tau]$ --- a strictly
+weaker requirement than $\dd g^*/\dd\tau>0$.  Trade raises welfare over a strictly larger range of
+parameters than it raises the growth rate of GDP, because part of its benefit is to reduce the
+economy's reliance on the fixed factor.
+
+\textbf{(c)}  Three readings for the empirical debate.
+\begin{enumerate}
+\item \emph{The sign of the growth effect is not a theoretical matter.}  It is the sign of
+      $\log N-D(y^*\|\mu/N)$, which mixes a parameter of the world technology with the
+      \emph{endogenous} dispersion of world income.  A cross-country regression of growth on
+      openness is therefore estimating something that is not a structural parameter and that
+      can change sign across samples --- which is precisely the fragility Rodriguez and Rodrik
+      document.
+\item \emph{The growth effect is the wrong statistic.}  Part (b) shows that welfare and measured
+      GDP growth can move in opposite directions.  Studies that ask whether trade raises growth
+      are not asking whether trade is good.
+\item \emph{Level effects are not second order here.}  In an endogenous growth world the static
+      gains from trade are converted into permanently faster accumulation, so the distinction
+      between ``level'' and ``growth'' effects that organizes much of the empirical literature is
+      not one the model respects.
+\end{enumerate}
+
+\textbf{(d)}  A sufficient condition is
+\[
+D\bigl(y^*\,\big\|\,\mu/N\bigr)<\log N ,
+\]
+of which the cleanest special cases are: all countries identical, so that $y^*=\mu/N$, $D=0$ and
+the condition reduces to $N>1$; and, more generally, any configuration in which the world income
+distribution is close to the distribution of technological capabilities.  Read economically: the
+gains from variety must outweigh the inequality that trade prices in.  Since $D$ grows with the
+dispersion of $\zeta_j$ and $\rho_j$ amplified by $(\varepsilon-1)/\tau$, the condition is easiest
+to satisfy in a world of many varieties and similar policies, and hardest in a world of few
+varieties and very unequal distortions.
+\end{aex}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/ch19_trade.pdf}
+\caption{Left: world income shares converging to \bk{(19.40)} under the replicator dynamics
+\eqref{eq:rep}, from three initial conditions, with the steady-state shares marked
+(Exercise 19.17).  Right: the allocation of labour to the learning sector under autarky and under
+trade, $\varepsilon=2$ (Exercises 19.35 and 19.36).}
+\label{fig:ch19}
+\end{figure}
+
+\solsection{19.5}{Trade, Technology Diffusion, and the Product Cycle}
+
+\begin{aex}{19.30}{}
+\textbf{(a)}  Without trade each country consumes only what it produces.  One worker produces one
+unit of any good the country can make, and by the symmetry of \bk{(19.48)} labour is spread evenly
+over the available goods.  In the North, $L^n$ workers spread over $N(t)$ goods give
+$c_n(\nu)=L^n/N(t)$ for each, so
+\[
+C_n=\Bigl[N\bigl(L^n/N\bigr)^{\frac{\varepsilon-1}{\varepsilon}}\Bigr]^{\frac{\varepsilon}{\varepsilon-1}}
+=N^{\frac{1}{\varepsilon-1}}L^n ,
+\]
+and in the South, with only the $N^o(t)$ old goods available,
+$C_s=(N^o)^{1/(\varepsilon-1)}L^s$.  Since all income is labour income and each country has its own
+price level, the real wage is $C_j/L^j$:
+\[
+\boxed{\ w^n(t)=N(t)^{\frac{1}{\varepsilon-1}},\qquad w^s(t)=N^o(t)^{\frac{1}{\varepsilon-1}} . \ }
+\]
+Labour supplies drop out entirely: without trade the \emph{only} thing that makes the North rich
+is that it consumes more varieties.
+
+\textbf{(b)}  Using the steady-state ratio \bk{(19.53)}, $N^n/N^o=\eta/\iota$, the autarky gap is
+\[
+\Omega^A\equiv\frac{w^n}{w^s}=\Bigl(\frac{N}{N^o}\Bigr)^{\frac{1}{\varepsilon-1}}
+=\Bigl(1+\frac{\eta}{\iota}\Bigr)^{\frac{1}{\varepsilon-1}} ,
+\]
+while with trade \bk{(19.54)} gives
+$\Omega^T=\max\bigl\{\bigl(\tfrac{\eta}{\iota}\tfrac{L^s}{L^n}\bigr)^{1/\varepsilon},1\bigr\}$.
+Since $\Omega^A>1$ always, $\Omega^T>\Omega^A$ requires the first branch, and the condition is
+\[
+\boxed{\ \Bigl(1+\frac{\eta}{\iota}\Bigr)^{\frac{\varepsilon}{\varepsilon-1}}
+\ <\ \frac{\eta}{\iota}\cdot\frac{L^s}{L^n} . \ }
+\]
+It needs a \emph{large South} and \emph{substitutable goods}: at $\varepsilon=2$ it requires
+$L^s/L^n>(1+\eta/\iota)^2\iota/\eta\ge4$, and as $\varepsilon\to\infty$ it relaxes to
+$L^s/L^n>1+\iota/\eta$.
+
+\emph{Why.}  Without trade the South's disadvantage is a pure love-of-variety loss, and it depends
+on the technology gap alone --- the size of the South is irrelevant, because Southern workers
+produce for Southern consumers.  With trade the South gains access to every variety, but its wage
+is now set in a world market for the old goods in which it specializes.  If the South is large, it
+floods that market, the relative price of old goods collapses, and the terms-of-trade loss can
+exceed the variety gain.  Trade therefore \emph{converts a variety disadvantage into a
+terms-of-trade disadvantage}, and the latter is the one that scales with the South's size.  This
+is exactly the concern raised by the entry of India and China as large low-cost producers that the
+text mentions.
+
+\textbf{(c)}  No.  Relative income is not welfare, and here the two move in opposite directions.
+With trade the South consumes all $N$ goods at prices $p_n=w^n$ and $p_o=w^s$, so its ideal price
+index is $P=w^s\bigl[N^n\Omega^{1-\varepsilon}+N^o\bigr]^{1/(1-\varepsilon)}$ with $\Omega=w^n/w^s$,
+and real consumption per worker is
+\[
+c_s^T=\frac{w^s}{P}=\bigl[N^n\Omega^{1-\varepsilon}+N^o\bigr]^{\frac{1}{\varepsilon-1}} .
+\]
+Against the autarky level $c_s^A=(N^o)^{1/(\varepsilon-1)}$,
+\[
+\boxed{\ \frac{c^T_s}{c^A_s}=\Bigl[1+\frac{N^n}{N^o}\Omega^{1-\varepsilon}\Bigr]^{\frac{1}{\varepsilon-1}}
+\ >\ 1\quad\text{always.} \ }
+\]
+The South gains from trade unconditionally, because the bracket exceeds one for any finite
+$\Omega$.  The same computation for the North gives
+$c^T_n/c^A_n=\bigl[(N^n+N^o\Omega^{\varepsilon-1})/N\bigr]^{1/(\varepsilon-1)}>1$ whenever
+$\Omega>1$, which holds in the specialization equilibrium.  \texttt{code/ch19.py} tabulates both:
+at $\varepsilon=3$, $\eta/\iota=2$ and $L^s/L^n=12$, trade raises the relative gap from $1.73$ to
+$2.88$ while raising Southern real consumption by $11\%$ and Northern by $85\%$.
+
+The moral is the standard one about gains from trade, stated where it is easiest to lose sight of:
+a policy that widens the \emph{ratio} of incomes can raise \emph{both} levels.  A Southern
+government reading only the relative-income statistic would draw the wrong conclusion.
+\end{aex}
+
+\solsection{19.6}{Trade and Endogenous Technological Change}
+
+\begin{aex}{19.31}{}
+Each economy is the lab-equipment model of Section 13.1 with $L=1$.  Three steps.
+
+\emph{Profits.}  A monopolist owning one machine variety charges the constant markup over the
+marginal cost $\psi=1-\beta$ and earns the flow profit $\pi=\beta L=\beta$, independent of $N$ and
+of time.
+
+\emph{The value of a variety.}  The no-arbitrage condition is $rV=\pi+\dt V$.  Free entry into
+research, with the innovation possibilities frontier $\dt N=\eta Z$ and a unit cost of $1$ per unit
+of $Z$, requires $\eta V\le1$ with equality when $Z>0$.  Hence $V=1/\eta$ is constant, $\dt V=0$,
+and
+\[
+r=\eta\pi=\eta\beta .
+\]
+
+\emph{Growth.}  The Euler equation gives
+\[
+\boxed{\ g^A=\frac{r-\rho}{\theta}=\frac{1}{\theta}\bigl(\eta\beta-\rho\bigr) , \ }
+\]
+which is \bk{(19.56)}, and positive by the first part of \bk{(19.55)}.  Both countries are
+identical and closed, so both grow at $g^A$ from any initial $N$ --- with free entry and a linear
+innovation technology there are no transitional dynamics.  Finally, finite utility and the
+transversality condition require $(1-\theta)g^A<\rho$, that is $(1-\theta)\eta\beta<\rho$.
+$\blacksquare$
+
+\rmk{The second condition in \bk{(19.55)}, $2(1-\theta)\eta\beta<\rho$, is stronger than the
+autarky economy needs: it is exactly the transversality condition for the \emph{trade}
+equilibrium, $(1-\theta)g^T<\rho$ with $g^T=(2\eta\beta-\rho)/\theta$.  Stating both conditions at
+once lets \bk{Propositions 19.13} and \bk{19.14} share a hypothesis, at the cost of restricting the
+autarky case more than necessary.  For $\theta\ge1$ both conditions are vacuous.}
+\end{aex}
+
+\begin{aex}{19.32}{}
+Nothing in Exercise 19.31 changes except the market size.  With costless trade in inputs, a
+monopolist that invents a variety sells it to final good producers in \emph{both} countries, so
+the relevant labour force is $L^1+L^2=2$ and the flow profit becomes
+\[
+\pi^T=\beta\bigl(L^1+L^2\bigr)=2\beta .
+\]
+Free entry still gives $V=1/\eta$ and $\dt V=0$, so the interest rate is
+\[
+r^T=\eta\pi^T=2\eta\beta ,
+\]
+and the Euler equation gives
+\[
+\boxed{\ g^T=\frac{1}{\theta}\bigl(2\eta\beta-\rho\bigr)=g^A+\frac{\eta\beta}{\theta}>g^A . \ }
+\]
+Since the two economies are identical and all inputs are traded, the integrated world economy has
+a single interest rate and a single growth rate, so both countries grow at $g^T$.  Finite utility
+requires $(1-\theta)g^T<\rho$, which is the second condition in \bk{(19.55)}. $\blacksquare$
+
+\emph{What is and is not robust.}  The mechanism is the market size effect: doubling the market
+doubles the flow profit from an innovation, which doubles the return to research.  It is the
+cleanest statement of why trade should promote growth, and it is present in any model of
+endogenous technological change.  Three caveats limit it, and each is worth stating with the
+result.
+\begin{enumerate}
+\item \emph{It is a pure scale effect.}  The gain $\eta\beta/\theta$ is exactly proportional to the
+      increase in market size, which is the feature that the semi-endogenous growth models of
+      Section 13.3 remove.  There, as \bk{Exercise 19.34} shows, trade opening raises innovation
+      temporarily and leaves the long-run growth rate untouched.
+\item \emph{It relies on the lab-equipment specification.}  If R\&D used labour rather than final
+      goods, trade opening would also raise the demand for production workers and bid up the wage
+      that research must pay.  \bk{Exercise 19.33} constructs a case in which this offset is
+      complete.
+\item \emph{It assumes no knowledge spillovers.}  With spillovers the answer depends on an
+      assumption about how far knowledge travelled \emph{before} trade opening, which is exactly
+      the thing the lab-equipment specification was chosen to avoid having to assume.
+\end{enumerate}
+Taken together with Section 19.7, the honest conclusion is the one the text draws: theory delivers
+both signs, so the question is empirical.
+\end{aex}
+
+\solsection{19.7}{Learning-by-Doing, Trade, and Growth}
+
+\begin{aex}{19.35}{}
+\emph{The allocation of labour.}  With both sectors active, wages must be equal, which is
+\bk{(19.59)}: $p^1_jA_j=p^2_j$.  Profit maximization by the final good producer with $\gamma=1/2$
+gives $p^1_j/p^2_j=(X^1_j/X^2_j)^{-1/\varepsilon}$.  Substituting $X^1_j=A_jL^1_j$ and
+$X^2_j=1-L^1_j$ and eliminating the price ratio,
+\[
+\frac{1}{A_j}=\Bigl(\frac{A_jL^1_j}{1-L^1_j}\Bigr)^{-1/\varepsilon}
+\ \Longrightarrow\
+\frac{L^1_j}{1-L^1_j}=A_j^{\varepsilon-1}
+\ \Longrightarrow\
+\boxed{\ L^1_j(t)=\frac{A_j(t)^{\varepsilon-1}}{1+A_j(t)^{\varepsilon-1}} \ }
+\]
+which is \bk{(19.60)}.
+
+\emph{The case $\varepsilon>1$, $\delta\to0$.}  At $t=0$, $A_j(0)\to1$ so $L^1_j(0)=1/2$.  Then
+$\dt A_j/A_j=\eta L^1_j>0$ by \bk{(19.57)}, so $A_j$ increases; since $\varepsilon>1$,
+$A_j^{\varepsilon-1}$ increases, and $L^1_j$ is a strictly increasing function of it.  So $L^1_j$
+rises monotonically, and since $A_j\to\infty$ (its growth rate is bounded below by $\eta/2$),
+$L^1_j(t)\uparrow1$ and $\dt A_j/A_j\to\eta$.  As $L^1_j\to1$, $X^2_j\to0$ and
+$Y_j\to 2^{-\varepsilon/(\varepsilon-1)}A_j$, so output also grows at
+\[
+\boxed{\ g^*=\eta . \ }
+\]
+The feedback is the engine: more labour in sector 1 raises $A_j$, a higher $A_j$ raises the
+marginal product of sector-1 labour relative to sector 2, which draws in more labour.  The
+process is self-reinforcing precisely because $\varepsilon>1$, so that the price of good 1 falls
+by less, proportionally, than its quantity rises.
+
+\emph{The case $\varepsilon=1$.}  With $Y_j=(X^1_j)^{1/2}(X^2_j)^{1/2}$ the expenditure shares are
+fixed at one half, so $p^1_jX^1_j=p^2_jX^2_j$.  Combined with $p^1_jA_j=p^2_j$ this gives
+$A_jL^1_j\cdot\frac{1}{A_j}=1-L^1_j$, whence $L^1_j=1/2$ for all $t$ --- which is also
+\bk{(19.60)} evaluated at $\varepsilon=1$.  Therefore
+\[
+\boxed{\ \frac{\dt A_j}{A_j}=\frac{\eta}{2}\equiv g^{**}\ \text{for all }t . \ }
+\]
+Here the price effect exactly cancels the quantity effect at every date, so nothing draws labour
+toward the learning sector and the allocation is frozen.  Note that output then grows at
+$\eta/4$, not $\eta/2$: with $Y_j=\tfrac12A_j^{1/2}$ the productivity gain is halved again by the
+Cobb--Douglas aggregation, so $g^{**}$ in the proposition is the growth rate of \emph{productivity}
+rather than of output. $\blacksquare$
+\end{aex}
+
+\begin{aex}{19.36}{}
+\textbf{(a)}  With free trade there is one world price pair, and the wage in country $j$ is
+$\max\{p^1A_j,\,p^2\}$.  Conjecture $L^{1}_n=1$ and $L^1_s=0$.  Then $X^1=A_n$ and $X^2=1$ per
+North--South pair, so
+\[
+\frac{p^2}{p^1}=\Bigl(\frac{X^1}{X^2}\Bigr)^{1/\varepsilon}=A_n^{1/\varepsilon} ,
+\]
+and the conjecture is an equilibrium precisely when
+\[
+A_s\ <\ A_n^{1/\varepsilon}\ <\ A_n .
+\]
+At $t=0$, $A_n=1$ and $A_s=1-\delta<1=A_n^{1/\varepsilon}$, so the left inequality holds, and the
+right holds weakly.  Thereafter $L^1_n=1$ gives $\dt A_n/A_n=\eta$ while $L^1_s=0$ gives
+$\dt A_s/A_s=0$, so $A_n>1$ strictly and both inequalities hold strictly for all $t>0$: the
+conjecture is self-confirming.  World output is
+$\propto[\tfrac12A_n^{(\varepsilon-1)/\varepsilon}+\tfrac12]^{\varepsilon/(\varepsilon-1)}
+\to2^{-\varepsilon/(\varepsilon-1)}A_n$, so the world grows at $\eta$.  Finally, with all income
+being labour income and one worker per country,
+\[
+\boxed{\ \frac{Y_n(t)}{Y_s(t)}=\frac{w^n}{w^s}=\frac{p^1A_n}{p^2}
+=\frac{A_n}{A_n^{1/\varepsilon}}=A_n(t)^{\frac{\varepsilon-1}{\varepsilon}} , \ }
+\]
+which diverges if $\varepsilon>1$ and is constant if $\varepsilon=1$. $\blacksquare$
+
+\textbf{(b)}  Decompose the North's real income gain from a rise in $A_n$.  A one percent increase
+in $A_n$ raises $X^1$ by one percent and lowers $p^1/p^2$ by $1/\varepsilon$ percent, so the
+North's real income rises by $(1-1/\varepsilon)$ percent.  At $\varepsilon=1$ this is zero: the
+deterioration of the North's terms of trade exactly offsets its productivity growth.  Equivalently,
+with unit elasticity the expenditure share on each good is fixed at one half, so the South ---
+which produces all of good 2 --- captures a constant half of world income no matter how much
+better the North becomes at producing good 1.  It is the same mechanism as the stable income
+distribution of Section 19.4, and it shows that the case against trade in this model is not about
+specialization as such but about the elasticity of substitution.
+
+\textbf{(c)}  With $\varepsilon<1$ the required inequality $A_n^{1/\varepsilon}<A_n$ \emph{fails}
+for $A_n>1$: the price of good 2 rises so fast relative to good 1 that Northern workers prefer
+sector 2.  Complete specialization is not sustainable.  Instead the North diversifies, with
+$p^1A_n=p^2$ pinning
+\[
+L^1_n=\frac{2A_n^{\varepsilon-1}}{1+A_n^{\varepsilon-1}}<1 ,
+\]
+which \emph{falls} as $A_n$ rises, so $\dt A_n/A_n=\eta L^1_n\to0$ and Northern learning dies out.
+Meanwhile the South stays in sector 2 and, since the North is now the marginal producer of good 2,
+$w^n=p^1A_n=p^2=w^s$: incomes are \emph{equalized}.  So with complements rather than substitutes,
+trade does not impoverish the South at all --- it equalizes incomes and kills growth in the North.
+The numerical run at $\varepsilon=0.5$ reproduces this: $L^1_n$ falls to $0.249$ after $160$
+periods and the wage ratio is exactly one.
+
+\textbf{(d)}  Suppose all economies are closed until $T_0$.  By \bk{Proposition 19.15} both blocks
+then have $L^1_j\to1$ and $A_j$ growing toward $\eta$, with $A_n(T_0)>A_s(T_0)$ preserved.  Opening
+at $T_0$, complete specialization requires $A_s(T_0)<A_n(T_0)^{1/\varepsilon}$, and after a period
+of protection this typically fails: both productivities are large and close together.  The
+equilibrium then has the North fully in sector 1 and the \emph{South diversified}, with
+$p^1A_s=p^2$ and
+\[
+L^1_s=\frac{A_s^{\varepsilon}-A_n}{A_s^{\varepsilon}+A_s}>0 ,
+\qquad \frac{w^n}{w^s}=\frac{A_n}{A_s} .
+\]
+Writing $x\equiv A_s^{\varepsilon}/A_n$ and $u\equiv A_s/A_n$, we have
+$L^1_s=(x-1)/(x+u)$ and
+\[
+\frac{\dd\log x}{\dd t}=\eta\bigl[\varepsilon L^1_s-1\bigr] ,
+\]
+so the South's foothold expands if and only if $L^1_s>1/\varepsilon$, that is
+\[
+\boxed{\ \frac{A_s(T_0)^{\varepsilon}}{A_n(T_0)}\ >\ \frac{\varepsilon+A_s(T_0)/A_n(T_0)}{\varepsilon-1} . \ }
+\]
+The condition is self-reinforcing --- $x$ rises and $u$ falls, which lowers the threshold --- so it
+is a genuine dichotomy.  \texttt{code/ch19.py} evaluates it at $\varepsilon=2$, $\eta=0.05$,
+$\delta=0.02$:
+\begin{center}
+\small
+\begin{tabular}{rrrrrl}
+\toprule
+$T_0$ & $A_n(T_0)$ & $A_s(T_0)$ & $x$ & threshold & outcome\\
+\midrule
+$0$ & $1.000$ & $0.980$ & $0.96$ & $2.98$ & locked out, $w^n/w^s$ grows at $\eta/2$\\
+$20$ & $1.763$ & $1.718$ & $1.67$ & $2.97$ & locked out\\
+$30$ & $2.470$ & $2.400$ & $2.33$ & $2.97$ & locked out\\
+$40$ & $3.589$ & $3.478$ & $3.37$ & $2.97$ & keeps a foothold, $L^1_s\to1$\\
+$120$ & $149.3$ & $143.4$ & $137.7$ & $2.96$ & keeps a foothold\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\rmk{This is a correction to the remark that follows \bk{Proposition 19.16} in the text, that
+``even if international trade is prevented in the South for a period of duration $T>0$ \dots\ the
+ultimate outcome is the same.''  That is true only for \emph{short} protection.  Because both
+blocks learn under autarky and $A_s^{\varepsilon}$ grows faster than $A_n$ when $\varepsilon>1$, a
+long enough closure carries the South past the threshold above, after which it retains a share of
+the learning sector, $L^1_s\to1$, both blocks grow at $\eta$, and the wage ratio settles at a
+constant instead of diverging.  In the calibration the critical duration is between $30$ and $40$
+periods.  Infant industry protection therefore does have a permanent effect in this model,
+provided it lasts long enough --- which, read the other way, is not much comfort for the policy:
+the required duration is the time it takes for $A_s^{\varepsilon-1}$ to grow by a factor of about
+$(\varepsilon+1)/(\varepsilon-1)$, and the analysis says nothing about the cost of forgoing the
+static gains from trade for that long.}
 \end{aex}
 
 \end{document}
