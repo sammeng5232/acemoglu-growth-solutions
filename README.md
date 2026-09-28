@@ -18,7 +18,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 7. An Introduction to the Theory of Optimal Control | 29 | 13 | **16** — 7.3, 7.4, 7.6–7.9, 7.11–7.16, 7.20, 7.22, 7.27, 7.29 |
 | 8. The Neoclassical Growth Model | 39 | 15 | **24** — 8.1, 8.3–8.6, 8.8–8.10, 8.12, 8.14, 8.16–8.18, 8.20–8.22, 8.24, 8.26, 8.28, 8.29, 8.32, 8.35, 8.36, 8.39 |
 | 9. Growth with Overlapping Generations | 33 | 12 | **21** — 9.2, 9.4, 9.5, 9.9–9.14, 9.18, 9.19, 9.22, 9.23, 9.25–9.31, 9.33 |
-| 10–23 | ~233 | ~86 | in progress |
+| 10. Human Capital and Economic Growth | 20 | 6 | **14** — 10.1, 10.3–10.5, 10.8–10.13, 10.15–10.17, 10.19 |
+| 11–23 | 320 | 126 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -75,6 +76,12 @@ chapter and writes that chapter's figures to `figures/`. So far:
   (Exercise 9.22); the eigenvalues and comparative statics of the continuous-time perpetual youth
   model (Exercises 9.28–9.30); and capital income taxation in the Ramsey and OLG economies
   (Exercise 9.33).
+- **`ch10.py`** — what a Mincerian wage regression recovers when schooling varies only because
+  discount rates do (Exercise 10.4); the balance locus \(h=\xi(k)\), its slope and the steady
+  state of Proposition 10.1 (Exercises 10.9 and 10.10); the elasticity of steady-state output to
+  investment distortions with and without human capital (Exercise 10.11); the identity
+  \(F_{KH}=-(K/H)F_{KK}\) (Exercise 10.15); and the dynamic externality of the closed economy with
+  imperfect labour markets (Exercise 10.19).
 
 ## Working files (not part of the document)
 

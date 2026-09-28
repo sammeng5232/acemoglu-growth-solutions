@@ -179,16 +179,17 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--9\par}
+{\large Chapters 2--10\par}
 \vspace{0.6cm}
-{\small The 104 exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
+{\small The 118 exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
  leaves unsolved: Exercises 2.1--2.6, 2.8--2.10, 2.13, 2.15, 2.24--2.26;\par
  3.3--3.8, 3.11;\ 4.1, 4.2;\ 5.3--5.8;\par
  6.1, 6.4--6.6, 6.10, 6.11, 6.13--6.17, 6.19--6.21;\par
  7.3, 7.4, 7.6--7.9, 7.11--7.16, 7.20, 7.22, 7.27, 7.29;\par
  8.1, 8.3--8.6, 8.8--8.10, 8.12, 8.14, 8.16--8.18, 8.20--8.22, 8.24, 8.26,\par
  8.28, 8.29, 8.32, 8.35, 8.36, 8.39;\ 9.2, 9.4, 9.5, 9.9--9.14, 9.18, 9.19,\par
- 9.22, 9.23, 9.25--9.31, 9.33 --- with the numerical parts computed by\par
+ 9.22, 9.23, 9.25--9.31, 9.33;\ 10.1, 10.3--10.5, 10.8--10.13, 10.15--10.17,\par
+ 10.19 --- with the numerical parts computed by\par
  the Python programs in \texttt{code/}.\par}
 \vspace{0.8cm}
 {\small The exercise statements are not reproduced here: read them in Acemoglu's
@@ -6094,6 +6095,977 @@ $(1-\tau)$ to differ by a factor of $100$.  Together with Exercise 8.32, which r
 conclusion for discount rates, this is decisive evidence that differences in capital income
 taxation cannot explain the cross-country income distribution --- and part of the case for the
 book's turn, in Part VIII, toward technology and institutions.}
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{10}{Human Capital and Economic Growth}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The fourteen exercises of Chapter 10 left unsolved in the instructor's manual: Exercises 10.1,
+10.3--10.5, 10.8--10.13, 10.15--10.17 and 10.19.  The manual solves 10.2, 10.6, 10.7, 10.14, 10.18
+and 10.20.  Notation follows the book: $s(t)$ is the fraction of time spent in schooling, $h$
+human capital, $\eta(S)$ the human capital produced by $S$ years of full-time schooling, $\phi$
+the Ben-Porath human capital production function, $f(k,h)$ the per capita production function of
+Section 10.4, $\kappa=K/H$ the effective capital-labor ratio of Section 10.5, and $\lambda$ the
+worker's share of output in Section 10.6.  The numerical parts are computed by
+\texttt{code/ch10.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{10.1}{}
+\emph{The environment.}  Time is discrete, $t=0,1,\dots,T$ with $T\le\infty$.  The individual
+discounts at the factor $\beta\in(0,1)$ and faces a constant probability of death $\nu\in[0,1)$
+per period, so his objective is
+\[
+\sum_{t=0}^{T}\bigl[\beta(1-\nu)\bigr]^{t}u\bigl(c(t)\bigr),
+\tag{D1}
+\]
+with $u$ strictly increasing.  Human capital evolves according to
+\[
+h(t+1)=G\bigl(t,h(t),s(t)\bigr),
+\qquad h(0)\ \text{given},
+\tag{D2}
+\]
+where $s(t)\in[0,1]$ is the fraction of time devoted to schooling, subject to the further
+restriction
+\[
+s(t)\in S(t)\subset[0,1].
+\tag{D3}
+\]
+The individual faces an exogenous path of wages per unit of human capital $[w(t)]_{t=0}^{T}$, an
+exogenous path of raw labor $[\omega(t)]_{t=0}^{T}$ and a constant gross interest rate $1+r>1$ at
+which he may borrow and lend freely.  His lifetime budget constraint is
+\[
+\sum_{t=0}^{T}\frac{c(t)}{(1+r)^{t}}
+\ \le\
+\sum_{t=0}^{T}\frac{w(t)\bigl[1-s(t)\bigr]\bigl[h(t)+\omega(t)\bigr]}{(1+r)^{t}}
+\ \equiv\ Y\bigl([s,h]\bigr) .
+\tag{D4}
+\]
+(As in Exercises 8.5 and 9.5, (D4) is the integrated form of the flow constraint
+$a(t+1)=(1+r)a(t)+w(t)[1-s(t)][h(t)+\omega(t)]-c(t)$ together with $a(0)=0$ and the terminal
+condition $\lim_{t\to\infty}a(t)/(1+r)^{t}\ge0$; free borrowing and lending at the single rate $r$
+is what collapses the $T+1$ flow constraints into the one constraint (D4).)
+
+\begin{quote}
+\textbf{Separation Theorem (discrete time).}  Suppose $u$ is strictly increasing and $r>0$.  Then
+$[\wh c(t),\wh s(t),\wh h(t)]_{t=0}^{T}$ solves the maximization of (D1) subject to
+(D2)--(D4) if and only if
+\begin{enumerate}
+\item $[\wh s(t),\wh h(t)]_{t=0}^{T}$ maximizes the present value of earnings $Y([s,h])$ subject
+      to (D2) and (D3); and
+\item $[\wh c(t)]_{t=0}^{T}$ maximizes (D1) subject to
+      $\sum_{t}(1+r)^{-t}c(t)\le\wh Y\equiv Y([\wh s,\wh h])$.
+\end{enumerate}
+\end{quote}
+
+\emph{Proof of ``only if''.}  Suppose $[\wh c,\wh s,\wh h]$ solves the full problem but
+$[\wh s,\wh h]$ does not maximize $Y$.  Then there is a feasible $[\wt s,\wt h]$ with
+$\wt Y\equiv Y([\wt s,\wt h])>\wh Y$.  Feasibility of $[\wh c,\wh s,\wh h]$ gives
+$\sum_{t}(1+r)^{-t}\wh c(t)\le\wh Y$.  For $\varepsilon>0$ set $c(t)=\wh c(t)+\varepsilon$ for all
+$t$, together with $s=\wt s$ and $h=\wt h$.  Then
+\[
+\sum_{t=0}^{T}\frac{c(t)}{(1+r)^{t}}
+=\sum_{t=0}^{T}\frac{\wh c(t)}{(1+r)^{t}}+\varepsilon\,A(T),
+\qquad
+A(T)\equiv\sum_{t=0}^{T}\frac{1}{(1+r)^{t}}=\frac{1-(1+r)^{-(T+1)}}{1-(1+r)^{-1}}
+\le\frac{1+r}{r}<\infty ,
+\]
+the annuity factor --- the discrete-time counterpart of $[1-e^{-rT}]/r$, and finite even for
+$T=\infty$ precisely because $r>0$.  Hence
+$\sum_{t}(1+r)^{-t}c(t)\le\wh Y+\varepsilon A(T)$, and choosing
+$\varepsilon<(\wt Y-\wh Y)/A(T)$ makes this at most $\wt Y$.  So $[c,\wt s,\wt h]$ is feasible;
+and since $u$ is strictly increasing and $c(t)>\wh c(t)$ at every date, it is strictly preferred
+to $[\wh c,\wh s,\wh h]$, contradicting optimality.  Therefore $[\wh s,\wh h]$ maximizes $Y$, and
+given that, $[\wh c]$ must maximize (D1) on the budget set it generates.
+
+\emph{Proof of ``if''.}  Suppose $[\wh s,\wh h]$ maximizes $Y$, with value $\wh Y$, and $[\wh c]$
+maximizes (D1) subject to $\sum_{t}(1+r)^{-t}c(t)\le\wh Y$.  Take any feasible
+$[c,s,h]$ for the full problem.  Its schooling plan yields $Y([s,h])\le\wh Y$, so the budget
+constraint (D4) gives $\sum_{t}(1+r)^{-t}c(t)\le Y([s,h])\le\wh Y$; hence $[c]$ lies in the budget
+set over which $[\wh c]$ was optimal, and so $[c]$ is weakly worse than $[\wh c]$.  Therefore
+$[\wh c,\wh s,\wh h]$ solves the full problem. $\blacksquare$
+
+\emph{What the proof uses.}  Only three things: (i) $u$ is strictly increasing, so a uniformly
+larger consumption path is strictly better; (ii) there is a \emph{single} lifetime budget
+constraint, which requires borrowing and lending at a common rate with no quantity limits; and
+(iii) schooling enters the problem \emph{only} through that constraint --- there is no leisure, so
+$s$ does not appear in $u$.  Exercise 10.2 shows that the theorem fails when (ii) is dropped (a
+borrowing constraint makes the timing of earnings matter, not just their present value) or when
+(iii) is dropped (with $u(c,1-l)$ the marginal rate of substitution between schooling and
+consumption is no longer independent of the consumption plan).
+
+\rmk{This is Fisher separation for human capital: with a complete market for intertemporal trade,
+the individual's ``firm'' --- his stock of human capital --- should be run to maximize its present
+value, and preferences determine only how that value is spread across dates.  The discrete-time
+proof is if anything cleaner than the continuous-time one, since the annuity factor $A(T)$ is an
+explicit finite sum.}
+\end{aex}
+
+\begin{aex}{10.3}{}
+By \bk{Theorem 10.1} the optimal $S$ maximizes the present value of earnings, \bk{(10.8)}:
+\[
+V(S)=\int_{S}^{\infty}e^{-(r+\nu)t}w(t)h(t)\dd t .
+\]
+Two substitutions do the work.  Wages grow at $g_w$ by \bk{(10.7)}, so $w(t)=w(0)e^{g_wt}$.  Human
+capital equals $\eta(S)$ at graduation and grows at $g_h$ thereafter by \bk{(10.6)}, so for
+$t\ge S$,
+\[
+h(t)=\eta(S)e^{g_h(t-S)} .
+\]
+Hence the integrand is
+\[
+e^{-(r+\nu)t}\,w(0)e^{g_wt}\,\eta(S)e^{g_h(t-S)}
+=w(0)\eta(S)e^{-g_hS}\,e^{-(r+\nu-g_w-g_h)t} ,
+\]
+and since $g_w+g_h<r+\nu$ the integral converges:
+\[
+V(S)=w(0)\eta(S)e^{-g_hS}\,\frac{e^{-(r+\nu-g_w-g_h)S}}{r+\nu-g_h-g_w}
+=\frac{\eta(S)\,w(0)\exp\bigl(-(r+\nu-g_w)S\bigr)}{r+\nu-g_h-g_w},
+\]
+the two exponents in $S$ combining because $-g_hS-(r+\nu-g_w-g_h)S=-(r+\nu-g_w)S$.  This is
+\bk{(10.9)}.  With $r=0.10$, $\nu=g_w=0.02$, $g_h=0$ and $S=8$ the program evaluates the integral
+numerically as $15.158858689$ against the closed form $15.158858689$.
+
+\emph{Reading the formula.}  The numerator is the human capital the individual owns on graduation
+day, valued at the current wage and discounted for the delay $S$ at the rate $r+\nu-g_w$; the
+denominator turns the flow into a stock, an annuity factor at the effective rate
+$r+\nu-g_h-g_w$.  The first-order condition is then \bk{(10.10)},
+\[
+\frac{\eta'(S^{*})}{\eta(S^{*})}=r+\nu-g_w ,
+\]
+which equates the \emph{proportional} gain in earnings from an extra year of schooling to the cost
+of postponing the whole earnings stream by a year.
+
+\rmk{The text justifies the uniqueness of $S^{*}$ by saying that ``since $\eta(S)$ is concave, the
+objective function in \bk{(10.9)} is strictly concave.''  That is not quite the right argument:
+for $\Psi(S)=\eta(S)e^{-aS}$ one has $\Psi''=e^{-aS}[\eta''-2a\eta'+a^{2}\eta]$, whose sign is not
+determined by $\eta''<0$.  What is true, and is all that is needed, is that $\Psi$ is strictly
+\emph{log}-concave: $\log\Psi(S)=\log\eta(S)-aS$ and $\log\eta$ is strictly concave whenever
+$\eta$ is positive, increasing and strictly concave.  Equivalently $\eta'/\eta$ is strictly
+decreasing, so \bk{(10.10)} has at most one solution, and the objective is strictly quasiconcave,
+which gives a unique maximizer.  The same observation is what makes the comparative static of
+Exercise 10.4 unambiguous.}
+\end{aex}
+
+\begin{aex}{10.4}{}
+\emph{Higher $r$, less schooling.}  By \bk{(10.10)} the individual's schooling solves
+\[
+\Lambda'(S^{*})=r+\nu-g_w,
+\qquad \Lambda(S)\equiv\log\eta(S),
+\]
+and $\Lambda'=\eta'/\eta$ is strictly decreasing, since
+\[
+\frac{\dd}{\dd S}\frac{\eta'}{\eta}=\frac{\eta''\eta-(\eta')^{2}}{\eta^{2}}<0 .
+\]
+Implicit differentiation therefore gives
+\[
+\frac{\dd S^{*}}{\dd r}=\frac{1}{\bigl[\eta''\eta-(\eta')^{2}\bigr]/\eta^{2}}<0 .
+\]
+Impatient individuals weigh the foregone earnings of an extra year more heavily against the
+proportional wage gain it delivers, and stop schooling sooner.  (The same computation shows
+$\dd S^{*}/\dd\nu<0$ and $\dd S^{*}/\dd g_w>0$.)
+
+\emph{What the wage regression recovers.}  Cross-sectionally, log earnings of an individual with
+schooling $S_j$ and experience $e_j$ are, from the derivation of \bk{(10.12)},
+\[
+\log W_j=\text{constant}+\Lambda(S_j)+g_h e_j .
+\]
+The relation between log wages and schooling is thus the \emph{human capital production function}
+$\Lambda=\log\eta$, whatever generates the variation in $S$.  Estimating the linear equation
+\bk{(10.12)} by least squares (controlling for experience) delivers
+\[
+\wh\gamma_s=\frac{\mathrm{Cov}\bigl(\Lambda(S_j),S_j\bigr)}{\mathrm{Var}(S_j)} ,
+\]
+which, since $\Lambda$ is strictly concave, is a weighted average of the individual marginal
+returns
+\[
+\Lambda'(S_j)=r_j+\nu-g_w .
+\]
+Three conclusions follow.
+
+\emph{(i) The regression is consistent, but for a population average.}  Because $r_j$ affects
+wages \emph{only} through schooling --- it does not enter the wage equation --- there is no
+omitted-variable bias of the usual ``ability bias'' kind, and $\wh\gamma_s$ estimates the average
+marginal return in the population.  Had the heterogeneity been in $\eta$ (ability) rather than in
+$r$, $S_j$ would be correlated with the error and OLS would be inconsistent.  The source of the
+variation, not its size, is what determines whether the regression means anything.
+
+\emph{(ii) But what it estimates is a preference parameter, not a technological one.}  The
+marginal return is $r_j+\nu-g_w$, the individual's own discount rate adjusted for mortality and
+wage growth.  A cross section in which schooling varies only because patience varies traces out
+the \emph{marginal return schedule} $\Lambda'$, so the returns to schooling coefficient reveals
+how impatient people are, not how productive schooling is.  The empirical range
+$\gamma_s\in[0.06,0.10]$ then says that effective discount rates lie in roughly that range, which
+is exactly the reading the text gives when it calibrates $r\approx0.10$, $\nu\approx0.02$ and
+$g_w\approx0.02$ to obtain $\gamma_s\approx0.10$.
+
+\emph{(iii) A single number conceals very heterogeneous returns.}  Take
+$\eta(S)=\exp\bigl(aS-\tfrac{b}{2}S^{2}\bigr)$, so that $\Lambda'(S)=a-bS$ and
+$S^{*}(r)=\bigl[a-(r+\nu-g_w)\bigr]/b$ is linear in $r$.  With $a=0.20$, $b=0.012$,
+$\nu=g_w=0.02$ and $r$ spread uniformly over $[0.04,0.16]$, the program gives
+\[
+\begin{array}{cccccc}
+r & 0.04 & 0.07 & 0.10 & 0.13 & 0.16\\
+S^{*}\ \text{(years)} & 13.33 & 10.83 & 8.33 & 5.83 & 3.33\\
+\text{marginal return} & 0.040 & 0.070 & 0.100 & 0.130 & 0.160
+\end{array}
+\]
+and an OLS Mincer coefficient of $\wh\gamma_s=0.100$ --- the population mean.  But the marginal
+return ranges from $4\%$ for the most-schooled to $16\%$ for the least-schooled.  A policy that
+induces the impatient to stay one more year earns $16\%$; one that extends the schooling of the
+already highly educated earns $4\%$.  Neither is $\wh\gamma_s$.  Figure~\ref{fig:ch10} shows the
+gap: the true relation $\Lambda(S)$ is concave, and the fitted line crosses it twice.
+
+\rmk{This is the theoretical core of the returns-to-schooling literature that follows Card
+(1999): when marginal returns are heterogeneous, an instrument that shifts the \emph{cost} of
+schooling recovers a local average of the returns for the individuals it moves, not a common
+parameter --- and it can exceed the OLS estimate precisely because the individuals whose schooling
+responds to cost shifters are the ones with the highest marginal returns.  The model here is the
+simplest environment in which that statement is exactly true.}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch10_human_capital.pdf}
+\caption{Left (Exercise 10.4): when schooling varies only because discount rates vary, the true
+relation between log wages and schooling is the concave function $\log\eta(S)$, and the Mincer
+coefficient is the average of the individual marginal returns.  Right (Exercise 10.19): in the
+closed economy of Section 10.6, a rise in one group's ability shifts the accumulation map upward,
+and the economy climbs to a higher $k^{*}$ --- raising the \emph{other} group's human capital from
+the next period on.}
+\label{fig:ch10}
+\end{figure}
+\end{aex}
+
+\begin{aex}{10.5}{}
+The problem is
+\[
+\max_{[s(t)]}\ \int_{0}^{\infty}e^{-(r+\nu)t}\bigl(1-s(t)\bigr)h(t)\dd t
+\quad\text{s.t.}\quad
+\dt h(t)=\phi\bigl(s(t)h(t)\bigr)-\delta_hh(t),\qquad s(t)\in[0,1],\ h(0)>0 .
+\]
+
+\emph{Step 1: the state is confined to a compact interval.}  Setting $s=1$ gives the fastest
+possible accumulation, $\dt h\le\phi(h)-\delta_hh$.  Since $\phi$ is strictly concave, increasing
+and eventually flat, $\phi(h)-\delta_hh$ is negative for large $h$; let $\bar h$ solve
+$\phi(\bar h)=\delta_h\bar h$.  Then
+\[
+h(t)\le h_{\max}\equiv\max\{h(0),\bar h\}\qquad\text{for all }t .
+\]
+For a lower bound, note that the optimal path converges monotonically to the steady state
+$h^{*}=\phi(x^{*})/\delta_h>0$ of \bk{(10.17)}--\bk{(10.18)}, so
+$\inf_{t}h(t)=\min\{h(0),h^{*}\}>0$; pick $\epsilon$ strictly below that number.  This is the
+argument of Exercise 7.27(c) applied here, and it is what the hint means by imitating Section 7.7.
+The state therefore lives in the compact interval $[\epsilon,h_{\max}]\subset(0,\infty)$, and the
+objective is bounded:
+\[
+\Bigl|\int_{0}^{\infty}e^{-(r+\nu)t}(1-s)h\dd t\Bigr|\le\frac{h_{\max}}{r+\nu}<\infty .
+\]
+
+\emph{Step 2: \bk{Theorem 7.13} gives the necessary conditions.}  The control set $[0,1]$ is
+compact, $G(h,s)=\phi(sh)-\delta_hh$ is continuously differentiable, the state is confined to a
+compact interval, and the objective converges.  Theorem 7.13 therefore applies to the
+current-value Hamiltonian
+\[
+\mathcal H(h,s,\mu)=(1-s)h+\mu\bigl[\phi(sh)-\delta_hh\bigr]
+\]
+and yields \bk{(10.14)}: $\mathcal H_s=0$, $\mathcal H_h=(r+\nu)\mu-\dt\mu$ and
+$\lim_{t\to\infty}e^{-(r+\nu)t}\mu(t)h(t)=0$.  The first is an equality rather than an inequality
+because the optimum is interior: $\mathcal H_s=-h+\mu h\phi'(sh)$ is $+\infty$ at $s=0$ (since
+$\phi'(0)=\infty$) and negative at $s=1$ (since $\phi'$ has fallen to zero by then), so no corner
+can be optimal.
+
+\emph{Step 3: \bk{Theorem 7.14} gives sufficiency --- after a change of variable.}  Theorem 7.14
+requires the maximized Hamiltonian to be concave in the state.  As written, $\mathcal H$ is
+\emph{not} jointly concave in $(h,s)$: the term $(1-s)h$ is bilinear, with Hessian
+$\bigl(\begin{smallmatrix}0&-1\\-1&0\end{smallmatrix}\bigr)$ and eigenvalues $\pm1$, and
+$\phi(sh)$ is not jointly concave either.  Take instead the control
+\[
+x(t)\equiv s(t)h(t)\in\bigl[0,h(t)\bigr] ,
+\]
+which is the transformation the text introduces immediately after \bk{(10.14)}.  The problem
+becomes
+\[
+\max\ \int_{0}^{\infty}e^{-(r+\nu)t}\bigl[h(t)-x(t)\bigr]\dd t
+\quad\text{s.t.}\quad
+\dt h=\phi(x)-\delta_hh,\qquad 0\le x(t)\le h(t) ,
+\]
+whose Hamiltonian
+\[
+\mathcal H(h,x,\mu)=h-x+\mu\bigl[\phi(x)-\delta_hh\bigr]
+\]
+is \emph{linear} in $h$ and, since $\mu=1/\phi'(x)>0$ by \bk{(10.15)}, strictly concave in $x$:
+jointly concave in $(h,x)$.  The constraint set $\{(h,x):0\le x\le h\}$ is convex, and the change
+of variable is a bijection for $h>0$, so the two problems have the same solutions.
+
+Finally, Theorem 7.14 needs $\lim_{t\to\infty}e^{-(r+\nu)t}\mu(t)h(t)\ge0$ along every feasible
+path, which is immediate here because $h\ge0$ and $\mu>0$.  Hence the conditions \bk{(10.14)} are
+sufficient as well as necessary, and strict concavity of $\phi$ makes the maximizing $x$ --- and
+therefore the whole optimal path --- unique.
+
+\rmk{The change of variable is usually presented as algebraic convenience, a way of reducing
+\bk{(10.14)} to the two equations \bk{(10.15)} and \bk{(10.16)}.  This exercise shows that it is
+doing something more substantial: it is what convexifies the problem.  Whenever a control enters
+multiplicatively with the state, it is worth asking whether the product is the natural control.}
+\end{aex}
+
+\begin{aex}{10.8}{}
+Write $z=(k,h,i_k,i_h)$ and
+\[
+\wh H(z;\mu_k,\mu_h)=\underbrace{u\bigl(f(k,h)-i_h-i_k\bigr)}_{\textstyle =\,(u\circ g)(z)}
++\underbrace{\mu_h\bigl(i_h-\delta_hh\bigr)+\mu_k\bigl(i_k-\delta_kk\bigr)}_{\textstyle \text{linear in }z} ,
+\qquad
+g(z)\equiv f(k,h)-i_k-i_h .
+\]
+The second group of terms is linear in $z$ for any values of the costates, hence concave, so it
+suffices to show that $u\circ g$ is concave.
+
+\emph{$g$ is concave.}  $f$ is jointly strictly concave in $(k,h)$ by Assumptions 1$'$ and 2$'$,
+and $-i_k-i_h$ is linear; a concave function plus a linear one is concave.
+
+\emph{A concave increasing function of a concave function is concave.}  Let
+$z_0,z_1$ and $\lambda\in[0,1]$, and write $z_\lambda=\lambda z_1+(1-\lambda)z_0$.  Then
+\[
+g(z_\lambda)\ \ge\ \lambda g(z_1)+(1-\lambda)g(z_0)
+\]
+by concavity of $g$; applying $u$, which is strictly increasing,
+\[
+u\bigl(g(z_\lambda)\bigr)\ \ge\ u\bigl(\lambda g(z_1)+(1-\lambda)g(z_0)\bigr)
+\ \ge\ \lambda u\bigl(g(z_1)\bigr)+(1-\lambda)u\bigl(g(z_0)\bigr),
+\]
+the second inequality by concavity of $u$.  Hence $u\circ g$ is concave, and so is
+$\wh H$. $\blacksquare$
+
+Both hypotheses are needed: if $u$ were decreasing the first inequality would reverse, and if $u$
+were convex the second would.  Assumption 3 supplies exactly $u'>0$ and $u''<0$.
+
+Concavity of $\wh H$ in the states \emph{and} the controls jointly implies concavity of the
+maximized Hamiltonian in the states (Exercise 7.7), which is what \bk{Theorem 7.14} requires; with
+the transversality conditions, the conditions listed after \bk{(10.24)} therefore characterize the
+optimum.
+
+\rmk{$\wh H$ is concave but not \emph{strictly} so, and the failure is informative.  Along any
+direction that changes $i_k$ and $i_h$ in opposite directions by the same amount, $g$ is constant
+and $u\circ g$ is unchanged; only the linear terms move.  The composition of investment is
+therefore not pinned down by concavity, which is precisely why the first-order conditions deliver
+$\mu_k=\mu_h$ --- the two investments are perfect substitutes in the resource constraint --- and
+why, as the text observes after \bk{Proposition 10.1}, the economy can jump instantaneously to the
+balanced ratio with $i_k(0)$ very negative and $i_h(0)$ very large.}
+\end{aex}
+
+\begin{aex}{10.9}{}
+Write \bk{(10.25)} as $\Delta(k,h)=0$ with
+\[
+\Delta(k,h)\equiv f_k(k,h)-f_h(k,h)-(\delta_k-\delta_h) .
+\]
+
+\emph{Uniqueness.}  For fixed $k>0$,
+\[
+\frac{\partial\Delta}{\partial h}=f_{kh}(k,h)-f_{hh}(k,h)>0 ,
+\]
+since $f_{kh}>0$ by the maintained complementarity assumption and $f_{hh}<0$ by strict concavity.
+So $\Delta(k,\cdot)$ is strictly increasing and has at most one zero.
+
+\emph{Existence.}  By Assumption 2$'$, $f_h(k,h)\to\infty$ as $h\to0$ while $f_k(k,h)$ stays
+finite, so $\Delta(k,h)\to-\infty$; and as $h\to\infty$, $f_h(k,h)\to0$ while $f_k(k,h)$ increases
+without bound (since $f_{kh}>0$; for $f=k^{\alpha}h^{\beta}$, $f_k=\alpha k^{\alpha-1}h^{\beta}\to\infty$),
+so $\Delta(k,h)\to+\infty$.  By continuity there is exactly one root, which defines
+$\xi(k)$.
+
+\emph{Monotonicity and smoothness.}  $f$ is twice continuously differentiable and
+$\Delta_h\neq0$, so the implicit function theorem (\bk{Theorem A.25}) makes $\xi$ continuously
+differentiable, with
+\[
+\boxed{\ \xi'(k)=-\frac{\Delta_k}{\Delta_h}
+=\frac{f_{kh}(k,h)-f_{kk}(k,h)}{f_{kh}(k,h)-f_{hh}(k,h)}\Bigg|_{h=\xi(k)}\ >\ 0\ }
+\]
+because $f_{kk}<0$, $f_{hh}<0$ and $f_{kh}>0$ make both numerator and denominator strictly
+positive.
+
+\emph{An illustration.}  With $f(k,h)=k^{\alpha}h^{\beta}$, $\alpha=\beta=1/3$, $\delta_k=0.08$
+and $\delta_h=0.04$, the program gives
+\[
+\begin{array}{ccccc}
+k & 0.5 & 1.0 & 2.0 & 5.0\\
+\xi(k) & 0.5508 & 1.1302 & 2.3353 & 6.1819\\
+\xi'(k) & 1.1377 & 1.1772 & 1.2294 & 1.3267
+\end{array}
+\]
+matching a numerical derivative to six digits.  In the special case $\delta_k=\delta_h$ the locus
+is exactly linear, $h=(\beta/\alpha)k$; a higher depreciation rate on physical capital tilts the
+economy toward human capital, and here $h^{*}/k^{*}=1.667$ rather than $1$.
+
+\emph{What the result says.}  Physical and human capital are always in balance, at a ratio
+determined entirely by technology and depreciation, because the two are produced from the same
+good at the same price and can be converted into each other freely.  The economy therefore has
+only one effective state variable --- which is the content of \bk{Proposition 10.1} and the reason
+imbalances require irreversibility (Exercise 10.14) or labor market frictions (Section 10.6).
+\end{aex}
+
+\begin{aex}{10.10}{}
+\emph{(a) Consumption.}  The first two conditions after \bk{(10.24)} give
+$\mu_k(t)=\mu_h(t)=u'(c(t))\equiv\mu(t)$.  The third then reads
+\[
+f_k\bigl(k,h\bigr)u'(c)-\mu\delta_k=\rho\mu-\dt\mu
+\qquad\Longrightarrow\qquad
+\frac{\dt\mu}{\mu}=\rho+\delta_k-f_k(k,h).
+\]
+Since $\mu=u'(c)$,
+\[
+\frac{\dt\mu}{\mu}=\frac{u''(c)\dt c}{u'(c)}=-\varepsilon_u(c)\frac{\dt c}{c},
+\qquad
+\varepsilon_u(c)=-\frac{u''(c)c}{u'(c)},
+\]
+so that, substituting $h=\xi(k)$ from Exercise 10.9,
+\[
+\frac{\dt c(t)}{c(t)}=\frac{1}{\varepsilon_u(c(t))}
+\Bigl[f_k\bigl(k(t),\xi(k(t))\bigr)-\delta_k-\rho\Bigr] .
+\]
+
+\emph{Capital.}  Along the optimal path $h(t)=\xi(k(t))$, so $\dt h=\xi'(k)\dt k$.  From
+\bk{(10.21)} and \bk{(10.22)},
+\[
+i_k=\dt k+\delta_kk,
+\qquad
+i_h=\dt h+\delta_hh=\xi'(k)\dt k+\delta_h\xi(k),
+\]
+and substituting into the resource constraint \bk{(10.23)}, which binds,
+\[
+c+\dt k+\delta_kk+\xi'(k)\dt k+\delta_h\xi(k)=f\bigl(k,\xi(k)\bigr) .
+\]
+Collecting the terms in $\dt k$,
+\[
+\dt k(t)=\frac{1}{1+\xi'(k(t))}
+\Bigl[f\bigl(k(t),\xi(k(t))\bigr)-\delta_h\xi(k(t))-\delta_kk(t)-c(t)\Bigr] ,
+\]
+which is the second equation of \bk{Proposition 10.1}.  The factor $1/[1+\xi'(k)]$ is the price of
+raising $k$ by one unit: doing so requires $\xi'(k)$ additional units of human capital to keep the
+economy on the locus.
+
+\emph{Transversality.}  Integrating $\dt\mu/\mu=\rho+\delta_k-f_k$,
+\[
+e^{-\rho t}\mu(t)=\mu(0)\exp\Bigl(-\int_{0}^{t}\bigl[f_k\bigl(k(s),\xi(k(s))\bigr)-\delta_k\bigr]\dd s\Bigr),
+\]
+so $\lim_{t\to\infty}e^{-\rho t}\mu_k(t)k(t)=0$ is equivalent to
+\[
+\lim_{t\to\infty}k(t)\exp\Bigl(-\int_{0}^{t}\bigl[f_k\bigl(k(s),\xi(k(s))\bigr)-\delta_k\bigr]\dd s\Bigr)=0 ,
+\]
+and the second transversality condition, in $h$, is then implied by $h=\xi(k)$ and
+$\mu_h=\mu_k$.  The system is a planar one in $(k,c)$ with exactly the structure of the
+one-sector neoclassical model of Chapter 8, so it has a unique steady state at
+$f_k(k^{*},\xi(k^{*}))=\delta_k+\rho$, saddle-path stable, with monotone convergence. $\blacksquare$
+
+\rmk{The transversality condition as printed in \bk{Proposition 10.1} omits $\delta_k$ from the
+exponent.  The derivation above shows that the correct exponent carries the depreciation rate,
+$-\int_0^t[f_k-\delta_k]\dd s$, that is $-\int_0^tr(s)\dd s$ with $r=f_k-\delta_k$ the net
+interest rate, exactly as in \bk{(8.32)} and \bk{Proposition 8.7}.  Since
+$f_k-\delta_k\to\rho>0$ along the equilibrium path, both versions are satisfied by the optimal
+path and nothing substantive turns on it.}
+
+\emph{(b) The other form.}  Repeat the argument with the \emph{fourth} condition after
+\bk{(10.24)} in place of the third:
+\[
+f_h(k,h)u'(c)-\mu\delta_h=\rho\mu-\dt\mu
+\qquad\Longrightarrow\qquad
+\frac{\dt\mu}{\mu}=\rho+\delta_h-f_h(k,h),
+\]
+so that
+\[
+\frac{\dt c(t)}{c(t)}=\frac{1}{\varepsilon_u(c(t))}
+\Bigl[f_h\bigl(k(t),\xi(k(t))\bigr)-\delta_h-\rho\Bigr].
+\]
+The two expressions are identical because subtracting the two costate equations gives
+\[
+f_k(k,h)-\delta_k=f_h(k,h)-\delta_h ,
+\]
+which is exactly \bk{(10.25)}.  The program confirms it: with $f=k^{1/3}h^{1/3}$,
+$\delta_k=0.08$, $\delta_h=0.04$, the columns $f_k-\delta_k$ and $f_h-\delta_h$ agree to six
+digits at every $k$ on the locus, and the steady state has
+\[
+k^{*}=61.728,\qquad h^{*}=102.881,\qquad
+f_k(k^{*},h^{*})-\delta_k=f_h(k^{*},h^{*})-\delta_h=\rho=0.02 .
+\]
+
+\emph{Why.}  Both capitals are assets, both are produced from the consumption good one for one,
+and both can be accumulated or decumulated freely.  No-arbitrage therefore forces their net rates
+of return to be equal, and that common value \emph{is} the interest rate $r(t)$ the household
+faces.  The Euler equation compares $r$ with $\rho$; it is indifferent about which of the two
+assets one uses to measure $r$.
+\end{aex}
+
+\begin{aex}{10.11}{}
+Modify the resource constraint to $c+(1+\tau)(i_k+i_h)\le f(k,h)$, as in Section 8.10, and repeat
+the optimization.  The current-value Hamiltonian is
+\[
+\wh H=u\bigl(f(k,h)-(1+\tau)(i_k+i_h)\bigr)+\mu_k(i_k-\delta_kk)+\mu_h(i_h-\delta_hh),
+\]
+and the first-order conditions in the two investments give
+\[
+\mu_k=\mu_h=(1+\tau)u'(c).
+\]
+The costate equation in $k$ is $f_ku'(c)-\mu_k\delta_k=\rho\mu_k-\dt\mu_k$, so
+\[
+\frac{\dt\mu_k}{\mu_k}=\rho+\delta_k-\frac{f_k(k,h)}{1+\tau} ,
+\]
+the distortion entering because a unit of forgone consumption now buys only $1/(1+\tau)$ units of
+capital.  In a steady state $\dt c=0$, hence $\dt\mu_k=0$, and likewise for $h$:
+\[
+f_k(k^{*},h^{*})=(1+\tau)(\rho+\delta_k),
+\qquad
+f_h(k^{*},h^{*})=(1+\tau)(\rho+\delta_h).
+\tag{$*$}
+\]
+
+\emph{Cobb--Douglas.}  With $Y=K^{\alpha}H^{\beta}L^{1-\alpha-\beta}$ and $L=1$, so
+$y=k^{\alpha}h^{\beta}$, the two conditions in $(*)$ read $\alpha y/k=A_k$ and $\beta y/h=A_h$,
+where $A_k\equiv(1+\tau)(\rho+\delta_k)$ and $A_h\equiv(1+\tau)(\rho+\delta_h)$.  Hence
+$k=\alpha y/A_k$ and $h=\beta y/A_h$, and substituting back into $y=k^{\alpha}h^{\beta}$,
+\[
+y=\Bigl(\frac{\alpha y}{A_k}\Bigr)^{\alpha}\Bigl(\frac{\beta y}{A_h}\Bigr)^{\beta}
+=y^{\alpha+\beta}\Bigl(\frac{\alpha}{A_k}\Bigr)^{\alpha}\Bigl(\frac{\beta}{A_h}\Bigr)^{\beta}
+\quad\Longrightarrow\quad
+y=\Bigl[\Bigl(\frac{\alpha}{A_k}\Bigr)^{\alpha}\Bigl(\frac{\beta}{A_h}\Bigr)^{\beta}
+\Bigr]^{\frac{1}{1-\alpha-\beta}} .
+\]
+Both $A_k$ and $A_h$ are proportional to $1+\tau$, so $y\propto(1+\tau)^{-(\alpha+\beta)/(1-\alpha-\beta)}$
+and
+\[
+\boxed{\ \frac{Y(\tau)}{Y(\tau')}=\Bigl(\frac{1+\tau'}{1+\tau}\Bigr)^{\frac{\alpha+\beta}{1-\alpha-\beta}}\ }
+\]
+which is \bk{(10.26)}. $\blacksquare$
+
+\emph{How much this adds.}  The elasticity is $(\alpha+\beta)/(1-\alpha-\beta)$ where the
+one-capital model of Chapter 8 gave $\alpha/(1-\alpha)$:
+\[
+\begin{array}{cccc}
+(\alpha,\beta) & (1/3,0) & (1/3,1/6) & (1/3,1/3)\\
+\text{exponent} & 0.50 & 1.00 & 2.00\\
+\text{eightfold distortion} & 2.83 & 8.00 & 64.00
+\end{array}
+\]
+Adding a human capital share equal to the physical capital share quadruples the exponent, and the
+income ratio a given distortion can generate rises from under threefold to sixty-fourfold.
+
+\rmk{The mechanism deserves scepticism, and the text supplies it.  The large number comes entirely
+from an extremely elastic human capital response: the model has human capital adjusting to
+after-tax returns exactly as physical capital does, so a tax on investment compounds across both
+margins.  Whether schooling decisions really respond to corporate taxes or to corruption in that
+way is doubtful, and the exercise's arithmetic is the same arithmetic that makes the
+Mankiw--Romer--Weil accounting attribute so much to human capital --- which Chapter 3 found the
+evidence does not support.  What the calculation establishes is a logical possibility, not a
+measurement.}
+\end{aex}
+
+\begin{aex}{10.12}{}
+\emph{(a) The consumer.}  The representative household owns the two capital stocks and rents them
+to firms at $R_k(t)$ and $R_h(t)$, and supplies its unit of raw labor at the wage $w(t)$.  It
+solves
+\[
+\max\ \int_{0}^{\infty}e^{-\rho t}u\bigl(c(t)\bigr)\dd t
+\quad\text{s.t.}\quad
+c(t)+i_k(t)+i_h(t)\le R_k(t)k(t)+R_h(t)h(t)+w(t),
+\]
+\[
+\dt k(t)=i_k(t)-\delta_kk(t),
+\qquad
+\dt h(t)=i_h(t)-\delta_hh(t),
+\qquad
+k(0),h(0)>0\ \text{given},
+\]
+together with the no-Ponzi conditions
+$\lim_{t\to\infty}k(t)e^{-\int_0^t(R_k-\delta_k)}\ge0$ and the analogue in $h$.  Prices are taken
+as given.
+
+\emph{(b) Equilibrium.}  A competitive equilibrium is a path
+\[
+\bigl[c(t),i_k(t),i_h(t),k(t),h(t),R_k(t),R_h(t),w(t)\bigr]_{t=0}^{\infty}
+\]
+such that
+\begin{enumerate}
+\item the household's path solves the problem in (a) given prices;
+\item firms maximize: with $F(K,H,L)$ constant returns to scale and $L=1$,
+      \[
+      R_k(t)=f_k\bigl(k(t),h(t)\bigr),\quad
+      R_h(t)=f_h\bigl(k(t),h(t)\bigr),\quad
+      w(t)=f\bigl(k(t),h(t)\bigr)-k(t)f_k-h(t)f_h ;
+      \]
+\item markets clear: the factor markets by (2), and the goods market by
+      $c(t)+i_k(t)+i_h(t)=f(k(t),h(t))$, which follows from (2) and Euler's theorem.
+\end{enumerate}
+
+\emph{(c) Characterization.}  The household's current-value Hamiltonian is
+\[
+\wh H=u\bigl(R_kk+R_hh+w-i_k-i_h\bigr)+\mu_k(i_k-\delta_kk)+\mu_h(i_h-\delta_hh),
+\]
+with $R_k,R_h,w$ exogenous to the household.  The conditions in the two investments give
+$\mu_k=\mu_h=u'(c)$ again, and the two costate equations give
+\[
+\frac{\dt\mu_k}{\mu_k}=\rho+\delta_k-R_k(t),
+\qquad
+\frac{\dt\mu_h}{\mu_h}=\rho+\delta_h-R_h(t).
+\]
+Equality of the costates forces the \emph{no-arbitrage condition}
+\[
+R_k(t)-\delta_k=R_h(t)-\delta_h\ \equiv\ r(t),
+\]
+and substituting the firms' conditions from (2) turns this into
+$f_k(k,h)-f_h(k,h)=\delta_k-\delta_h$, which is \bk{(10.25)}; so $h(t)=\xi(k(t))$ in equilibrium
+too.  The Euler equation is
+\[
+\frac{\dt c}{c}=\frac{1}{\varepsilon_u(c)}\bigl[r(t)-\rho\bigr]
+=\frac{1}{\varepsilon_u(c)}\bigl[f_k\bigl(k,\xi(k)\bigr)-\delta_k-\rho\bigr] ,
+\]
+the resource constraint reproduces the second equation of \bk{Proposition 10.1}, and the
+transversality conditions are the ones derived in Exercise 10.10.
+
+Every equilibrium condition is therefore identical to an optimality condition of the planner's
+problem, and conversely; since both problems have a unique solution given $k(0)$, the competitive
+equilibrium and the optimal growth path coincide. $\blacksquare$
+
+\emph{Why they coincide, and what is doing the work.}  There are no externalities, technology has
+constant returns, markets are complete and the household is a price taker, so the First and Second
+Welfare Theorems of Chapter 5 apply.  What is worth noticing is the interpretation of
+\bk{(10.25)}: in the planner's problem it is a first-order condition, an instruction to keep the
+two capitals in balance; in the market it is a \emph{no-arbitrage condition}, forced by the fact
+that both assets are produced from the same good at the same price and can be converted at will.
+The balance the planner chooses is the balance arbitrage imposes.
+\end{aex}
+
+\begin{aex}{10.13}{}
+Let $Y(t)=F\bigl(K(t),H(t),A(t)L\bigr)$ with $A(t)=A(0)e^{gt}$, $L=1$ and $F$ constant returns to
+scale in its three arguments; preferences are CRRA with curvature $\theta$.
+
+\emph{(a) Equilibrium} is defined exactly as in Exercise 10.12, with the firm's conditions
+\[
+R_k(t)=F_K,\qquad R_h(t)=F_H,\qquad w(t)=F_L\cdot A(t) ,
+\]
+where $w$ is now the wage per unit of raw labor and grows over time.
+
+\emph{(b) Transformed variables.}  Because progress is labor augmenting and $F$ has constant
+returns, the natural normalization is by effective labor:
+\[
+\wh k\equiv\frac{K}{AL},\qquad \wh h\equiv\frac{H}{AL},\qquad \wh c\equiv\frac{c}{A},
+\qquad f(\wh k,\wh h)\equiv F(\wh k,\wh h,1),
+\]
+and these are the variables constant in a steady state; $c$, $k$, $h$ and $y$ all grow at $g$.
+The accumulation equations become
+\[
+\dt{\wh k}=\wh\imath_k-(\delta_k+g)\wh k,
+\qquad
+\dt{\wh h}=\wh\imath_h-(\delta_h+g)\wh h,
+\]
+effective labor growing at $g$ adding to the effective depreciation rate of both stocks.
+
+\emph{(c) Steady state and dynamics.}  The two investment conditions again give
+$\mu_k=\mu_h$, and the two costate equations again give
+\[
+f_k(\wh k,\wh h)-\delta_k=f_h(\wh k,\wh h)-\delta_h ,
+\]
+which is \bk{(10.25)} unchanged: the balance locus $\wh h=\xi(\wh k)$ is the \emph{same function}
+as without technological progress, since $g$ enters both stocks symmetrically.  The Euler equation
+with CRRA preferences is
+\[
+\frac{\dt{\wh c}}{\wh c}=\frac{1}{\theta}\Bigl[f_k\bigl(\wh k,\xi(\wh k)\bigr)-\delta_k-\rho-\theta g\Bigr],
+\]
+so the steady state is
+\[
+\boxed{\ f_k\bigl(\wh k^{*},\xi(\wh k^{*})\bigr)=\rho+\delta_k+\theta g,
+\qquad
+f_h\bigl(\wh k^{*},\wh h^{*}\bigr)=\rho+\delta_h+\theta g,
+\qquad \wh h^{*}=\xi(\wh k^{*}),\ }
+\]
+the modified golden rule of Chapter 8 applied to each capital stock, and
+\[
+\dt{\wh k}=\frac{1}{1+\xi'(\wh k)}
+\Bigl[f\bigl(\wh k,\xi(\wh k)\bigr)-(\delta_h+g)\xi(\wh k)-(\delta_k+g)\wh k-\wh c\Bigr] .
+\]
+This is a planar system in $(\wh k,\wh c)$ with exactly the structure of \bk{Proposition 8.7}: a
+unique steady state, saddle-path stable, with monotone convergence along the stable arm.  A
+higher $g$ raises the required marginal product $\rho+\delta_k+\theta g$ and therefore \emph{lowers}
+$\wh k^{*}$ and $\wh h^{*}$; the technology-adjusted levels fall while the growth rates rise.
+Assumption 4 --- $\rho>(1-\theta)g$ with $n=0$ --- is again needed for finite utility.
+
+\emph{(d) Why human capital accumulates faster.}  Two observations combine.
+
+First, along the balanced growth path $\wh h=H/(AL)$ is constant, so the \emph{stock} of human
+capital grows at exactly the rate $g$.  A higher $g$ therefore means permanently faster human
+capital accumulation, not just faster output growth.
+
+Second, the mechanism is complementarity.  Human capital is complementary with effective labor,
+$F_{HA}>0$; as $A$ rises, the marginal product of a given stock of human capital rises with it,
+and by \bk{(10.25)} the return to human capital must remain tied to the return to physical
+capital.  So the return to human capital investment rises one for one with the rate of
+technological progress, and the household responds by accumulating $H$ at the rate $g$.  Since
+$\wh h=\xi(\wh k)$ is a fixed relation, human capital tracks physical capital exactly: anything
+that raises the growth rate of $K$ raises that of $H$ by the same amount.  With
+$f=\wh k^{\alpha}\wh h^{\beta}$ and $\delta_k=\delta_h$ the ratio is literally constant,
+$\wh h^{*}/\wh k^{*}=\beta/\alpha$, regardless of $g$.
+
+\rmk{This is the model's answer to a recurring empirical question --- whether skill-biased
+technological change should raise or lower the incentive to invest in skills.  Here the answer is
+unambiguous, because progress is factor-neutral in the relevant sense and the two capitals are
+tied by \bk{(10.25)}.  Models in which technology and skills are chosen jointly, and in which the
+\emph{direction} of technological change responds to relative supplies, are the subject of Chapter
+15, and there the answer is considerably less simple.}
+\end{aex}
+
+\begin{aex}{10.15}{}
+By constant returns to scale and Euler's theorem,
+\[
+F_K(K,H)K+F_H(K,H)H=F(K,H)\qquad\text{for all }K,H>0 .
+\]
+Differentiate with respect to $K$:
+\[
+F_{KK}K+F_K+F_{HK}H=F_K
+\qquad\Longrightarrow\qquad
+F_{KK}K+F_{KH}H=0 ,
+\]
+that is
+\[
+\boxed{\ F_{KH}=-\frac{K}{H}F_{KK}\ \ge\ 0\ }
+\]
+since $F$ is concave in $K$ (Assumption 1), so $F_{KK}\le0$, and $K,H>0$.  If $F$ is
+\emph{strictly} concave in $K$ the inequality is strict. $\blacksquare$
+
+The symmetric computation, differentiating Euler's identity with respect to $H$, gives
+$F_{KH}=-\tfrac{H}{K}F_{HH}$, and multiplying the two,
+\[
+F_{KH}^{2}=F_{KK}F_{HH}
+\qquad\Longrightarrow\qquad
+\det\begin{pmatrix}F_{KK}&F_{KH}\\F_{KH}&F_{HH}\end{pmatrix}=0 .
+\]
+The Hessian of a constant-returns production function is always singular, with null direction
+$(K,H)$ --- the direction in which the function is linear.
+
+\emph{Verification.}  For the CES $F=(K^{\rho}+H^{\rho})^{1/\rho}$ with $\rho=-1/2$ (elasticity of
+substitution $2/3$), the program computes $F_{KK}$ and $F_{KH}$ by finite differences:
+\[
+\begin{array}{cccc}
+(K,H) & (1,1) & (1,3) & (4,1)\\
+F_{KK} & -0.093750 & -0.139899 & -0.009260\\
+F_{KH} & +0.093750 & +0.046634 & +0.037037\\
+-(K/H)F_{KK} & +0.093750 & +0.046633 & +0.037039
+\end{array}
+\]
+
+\emph{What this means.}  With exactly two factors and constant returns, capital and human capital
+\emph{cannot} be substitutes in the sense $F_{KH}<0$; complementarity is not an assumption but a
+theorem.  The intuition is that constant returns tie the two marginal products together: doubling
+both factors doubles output and leaves both marginal products unchanged, so if raising $K$ alone
+lowers $F_K$, raising $H$ must raise it.  Note that this argument is special to two factors ---
+with three or more, a pair of factors can be substitutes while constant returns still hold, which
+is why the production function $F(K,H,L)$ of Section 10.4 needs $f_{kh}>0$ as a separate
+assumption.
+\end{aex}
+
+\begin{aex}{10.16}{}
+As in Exercise 9.4, the accounting question is who holds the undepreciated capital.  Each adult
+of generation $t$ owns $b_i(t-1)$, rents it to firms, and at the end of the period receives the
+rental $f'(\kappa(t))b_i(t-1)$ together with the $(1-\delta)b_i(t-1)$ that has not depreciated.
+His gross return is therefore
+\[
+R(t)=f'\bigl(\kappa(t)\bigr)+1-\delta ,
+\]
+replacing \bk{(10.32)}, while the wage per unit of human capital is unchanged,
+\[
+w(t)=f\bigl(\kappa(t)\bigr)-\kappa(t)f'\bigl(\kappa(t)\bigr).
+\]
+
+\emph{What does not change.}  The individual's problem is still to maximize
+$m_i(t)-\gamma(h_i(t)/a)$ by Exercise 10.17, and $m_i(t)=w(t)h_i(t)+R(t)b_i(t-1)$ is linear in
+$h_i$ with coefficient $w(t)$, which does not involve $\delta$.  So the human capital condition
+\bk{(10.35)} and its solution \bk{(10.36)},
+\[
+aw(t)=\gamma'\Bigl(\frac{h_i(t)}{a}\Bigr),
+\qquad
+h_i(t)=h(t)\equiv a\,\gamma'^{-1}\Bigl(a\bigl[f(\kappa(t))-\kappa(t)f'(\kappa(t))\bigr]\Bigr),
+\]
+are word for word the same.  Every individual still chooses the same human capital, and it still
+depends on nothing but the effective capital-labor ratio: the two substantive conclusions of
+Section 10.5 survive untouched.
+
+\emph{What changes, and how little.}  Bequests are still $b_i(t)=(1-\eta)m_i(t)$, so
+\[
+K(t+1)=\int_{0}^{1}b_i(t)\dd i=(1-\eta)\bigl[w(t)H(t)+R(t)K(t)\bigr]
+=(1-\eta)\bigl[Y(t)+(1-\delta)K(t)\bigr],
+\]
+using Euler's theorem $w(t)H(t)+f'(\kappa(t))K(t)=Y(t)$.  Dividing by $H(t+1)=h(t+1)$ and using
+$Y(t)=f(\kappa(t))h(t)$,
+\[
+\kappa(t+1)=\frac{(1-\eta)\bigl[f(\kappa(t))+(1-\delta)\kappa(t)\bigr]h(t)}{h(t+1)} ,
+\]
+which is \bk{(10.37)} with $f$ replaced by
+\[
+\wt f(\kappa)\equiv f(\kappa)+(1-\delta)\kappa
+\]
+in the accumulation term only (the factor prices still involve $f$ itself).  The steady state is
+\[
+\kappa^{*}=(1-\eta)\wt f(\kappa^{*})=(1-\eta)\bigl[f(\kappa^{*})+(1-\delta)\kappa^{*}\bigr],
+\]
+in place of \bk{(10.38)}.  This equation has a unique positive root for exactly the same reason:
+$\wt f$ is strictly concave with $\wt f(0)=0$ and $\wt f'(0)=\infty$, and
+$(1-\eta)\wt f'(\kappa)\to(1-\eta)(1-\delta)<1$, so $(1-\eta)\wt f(\kappa)-\kappa$ is positive
+near zero and eventually negative.  \bk{Proposition 10.2} therefore holds verbatim with $\wt f$ in
+place of $f$, and the conclusion drawn from it --- that capital-skill complementarity pins down a
+target ratio $\kappa^{*}$ and so rules out large imbalances --- is unaffected.
+
+\rmk{The exercise says the dynamics ``remain unchanged''; strictly they do not --- the
+steady-state condition acquires the term $(1-\delta)\kappa^{*}$, and $\kappa^{*}$ is larger for
+$\delta<1$ than for $\delta=1$, since more capital survives each period.  What is unchanged is
+everything the section uses: the human capital decision, its independence of the wealth
+distribution, the uniqueness of $\kappa^{*}$, and the balance result.  Setting $\delta=1$ is a
+normalization that shortens \bk{(10.38)}, not a substantive restriction.}
+\end{aex}
+
+\begin{aex}{10.17}{}
+Preferences \bk{(10.28)} are
+\[
+\eta^{-\eta}(1-\eta)^{-(1-\eta)}c_i(t)^{\eta}b_i(t)^{1-\eta}-\gamma\Bigl(\frac{h_i(t)}{a}\Bigr),
+\]
+and the budget constraint \bk{(10.29)} is $c_i(t)+b_i(t)\le m_i(t)$.
+
+\emph{(10.33).}  The effort term does not involve $c_i$ or $b_i$, so the consumption-bequest
+split solves $\max c^{\eta}b^{1-\eta}$ subject to $c+b=m$ (the constraint binds since the
+objective is strictly increasing).  Taking logs and differentiating,
+\[
+\frac{\eta}{c}=\frac{1-\eta}{b}
+\qquad\Longrightarrow\qquad
+b=\frac{1-\eta}{\eta}c,
+\qquad\text{so}\qquad
+c\Bigl(1+\frac{1-\eta}{\eta}\Bigr)=\frac{c}{\eta}=m ,
+\]
+giving
+\[
+c_i(t)=\eta\,m_i(t),
+\qquad
+b_i(t)=(1-\eta)\,m_i(t),
+\]
+which is \bk{(10.33)}: constant shares, as always with Cobb--Douglas preferences.
+
+\emph{(10.34).}  Substituting back,
+\[
+\eta^{-\eta}(1-\eta)^{-(1-\eta)}\bigl(\eta m\bigr)^{\eta}\bigl((1-\eta)m\bigr)^{1-\eta}
+=\eta^{-\eta}(1-\eta)^{-(1-\eta)}\eta^{\eta}(1-\eta)^{1-\eta}m^{\eta+(1-\eta)}
+=m ,
+\]
+every constant cancelling against the normalizing factor.  Hence the indirect utility function is
+\[
+\boxed{\ m_i(t)-\gamma\Bigl(\frac{h_i(t)}{a}\Bigr)\ }
+\]
+which is \bk{(10.34)}. $\blacksquare$
+
+\emph{The point of the normalization.}  The factor $\eta^{-\eta}(1-\eta)^{-(1-\eta)}$ is chosen so
+that indirect utility is exactly \emph{linear} in income, with a coefficient of one.  That makes
+the human capital decision a pure income-maximization problem: from \bk{(10.34)} the individual
+chooses $h_i$ to maximize $w(t)h_i-\gamma(h_i/a)$, which involves neither his inherited wealth
+$b_i(t-1)$ nor any preference parameter other than $\gamma$.  Consequently
+\begin{itemize}
+\item every individual chooses the \emph{same} human capital, \bk{(10.36)}, however unequal their
+      bequests --- there are no income effects in schooling;
+\item aggregate dynamics do not depend on the distribution of wealth, which is what makes
+      \bk{(10.37)} a scalar difference equation;
+\item the human capital choice ``separates from'' the consumption-bequest choice.
+\end{itemize}
+The last point is \bk{Theorem 10.1} in a two-period discrete-time setting: here it is delivered not
+by perfect capital markets but by quasi-linear preferences, which serve the same purpose of making
+the marginal value of income independent of how much of it there is.  Exercise 10.20 in
+Section 9.6 --- general $u_1(c)+u_2(b)$ --- is where dropping this structure starts to matter.
+\end{aex}
+
+\begin{aex}{10.19}{}
+\emph{Closing the economy.}  Suppose there are two groups, of measures $\pi$ and $1-\pi$, with
+abilities $a_1$ and $a_2$.  Everything in Section 10.6 is unchanged except that the interest rate
+no longer comes from world markets: capital per firm is whatever last period's bequests supply,
+\[
+\wh k(t)=\int_{0}^{1}b_i(t-1)\dd i=K(t),
+\]
+and $R(t)$ adjusts to clear the capital market, $R(t)=(1-\lambda)\int_0^1F_k(\wh k(t),h_i(t))\dd i$.
+The essential change is that $\wh k(t)$ is \emph{predetermined}: firms invest before they know
+which worker they will meet, and the aggregate they can invest was fixed a period earlier.
+
+Given $\wh k(t)$, each worker chooses human capital from
+\[
+\lambda a_i\,F_h\bigl(\wh k(t),h_i\bigr)=\gamma'\Bigl(\frac{h_i}{a_i}\Bigr),
+\tag{W}
+\]
+which defines $\wh h_i(\wh k(t);a_i)$.  Differentiating (W) in $\wh k$ and in $a_i$,
+\[
+\frac{\partial\wh h_i}{\partial\wh k}=\frac{\lambda a_iF_{hk}}{\gamma''/a_i-\lambda a_iF_{hh}}>0 ,
+\qquad
+\frac{\partial\wh h_i}{\partial a_i}=\frac{\lambda F_h+\gamma''h_i/a_i^{2}}{\gamma''/a_i-\lambda a_iF_{hh}}>0 ,
+\]
+both denominators positive because $\gamma$ is strictly convex and $F$ concave in $h$, and both
+numerators positive because $F_{hk}\ge0$ by Exercise 10.15.  With Cobb--Douglas bequests as in
+Section 10.5, total income equals total output and
+\[
+\wh k(t+1)=(1-\eta)\,\Phi\bigl(\wh k(t)\bigr),
+\qquad
+\Phi(\wh k)\equiv\int_{0}^{1}F\bigl(\wh k,\wh h_i(\wh k)\bigr)\dd i=Y(t) .
+\tag{K}
+\]
+
+\emph{The externality.}  Raise $a_1$.  At the impact date $t=0$:
+\begin{itemize}
+\item group 1's human capital rises, by $\partial\wh h_1/\partial a_1>0$;
+\item current output $Y(0)=\Phi(\wh k(0))$ rises, since $F$ is increasing in $h$;
+\item group 2's human capital is \emph{unchanged}, because $\wh h_2$ depends on $a_2$ and on
+      $\wh k(0)$, and $\wh k(0)$ is predetermined.
+\end{itemize}
+From $t=1$ on, by (K), the higher output raises bequests and therefore $\wh k(1)$; the higher
+capital per firm raises $\wh h_i$ for \emph{every} $i$, including group 2, which raises output
+again, and so on.  The long-run effect is
+\[
+\frac{\dd\wh k^{*}}{\dd a_1}
+=\frac{(1-\eta)\,\partial\Phi/\partial a_1}{1-(1-\eta)\Phi'(\wh k^{*})}\ >\ 0,
+\qquad
+\Phi'(\wh k)=\int_{0}^{1}\Bigl[F_k+F_h\frac{\partial\wh h_i}{\partial\wh k}\Bigr]\dd i>\int_0^1F_k\dd i,
+\]
+with the multiplier $1/[1-(1-\eta)\Phi'(\wh k^{*})]>1$ under the stability condition
+$(1-\eta)\Phi'(\wh k^{*})<1$.  Group 2's steady-state human capital rises by
+$(\partial\wh h_2/\partial\wh k)\,\dd\wh k^{*}/\dd a_1>0$.
+
+\emph{An explicit example.}  Take $F(k,h)=k^{1/3}h^{2/3}$, $\gamma(e)=e^{3}/3$, $\lambda=1/2$,
+$\eta=0.4$, $\pi=1/2$, $a_1=a_2=1$.  Then (W) solves in closed form,
+$\wh h_i=\bigl[\tfrac{2}{3}\lambda a_i^{3}\wh k^{1/3}\bigr]^{3/7}\propto a_i^{9/7}\wh k^{1/7}$,
+and (K) becomes $\wh k(t+1)=(1-\eta)C\wh k(t)^{3/7}$, a contraction with a unique stable steady
+state.  Raising $a_1$ by $10\%$ gives
+\[
+\begin{array}{cccccccc}
+t & 0 & 1 & 2 & 3 & 5 & \infty\\
+\wh k(t) & 0.23616 & 0.24621 & 0.25065 & 0.25257 & 0.25376 & 0.25403\\
+\wh h_2(t)\ \text{gain} & 0.000\% & 0.597\% & 0.854\% & 0.965\% & 1.032\% & 1.047\%
+\end{array}
+\]
+The closed forms are $\dd\log\wh k^{*}/\dd\log a_1=0.750$ and
+$\dd\log\wh h_2^{*}/\dd\log a_1=0.107$, which the numerical experiment reproduces ($0.765$ and
+$0.109$ for a discrete $10\%$ change).  Group 2 ends up with over $1\%$ more human capital,
+without any change in its own ability, preferences or constraints.  The right panel of
+Figure~\ref{fig:ch10} shows the accumulation map (K) shifting up and the economy climbing to the
+new steady state.
+
+\emph{Why this is different from the open economy.}  In the open economy of \bk{Proposition 10.3},
+$\wh k$ is pinned down by $(1-\lambda)\int F_k(\wh k,\wh h_i(\wh k))\dd i=R^{*}$, so a rise in
+$a_1$ does raise $\wh k$ and hence $\wh h_2$ --- but instantaneously, and financed from abroad.
+Here the adjustment must be financed out of the economy's own saving, so it takes time, arrives
+only from the next period, and compounds: higher output this period buys more capital next
+period, which raises everyone's human capital, which raises output again.  That is the sense in
+which the externality is \emph{dynamic}.
+
+\rmk{The externality exists at all only because of the labor market friction.  With competitive
+labor markets (Sections 10.4 and 10.5) each worker is paid his marginal product and internalizes
+the full return to his human capital, so raising one group's ability changes the others' decisions
+only through factor prices in the usual, second-order way.  Here random matching plus a fixed
+sharing rule $\lambda$ means the return each worker captures depends on the capital \emph{other}
+people's investments have called forth; complementarity then turns a private improvement into a
+public one.  This is the mechanism Chapter 21 develops into a full theory of human capital
+externalities and virtuous cycles.}
 \end{aex}
 
 \end{document}
