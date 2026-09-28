@@ -44,6 +44,7 @@
 %% ---------------------------------------------------------------------------
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\E}{\mathrm{E}}                  % expectation operator (upright, as in the book)
 \newcommand{\Prob}{\mathrm{Pr}}
 \newcommand{\wh}[1]{\widehat{#1}}
@@ -1978,6 +1979,801 @@ saving behavior in it generally differs from the commitment solution --- the dyn
 generation $t$ would wish, since it cannot bind its descendant to treat the grandchild as generously as it
 would like.  The economics is the same as in the individual hyperbolic-discounting model: an extra,
 non-geometric concern for a more distant date creates a conflict between successive decision makers.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{6}{Infinite-Horizon Optimization and Dynamic Programming}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The fourteen exercises of Chapter 6 left unsolved in the instructor's manual: Exercises 6.1, 6.4, 6.5, 6.6,
+6.10, 6.11, 6.13, 6.14, 6.15, 6.16, 6.17, 6.19, 6.20 and 6.21.  The manual solves 6.2, 6.3, 6.7, 6.8, 6.9,
+6.12 and 6.18.  Notation follows the book: \bk{Problem 6.2} is the sequence problem, \bk{Problem 6.3} the
+Bellman equation, $T$ the operator \bk{(6.18)}, $\Phi(x(0))$ the set of feasible plans, and $\pi$ the policy
+function.  Assumptions numbered 6.1--6.5 are the dynamic programming assumptions; Assumptions 1, 2 and
+3$'$ are those on technology and preferences.  The numerical part is computed by \texttt{code/ch6.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{6.1}{}
+Following \bk{Example 6.1}, the state is $x=k$, the control is next period's capital $y=k'$, and
+\[
+U(k,k')=u\bigl(g(k)-k'\bigr),
+\qquad
+g(k)\equiv f(k)+(1-\delta)k,
+\qquad
+G(k)=\bigl[0,\,g(k)\bigr],
+\]
+the constraint $k'\le g(k)$ being $c\ge0$.  Assumptions 1 and 2 of Chapter 2 restrict $f$ only, so
+throughout we also use the standard assumptions on the utility function collected in Assumption 3$'$: $u$
+is continuous, strictly increasing, strictly concave, and (for \bk{Assumption 6.5}) continuously
+differentiable.
+
+\emph{A compact state space.}  First note that the state can be confined to a compact interval.  By
+Assumption 2, $\lim_{k\to\infty}f(k)/k=0$, so there is a unique $\bar k>0$ with $f(\bar k)=\delta\bar k$:
+at $\bar k$ the whole of output is needed to replace depreciated capital, and no feasible plan starting
+below $\bar k$ can ever exceed it.  Hence, with
+$\vec k\equiv g\bigl(\max\{k(0),\bar k\}\bigr)$, every feasible plan from $k(0)$ remains in
+$X\equiv[0,\vec k]$, a compact set.
+
+\emph{\bk{Assumption 6.1}.}  $G(k)\ni0$ is nonempty for every $k\in X$.  Since $X$ is compact, $g$ is
+continuous and $u$ is continuous, $U$ is bounded on $X_G$ (a continuous function on a compact set), say
+$|U|\le\bar U<\infty$.  Then for any feasible plan $\sum_{t=0}^{n}\beta^{t}U(k(t),k(t+1))$ is a Cauchy
+sequence, since the tail is bounded by $\bar U\beta^{n+1}/(1-\beta)$; the limit exists and is finite.
+
+\emph{\bk{Assumption 6.2}.}  $X$ is a compact subset of $\R$.  $G(k)=[0,g(k)]$ is nonempty- and
+compact-valued, and it is continuous: both endpoints are continuous functions of $k$, which gives upper and
+lower hemicontinuity.  $U$ is continuous on $X_G=\{(k,k'):0\le k'\le g(k)\}$ as the composition of the
+continuous functions $u$ and $(k,k')\mapsto g(k)-k'$.
+
+\emph{\bk{Assumption 6.3}.}  Take $(k,k')$, $(\tilde k,\tilde k')\in X_G$ and $\alpha\in(0,1)$.  Since $f$
+is concave (Assumption 1), so is $g$, and since $u$ is increasing and concave,
+\begin{align*}
+U\bigl(\alpha k+(1-\alpha)\tilde k,\ \alpha k'+(1-\alpha)\tilde k'\bigr)
+&=u\bigl(g(\alpha k+(1-\alpha)\tilde k)-\alpha k'-(1-\alpha)\tilde k'\bigr)\\
+&\ge u\bigl(\alpha[g(k)-k']+(1-\alpha)[g(\tilde k)-\tilde k']\bigr)\\
+&\ge\alpha U(k,k')+(1-\alpha)U(\tilde k,\tilde k') ,
+\end{align*}
+the first inequality by concavity of $g$ and monotonicity of $u$, the second by concavity of $u$.  If
+$k\neq\tilde k$ the first inequality is strict, because $f$ is strictly concave (Assumption 1 has
+$f''<0$) and $u$ is strictly increasing --- which is exactly the strict inequality required by
+\bk{Assumption 6.3}.  Convexity of $G$ is the same computation: if $k'\le g(k)$ and $\tilde k'\le g(\tilde
+k)$ then $\alpha k'+(1-\alpha)\tilde k'\le\alpha g(k)+(1-\alpha)g(\tilde k)\le g(\alpha k+(1-\alpha)\tilde
+k)$.
+
+\emph{\bk{Assumption 6.4}.}  $U(\cdot,k')$ is strictly increasing because
+$\partial U/\partial k=u'(c)g'(k)=u'(c)[f'(k)+1-\delta]>0$, using $u'>0$ and $f'>0$ (Assumption 1).  And
+$g$ is increasing, so $k\le\tilde k$ implies $G(k)=[0,g(k)]\subset[0,g(\tilde k)]=G(\tilde k)$: a larger
+capital stock relaxes the constraint set.
+
+\emph{\bk{Assumption 6.5}.}  On the interior of $X_G$ --- where $c=g(k)-k'>0$ --- $U$ is continuously
+differentiable, since $u$ is continuously differentiable and $f$ is twice differentiable by Assumption 1.
+
+All five assumptions therefore hold, and \bk{Theorems 6.1--6.6} apply to the optimal growth model, which is
+what licenses the recursive treatment in Sections 6.6 and 6.8.
+
+\rmk{Only two properties of the technology did real work: concavity of $f$ (for \bk{Assumption 6.3}) and
+the Inada condition $f(k)/k\to0$ (for compactness of $X$).  The second is indispensable in this form of the
+argument: an $AK$ technology, which violates Assumption 2, has an unbounded state space, and the
+contraction-based theory of this chapter does not apply directly --- which is why the book turns to
+continuous-time methods for endogenous growth models.}
+\end{aex}
+
+\begin{aex}{6.4}{}
+Recall the setting: $\dt x(t)=f(x(t))$ with $x(0)=c$, where $f$ is Lipschitz with constant $M$, and for
+$g\in C[0,s]$,
+\[
+Tg(z)=c+\int_0^zf(g(x))\dd x ,\qquad z\in[0,s].
+\]
+
+\emph{(a) $T$ maps $C[0,s]$ into itself, and its fixed points are the solutions.}  If $g$ is continuous then
+$f\circ g$ is continuous, so the integral is well defined and $Tg$ is continuously differentiable, hence
+continuous: $T:C[0,s]\to C[0,s]$.  If $Tg=g$ then $g(z)=c+\int_0^zf(g(x))\dd x$, so $g(0)=c$ and, by the
+Fundamental Theorem of Calculus, $g$ is differentiable with $\dt g(z)=f(g(z))$: $g$ solves \bk{(6.7)}.
+Conversely, integrating \bk{(6.7)} shows every continuous solution is a fixed point.  For the contraction
+property, Lipschitz continuity gives, for every $z\in[0,s]$,
+\[
+\bigl|Tg(z)-T\tilde g(z)\bigr|
+\le\int_0^z\bigl|f(g(x))-f(\tilde g(x))\bigr|\dd x
+\le M\int_0^z\bigl|g(x)-\tilde g(x)\bigr|\dd x
+\le Mz\|g-\tilde g\| ,
+\tag{$*$}
+\]
+so $\|Tg-T\tilde g\|\le Ms\|g-\tilde g\|$.  For $s<1/M$ this is a contraction, and since $C[0,s]$ with the
+sup norm is complete, \bk{Theorem 6.7} gives a unique fixed point: \bk{(6.7)} has exactly one continuous
+solution on $[0,s]$ when $s<1/M$.
+
+\emph{(b) The second iterate.}  The useful form of ($*$) is the \emph{pointwise} bound
+$|Tg(z)-T\tilde g(z)|\le Mz\|g-\tilde g\|$.  Applying $T$ again and using it inside the integral,
+\[
+\bigl|T^2g(z)-T^2\tilde g(z)\bigr|
+\le M\int_0^z\bigl|Tg(x)-T\tilde g(x)\bigr|\dd x
+\le M\int_0^zMx\|g-\tilde g\|\dd x
+=\frac{M^2z^2}{2}\|g-\tilde g\| ,
+\]
+and taking the supremum over $z\in[0,s]$ gives $\|T^2g-T^2\tilde g\|\le M^2\frac{s^2}{2}\|g-\tilde g\|$.
+
+\emph{(c) Induction.}  Suppose $|T^{n}g(z)-T^{n}\tilde g(z)|\le M^{n}\frac{z^{n}}{n!}\|g-\tilde g\|$ for
+all $z\in[0,s]$, which is ($*$) for $n=1$.  Then
+\[
+\bigl|T^{n+1}g(z)-T^{n+1}\tilde g(z)\bigr|
+\le M\int_0^z\frac{M^{n}x^{n}}{n!}\|g-\tilde g\|\dd x
+=\frac{M^{n+1}z^{n+1}}{(n+1)!}\|g-\tilde g\| ,
+\]
+completing the induction; the sup over $[0,s]$ gives the stated bound.
+
+\emph{(d) Any interval.}  Fix $s\in\R_+$ arbitrary.  Since $M^{n}s^{n}/n!\to0$ as $n\to\infty$ --- the
+terms of the convergent series for $e^{Ms}$ --- there is $n$ with $M^{n}s^{n}/n!<1$, so $T^{n}$ is a
+contraction on the complete metric space $C[0,s]$.  By \bk{Exercise 6.2}, if some iterate $T^{n}$ is a
+contraction then $T$ itself has a unique fixed point.  Hence \bk{(6.7)} has a unique continuous solution on
+$[0,s]$, for \emph{every} $s$, not merely for $s<1/M$.
+
+\rmk{This is the Picard--Lindel\"of theorem, proved by contraction.  The restriction $s<1/M$ in
+\bk{Example 6.3} is an artifact of using $T$ rather than its iterates: the factorial in part (c) beats the
+geometric growth of $M^{n}s^{n}$, so the solution never breaks down at a finite horizon.  The same device ---
+show that some iterate is a contraction even when the map itself is not --- is what makes the contraction
+method usable in dynamic programming problems where the one-step operator is not a contraction, for instance
+with $\beta=1$ but a bounded number of periods of ``effective'' discounting.}
+\end{aex}
+
+\begin{aex}{6.5}{}
+The hypotheses are that $\varphi:\R\times[a,b]\to\R$ is continuously differentiable with
+$0<m\le\partial\varphi(y,x)/\partial y\le M<\infty$ for all $(y,x)$.
+
+\emph{(a) $T$ is a contraction.}  For $y,\tilde y$ and any $x\in[a,b]$, the Mean Value Theorem gives a
+$\xi$ between $y(x)$ and $\tilde y(x)$ with
+$\varphi(y(x),x)-\varphi(\tilde y(x),x)=\varphi_y(\xi,x)\bigl[y(x)-\tilde y(x)\bigr]$.  Therefore
+\[
+Ty(x)-T\tilde y(x)
+=\bigl[y(x)-\tilde y(x)\bigr]\Bigl[1-\frac{\varphi_y(\xi,x)}{M}\Bigr] ,
+\]
+and since $m\le\varphi_y\le M$ we have $0\le1-\varphi_y/M\le1-m/M$.  Hence
+\[
+\|Ty-T\tilde y\|\le\Bigl(1-\frac{m}{M}\Bigr)\|y-\tilde y\| ,
+\qquad
+\beta\equiv1-\frac{m}{M}\in[0,1),
+\]
+so $T$ is a contraction with modulus $\beta$.  That $T$ maps continuous functions to continuous functions
+is immediate from continuity of $\varphi$.
+
+\emph{(b) The theorem.}  $C([a,b])$ with the sup norm is a complete metric space, so by \bk{Theorem 6.7}
+$T$ has a unique fixed point $y^*$.  By construction
+\[
+Ty^*=y^*
+\iff
+\frac{\varphi(y^*(x),x)}{M}=0
+\iff
+\varphi\bigl(y^*(x),x\bigr)=0
+\quad\text{for all }x\in[a,b],
+\]
+which is the existence and uniqueness assertion of the Implicit Function Theorem.  Differentiability
+follows once existence is in hand: since $\varphi$ is continuously differentiable and
+$\varphi_y\ge m>0$, the identity $\varphi(y^*(x),x)=0$ can be differentiated to give
+\[
+\frac{\dd y^*(x)}{\dd x}=-\frac{\varphi_x\bigl(y^*(x),x\bigr)}{\varphi_y\bigl(y^*(x),x\bigr)} ,
+\]
+which is continuous, so $y^*\in C^1([a,b])$.
+
+\rmk{The exercise suggests working directly in $C^1([a,b])$.  That is the natural guess but the wrong
+space: with the $C^1$ norm $\|y\|+\|\dt y\|$, $T$ need not be a contraction, because differentiating $Ty$
+brings in $\varphi_x$ and the derivative $\dt y$ with a coefficient that is not bounded by $\beta$.  The
+clean route is the one above --- contract on $C([a,b])$, where the sup-norm estimate is exactly the
+one-dimensional bound $|1-\varphi_y/M|\le1-m/M$, and recover continuous differentiability afterwards from
+the implicit relation.  The uniform bound $\varphi_y\ge m>0$ is what makes the modulus strictly less than
+one, and it is the same hypothesis that makes the implicit function well defined globally on $[a,b]$ rather
+than only locally.}
+\end{aex}
+
+\begin{aex}{6.6}{}
+Recall
+\[
+TV(x)=\max_{y\in G(x)}\bigl\{U(x,y)+\beta V(y)\bigr\},
+\qquad V\in C(X).
+\]
+Under \bk{Assumption 6.2}, $X$ is compact, $G$ is nonempty- and compact-valued and continuous, and $U$ is
+continuous; so the maximum is attained (Weierstrass) and $TV\in C(X)$ by Berge's Maximum Theorem.  Since
+$X$ is compact, every $V\in C(X)$ is bounded, and $C(X)$ with the sup norm is a complete metric space.  We
+verify Blackwell's two sufficient conditions (\bk{Theorem 6.9}).
+
+\emph{Monotonicity.}  Let $V,W\in C(X)$ with $V(y)\le W(y)$ for all $y$.  For every $x$ and every
+$y\in G(x)$,
+\[
+U(x,y)+\beta V(y)\le U(x,y)+\beta W(y)\le TW(x),
+\]
+the last step because $TW(x)$ is the maximum over $y\in G(x)$.  Taking the maximum of the left-hand side
+over $y\in G(x)$ gives $TV(x)\le TW(x)$ for all $x$, that is $TV\le TW$.
+
+\emph{Discounting.}  For a constant $c\ge0$,
+\[
+T(V+c)(x)=\max_{y\in G(x)}\bigl\{U(x,y)+\beta V(y)+\beta c\bigr\}
+=\Bigl[\max_{y\in G(x)}\bigl\{U(x,y)+\beta V(y)\bigr\}\Bigr]+\beta c
+=TV(x)+\beta c ,
+\]
+because the additive constant $\beta c$ does not affect which $y$ attains the maximum.  So
+$T(V+c)\le TV+\beta c$, with $\beta\in[0,1)$ the discount factor.
+
+Both of Blackwell's conditions hold, so by \bk{Theorem 6.9} $T$ is a contraction on $C(X)$ with modulus
+$\beta$, and \bk{Theorem 6.7} then delivers the unique fixed point $V\in C(X)$ that solves
+\bk{Problem 6.3}.
+
+\rmk{The proof shows that discounting does all the work: the modulus of the contraction \emph{is} the
+discount factor.  This is why $\beta<1$ is not a technical convenience but the substantive hypothesis of
+the whole theory --- with $\beta=1$ the operator satisfies monotonicity but not discounting, the fixed
+point need not be unique or even exist, and problems like \bk{Exercise 6.15} have no solution at all.}
+\end{aex}
+
+\begin{aex}{6.10}{}
+It is enough to exhibit one.  Take the log/Cobb--Douglas optimal growth model of \bk{Example 6.4} with full
+depreciation:
+\[
+\max\ \sum_{t=0}^{\infty}\beta^{t}\log c(t)
+\qquad\text{s.t.}\qquad
+k(t+1)=k(t)^{\alpha}-c(t),\qquad k(0)>0 .
+\]
+The Euler equation \bk{(6.50)} here is
+\[
+\frac{1}{c(t)}=\beta\,\alpha k(t+1)^{\alpha-1}\frac{1}{c(t+1)} .
+\tag{$*$}
+\]
+
+\emph{The Euler equations alone leave one degree of freedom.}  Let $u(t)\equiv c(t)/k(t)^{\alpha}$ be the
+consumption share, so that $k(t+1)=(1-u(t))k(t)^{\alpha}$.  Substituting into ($*$) and simplifying, the
+Euler equation is equivalent to the first-order difference equation
+\[
+u(t+1)=\frac{\alpha\beta\,u(t)}{1-u(t)} ,
+\]
+with fixed points $u^*=1-\alpha\beta$ --- the familiar optimal policy, $c=(1-\alpha\beta)k^{\alpha}$ --- and
+$u=0$.  The derivative of the map at $u^*$ is $\alpha\beta/(1-u^*)^2=1/(\alpha\beta)>1$, so $u^*$ is
+\emph{unstable} going forward, while $u=0$ is stable (derivative $\alpha\beta<1$).  Consequently, for any
+$u(0)\neq u^*$ the resulting path satisfies \emph{every} Euler equation, and:
+\begin{itemize}
+\item if $u(0)>u^*$ the consumption share rises until it exceeds $1$ and capital would have to be
+      negative: the plan is infeasible after finitely many periods;
+\item if $u(0)<u^*$ the path is feasible forever, but $u(t)\to0$ geometrically --- the economy saves an
+      ever larger fraction of output and consumption vanishes relative to output.
+\end{itemize}
+The second family is the answer: these plans are feasible, satisfy all the Euler equations, and are
+strictly suboptimal.
+
+\emph{They fail transversality.}  The transversality condition \bk{(6.51)} here is
+\[
+\lim_{t\to\infty}\beta^{t}f'(k(t))u'(c(t))k(t)
+=\lim_{t\to\infty}\beta^{t}\frac{\alpha k(t)^{\alpha}}{c(t)}
+=\lim_{t\to\infty}\frac{\alpha\beta^{t}}{u(t)}=0 .
+\]
+On the optimal path $u(t)\equiv u^*$ and the expression is $\alpha\beta^{t}/u^*\to0$.  On an over-saving
+path $u(t+1)\approx\alpha\beta u(t)$ once $u$ is small, so $u(t)\sim C(\alpha\beta)^{t}$ and
+\[
+\frac{\alpha\beta^{t}}{u(t)}\sim\frac{\alpha}{C}\Bigl(\frac{1}{\alpha}\Bigr)^{t}\longrightarrow\infty ,
+\]
+so transversality fails as badly as possible.
+
+\emph{And they are strictly worse.}  With $\alpha=1/3$, $\beta=0.9$ and $k(0)=1$, so that $u^*=0.7$:
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+& optimal, $u(0)=0.70$ & $u(0)=0.60$ & $u(0)=0.50$\\
+\midrule
+value $\sum\beta^{t}\log c(t)$ & $-8.7266$ & $-98.1473$ & $-105.2498$\\
+loss relative to the optimum & --- & $89.42$ & $96.52$\\
+$\beta^{t}\alpha/u(t)$ at $t=100$ & $4.3\times10^{-7}$ & $4.1\times10^{46}$ & $9.8\times10^{46}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Figure~\ref{fig:ch6tv} plots the consumption share and the transversality expression along one such path.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch6_transversality.pdf}
+\caption{An Euler path that is not optimal.  Left: the consumption share $u(t)=c(t)/k(t)^{\alpha}$ drifts
+away from the optimal $u^*=1-\alpha\beta$ and vanishes.  Right: the transversality expression
+$\beta^tf'(k(t))u'(c(t))k(t)$, which tends to zero on the optimal path and diverges on the Euler path.}
+\label{fig:ch6tv}
+\end{figure}
+
+The economics is transparent: the household keeps accumulating capital it never consumes.  Each Euler
+equation is a statement about a \emph{local, one-period} deviation --- shifting a little consumption between
+$t$ and $t+1$ cannot improve matters --- and every such deviation is indeed unprofitable along these paths.
+What they miss is the \emph{global} deviation of consuming a fraction of the terminal capital stock, which
+is what the transversality condition prices: when
+$\lim\beta^{t}D_xU(x^*(t),x^*(t+1))\cdot x^*(t+1)>0$, the plan leaves asymptotically valuable capital
+unconsumed, and shrinking the whole capital path by a factor $1-\varepsilon$ raises utility.  That is
+exactly the perturbation used in the proof of \bk{Theorem 6.10}.
+
+\rmk{The instability of the Euler map is not a defect of the example but the general situation: the Euler
+equations form a second-order difference equation in the state, whose steady state is a saddle, so the
+initial condition $k(0)$ pins down only one of the two degrees of freedom and transversality selects the
+saddle path.  It also means that one cannot compute the optimum by iterating the Euler equation forward ---
+even starting exactly at $u^*$, rounding error grows by a factor $1/(\alpha\beta)$ per period.  The
+accompanying program therefore imposes the optimal path exactly rather than iterating it.}
+\end{aex}
+
+\begin{aex}{6.11}{}
+\emph{Shifting consumption up is always affordable.}  The only constraint is the flow budget constraint
+\[
+a(t+1)=(1+r(t))a(t)+w(t)-c(t),
+\qquad a(0)\ \text{given}.
+\]
+Given a path $\{c(t)\}$ with assets $\{a(t)\}$, define $c'(t)\equiv c(t)+\gamma$ and let $\{a'(t)\}$ be
+generated by the same flow constraint from the same $a(0)$.  The difference
+$d(t)\equiv a'(t)-a(t)$ satisfies $d(0)=0$ and $d(t+1)=(1+r(t))d(t)-\gamma$, so
+\[
+d(t)=-\gamma\sum_{s=0}^{t-1}\ \prod_{j=s+1}^{t-1}\bigl(1+r(j)\bigr)\ <0 .
+\]
+Every equation of the flow constraint holds by construction, so $\{c'(t)\}$ is feasible: the extra
+consumption is simply borrowed, and the debt is rolled over forever.  With $r(t)\ge0$ the debt grows at
+least linearly, and $a'(t)\to-\infty$.
+
+\emph{Hence no optimum exists.}  Since $u$ is strictly increasing,
+\[
+\sum_{t=0}^{\infty}\beta^{t}u\bigl(c(t)+\gamma\bigr)>\sum_{t=0}^{\infty}\beta^{t}u\bigl(c(t)\bigr)
+\qquad\text{for every }\gamma>0 ,
+\]
+so no feasible path can be optimal: whatever is proposed, adding $\gamma$ to consumption at every date is
+also feasible and strictly better.  If in addition $u$ is unbounded above, letting $\gamma\to\infty$ makes
+the supremum $+\infty$; if $u$ is bounded above by $\bar u$, the supremum is $\bar u/(1-\beta)$ and is still
+not attained.  Either way the maximization problem is not well posed --- \bk{Assumption 6.1} fails, and with
+it the entire dynamic programming apparatus.
+
+\emph{Why market economies exclude these paths.}  The path finances consumption by borrowing and never
+repaying: the present value of the consumer's debt does not go to zero, so in present-value terms he is
+consuming resources he never earns.  Nobody would take the other side of that trade.  Formally, the lender's
+own optimization imposes that the value of the loan be recovered, so equilibrium requires a
+\emph{no-Ponzi-game} condition
+\[
+\lim_{t\to\infty}\ \frac{a(t)}{\prod_{j=0}^{t-1}(1+r(j))}\ \ge\ 0 ,
+\]
+or, equivalently and more primitively, the \emph{natural debt limit} \bk{(6.44)}: the consumer can borrow at
+most the present value of his future labor income, since that is all he can ever repay with nonnegative
+consumption.  Either restriction restores a compact feasible set and a well-posed problem, and in general
+equilibrium the restriction is not an extra assumption at all --- aggregate assets must equal the aggregate
+capital stock, which is finite, so debts must be backed by someone's assets.
+
+\rmk{This is the discrete-time counterpart of the transversality condition of \bk{Exercise 6.10}, seen from
+the household's side.  There the danger was accumulating capital forever and never consuming it; here it is
+borrowing forever and never repaying.  Both are ruled out by the same kind of terminal condition, and both
+show that the Euler equations alone do not characterize optimal behavior in infinite horizon.}
+\end{aex}
+
+\begin{aex}{6.13}{}
+Write $q(t)\equiv\prod_{j=0}^{t-1}\bigl(1+r(j)\bigr)^{-1}$ for the price at date $0$ of a unit of the good
+at date $t$ (with $q(0)=1$), and let
+\[
+W(t)\equiv\sum_{s=0}^{\infty}\Bigl(\prod_{j=0}^{s}\frac{1}{1+r(t+j)}\Bigr)w(t+s)
+\]
+be the present value at $t$ of current and future labor income, so that $\bar W=\max_tW(t)$.
+
+\emph{(a) The natural debt limit.}  Iterating the flow budget constraint forward from $t$ and dividing by
+the accumulated interest factors,
+\[
+\sum_{s=0}^{T}\Bigl(\prod_{j=0}^{s}\frac{1}{1+r(t+j)}\Bigr)c(t+s)
+= a(t)+\sum_{s=0}^{T}\Bigl(\prod_{j=0}^{s}\frac{1}{1+r(t+j)}\Bigr)w(t+s)
+-\Bigl(\prod_{j=0}^{T}\frac{1}{1+r(t+j)}\Bigr)a(t+T+1).
+\]
+The debt is repayable only if the household can make the left-hand side nonnegative for every $T$ while
+letting the last term vanish.  Since consumption cannot be negative, the most the household can ever
+dedicate to repayment is its entire future labor income; taking $T\to\infty$ and imposing $c\ge0$ gives
+\[
+a(t)\ \ge\ -\sum_{s=0}^{\infty}\Bigl(\prod_{j=0}^{s}\frac{1}{1+r(t+j)}\Bigr)w(t+s)=-W(t),
+\]
+which is \bk{(6.44)}.  It binds exactly when the household plans zero consumption forever, which is why it
+is called \emph{natural}: it is implied by feasibility alone, not by any extra market restriction.
+
+\emph{(b) Bounds on assets.}  The lower bound is immediate: $a(t)\ge-W(t)\ge-\bar W$.  For the upper bound,
+work with total wealth $\Omega(t)\equiv a(t)+W(t)\ge0$, which evolves as
+$\Omega(t+1)=(1+r(t))\bigl(\Omega(t)-c(t)\bigr)$.  So $\Omega$ is nonincreasing as soon as the household
+consumes at least the interest on its wealth,
+\[
+c(t)\ \ge\ \frac{r(t)}{1+r(t)}\Omega(t) ,
+\]
+and a sufficient condition for that at the optimum is $\beta(1+r(t))\le1$ for all $t$: with the Euler
+equation \bk{(6.45)}, $\beta(1+r(t+1))\le1$ makes consumption nonincreasing, which (given the intertemporal
+budget constraint) requires consuming at least the annuity value of wealth.  Under that condition
+$\Omega(t)\le\Omega(0)=a(0)+W(0)\le a(0)+\bar W$, and since $W(t)\ge0$,
+\[
+a(t)=\Omega(t)-W(t)\le a(0)+\bar W .
+\]
+So the conditions are: $\bar W<\infty$ (finite lifetime resources) and $\beta(1+r(t))\le1$ for all $t$ (the
+household is at least as impatient as the market).  Both are needed --- \bk{Exercise 6.12}(b) shows that
+with $r>\beta^{-1}-1$ assets grow without bound and no such $\bar a$ exists.
+
+\emph{(c) The level of initial consumption.}  The Euler equation \bk{(6.45)} determines the whole path from
+its first element: define recursively $c(t)=h_t\bigl(c(0)\bigr)$ by
+$u'(c(t))=\beta(1+r(t+1))u'(c(t+1))$, so each $h_t$ is strictly increasing in $c(0)$ because $u'$ is
+strictly decreasing.  The transversality condition --- equivalently the no-Ponzi condition holding with
+equality, $\lim_{t\to\infty}q(t)a(t)=0$ --- turns the flow constraints into the single intertemporal budget
+constraint
+\[
+\sum_{t=0}^{\infty}q(t)\,h_t\bigl(c(0)\bigr)\ =\ a(0)+\sum_{t=0}^{\infty}q(t)w(t)\ \equiv\ \Omega(0),
+\tag{$*$}
+\]
+which determines $c(0)$ implicitly.  The left-hand side is continuous and strictly increasing in $c(0)$
+(from $0$ to $\infty$), so the solution exists and is unique.  Differentiating ($*$),
+\[
+\frac{\partial c(0)}{\partial a(0)}=\Bigl[\sum_{t=0}^{\infty}q(t)h_t'\bigl(c(0)\bigr)\Bigr]^{-1}>0 :
+\]
+an increase in initial assets raises initial consumption.  With CRRA utility
+$h_t(c(0))=c(0)\prod_{j=1}^{t}\bigl[\beta(1+r(j))\bigr]^{1/\theta}$, so
+$c(0)=\Omega(0)/\sum_tq(t)\prod_{j\le t}[\beta(1+r(j))]^{1/\theta}$ and the derivative is the marginal
+propensity to consume out of wealth, a number in $(0,1]$.
+
+\emph{(d) Retiming earnings.}  Let $\{\tilde w(t)\}$ satisfy $\tilde w(t)>w(t)$ for $t<T$,
+$\tilde w(t)\le w(t)$ for $t\ge T$, and $\sum_t(1+r)^{-t}w(t)=\sum_t(1+r)^{-t}\tilde w(t)$.  Then
+$\Omega(0)$ is unchanged, so by ($*$) the whole consumption path
+$\{c(t)\}$ --- not merely $c(0)$ --- is unchanged.  What changes is the asset path: with income arriving
+earlier, the household saves the difference, so
+\[
+\tilde a(t)-a(t)=\sum_{s<t}(1+r)^{t-s}\bigl[\tilde w(s)-w(s)\bigr]>0
+\quad\text{for }0<t\le T,
+\]
+and the extra assets are run down thereafter, reaching zero in present value again.
+
+The intuition is the permanent income hypothesis in its purest form.  With perfect capital markets, a
+complete set of borrowing and lending opportunities at the market interest rate, and no binding constraint,
+the household cares only about the \emph{present value} of its earnings; the timing affects only the
+portfolio decision, not consumption.  Two qualifications are worth noting, because they are where the
+result breaks in applications: if the natural debt limit \bk{(6.44)} or a tighter borrowing constraint
+binds, a shift of income toward the present relaxes it and does raise consumption; and if the interest rate
+at which the household can borrow exceeds that at which it can lend, the equivalence fails as well.  Here
+neither applies --- the change makes the household unambiguously less constrained early on.
+\end{aex}
+
+\begin{aex}{6.14}{}
+\emph{Conditions.}  The natural hypotheses are the stationary ones imposed \emph{uniformly in $t$}:
+\begin{enumerate}
+\item $X\subset\R^K$ is compact, and for every $t$, $G(t,\cdot)$ is nonempty-valued, compact-valued and
+      continuous, with the graph $X_G(t)=\{(x,y):y\in G(t,x)\}$ closed;
+\item $U(t,\cdot,\cdot)$ is continuous on $X_G(t)$ for each $t$, and \emph{uniformly bounded}, in the sense
+      that $\bar U\equiv\sup_{t}\sup_{(x,y)\in X_G(t)}|U(t,x,y)|$ is finite;
+\item $\beta\in[0,1)$.
+\end{enumerate}
+Let $C(\Z_+\times X)$ be the space of functions $V(t,x)$, continuous in $x$ for each $t$ and bounded, with
+the sup norm $\|V\|=\sup_{t,x}|V(t,x)|$.  This is a complete metric space.
+
+\emph{$T$ is a well-defined self-map.}  For each $(t,x)$ the maximand is continuous in $y$ on the compact
+set $G(t,x)$, so the maximum is attained (Weierstrass); by Berge's Maximum Theorem $TV(t,\cdot)$ is
+continuous; and $\|TV\|\le\bar U+\beta\|V\|<\infty$, so $TV\in C(\Z_+\times X)$.  Uniform boundedness of
+$U$ is exactly what is needed here --- without it the sup norm over all $t$ is infinite and the space is not
+the right one.
+
+\emph{$T$ is a contraction.}  Blackwell's conditions hold verbatim as in Exercise 6.6, because $t$ is
+carried along as a parameter: if $V\le W$ pointwise then $TV\le TW$; and
+$T(V+c)(t,x)=TV(t,x)+\beta c$ for any constant $c$.  By \bk{Theorem 6.9}, $T$ is a contraction of modulus
+$\beta$, so by \bk{Theorem 6.7} it has a unique fixed point $V\in C(\Z_+\times X)$, the value function of
+the nonstationary problem.
+
+\emph{The equivalents of \bk{Theorems 6.2--6.6}.}  Write $\Phi(t,x)$ for the set of feasible plans from
+state $x$ at date $t$, and $V^*(t,x)$ for the supremum of $\sum_{s\ge t}\beta^{s-t}U(s,x(s),x(s+1))$.
+\begin{itemize}
+\item \emph{Principle of optimality (6.2).}  $V^*(t,x^*(t))=U(t,x^*(t),x^*(t+1))+\beta V^*(t+1,x^*(t+1))$
+      for an optimal plan, and any feasible plan satisfying this relation at every $t$ attains
+      $V^*(t,x)$.  The proof is the stationary one with the date carried along: truncate the plan at $n$,
+      use uniform boundedness to control the tail by $\bar U\beta^{n+1}/(1-\beta)$, and pass to the limit.
+\item \emph{Existence (6.3).}  The fixed point $V$ exists and is unique by the contraction argument above,
+      and $V=V^*$; the maximum in the Bellman equation is attained, which defines a (possibly
+      set-valued) optimal policy $\pi(t,x)$.  Equivalently one can argue directly on the sequence problem:
+      $\Phi(t,x)$ is compact in the product topology (Tychonoff), the objective is continuous, and
+      Weierstrass applies.
+\item \emph{Concavity (6.4).}  If in addition $U(t,\cdot,\cdot)$ is concave and $G(t,\cdot)$ has convex
+      graph for each $t$, then $V(t,\cdot)$ is concave for each $t$.  Proof: the set of $V$ that are
+      concave in $x$ for every $t$ is a closed subset of $C(\Z_+\times X)$, and $T$ maps it into the
+      (smaller) set of functions strictly concave in $x$ when $U$ is strictly concave; apply
+      \bk{Theorem 6.8}(2).
+\item \emph{Monotonicity (6.5).}  If $U(t,\cdot,y)$ is strictly increasing and $G(t,\cdot)$ is monotone for
+      each $t$, the same closed-subset argument gives $V(t,\cdot)$ strictly increasing.
+\item \emph{Differentiability (6.6).}  If $U(t,\cdot,\cdot)$ is continuously differentiable and the optimal
+      policy is interior, $x\in\operatorname{Int}X$ and $\pi(t,x)\in\operatorname{Int}G(t,x)$, then
+      $V(t,\cdot)$ is differentiable at $x$ with $D_xV(t,x)=D_xU(t,x,\pi(t,x))$.  The Benveniste--Scheinkman
+      argument is unchanged: $W(z)\equiv U(t,z,\pi(t,x))+\beta V(t+1,\pi(t,x))$ is differentiable, lies
+      below $V(t,\cdot)$, and touches it at $x$.
+\end{itemize}
+
+\rmk{The one substantive difference from the stationary theory is uniformity.  Continuity and boundedness
+must hold uniformly in $t$, since otherwise $C(\Z_+\times X)$ with the sup norm is not the relevant space
+and the contraction modulus is not $\beta$.  Economically this rules out problems in which the environment
+deteriorates or improves without bound --- for instance a wage sequence that diverges, which is precisely
+why \bk{Example 6.5} needs $\bar W<\infty$.  The book's own treatment in Section 6.7 proves the analogous
+results by working directly with the sequence problem; the contraction route above is shorter but buys that
+brevity with the uniform bounds.}
+\end{aex}
+
+\begin{aex}{6.15}{}
+Note two features: there is no discounting ($\beta=1$) and no production, so the problem is to divide a
+fixed cake $k(0)$ among infinitely many dates.  Feasibility requires $c(t)\ge0$ and
+$\sum_{t=0}^{\infty}c(t)\le k(0)$.  Normalize $u(0)=0$; this is without loss, since if $u(0)>0$ then every plan that
+consumes nothing in infinitely many periods already has value $+\infty$ and the problem is ill posed for a
+still cruder reason, while if $u(0)<0$ the same is true with $-\infty$.
+
+\emph{The supremum is not attained.}  Consider the plans
+\[
+c_n(t)=\begin{cases}k(0)/n,&t=0,\dots,n-1,\\ 0,&t\ge n,\end{cases}
+\]
+which are feasible and give value $V_n=n\,u\bigl(k(0)/n\bigr)$.  Because $u$ is strictly concave with
+$u(0)=0$, the ratio $u(c)/c$ is strictly decreasing in $c$, so
+\[
+V_n=k(0)\cdot\frac{u(k(0)/n)}{k(0)/n}
+\]
+is strictly increasing in $n$, with
+\[
+\lim_{n\to\infty}V_n=k(0)\cdot\lim_{c\downarrow0}\frac{u(c)}{c}=k(0)\,u'(0^+)\in(0,\infty] .
+\]
+On the other hand every feasible plan satisfies, again by strict concavity and $u(0)=0$,
+\[
+\sum_{t}u(c(t))<u'(0^+)\sum_{t}c(t)\le u'(0^+)k(0)
+\]
+whenever $u'(0^+)<\infty$ and some $c(t)>0$.  So the supremum equals $u'(0^+)k(0)$ and is approached by the
+sequence $\{c_n\}$ but attained by no feasible plan: any candidate can be improved by splitting its
+consumption into more, smaller pieces.  If $u'(0^+)=\infty$ the same computation shows the supremum is
+$+\infty$, and again no plan attains it.  In both cases there is no solution.
+
+\emph{Why.}  Without discounting there is no cost to postponing consumption, while strict concavity means
+that the \emph{average} utility per unit consumed, $u(c)/c$, rises as the portions shrink.  Spreading the
+cake ever more thinly over ever more dates therefore always raises total utility, and the ``optimum'' would
+be to consume infinitesimal amounts forever --- which is not a feasible plan.  In the language of the
+chapter, \bk{Assumption 6.1} fails: with $\beta=1$ the limit
+$\lim_n\sum_{t=0}^{n}U(x(t),x(t+1))$ need not behave well, the objective is not continuous in the product
+topology (the tail of a plan matters in the limit), and the Bellman operator satisfies Blackwell's
+monotonicity but not the discounting condition of Exercise 6.6, so it is not a contraction.  Boundedness of
+$u$ does not rescue matters --- it makes the supremum finite when $u'(0^+)<\infty$, but attainment is what
+fails.
+
+\rmk{The example isolates discounting as the substantive assumption.  Economists sometimes treat
+$\beta<1$ as a mere technical device; here it is what makes the problem have a solution at all.  When
+one does want to study undiscounted problems --- the golden rule, or the Ramsey problem with $\beta=1$ ---
+the optimality criterion itself has to be weakened, to overtaking or catching-up criteria, as the footnote
+to \bk{Assumption 6.1} notes.}
+\end{aex}
+
+\begin{aex}{6.16}{}
+\emph{(a) Recursive formulation.}  With $k$ the state and next period's capital $k'$ the control,
+\[
+V(k)=\max_{k'\in G(k)}\bigl\{u\bigl(f(k)-k'\bigr)+\beta V(k')\bigr\},
+\qquad
+G(k)=\bigl[0,f(k)\bigr] .
+\]
+As in Exercise 6.1, the state can be confined to the compact interval $[0,\vec k]$, where $\bar k$ solves
+$f(\bar k)=\bar k$ (full depreciation makes the maximum sustainable stock the fixed point of $f$) and
+$\vec k=f(\max\{k(0),\bar k\})$.
+
+\emph{(b) Existence, uniqueness and shape.}  The problem satisfies \bk{Assumptions 6.1--6.4} by the
+argument of Exercise 6.1, with $g(k)=f(k)$.  Hence:
+\begin{itemize}
+\item \bk{Theorem 6.3} gives a unique continuous bounded $V$ solving the Bellman equation, and an optimal
+      plan exists;
+\item \bk{Theorem 6.4} gives strict concavity of $V$, since $U(k,k')=u(f(k)-k')$ satisfies
+      \bk{Assumption 6.3};
+\item \bk{Corollary 6.1} then gives a \emph{unique} optimal plan, generated by a continuous policy
+      function $k'=\pi(k)$, equivalently $c=\pi_c(k)=f(k)-\pi(k)$;
+\item \bk{Theorem 6.5} gives that $V$ is strictly increasing.
+\end{itemize}
+That $\pi$ is nondecreasing follows from the revealed-preference argument used for \bk{Proposition 6.1}:
+if $k'>k$ but $\pi(k)>\pi(k')$, adding the two optimality inequalities gives
+\[
+u\bigl(z-\pi(k')\bigr)-u\bigl(z-\pi(k)\bigr)\le u\bigl(z'-\pi(k')\bigr)-u\bigl(z'-\pi(k)\bigr),
+\qquad z\equiv f(k)<z'\equiv f(k'),
+\]
+which contradicts strict concavity of $u$, since the two consumption differences are equal in size but
+taken at strictly higher levels on the right.  Monotonicity of the consumption function follows from the
+Euler equation as in Exercise 6.17.
+
+\emph{(c) Differentiability.}  \bk{Theorem 6.6} gives differentiability of $V$ at any $k$ such that $u$ and
+$f$ are continuously differentiable near the relevant point (\bk{Assumption 6.5}) and the optimal policy is
+interior, $\pi(k)\in\operatorname{Int}G(k)$, that is $0<\pi(k)<f(k)$ --- equivalently both consumption and
+investment are strictly positive.  Interiority is guaranteed if $u$ and $f$ satisfy Inada conditions
+($u'(0)=\infty$ rules out $c=0$; $f'(0)=\infty$ rules out $k'=0$).  Then
+\[
+V'(k)=\frac{\partial U(k,\pi(k))}{\partial k}=f'(k)\,u'\bigl(f(k)-\pi(k)\bigr).
+\]
+Without differentiability of $u$ (or at corner solutions) $V$ can have kinks, though it always has left and
+right derivatives by concavity.
+
+\emph{(d) The Euler equation.}  The first-order condition of the Bellman problem is
+$u'(c)=\beta V'(k')$, and the envelope condition just derived is $V'(k)=f'(k)u'(c)$.  Combining, with
+$c(t)=f(k(t))-k(t+1)$,
+\[
+\boxed{\ u'\bigl(c(t)\bigr)=\beta f'\bigl(k(t+1)\bigr)u'\bigl(c(t+1)\bigr)\ }
+\]
+the familiar condition that the marginal utility given up today equals the discounted marginal utility
+gained tomorrow, multiplied by the marginal product of the capital carried forward.
+
+\emph{(e) Is it enough?}  No.  Substituting $c(t)=f(k(t))-k(t+1)$, the Euler equation is a \emph{second
+order} difference equation in $\{k(t)\}$,
+\[
+u'\bigl(f(k(t))-k(t+1)\bigr)=\beta f'\bigl(k(t+1)\bigr)u'\bigl(f(k(t+1))-k(t+2)\bigr),
+\]
+so the initial condition $k(0)$ leaves a one-parameter family of solutions, as \bk{Exercise 6.10} shows
+explicitly.  The missing condition is the transversality condition
+\[
+\lim_{t\to\infty}\beta^{t}f'\bigl(k(t)\bigr)u'\bigl(c(t)\bigr)k(t)=0 ,
+\]
+which by \bk{Theorem 6.10} is necessary and sufficient, together with the Euler equations, for optimality of
+an interior plan.  Intuitively it says that the present value of the capital stock left over at the end of
+time must be zero: capital is worth holding only for the consumption it eventually delivers, so a plan that
+keeps accumulating capital of positive present value forever is wasting resources.  It is the
+infinite-horizon analogue of the terminal condition $k(T+1)=0$ in a finite-horizon problem --- one would
+never end a finite life with capital left in the ground.
+\end{aex}
+
+\begin{aex}{6.17}{}
+\emph{The consumption function is nondecreasing.}  By \bk{Proposition 6.1} the policy function $s(k)$ --- the
+capital carried into the next period --- is nondecreasing, and by \bk{Proposition 6.2} the value function
+$V$ is differentiable; it is strictly concave by \bk{Theorem 6.4}, so $V'$ is strictly decreasing.  The
+first-order condition of the recursive problem \bk{(6.48)} is
+\[
+u'\bigl(c(k)\bigr)=\beta V'\bigl(s(k)\bigr) .
+\]
+Take $k'>k$.  Then $s(k')\ge s(k)$, so $V'(s(k'))\le V'(s(k))$, and therefore
+\[
+u'\bigl(c(k')\bigr)=\beta V'\bigl(s(k')\bigr)\le\beta V'\bigl(s(k)\bigr)=u'\bigl(c(k)\bigr).
+\]
+Since $u$ is strictly concave, $u'$ is strictly decreasing, and the inequality inverts:
+$c(k')\ge c(k)$.  Hence $c(\cdot)$ is nondecreasing, as claimed.
+
+\emph{Monotone convergence of consumption.}  Suppose $k(0)<k^*$.  By \bk{Proposition 6.3} the capital stock
+increases monotonically to the steady state, $k(t)\uparrow k^*$.  Composing with the nondecreasing and
+continuous function $c(\cdot)$,
+\[
+c(t)=c\bigl(k(t)\bigr)\ \text{is nondecreasing, and}\quad c(t)\to c(k^*)
+\]
+by continuity of $c(\cdot)$ (\bk{Corollary 6.1}).  The limit is the steady-state consumption level: at
+$k^*$ the resource constraint with $k(t+1)=k(t)=k^*$ gives
+\[
+c^*=f(k^*)+(1-\delta)k^*-k^*=f(k^*)-\delta k^* .
+\]
+Thus $c(t)\uparrow c^*$.  If instead $k(0)>k^*$, \bk{Proposition 6.3} gives $k(t)\downarrow k^*$ and the
+same argument gives $c(t)\downarrow c^*$.
+
+\rmk{The result is worth contrasting with the Solow model.  There the saving rate is constant, so
+consumption is a fixed fraction of output and inherits its monotonicity mechanically.  Here the saving rate
+is chosen, and could in principle move in either direction; what pins the sign down is the combination of
+two facts --- the economy accumulates capital monotonically, and the marginal value of capital falls as
+capital rises.  Note also what is \emph{not} claimed: the saving \emph{rate} need not be monotone along the
+transition, and generally is not.}
+\end{aex}
+
+\begin{aex}{6.19}{}
+Suppose, to get a contradiction, that there are arbitrarily small $\varepsilon>0$ with
+$s(\varepsilon)\le\varepsilon$.  Along the optimal path starting from $k=\varepsilon$, the Euler equation
+\bk{(6.50)} holds:
+\[
+u'\bigl(c(\varepsilon)\bigr)
+=\beta\Bigl[f'\bigl(s(\varepsilon)\bigr)+1-\delta\Bigr]\,u'\Bigl(c\bigl(s(\varepsilon)\bigr)\Bigr).
+\]
+By \bk{Proposition 6.4} (Exercise 6.17) the consumption function is nondecreasing, so
+$s(\varepsilon)\le\varepsilon$ implies $c(s(\varepsilon))\le c(\varepsilon)$ and hence
+$u'\bigl(c(s(\varepsilon))\bigr)\ge u'\bigl(c(\varepsilon)\bigr)>0$, because $u'$ is decreasing.
+Dividing the Euler equation by $u'(c(\varepsilon))$,
+\[
+1=\beta\Bigl[f'\bigl(s(\varepsilon)\bigr)+1-\delta\Bigr]
+\frac{u'\bigl(c(s(\varepsilon))\bigr)}{u'\bigl(c(\varepsilon)\bigr)}
+\ \ge\ \beta\Bigl[f'\bigl(s(\varepsilon)\bigr)+1-\delta\Bigr] ,
+\]
+that is
+\[
+f'\bigl(s(\varepsilon)\bigr)\ \le\ \frac{1}{\beta}-1+\delta\ <\ \infty .
+\]
+But $0<s(\varepsilon)\le\varepsilon$, so letting $\varepsilon\to0$ forces $s(\varepsilon)\to0$, and
+Assumption 2 (the Inada condition $\lim_{k\to0}f'(k)=\infty$) gives
+$f'(s(\varepsilon))\to\infty$ --- contradicting the bound just derived.  Hence for all sufficiently small
+$\varepsilon$ we must have $s(\varepsilon)>\varepsilon$.
+
+\emph{Intuition.}  Near zero the marginal product of capital is arbitrarily large, so an extra unit of
+saving returns arbitrarily much tomorrow.  A household with a finite rate of time preference --- the
+right-hand side $\beta^{-1}-1+\delta$ is a fixed, finite number, the effective required return --- will
+always take that trade: at very low capital the return to accumulation exceeds the required return by an
+unbounded margin.  Thus the economy cannot optimally run its capital stock down toward zero, and $k=0$,
+though a rest point of the resource constraint, is never approached from a positive initial stock.  This is
+precisely what the proof of \bk{Proposition 6.3} needs to conclude that the monotone sequence $\{k(t)\}$
+converges to the \emph{positive} steady state $k^*$ rather than to zero.
+\end{aex}
+
+\begin{aex}{6.20}{}
+The claims of \bk{Proposition 6.1} are: there exist a unique value function $V$ and consumption function
+$c(k)$, with $s(k)=f(k)+(1-\delta)k-c(k)$; $V$ is strictly increasing and strictly concave; and $s(k)$ is
+nondecreasing.  Assume $u$ is continuous, strictly increasing and strictly concave, but \emph{not}
+necessarily differentiable, and let $f$ satisfy Assumptions 1 and 2.
+
+\emph{Step 1: the dynamic programming assumptions still hold.}  Exercise 6.1 verified
+\bk{Assumptions 6.1--6.4} using only continuity, monotonicity and strict concavity of $u$ together with
+concavity and monotonicity of $f$; differentiability entered only in \bk{Assumption 6.5}.  So
+\bk{Assumptions 6.1--6.4} hold as before, while \bk{Assumption 6.5} is dropped.
+
+\emph{Step 2: existence, uniqueness, concavity, monotonicity.}  \bk{Theorems 6.3, 6.4} and \bk{6.5} and
+\bk{Corollary 6.1} require only \bk{Assumptions 6.1--6.4}.  They give, in order: a unique continuous
+bounded $V$ solving the Bellman equation \bk{(6.48)}, with an optimal plan existing; $V$ strictly concave;
+$V$ strictly increasing; and a unique optimal plan generated by a continuous policy function.  None of
+these arguments differentiates anything: the contraction argument uses Blackwell's conditions (Exercise
+6.6), and strict concavity is obtained from \bk{Theorem 6.8}(2), by showing that $T$ maps the closed set of
+weakly concave functions into the set of strictly concave ones.
+
+\emph{Step 3: $s(k)$ is nondecreasing.}  This is the only part of \bk{Proposition 6.1} whose proof might
+seem to need calculus, and it does not: the book's argument is a revealed-preference argument.  Suppose
+$k'>k$ but $s(k)>s(k')$.  Both $s(k)$ and $s(k')$ are feasible at both states, since
+$f(k)+(1-\delta)k<f(k')+(1-\delta)k'$ and $s(k')<s(k)$.  Optimality at $k$ and at $k'$ gives
+\begin{align*}
+u\bigl(z-s(k)\bigr)+\beta V\bigl(s(k)\bigr)&\ge u\bigl(z-s(k')\bigr)+\beta V\bigl(s(k')\bigr),\\
+u\bigl(z'-s(k')\bigr)+\beta V\bigl(s(k')\bigr)&\ge u\bigl(z'-s(k)\bigr)+\beta V\bigl(s(k)\bigr),
+\end{align*}
+with $z\equiv f(k)+(1-\delta)k<z'\equiv f(k')+(1-\delta)k'$.  Adding and rearranging eliminates $V$:
+\[
+u\bigl(z-s(k')\bigr)-u\bigl(z-s(k)\bigr)\ \le\ u\bigl(z'-s(k')\bigr)-u\bigl(z'-s(k)\bigr).
+\]
+But the two consumption increments are equal, $\bigl(z-s(k')\bigr)-\bigl(z-s(k)\bigr)=
+\bigl(z'-s(k')\bigr)-\bigl(z'-s(k)\bigr)=s(k)-s(k')>0$, while the right-hand pair is evaluated at strictly
+higher consumption levels ($z'>z$).  Strict concavity of $u$ makes equal increments worth strictly less at
+higher levels, so the right-hand side is \emph{strictly smaller} than the left --- a contradiction.  Hence
+$s(k)$ is nondecreasing.
+
+This completes the proof of \bk{Proposition 6.1} using only continuity, monotonicity and strict concavity.
+
+\rmk{What is genuinely lost without differentiability is \bk{Proposition 6.2} --- that $V$ is
+differentiable --- and with it the Euler equation \bk{(6.50)} in its classical form.  Concavity still gives
+$V$ left and right derivatives everywhere, and the first-order condition becomes the inclusion
+$u'_{-}(c)\ge\beta V'_{+}(s)$ and $u'_{+}(c)\le\beta V'_{-}(s)$, or in the language of convex analysis,
+$0\in\partial\bigl[u(z-s)+\beta V(s)\bigr]$ with $\partial$ the superdifferential.  All the qualitative
+conclusions of Sections 6.8 --- uniqueness of the steady state, monotone convergence --- survive, because
+they rest on the monotonicity of $s(\cdot)$ established above rather than on calculus.}
+\end{aex}
+
+\begin{aex}{6.21}{}
+\emph{The two problems generate the same difference equations.}  In the competitive equilibrium, firms hire
+capital and labor competitively, so
+\[
+R(t)=f'\bigl(k(t)\bigr),
+\qquad
+1+r(t+1)=f'\bigl(k(t)\bigr)+1-\delta,
+\qquad
+w(t)=f\bigl(k(t)\bigr)-k(t)f'\bigl(k(t)\bigr),
+\]
+and asset market clearing requires $a(t)=k(t)$.  Substituting the factor prices into the household's flow
+budget constraint \bk{(6.54)},
+\[
+a(t+1)=(1+r(t))a(t)+w(t)-c(t)
+=k(t)+\bigl[f'(k(t))-\delta\bigr]k(t)+f(k(t))-k(t)f'(k(t))-c(t),
+\]
+that is
+\[
+k(t+1)=f\bigl(k(t)\bigr)+(1-\delta)k(t)-c(t) ,
+\]
+which is exactly the resource constraint \bk{(6.47)} of the optimal growth problem.  Substituting the same
+factor prices into the household's Euler equation \bk{(6.55)} gives \bk{(6.56)},
+\[
+u'\bigl(c(t)\bigr)=\beta\Bigl[f'\bigl(k(t+1)\bigr)+1-\delta\Bigr]u'\bigl(c(t+1)\bigr),
+\]
+which is identical to the planner's Euler equation \bk{(6.50)}.  The two problems also share the initial
+condition $k(0)$, and the household's no-Ponzi condition with $a(t)=k(t)$,
+$\lim_{t\to\infty}\beta^{t}u'(c(t))k(t+1)=0$, is the planner's transversality condition \bk{(6.51)}.
+
+\emph{Uniqueness closes the argument.}  By \bk{Theorem 6.10}, for this problem the Euler equations together
+with the transversality condition are necessary \emph{and} sufficient for optimality, and by
+\bk{Corollary 6.1} --- the objective being strictly concave and the constraint set convex --- the optimal
+plan is unique.  So there is exactly one sequence $\{k(t),c(t)\}$ satisfying (i) the resource constraint,
+(ii) the Euler equation, (iii) $k(0)$ given, and (iv) transversality.  The competitive equilibrium path
+satisfies all four, and so does the optimal growth path; therefore they coincide.
+
+\emph{Both directions.}  The argument above takes an equilibrium and shows it solves the planner's problem.
+The converse is equally immediate: given the optimal path $\{k(t),c(t)\}$, define prices by the marginal
+product conditions above and set $a(t)=k(t)$.  Then firms maximize profits by construction (they take
+prices as given and earn zero profits, by Euler's Theorem and constant returns), the household's budget
+constraint holds at every date by the computation above, its Euler equation is the planner's, and its
+transversality condition holds.  Hence the optimal allocation, supported by these prices, is a competitive
+equilibrium.
+
+\rmk{This is the First and Second Welfare Theorems of Chapter 5 in action, made concrete: the equivalence
+holds because there are no externalities, no distortions and no missing markets, and because the natural
+debt limit rules out the Ponzi schemes of \bk{Exercise 6.11}.  The practical payoff is large --- it is why
+one may compute equilibria of the neoclassical growth model by solving a single planner's dynamic
+programming problem, a device used throughout the rest of the book.  It is also worth noting where it
+stops: as soon as Chapter 11 onward introduces externalities or monopolistic competition, the planner's and
+the equilibrium paths separate, and this shortcut is no longer available.}
 \end{aex}
 
 \end{document}

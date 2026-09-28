@@ -14,7 +14,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 3. The Solow Model and the Data | 11 | 4 | **7** — 3.3–3.8, 3.11 |
 | 4. Fundamental Determinants of Differences in Economic Performance | 3 | 1 | **2** — 4.1, 4.2 |
 | 5. Foundations of Neoclassical Growth | 14 | 8 | **6** — 5.3–5.8 |
-| 6–23 | ~355 | ~133 | in progress |
+| 6. Infinite-Horizon Optimization and Dynamic Programming | 21 | 7 | **14** — 6.1, 6.4, 6.5, 6.6, 6.10, 6.11, 6.13–6.17, 6.19, 6.20, 6.21 |
+| 7–23 | ~334 | ~126 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -51,6 +52,8 @@ chapter and writes that chapter's figures to `figures/`. So far:
   technology of Exercise 2.13 (a CES with a low elasticity of substitution plus a small
   Cobb–Douglas term) that satisfies Assumptions 1 and 2 while producing three steady
   states when only labour income is saved.
+- **`ch6.py`** — the Euler path of Exercise 6.10 that satisfies every Euler equation, stays
+  feasible forever, violates the transversality condition and is strictly suboptimal.
 - **`ch3.py`** — the exact convergence coefficient of the Cobb–Douglas Solow model as a
   function of the distance from the steady state (Exercise 3.3), and the time a twofold
   income gap takes to fall to 10%, under the log-linear approximation and under the exact
