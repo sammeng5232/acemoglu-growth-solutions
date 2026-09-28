@@ -16,7 +16,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 5. Foundations of Neoclassical Growth | 14 | 8 | **6** — 5.3–5.8 |
 | 6. Infinite-Horizon Optimization and Dynamic Programming | 21 | 7 | **14** — 6.1, 6.4, 6.5, 6.6, 6.10, 6.11, 6.13–6.17, 6.19, 6.20, 6.21 |
 | 7. An Introduction to the Theory of Optimal Control | 29 | 13 | **16** — 7.3, 7.4, 7.6–7.9, 7.11–7.16, 7.20, 7.22, 7.27, 7.29 |
-| 8–23 | ~305 | ~113 | in progress |
+| 8. The Neoclassical Growth Model | 39 | 15 | **24** — 8.1, 8.3–8.6, 8.8–8.10, 8.12, 8.14, 8.16–8.18, 8.20–8.22, 8.24, 8.26, 8.28, 8.29, 8.32, 8.35, 8.36, 8.39 |
+| 9–23 | ~266 | ~98 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -61,6 +62,11 @@ chapter and writes that chapter's figures to `figures/`. So far:
   feasible forever, violates the transversality condition and is strictly suboptimal.
 - **`ch7.py`** — the q-theory steady state, the saddle-path eigenvalues and the phase diagram
   behind Exercises 7.27 and 7.29.
+- **`ch8.py`** — the neoclassical phase diagram, with the modified golden rule strictly to the
+  left of the golden rule (Exercise 8.12), the saddle-path eigenvalues and the slope of the
+  stable arm, in closed form and numerically (Exercises 8.22 and 8.24); the exactly log-linear
+  transition of the discrete-time model with full depreciation (Exercise 8.26); and how little
+  cross-country income dispersion differences in discount rates can generate (Exercise 8.32).
 
 ## Working files (not part of the document)
 

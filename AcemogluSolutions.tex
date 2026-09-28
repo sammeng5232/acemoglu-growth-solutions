@@ -179,11 +179,15 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--3\par}
+{\large Chapters 2--8\par}
 \vspace{0.6cm}
-{\small The exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
- leaves unsolved: Exercises 2.1--2.6, 2.8--2.10, 2.13, 2.15, 2.24--2.26 and\par
- 3.3--3.8, 3.11, with the numerical parts computed by\par
+{\small The 83 exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
+ leaves unsolved: Exercises 2.1--2.6, 2.8--2.10, 2.13, 2.15, 2.24--2.26;\par
+ 3.3--3.8, 3.11;\ 4.1, 4.2;\ 5.3--5.8;\par
+ 6.1, 6.4--6.6, 6.10, 6.11, 6.13--6.17, 6.19--6.21;\par
+ 7.3, 7.4, 7.6--7.9, 7.11--7.16, 7.20, 7.22, 7.27, 7.29;\par
+ 8.1, 8.3--8.6, 8.8--8.10, 8.12, 8.14, 8.16--8.18, 8.20--8.22, 8.24, 8.26,\par
+ 8.28, 8.29, 8.32, 8.35, 8.36, 8.39 --- with the numerical parts computed by\par
  the Python programs in \texttt{code/}.\par}
 \vspace{0.8cm}
 {\small The exercise statements are not reproduced here: read them in Acemoglu's
@@ -3622,6 +3626,1060 @@ investment is only its purchase price, adjustment costs being second order at $I
 \rmk{The same argument shows why the constraint $I\ge0$ studied in \bk{Exercise 7.28}(f) --- irreversible
 investment --- binds only on the way \emph{down}, never permanently: a firm may wish to disinvest faster
 than depreciation allows, but never to abstain from investment forever.}
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{8}{The Neoclassical Growth Model}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The twenty-four exercises of Chapter 8 left unsolved in the instructor's manual: Exercises 8.1, 8.3--8.6,
+8.8--8.10, 8.12, 8.14, 8.16--8.18, 8.20--8.22, 8.24, 8.26, 8.28, 8.29, 8.32, 8.35, 8.36 and 8.39.  The
+manual solves 8.2, 8.7, 8.11, 8.13, 8.15, 8.19, 8.23, 8.25, 8.27, 8.30, 8.31, 8.33, 8.34, 8.37 and 8.38.
+Notation follows the book: $a=A/L$ are per capita assets, $k$ the capital-labor ratio (the effective
+capital-labor ratio $K/AL$ from Section 8.7 on), $\tilde c=c/A$ normalized consumption, $\mu$ the
+current-value costate, and $\varepsilon_u(c)=-u''(c)c/u'(c)$.  The numerical parts are computed by
+\texttt{code/ch8.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{8.1}{}
+\emph{(a) The household's problem.}  The household has $L(t)=e^{nt}$ members, is fully altruistic and
+utilitarian, so at each date it values the sum of its members' instantaneous utilities,
+$\int_0^{L(t)}u(c_i(t))\dd i$, and discounts this flow at the subjective rate $\rho$.  Its members share
+the total consumption $C(t)$ that the household's budget allows, and the household's assets accumulate at
+the market return.  Hence
+\[
+\max\ \int_0^{\infty}e^{-\rho t}\Bigl[\int_0^{L(t)}u\bigl(c_i(t)\bigr)\dd i\Bigr]\dd t
+\quad\text{s.t.}\quad
+\int_0^{L(t)}c_i(t)\dd i\le C(t),
+\qquad
+\dt A(t)=r(t)A(t)+W(t)-C(t),
+\]
+with $W(t)=w(t)L(t)$ total labor income and $A(0)$ given.
+
+\emph{(b) Reduction.}  Fix a date and a total $C(t)$.  The inner problem is to maximize
+$\int_0^{L}u(c_i)\dd i$ subject to $\int_0^{L}c_i\dd i=C$.  Since $u$ is strictly concave, Jensen's
+inequality gives
+\[
+\frac{1}{L}\int_0^{L}u(c_i)\dd i\le u\Bigl(\frac{1}{L}\int_0^{L}c_i\dd i\Bigr)=u\Bigl(\frac{C}{L}\Bigr),
+\]
+with equality if and only if $c_i$ is the same for (almost) every member.  So the cooperative household
+gives every member $c(t)\equiv C(t)/L(t)$, and the date-$t$ flow of utility is
+\[
+L(t)u\bigl(c(t)\bigr)=e^{nt}u\bigl(c(t)\bigr).
+\]
+Discounting at $\rho$ therefore gives the objective
+\[
+\int_0^{\infty}e^{-\rho t}e^{nt}u\bigl(c(t)\bigr)\dd t=\int_0^{\infty}e^{-(\rho-n)t}u\bigl(c(t)\bigr)\dd t ,
+\]
+which is \bk{(8.3)}.  For the constraint, divide $\dt A=rA+wL-cL$ by $L(t)$ and use
+$a=A/L$, so that $\dt a=\dt A/L-a\dt L/L$:
+\[
+\dt a(t)=r(t)a(t)+w(t)-c(t)-na(t)=\bigl(r(t)-n\bigr)a(t)+w(t)-c(t) ,
+\]
+which is \bk{(8.8)}.
+
+\emph{Intuition.}  Two adjustments turn a growing household into a single infinitely lived consumer.  The
+\emph{effective discount rate} falls from $\rho$ to $\rho-n$: the household discounts the future at $\rho$
+but there are more members to enjoy it, at the rate $n$, and with utilitarian altruism the two effects
+net out.  The \emph{effective return} falls from $r$ to $r-n$: assets have to be spread over a population
+growing at $n$, so per capita assets earn only $r-n$.  Both adjustments make the population growth rate
+behave exactly like a shift in impatience and in the return --- which is why Assumption 4$'$ requires
+$\rho>n$, so that the transformed problem still discounts.
+\end{aex}
+
+\begin{aex}{8.3}{}
+\emph{Accumulation with zero consumption.}  With $c\equiv0$ the law of motion \bk{(8.7)} is the linear
+differential equation $\dt A(s)=r(s)A(s)+w(s)L(s)$.  Its solution with $A(t)=0$ is, by the
+integrating-factor formula,
+\[
+A(T)=\int_t^{T}w(s)L(s)\exp\Bigl(\int_s^{T}r(z)\dd z\Bigr)\dd s ,
+\]
+so, discounting back to $t$,
+\[
+A(T)\exp\Bigl(-\int_t^{T}r(z)\dd z\Bigr)=\int_t^{T}w(s)L(s)\exp\Bigl(-\int_t^{s}r(z)\dd z\Bigr)\dd s
+\ \xrightarrow[T\to\infty]{}\ \bar W(t) .
+\]
+$\bar W(t)$ is thus the present value at $t$ of the household's entire future labor income.
+
+\emph{Why the limit.}  A household that never defaults must be able to repay its debt out of future
+resources.  Consumption cannot be negative, so the largest present value it can ever devote to repayment
+is exactly $\bar W(t)$.  Hence feasibility (in the absence of bankruptcy) requires
+\[
+A(t)\ \ge\ -\bar W(t),
+\]
+and any consumption-asset path violating this at some date is infeasible.
+
+\emph{Per capita form \bk{(8.11)}.}  Divide by $L(t)$ and use $L(s)=L(t)e^{n(s-t)}$:
+\[
+a(t)=\frac{A(t)}{L(t)}\ \ge\ -\int_t^{\infty}w(s)\frac{L(s)}{L(t)}e^{-\int_t^sr(z)\dd z}\dd s
+=-\int_t^{\infty}w(s)\exp\Bigl(-\int_t^{s}\bigl(r(z)-n\bigr)\dd z\Bigr)\dd s ,
+\]
+which is \bk{(8.11)}: population growth discounts the future wage stream at the \emph{effective} rate
+$r-n$, exactly as it discounts utility at $\rho-n$.
+
+\emph{Relation to \bk{(6.44)}.}  The discrete-time limit reads
+$a(t)\ge-\sum_{s\ge0}\bigl[\prod_{j=0}^{s}(1+r(t+j))^{-1}\bigr]w(t+s)$.  Replacing the product of gross
+returns by the exponential of the integral of the instantaneous rate, and the sum by an integral, gives
+\bk{(8.11)}: the two are the same statement --- borrowing is limited by the present value of the endowment
+stream --- written in the two time conventions.
+\end{aex}
+
+\begin{aex}{8.4}{}
+Write $q(t)\equiv\exp\bigl(-\int_0^{t}(r(s)-n)\dd s\bigr)$ for the effective discount factor, and let
+\[
+\wt a(t)\equiv a(t)q(t)
+\]
+be discounted per capita assets.  From \bk{(8.8)},
+\[
+\dt{\wt a}(t)=q(t)\bigl[\dt a(t)-(r(t)-n)a(t)\bigr]=q(t)\bigl[w(t)-c(t)\bigr]\le q(t)w(t),
+\tag{$*$}
+\]
+using $c\ge0$.
+
+Suppose \bk{(8.11)} fails at some finite $t'$, that is
+\[
+a(t')<-\int_{t'}^{\infty}w(s)\exp\Bigl(-\int_{t'}^{s}(r(z)-n)\dd z\Bigr)\dd s ,
+\]
+equivalently, multiplying by $q(t')>0$,
+\[
+\wt a(t')<-\int_{t'}^{\infty}q(s)w(s)\dd s .
+\]
+Integrating ($*$) from $t'$ to $T$ and letting $T\to\infty$,
+\[
+\lim_{T\to\infty}\wt a(T)\ \le\ \wt a(t')+\int_{t'}^{\infty}q(s)w(s)\dd s\ <\ 0 .
+\]
+So the discounted asset position converges to a strictly negative limit, which is precisely what
+\bk{(8.12)} rules out: the household ends with debt whose present value does not vanish, so it could not
+have repaid it even with zero consumption from $t'$ on.  Hence \bk{(8.12)} implies \bk{(8.11)} at every
+date, and there is no loss of generality in imposing the single limiting constraint rather than a
+continuum of them.
+
+\rmk{The logic is the same one that makes a single terminal condition suffice in finite horizon: the
+budget set is defined by the flow constraint plus \emph{one} solvency requirement, because the flow
+constraint already links all the dates.  This is why the book can work with \bk{(8.12)}, and later with the
+no-Ponzi condition \bk{(8.14)}, rather than with the family \bk{(8.11)}.}
+\end{aex}
+
+\begin{aex}{8.5}{}
+Equation \bk{(8.13)} states, for every $T>0$,
+\[
+\int_0^{T}c(t)L(t)e^{\int_t^{T}r(s)\dd s}\dd t+A(T)
+=\int_0^{T}w(t)L(t)e^{\int_t^{T}r(s)\dd s}\dd t+A(0)e^{\int_0^{T}r(s)\dd s} .
+\]
+Differentiate both sides with respect to $T$.  For a term of the form
+$\Phi(T)=\int_0^{T}h(t)e^{\int_t^{T}r(s)\dd s}\dd t$, Leibniz's rule gives
+\[
+\dt\Phi(T)=h(T)+r(T)\Phi(T),
+\]
+since differentiating the exponent brings down $r(T)$ inside the integral.  Applying this to both integrals
+and to the last term,
+\[
+c(T)L(T)+r(T)\int_0^{T}c(t)L(t)e^{\int_t^{T}r}\dd t+\dt A(T)
+=w(T)L(T)+r(T)\int_0^{T}w(t)L(t)e^{\int_t^{T}r}\dd t+r(T)A(0)e^{\int_0^{T}r} .
+\]
+Now use \bk{(8.13)} itself to replace the two $r(T)\times(\cdot)$ terms: their difference is
+$r(T)\bigl[A(0)e^{\int_0^Tr}+\int_0^Tw L e^{\int_t^Tr}-\int_0^TcLe^{\int_t^Tr}\bigr]-r(T)A(0)e^{\int_0^Tr}
+=r(T)A(T)$.  Hence
+\[
+\dt A(T)=r(T)A(T)+w(T)L(T)-c(T)L(T),
+\]
+which is \bk{(8.7)}.  Dividing by $L(T)$ and using $a=A/L$ with $\dt L/L=n$, as in Exercise 8.1, gives
+\[
+\dt a(t)=\bigl(r(t)-n\bigr)a(t)+w(t)-c(t),
+\]
+which is \bk{(8.8)}.  The two formulations are therefore equivalent: the lifetime constraint carried
+forward to any date $T$ is the integrated version of the flow constraint.
+\end{aex}
+
+\begin{aex}{8.6}{}
+The transversality condition \bk{(8.19)} of the household problem is
+\[
+\lim_{t\to\infty}\Bigl[e^{-(\rho-n)t}\mu(t)a(t)\Bigr]=0 .
+\]
+From \bk{(8.24)} --- the integrated form of the costate equation \bk{(8.18)} --- the current-value costate is
+\[
+\mu(t)=\mu(0)\exp\Bigl(-\int_0^{t}\bigl(r(s)-\rho\bigr)\dd s\Bigr),
+\qquad \mu(0)=u'\bigl(c(0)\bigr)>0 .
+\]
+Hence
+\[
+e^{-(\rho-n)t}\mu(t)
+=\mu(0)\exp\Bigl(-(\rho-n)t-\int_0^{t}r(s)\dd s+\rho t\Bigr)
+=\mu(0)\exp\Bigl(-\int_0^{t}\bigl(r(s)-n\bigr)\dd s\Bigr),
+\]
+so that \bk{(8.19)} becomes
+\[
+\mu(0)\lim_{t\to\infty}\Bigl[a(t)\exp\Bigl(-\int_0^{t}\bigl(r(s)-n\bigr)\dd s\Bigr)\Bigr]=0 .
+\]
+Since $\mu(0)=u'(c(0))>0$, the limit itself must vanish:
+\[
+\lim_{t\to\infty}\Bigl[a(t)\exp\Bigl(-\int_0^{t}\bigl(r(s)-n\bigr)\dd s\Bigr)\Bigr]=0 ,
+\]
+which is \bk{(8.16)}.
+
+The role of \bk{(8.14)} is to make this an equality rather than merely an upper bound.  The no-Ponzi
+condition states that the same limit is $\ge0$: the household may not end with debt of positive present
+value.  Optimization then rules out the opposite slack: by the transversality condition the household does
+not end with \emph{assets} of positive present value either, since those could have been consumed.  Putting
+the two together gives \bk{(8.16)}, the statement that the lifetime budget constraint \bk{(8.15)} holds
+with equality.
+
+\rmk{This is the continuous-time counterpart of the familiar finite-horizon simplification $A(T)\ge0$ plus
+local nonsatiation implying $A(T)=0$.  Financial markets impose the inequality; the household's own
+optimization supplies the equality.}
+\end{aex}
+
+\begin{aex}{8.8}{}
+\emph{(a) One direction.}  Suppose $\lim_{t\to\infty}a(t)\ge\hat a>-\infty$, and note that in any
+equilibrium $r(t)\to r^{*}>n$ (see \bk{(8.36)}), so that
+$\int_0^{t}(r(s)-n)\dd s\to\infty$ and the effective discount factor
+$q(t)=\exp(-\int_0^{t}(r(s)-n)\dd s)$ tends to $0$.  Then for large $t$, $a(t)\ge\hat a-\varepsilon$, so
+\[
+a(t)q(t)\ \ge\ \bigl(\hat a-\varepsilon\bigr)q(t)\longrightarrow0 ,
+\]
+whence $\lim_{t\to\infty}a(t)q(t)\ge0$, which is \bk{(8.14)}.  A bounded debt is always repayable in
+present value.
+
+\emph{The converse fails.}  Take $w(t)=e^{gt}w(0)$ and $r(t)=r$ constant, and consider the asset path
+\[
+a(t)=-Me^{(r-n)t/2},\qquad M>0 .
+\]
+Then $a(t)q(t)=-Me^{-(r-n)t/2}\to0$, so \bk{(8.14)} holds with equality, yet $a(t)\to-\infty$, so
+\bk{(8.12)} cannot hold with any finite $\hat a$.  Debt that grows, but more slowly than the interest
+factor, is ruled out by the natural debt limit only if that limit is finite --- and the no-Ponzi condition
+permits it.
+
+\emph{(b) With sustained growth the natural debt limit is vacuous.}  The relaxed limit \bk{(8.12)} bounds
+assets below by
+\[
+\hat a=-\lim_{t\to\infty}\bar w(t),
+\qquad
+\bar w(t)\equiv\int_t^{\infty}w(s)\exp\Bigl(-\int_t^{s}(r(z)-n)\dd z\Bigr)\dd s .
+\]
+Along the BGP of Section 8.7 wages grow at the rate $g$ and the interest rate is constant at
+$r^{*}=\rho+\theta g$, so
+\[
+\bar w(t)=\frac{w(t)}{r^{*}-n-g}=\frac{w(0)e^{gt}}{\rho-n-(1-\theta)g} ,
+\]
+which is finite at each date --- exactly Assumption 4 --- but grows without bound.  Hence
+$\hat a=-\lim_{t\to\infty}\bar w(t)=-\infty$: the constraint set is unbounded below, so there is no lower
+bound on the state variable, and the compactness-type hypotheses behind \bk{Theorems 7.13} and \bk{7.14}
+(in particular the requirement in Theorem 7.14 that $\lim e^{-(\rho-n)t}\mu(t)a(t)\ge0$ for \emph{all}
+feasible paths) cannot be verified from the natural debt limit.  The no-Ponzi condition \bk{(8.14)}
+supplies exactly that requirement directly, which is why the book adopts it.
+\end{aex}
+
+\begin{aex}{8.9}{}
+Let $r(t)\to r^{*}>n$ and $w(t)\to w<\infty$.  Choose $\varepsilon>0$ with $r^{*}-\varepsilon>n$ and a
+date $T$ such that for all $s\ge T$,
+\[
+r(s)\ge r^{*}-\varepsilon
+\qquad\text{and}\qquad
+w(s)\le w+\varepsilon .
+\]
+Then for every $t\ge T$,
+\[
+\bar w(t)=\int_t^{\infty}w(s)\exp\Bigl(-\int_t^{s}(r(z)-n)\dd z\Bigr)\dd s
+\le(w+\varepsilon)\int_t^{\infty}e^{-(r^{*}-\varepsilon-n)(s-t)}\dd s
+=\frac{w+\varepsilon}{r^{*}-\varepsilon-n}<\infty ,
+\]
+a bound independent of $t$.  Hence
+\[
+\hat a=-\lim_{t\to\infty}\bar w(t)\ \ge\ -\frac{w+\varepsilon}{r^{*}-\varepsilon-n}\ >\ -\infty .
+\]
+
+The two hypotheses are exactly what is needed, and each is indispensable.  If $r^{*}\le n$ the geometric
+discounting at the effective rate $r-n$ fails and the integral diverges even for constant wages; if wages
+grow without bound --- the case of technological progress in Exercise 8.8(b) --- the numerator grows faster
+than the discounting shrinks.  In the model without technological progress both hold at the steady state:
+$r^{*}=f'(k^{*})-\delta=\rho>n$ by Assumption 4$'$, and $w^{*}=f(k^{*})-k^{*}f'(k^{*})<\infty$.
+\end{aex}
+
+\begin{aex}{8.10}{}
+\emph{(a) Same necessary conditions, same solution.}  Consider maximizing \bk{(8.3)} subject to \bk{(8.8)}
+and $\lim_{t\to\infty}a(t)\ge\hat a$ with $\hat a>-\infty$.  The current-value Hamiltonian is the same as
+in Section 8.2.2,
+\[
+\wh H(t,a,c,\mu)=u(c)+\mu\bigl[w(t)+(r(t)-n)a-c\bigr] ,
+\]
+and the state is now bounded below, so \bk{Theorem 7.13} applies and yields the same candidate conditions
+\bk{(8.17)}--\bk{(8.19)}: $u'(c)=\mu$, $\dt\mu/\mu=-(r-\rho)$ and
+$\lim e^{-(\rho-n)t}\mu(t)a(t)=0$.  Concavity of $\wh H$ in $(a,c)$ then makes \bk{Theorem 7.14} applicable,
+so these conditions are also sufficient.
+
+It remains to check that the extra constraint does not bind.  By Exercise 8.6, the transversality condition
+is equivalent to $\lim a(t)q(t)=0$ with $q(t)=\exp(-\int_0^t(r-n))$.  A path with
+$\lim a(t)=\hat a$ finite also has $\lim a(t)q(t)=0$, so the constraint is satisfied with slack at the
+optimum: the household never wants to run its debt down to the natural limit, since doing so would require
+zero consumption forever, which is dominated whenever $u'(0)>0$.  Hence the two problems have the same
+solution, characterized by the Euler equation \bk{(8.22)} and \bk{(8.16)}.
+
+\emph{(b) In equilibrium.}  Market clearing gives $a(t)=k(t)\ge0$, and the equilibrium path converges to
+the steady state with
+\[
+r^{*}=f'(k^{*})-\delta=\rho>n
+\qquad\text{and}\qquad
+w^{*}=f(k^{*})-k^{*}f'(k^{*})<\infty
+\]
+by Assumption 4$'$ and \bk{(8.36)}.  These are precisely the hypotheses of Exercise 8.9, so
+$\hat a>-\infty$: in the model without technological progress the natural debt limit is a legitimate way to
+close the household problem, and it gives the same answer as the no-Ponzi condition.  (With technological
+progress it is not, by Exercise 8.8(b).)
+\end{aex}
+
+\begin{aex}{8.12}{}
+The two loci in Figure 8.1 are
+\[
+\dt c=0:\quad f'(k)=\rho+\delta
+\qquad\text{(a vertical line at }k^{*}),
+\qquad\qquad
+\dt k=0:\quad c=f(k)-(n+\delta)k .
+\]
+The second is a hump-shaped curve whose maximum is at the golden rule capital-labor ratio, defined by
+\[
+\frac{\dd}{\dd k}\bigl[f(k)-(n+\delta)k\bigr]=0
+\qquad\Longleftrightarrow\qquad
+f'\bigl(k_{\text{gold}}\bigr)=n+\delta .
+\]
+
+\emph{The comparison.}  Assumption 4$'$ states $\rho>n$, hence
+\[
+f'(k^{*})=\rho+\delta>n+\delta=f'\bigl(k_{\text{gold}}\bigr),
+\]
+and since $f$ is strictly concave, $f'$ is strictly decreasing, so
+\[
+k^{*}<k_{\text{gold}} .
+\]
+The vertical line therefore always cuts the hump on its \emph{upward-sloping} portion, strictly to the left
+of the peak.  With the parameters of the accompanying program ($\alpha=1/3$, $\delta=0.05$, $\rho=0.02$,
+$n=0.01$, $g=0.02$, $\theta=1$, so that the relevant comparison is
+$f'(k^{*})=\rho+\delta+\theta g=0.09$ against $f'(k_{\text{gold}})=n+g+\delta=0.08$):
+\[
+k^{*}=7.1278<k_{\text{gold}}=8.5052 .
+\]
+
+\emph{Why they differ.}  The golden rule maximizes \emph{steady-state} consumption, treating all dates
+alike.  The household does not: it discounts future utility at $\rho>n$, so it is unwilling to give up
+consumption today in order to raise consumption in a distant steady state.  The modified golden rule
+\bk{(8.35)} equates the net marginal product of capital to the discount rate rather than to the
+replacement requirement, and since $\rho>n$ the household stops accumulating short of $k_{\text{gold}}$.
+
+Two consequences are worth recording.  First, the neoclassical economy is never dynamically inefficient:
+because $k^{*}<k_{\text{gold}}$, there is no way to raise consumption at all dates by cutting capital, in
+contrast to the Solow model with an arbitrarily high saving rate.  Second, the gap between $k^{*}$ and
+$k_{\text{gold}}$ is a pure measure of impatience --- it closes as $\rho\downarrow n$ and widens as
+households become less patient.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch8_saddle_path.pdf}
+\caption{The neoclassical phase diagram: the vertical $\dt{\tilde c}=0$ locus cuts the hump-shaped
+$\dt k=0$ locus strictly to the left of $k_{\text{gold}}$, and the stable arm is the unique equilibrium
+path.}
+\label{fig:ch8phase}
+\end{figure}
+\end{aex}
+
+\begin{aex}{8.14}{}
+\emph{(a) What happens at and after $T$.}  Output per capita is $f(k)$ with $f(0)=0$ (Assumption 2), and
+capital cannot be negative, so once $k(T)=0$ the economy has no resources: feasibility forces
+\[
+c(t)=0\qquad\text{and}\qquad k(t)=0\qquad\text{for all }t\ge T .
+\]
+Along the approach, the interest rate is $r(t)=f'(k(t))-\delta$, and the Inada condition
+$\lim_{k\to0}f'(k)=\infty$ gives
+\[
+\lim_{t\to T}r(t)=\infty .
+\]
+Capital becomes infinitely scarce, so its rental rate explodes.
+
+\emph{(b) A profitable deviation.}  Consider a household that, at some $t'<T$, reduces consumption by a
+small $\epsilon>0$ for an instant and saves the proceeds until $T$.  The utility cost, in date-$0$ units,
+is approximately
+\[
+\text{cost}\simeq\epsilon\,e^{-(\rho-n)t'}u'\bigl(c(t')\bigr)<\infty ,
+\]
+which is finite because $c(t')>0$ for $t'<T$.  The saving accumulates at the market rate, so at $T$ the
+household has $\epsilon\exp\bigl(\int_{t'}^{T}r(t)\dd t\bigr)$ extra units to consume, at a marginal
+utility of $u'(0)\ge u'(c(t'))$ (and $u'(0)=\infty$ if $u$ satisfies an Inada condition).  The utility
+gain is approximately
+\[
+\text{gain}\simeq\epsilon\exp\Bigl(-(\rho-n)T+\int_{t'}^{T}r(t)\dd t\Bigr)u'(0).
+\]
+Since $u'(0)\ge u'(c(t'))$, the deviation is profitable as soon as
+\[
+\exp\Bigl(-(\rho-n)T+\int_{t'}^{T}r(t)\dd t\Bigr)>e^{-(\rho-n)t'}
+\qquad\Longleftrightarrow\qquad
+\frac{1}{T-t'}\int_{t'}^{T}r(t)\dd t>\rho-n .
+\]
+By part (a), $r(t)\to\infty$ as $t\to T$, so the average of $r$ over $[t',T]$ diverges as $t'\uparrow T$,
+while $\rho-n$ is a fixed finite number.  Hence for $t'$ close enough to $T$ the inequality holds strictly:
+every household strictly prefers to save rather than follow the candidate path.
+
+Therefore the candidate is not consistent with household optimization and cannot be an equilibrium.
+Equilibrium paths never exhaust the capital stock in finite time --- this is the content of the lower
+branch of Figure 8.1 being ruled out, and it is what leaves the stable arm as the unique equilibrium.
+\end{aex}
+
+\begin{aex}{8.16}{}
+The household now values only consumption \emph{per member}, without weighting by the number of members:
+it is no longer utilitarian over its own members but treats the representative member's consumption as the
+object of interest.  The budget constraint is unchanged, since it is an accounting identity:
+$\dt a=(r-n)a+w-c$.
+
+\emph{Necessary conditions.}  The current-value Hamiltonian is
+\[
+\wh H(t,a,c,\mu)=u(c)+\mu\bigl[w+(r-n)a-c\bigr] ,
+\]
+discounted at $\rho$ rather than $\rho-n$, so \bk{Theorem 7.13} gives
+\[
+u'(c)=\mu,
+\qquad
+\rho\mu-\dt\mu=\mu\bigl(r-n\bigr)
+\quad\Longleftrightarrow\quad
+\frac{\dt\mu}{\mu}=-\bigl(r-n-\rho\bigr),
+\]
+and hence the Euler equation
+\[
+\frac{\dt c(t)}{c(t)}=\frac{1}{\varepsilon_u(c(t))}\bigl(r(t)-n-\rho\bigr).
+\]
+The transversality condition becomes
+\[
+\lim_{t\to\infty}\Bigl[e^{-\rho t}\mu(t)a(t)\Bigr]=0 ,
+\]
+with $e^{-\rho t}$ in place of $e^{-(\rho-n)t}$.
+
+\emph{Steady state.}  Setting $\dt c=0$ gives $r^{*}=\rho+n$, and with $r=f'(k)-\delta$,
+\[
+f'(k^{*})=\rho+n+\delta .
+\]
+Comparing with \bk{(8.35)}: population growth now \emph{does} affect the steady state, and
+\[
+\frac{\partial k^{*}}{\partial n}=\frac{1}{f''(k^{*})}<0 ,
+\]
+whereas in the baseline model $\partial k^{*}/\partial n=0$ (\bk{Proposition 8.3}).  Faster population
+growth lowers the steady-state capital-labor ratio and hence output per capita.
+
+\emph{Why.}  In the baseline model two effects of population growth cancel exactly: assets must be spread
+over more people, which lowers the effective return to $r-n$, but the household also values the
+consumption of its new members, which lowers the effective discount rate to $\rho-n$.  Here only the first
+effect is present --- the household does not care that there are more members to enjoy consumption --- so
+saving must earn $\rho+n$ rather than $\rho$ to be worthwhile, and the capital stock is correspondingly
+lower.  Finally, discounting now requires only $\rho>0$ rather than $\rho>n$: Assumption 4$'$ can be
+weakened accordingly.
+\end{aex}
+
+\begin{aex}{8.17}{}
+With $f(k)=A\wt f(k)$ the steady state \bk{(8.35)} is
+\[
+A\wt f'\bigl(k^{*}\bigr)=\rho+\delta ,
+\tag{$*$}
+\]
+and steady-state consumption is $c^{*}=A\wt f(k^{*})-(n+\delta)k^{*}$ by \bk{(8.37)}.
+
+\emph{The capital-labor ratio.}  Differentiating ($*$) implicitly, and using $\wt f''<0$,
+\[
+\frac{\partial k^{*}}{\partial A}=-\frac{\wt f'(k^{*})}{A\wt f''(k^{*})}>0,
+\qquad
+\frac{\partial k^{*}}{\partial\rho}=\frac{\partial k^{*}}{\partial\delta}=\frac{1}{A\wt f''(k^{*})}<0,
+\qquad
+\frac{\partial k^{*}}{\partial n}=0 ,
+\]
+the last because $n$ does not appear in ($*$) at all: the effective return $r-n$ and the effective discount
+rate $\rho-n$ shift together, as Exercise 8.16 makes explicit.
+
+\emph{Consumption.}  Differentiating $c^{*}$ and using ($*$) to substitute $A\wt f'(k^{*})=\rho+\delta$,
+\[
+\frac{\partial c^{*}}{\partial x}
+=\bigl[A\wt f'(k^{*})-(n+\delta)\bigr]\frac{\partial k^{*}}{\partial x}+\frac{\partial}{\partial x}\Bigl|_{k^*\text{ fixed}}
+=(\rho-n)\frac{\partial k^{*}}{\partial x}+\frac{\partial}{\partial x}\Bigl|_{k^*\text{ fixed}} ,
+\]
+where the second term collects the direct effect.  Since $\rho>n$ by Assumption 4$'$, the coefficient
+$(\rho-n)$ is strictly positive, so the indirect effect always has the same sign as
+$\partial k^{*}/\partial x$.  Hence
+\[
+\frac{\partial c^{*}}{\partial A}=\wt f(k^{*})+(\rho-n)\frac{\partial k^{*}}{\partial A}>0,
+\qquad
+\frac{\partial c^{*}}{\partial\rho}=(\rho-n)\frac{\partial k^{*}}{\partial\rho}<0,
+\]
+\[
+\frac{\partial c^{*}}{\partial n}=-k^{*}<0,
+\qquad
+\frac{\partial c^{*}}{\partial\delta}=(\rho-n)\frac{\partial k^{*}}{\partial\delta}-k^{*}<0 .
+\]
+This is \bk{Proposition 8.3}.
+
+\rmk{The positivity of $\rho-n$ is doing real work here, and it is the same fact as Exercise 8.12: because
+$k^{*}<k_{\text{gold}}$, the economy is on the upward-sloping part of the steady-state consumption curve,
+so anything that raises $k^{*}$ also raises $c^{*}$.  In the Solow model, where the saving rate is a free
+parameter, this is not guaranteed --- an economy above the golden rule raises consumption by saving
+\emph{less} (Exercise 8.19 pursues this contrast).}
+\end{aex}
+
+\begin{aex}{8.18}{}
+\emph{Without technological progress.}  The Euler equation \bk{(8.22)} is
+\[
+\frac{\dt c(t)}{c(t)}=\frac{1}{\varepsilon_u(c(t))}\bigl(r(t)-\rho\bigr).
+\]
+In a steady state consumption per capita is constant, $\dt c=0$; since
+$\varepsilon_u(c)$ is finite and positive, the \emph{only} way to have $\dt c=0$ is
+\[
+r^{*}=\rho
+\qquad\Longleftrightarrow\qquad
+f'(k^{*})=\rho+\delta ,
+\]
+whatever the shape of $u$.  The utility function drops out because it enters the Euler equation only
+through the factor $1/\varepsilon_u$ multiplying $r-\rho$, and multiplying zero by any finite number gives
+zero.  What $u$ does affect is the \emph{speed} of the transition: $\varepsilon_u$ governs how fast
+consumption responds to a given gap between $r$ and $\rho$, and hence the eigenvalue of the linearized
+system.
+
+\emph{With technological progress.}  Now per capita consumption grows at the rate $g$ in the BGP, so the
+left-hand side of the Euler equation is no longer zero.  With CRRA preferences \bk{(8.49)},
+$\varepsilon_u\equiv\theta$, and a steady state with $\dt c/c=g$ requires
+\[
+g=\frac{1}{\theta}\bigl(r^{*}-\rho\bigr)
+\qquad\Longleftrightarrow\qquad
+r^{*}=\rho+\theta g
+\qquad\Longleftrightarrow\qquad
+f'(k^{*})=\rho+\delta+\theta g ,
+\]
+which is \bk{(8.53)}: the elasticity now appears.  The economics is transparent.  A growing consumption
+path means that marginal utility is falling over time, and the rate at which it falls is $\theta g$.  The
+household is willing to hold capital only if its return compensates it both for impatience, $\rho$, and for
+the fact that the extra consumption arrives when it is already better off, $\theta g$.  The less willing
+the household is to substitute consumption across time (the larger $\theta$, the smaller the elasticity
+$1/\theta$), the larger the required return and the smaller the steady-state effective capital-labor ratio.
+
+In one sentence: preferences matter for the steady state only when marginal utility is changing along it,
+and that happens exactly when there is growth.
+\end{aex}
+
+\begin{aex}{8.20}{}
+On the BGP consumption per capita grows at the constant rate $g$, so $c(t)=c(0)e^{gt}$, and with CRRA
+preferences \bk{(8.49)} the objective is
+\[
+U=\int_0^{\infty}e^{-(\rho-n)t}\,\frac{c(t)^{1-\theta}-1}{1-\theta}\dd t
+=\frac{c(0)^{1-\theta}}{1-\theta}\int_0^{\infty}e^{-[(\rho-n)-(1-\theta)g]t}\dd t
+-\frac{1}{1-\theta}\int_0^{\infty}e^{-(\rho-n)t}\dd t .
+\]
+The second integral converges if and only if $\rho>n$, which is Assumption 4$'$ and is implied by
+Assumption 4 whenever $\theta\le1$; the first converges if and only if its exponent is negative:
+\[
+(\rho-n)-(1-\theta)g>0
+\qquad\Longleftrightarrow\qquad
+\rho-n>(1-\theta)g ,
+\]
+which is exactly Assumption 4.  When it holds,
+\[
+U=\frac{c(0)^{1-\theta}}{(1-\theta)\bigl[\rho-n-(1-\theta)g\bigr]}-\frac{1}{(1-\theta)(\rho-n)}<\infty ;
+\]
+when it fails, the first integral diverges, and $U=+\infty$ for $\theta<1$ (so no allocation can be
+optimal and the maximization problem is not well posed).
+
+For the logarithmic case $\theta=1$ the computation is direct: $u(c(t))=\log c(0)+gt$, so
+\[
+U=\int_0^{\infty}e^{-(\rho-n)t}\bigl[\log c(0)+gt\bigr]\dd t
+=\frac{\log c(0)}{\rho-n}+\frac{g}{(\rho-n)^{2}},
+\]
+finite if and only if $\rho>n$, which is Assumption 4 with $\theta=1$ since $(1-\theta)g=0$.
+
+\rmk{The condition has a clean reading: the effective discount rate $\rho-n$ must exceed the growth rate of
+\emph{utility}, which is $(1-\theta)g$ rather than $g$ itself, because a household with a low intertemporal
+elasticity ($\theta$ large) values additional consumption less as it grows richer.  For $\theta\ge1$
+Assumption 4 is implied by $\rho>n$, which is Exercise 8.29.}
+\end{aex}
+
+\begin{aex}{8.21}{}
+The problem is to maximize \bk{(8.49)} subject to \bk{(8.8)} and the no-Ponzi condition \bk{(8.14)}.  The
+current-value Hamiltonian is
+\[
+\wh H(t,a,c,\mu)=\frac{c^{1-\theta}-1}{1-\theta}+\mu(t)\bigl[w(t)+(r(t)-n)a-c\bigr] .
+\]
+\bk{Theorem 7.14} requires three things.
+\begin{enumerate}
+\item \emph{A well-defined, finite objective.}  By Exercise 8.20, Assumption 4 is exactly the condition
+      under which the integral converges along the BGP (and hence along any path converging to it), so the
+      value function is finite.
+\item \emph{Concavity.}  $\wh H$ is the sum of a strictly concave function of $c$ and a function that is
+      linear in $(a,c)$, hence concave in $(a,c)$ and strictly concave in $c$.  By Exercise 7.7 the
+      maximized Hamiltonian is concave in the state, so the concavity hypothesis holds.
+\item \emph{The limiting condition.}  \bk{Theorem 7.14} needs
+      $\lim_{t\to\infty}e^{-(\rho-n)t}\mu(t)a(t)\ge0$ for every feasible $(a(t),c(t))$.  Substituting
+      $\mu(t)=\mu(0)\exp(-\int_0^t(r-\rho))$ as in Exercise 8.6, this is
+      \[
+      \lim_{t\to\infty}\Bigl[a(t)\exp\Bigl(-\int_0^{t}(r(s)-n)\dd s\Bigr)\Bigr]\ \ge\ 0 ,
+      \]
+      which is precisely the no-Ponzi condition \bk{(8.14)}: no feasible path violates it, by construction
+      of the constraint set.
+\end{enumerate}
+Hence any path satisfying the necessary conditions \bk{(8.17)}--\bk{(8.19)} is a global maximum, and by
+strict concavity in $c$ it is the unique one.
+
+\emph{If Assumption 4 fails.}  Then $\rho-n\le(1-\theta)g$ and, by Exercise 8.20, utility along the BGP is
+infinite.  Every feasible path that grows at rate $g$ yields $+\infty$, so there is no meaningful ranking
+of allocations: the maximization problem has no solution in the usual sense, the value function is not
+finite, and \bk{Theorem 7.14} --- whose statement presumes a finite objective --- cannot be applied.  The
+transversality condition \bk{(8.52)} also fails, since the exponent $\rho-n-(1-\theta)g$ is no longer
+positive.  Economically, the household is too patient relative to the growth rate of the economy: it would
+always postpone consumption, and no equilibrium with a well-defined intertemporal allocation exists.
+\end{aex}
+
+\begin{aex}{8.22}{}
+With labor-augmenting progress at rate $g$ and CRRA preferences, the equilibrium is characterized by the
+planar system
+\[
+\dt k(t)=f\bigl(k(t)\bigr)-\tilde c(t)-(n+g+\delta)k(t),
+\qquad
+\frac{\dd\tilde c/\dd t}{\tilde c}=\frac{1}{\theta}\Bigl[f'\bigl(k(t)\bigr)-\delta-\rho-\theta g\Bigr],
+\tag{$*$}
+\]
+with $k(0)>0$ given and the transversality condition \bk{(8.52)}.
+
+\emph{Step 1: a unique steady state with positive consumption.}  Setting the second equation to zero gives
+$f'(k^{*})=\rho+\delta+\theta g$, which has a unique positive solution because $f'$ is continuous, strictly
+decreasing and, by Assumption 2, ranges over $(0,\infty)$.  Setting the first to zero at $k^{*}$ gives
+$\tilde c^{*}=f(k^{*})-(n+g+\delta)k^{*}$, and this is strictly positive because
+\[
+f'(k^{*})=\rho+\delta+\theta g>n+g+\delta
+\qquad\Longleftrightarrow\qquad
+\rho-n>(1-\theta)g ,
+\]
+which is Assumption 4.  So $k^{*}<k_{\text{gold}}$ and the steady state lies on the upward-sloping part of
+the $\dt k=0$ locus, where $f(k)-(n+g+\delta)k>0$.
+
+\emph{Step 2: the steady state is a saddle.}  The Jacobian of ($*$) at $(k^{*},\tilde c^{*})$ is
+\[
+J=\begin{pmatrix}
+f'(k^{*})-(n+g+\delta) & -1\\[2pt]
+\dfrac{\tilde c^{*}f''(k^{*})}{\theta} & 0
+\end{pmatrix},
+\qquad
+\operatorname{tr}J=\rho-n-(1-\theta)g>0,
+\qquad
+\det J=\frac{\tilde c^{*}f''(k^{*})}{\theta}<0 ,
+\]
+using $f''<0$ and $\tilde c^{*}>0$.  A negative determinant means the two eigenvalues are real and of
+opposite sign,
+\[
+\xi_{1}=\tfrac12\Bigl[\operatorname{tr}J-\sqrt{(\operatorname{tr}J)^{2}-4\det J}\Bigr]<0<\xi_{2},
+\]
+so the steady state is a saddle point with a one-dimensional stable manifold.  With the parameters of the
+program ($\alpha=1/3$, $\delta=0.05$, $\rho=0.02$, $n=0.01$, $g=0.02$, $\theta=1$) the eigenvalues are
+$-0.1019$ and $+0.1119$.
+
+\emph{Step 3: the stable arm is the unique equilibrium.}  Fix $k(0)>0$.  There is exactly one value
+$\tilde c(0)$ on the stable manifold, and starting from it the path converges to $(k^{*},\tilde c^{*})$.
+Any other choice of $\tilde c(0)$ leads off the manifold, and the phase diagram leaves only two
+possibilities:
+\begin{itemize}
+\item $\tilde c(0)$ too high: the path crosses the $\dt k=0$ locus and capital falls, reaching $k=0$ in
+      finite time.  By Exercise 8.14 such a path cannot be an equilibrium --- households would deviate,
+      since the interest rate diverges as capital vanishes.
+\item $\tilde c(0)$ too low: consumption falls to zero while capital rises above $k_{\text{gold}}$ toward
+      the level $\bar k$ with $f'(\bar k)<\delta+g+n$.  Then the exponent in the transversality condition
+      \bk{(8.52)} stays bounded away from $-\infty$, so
+      $\lim k(t)\exp\bigl(-\int_0^t[f'(k)-g-\delta-n]\bigr)>0$: the condition fails, and by
+      \bk{Theorem 7.14} the path is dominated.  It is also plainly wasteful --- the economy accumulates
+      capital it never consumes.
+\end{itemize}
+Hence for each $k(0)>0$ there is a unique equilibrium, the one starting on the stable arm.
+
+\emph{Step 4: convergence is monotone.}  Along the stable arm the sign of $\dt k$ does not change: the arm
+lies below the $\dt k=0$ locus for $k<k^{*}$ and above it for $k>k^{*}$, and it cannot cross either locus
+without leaving the manifold.  Therefore $k(t)$ moves monotonically to $k^{*}$ and, since $\tilde c$ is an
+increasing function of $k$ along the arm (its slope is $\operatorname{tr}J-\xi_{1}>0$, equal to $0.1119$ in
+the numerical example, which the program confirms against a numerically traced arm, $0.1123$), normalized
+consumption converges monotonically to $\tilde c^{*}$ as well.  This establishes \bk{Proposition 8.7}.
+\end{aex}
+
+\begin{aex}{8.24}{}
+Set $\theta=1$ in \bk{(8.55)} and \bk{(8.56)}.  With $x\equiv k^{\alpha-1}$ (so that $x=f(k)/k$ is the
+average product of capital) and $z\equiv\tilde c/k$, the system becomes
+\[
+\frac{\dt x}{x}=-(1-\alpha)\bigl[x-\delta-g-n-z\bigr],
+\qquad
+\frac{\dt z}{z}=z-(1-\alpha)x-(\rho-n) .
+\tag{$*$}
+\]
+
+\emph{The steady state in closed form.}  From the second equation $\dt z=0$ gives
+$z^{*}=(1-\alpha)x^{*}+\rho-n$, and from the first $x^{*}=\delta+g+n+z^{*}$.  Solving the two,
+\[
+x^{*}=\frac{\rho+\delta+g}{\alpha},
+\qquad
+z^{*}=x^{*}-(\delta+g+n)=\frac{\rho+\delta+g}{\alpha}-(\delta+g+n),
+\]
+equivalently $k^{*}=\bigl[\alpha/(\rho+\delta+g)\bigr]^{1/(1-\alpha)}$ and
+$\tilde c^{*}=f(k^{*})-(n+g+\delta)k^{*}$, which is \bk{(8.53)}--\bk{(8.54)} with $\theta=1$.
+
+\emph{The transition in closed form.}  The system ($*$) is a planar quadratic system and does not have an
+elementary general solution, but its behavior near the BGP does, and that is what the transitional
+dynamics require.  Linearizing the original system in $(k,\tilde c)$ at the steady state, as in Exercise
+8.22 with $\theta=1$,
+\[
+\operatorname{tr}J=\rho-n,
+\qquad
+\det J=\tilde c^{*}f''(k^{*})=-\frac{(1-\alpha)(\rho+\delta+g)\tilde c^{*}}{k^{*}},
+\]
+\[
+\xi_{1,2}=\frac{(\rho-n)\mp\sqrt{(\rho-n)^{2}+4(1-\alpha)(\rho+\delta+g)\tilde c^{*}/k^{*}}}{2},
+\qquad \xi_1<0<\xi_2 ,
+\]
+and along the stable arm the solution is, in closed form,
+\[
+\boxed{\ k(t)=k^{*}+\bigl(k(0)-k^{*}\bigr)e^{\xi_{1}t},
+\qquad
+\tilde c(t)=\tilde c^{*}+\bigl(\rho-n-\xi_{1}\bigr)\bigl(k(0)-k^{*}\bigr)e^{\xi_{1}t}\ }
+\]
+the coefficient $\rho-n-\xi_{1}=\operatorname{tr}J-\xi_{1}>0$ being the slope of the stable arm, obtained
+from the eigenvector of $J$ associated with $\xi_{1}$.  The speed of convergence is $|\xi_{1}|$, so the
+half-life of the transition is $\log2/|\xi_{1}|$.  With $\alpha=1/3$, $\delta=0.05$, $\rho=0.02$,
+$n=0.01$, $g=0.02$:
+\[
+k^{*}=7.1278,\quad \tilde c^{*}=1.3543,\quad \xi_{1}=-0.1019,\quad \xi_{2}=+0.1119,
+\quad\text{slope}=0.1119,\quad\text{half-life}=6.80 .
+\]
+The program checks the closed-form slope against a numerically traced stable arm ($0.1123$).
+
+\rmk{There is one parameter configuration in which ($*$) can be solved exactly rather than only near the
+BGP: when $\theta=\alpha$, the term $(\alpha-\theta)x$ in \bk{(8.56)} vanishes and the $z$ equation
+decouples,
+\[
+\frac{\dt z}{z}=z-\frac{\rho}{\alpha}+n-\frac{(1-\alpha)\delta}{\alpha} ,
+\]
+a logistic equation with an explicit solution, after which $x(t)$ follows by quadrature.  This is the
+closed-form case identified by Smith (2006); with logarithmic preferences ($\theta=1$) the coupling is
+present and the linearized solution above is the appropriate closed form.}
+\end{aex}
+
+\begin{aex}{8.26}{}
+The problem is
+\[
+\max\ \sum_{t=0}^{\infty}\beta^{t}\log c(t)
+\qquad\text{s.t.}\qquad
+k(t+1)=k(t)^{\alpha}-c(t),\qquad k(0)>0 ,
+\]
+full depreciation making the resource constraint this simple.
+
+\emph{Euler equation and steady state.}  The Euler equation \bk{(6.50)} is
+\[
+\frac{1}{c(t)}=\beta\,\alpha k(t+1)^{\alpha-1}\frac{1}{c(t+1)} .
+\]
+In a steady state $c(t)=c^{*}$ and $k(t)=k^{*}$, so $1=\beta\alpha(k^{*})^{\alpha-1}$ and
+\[
+k^{*}=(\alpha\beta)^{\frac{1}{1-\alpha}},
+\qquad
+c^{*}=(k^{*})^{\alpha}-k^{*}=(\alpha\beta)^{\frac{\alpha}{1-\alpha}}(1-\alpha\beta) .
+\]
+This is the discrete-time counterpart of \bk{(8.35)}: the marginal product of capital,
+$\alpha(k^{*})^{\alpha-1}$, equals the gross discount rate $1/\beta$.
+
+\emph{The exact policy rule.}  Guess that a constant fraction of output is saved,
+$k(t+1)=s\,k(t)^{\alpha}$, so that $c(t)=(1-s)k(t)^{\alpha}$.  Substituting into the Euler equation,
+\[
+\frac{1}{(1-s)k(t)^{\alpha}}
+=\beta\alpha\bigl(sk(t)^{\alpha}\bigr)^{\alpha-1}\frac{1}{(1-s)\bigl(sk(t)^{\alpha}\bigr)^{\alpha}}
+\qquad\Longrightarrow\qquad
+s=\alpha\beta ,
+\]
+after cancelling.  So the exact optimal policy is
+\[
+\boxed{\ c(t)=(1-\alpha\beta)k(t)^{\alpha},
+\qquad
+k(t+1)=\alpha\beta\,k(t)^{\alpha}\ }
+\]
+--- the saving rate is constant at $\alpha\beta$, exactly as in the Solow model but here derived rather
+than assumed.  (That the guess is the solution follows from uniqueness: the policy function of the
+concave dynamic programming problem is unique by \bk{Corollary 6.1}, and this candidate satisfies the
+Euler equation and the transversality condition.)
+
+\emph{The transition, exactly.}  Taking logarithms of the law of motion,
+\[
+\log k(t+1)=\log(\alpha\beta)+\alpha\log k(t)
+\qquad\Longrightarrow\qquad
+\log k(t)-\log k^{*}=\alpha^{t}\bigl[\log k(0)-\log k^{*}\bigr] ,
+\]
+since $\log k^{*}=\log(\alpha\beta)/(1-\alpha)$ is the fixed point.  The economy converges monotonically to
+$k^{*}$, and the log gap closes at the exact geometric rate $\alpha$ per period --- a rare case in which the
+entire transition, not merely its linearization, is available in closed form.  With $\alpha=1/3$,
+$\beta=0.96$ and $k(0)=0.2k^{*}$ the iterated and closed-form paths agree to every printed digit
+($k^{*}=0.181019$, $k(1)=0.105861$, $k(5)=0.179824$).
+
+\rmk{The knife-edge assumption is full depreciation: with $\delta<1$ the resource constraint becomes
+$k(t+1)=k(t)^{\alpha}+(1-\delta)k(t)-c(t)$, the constant-saving-rate guess fails, and no closed form is
+known.  It is worth noting that here the neoclassical model reproduces the Solow model exactly, with the
+saving rate pinned down by preferences as $\alpha\beta$ rather than left free.}
+\end{aex}
+
+\begin{aex}{8.28}{}
+\emph{(a) Faster technological progress.}  The steady state \bk{(8.53)} is $f'(k^{*})=\rho+\delta+\theta g$,
+so a rise from $g$ to $g'>g$ raises the required marginal product and \emph{lowers} the steady-state
+effective capital-labor ratio $k^{*}$; it also lowers $\tilde c^{*}=f(k^{*})-(n+g+\delta)k^{*}$, both
+because $k^{*}$ falls (and the economy is to the left of the golden rule, where the curve is increasing)
+and because the replacement requirement $n+g+\delta$ rises.  The growth rate of consumption per capita
+rises from $g$ to $g'$.
+
+On impact, $k$ is predetermined and $\tilde c$ jumps onto the new stable arm.  Since the economy starts at
+the old $k^{*}$, which exceeds the new $k^{*}$, it is to the \emph{right} of the new steady state, and the
+arm is upward sloping there: normalized consumption therefore jumps above its new steady-state level, and
+$k$ falls monotonically toward the new $k^{*}$.
+
+Whether \emph{actual} consumption $c(0)=A(0)\tilde c(0)$ rises or falls is genuinely ambiguous, and the
+ambiguity is the familiar one between income and substitution effects:
+\begin{itemize}
+\item faster growth makes the household richer in present-value terms, which pushes consumption up now
+      (income effect);
+\item it also raises the equilibrium interest rate to $r^{*}=\rho+\theta g'$, making future consumption
+      cheaper, which pushes consumption down now (substitution effect).
+\end{itemize}
+With CRRA preferences the two are balanced by $\theta$: the substitution effect dominates when
+$\theta<1$ (intertemporal elasticity $1/\theta>1$), so consumption falls on impact and saving rises;
+the income effect dominates when $\theta>1$, so consumption rises; and for $\theta=1$ (log) the two
+exactly cancel in the sense that the consumption-wealth ratio is unchanged.
+
+\emph{(b) An announced future tax cut.}  Assume, as in Section 8.8, that the tax proceeds are rebated
+lump-sum, so that there is no wealth effect and only the intertemporal price changes.  With a capital tax
+the steady state \bk{(8.57)} is
+\[
+f'(k^{*})=\frac{\delta+\rho+\theta g}{1-\tau} ,
+\]
+so a lower $\tau'$ lowers the required marginal product and \emph{raises} $k^{*}$ and $\tilde c^{*}$.
+
+Between $T$ and $T'$ the old dynamics still apply --- the tax is still $\tau$ --- but the path must arrive
+exactly on the \emph{new} stable arm at $T'$, since from then on the new dynamics govern and only the new
+arm converges.  The new arm passes through a steady state with higher $k^{*}$, so at $T'$ the economy must
+have accumulated capital.  This requires $\dt k>0$ between $T$ and $T'$, that is, consumption below the
+$\dt k=0$ locus.  Hence at the moment of the announcement consumption \emph{jumps down}: households start
+saving immediately in anticipation of the higher after-tax return, capital rises between $T$ and $T'$, and
+after $T'$ the economy travels up the new stable arm to the new steady state, with consumption rising
+throughout and ending above its original level.
+
+The contrast between the two parts is instructive: in (a) the change is immediate and the sign of the
+impact effect depends on $\theta$; in (b) the change is anticipated, so the whole adjustment before $T'$ is
+driven by the substitution effect alone, and its sign is unambiguous.
+\end{aex}
+
+\begin{aex}{8.29}{}
+With technological progress, the transversality condition \bk{(8.52)} evaluated along the BGP reduces, as
+the book shows, to the requirement that
+\[
+\rho-n-(1-\theta)g>0 ,
+\]
+which is Assumption 4.  If $\theta>1$ then $(1-\theta)g<0$, so the requirement becomes
+\[
+\rho-n>(1-\theta)g,\qquad\text{with a negative right-hand side} ,
+\]
+which is implied by Assumption 4$'$, $\rho>n$ --- the condition needed even in the model without growth.
+So for $\theta>1$ Assumption 4 imposes nothing beyond ordinary discounting, and the transversality
+condition holds automatically.
+
+The reason is visible in the utility function.  For $\theta>1$ the CRRA felicity
+$\bigl(c^{1-\theta}-1\bigr)/(1-\theta)$ is negative and \emph{bounded above} by
+$1/(\theta-1)$: as consumption grows without bound, flow utility rises toward a finite ceiling.  Growth
+therefore cannot make the discounted integral diverge, and the only requirement is that the discount factor
+itself be summable, $\rho>n$.  For $\theta<1$ the felicity is unbounded above and grows like
+$c^{1-\theta}=c(0)^{1-\theta}e^{(1-\theta)gt}$, so growth races against discounting and the extra condition
+$\rho-n>(1-\theta)g$ is needed; see Exercise 8.20.
+
+\rmk{Empirically this is reassuring rather than restrictive: most estimates of the intertemporal elasticity
+of substitution $1/\theta$ lie below one, that is $\theta>1$, so the canonical model's parameter
+restrictions are satisfied in the range of interest.}
+\end{aex}
+
+\begin{aex}{8.32}{}
+Each country $j$ is a closed neoclassical economy with the same technology and the same $\delta$, $n$, $g$
+and $\theta$, differing only in its discount rate $\rho_j$.  Its BGP effective capital-labor ratio solves
+\[
+f'\bigl(k_j^{*}\bigr)=\rho_j+\delta+\theta g ,
+\]
+so with the Cobb--Douglas form $f(k)=k^{\alpha}$,
+\[
+k_j^{*}=\Bigl[\frac{\alpha}{\rho_j+\delta+\theta g}\Bigr]^{\frac{1}{1-\alpha}},
+\qquad
+y_j^{*}=\bigl(k_j^{*}\bigr)^{\alpha}
+=\Bigl[\frac{\alpha}{\rho_j+\delta+\theta g}\Bigr]^{\frac{\alpha}{1-\alpha}} .
+\]
+All countries grow at the same rate $g$; only the \emph{level} of income per capita differs, and
+\[
+\frac{y_j^{*}}{y_{j'}^{*}}
+=\Bigl[\frac{\rho_{j'}+\delta+\theta g}{\rho_j+\delta+\theta g}\Bigr]^{\frac{\alpha}{1-\alpha}} ,
+\qquad
+\frac{\dd\log y^{*}}{\dd\log\bigl(\rho+\delta+\theta g\bigr)}=-\frac{\alpha}{1-\alpha} .
+\]
+With a capital share of about $\alpha=1/3$ the elasticity is only $-1/2$, and it applies to
+$\rho+\delta+\theta g$, not to $\rho$ alone --- which is what makes the effect small.
+
+\emph{The numbers.}  Take $\delta=0.05$, $g=0.02$, $\theta=1$, and compare $\rho=0.02$ with
+$\rho'=0.022$ --- a 10\% difference in patience:
+\[
+\frac{y^{*}(\rho')}{y^{*}(\rho)}=\Bigl(\frac{0.090}{0.092}\Bigr)^{1/2}=0.9891 ,
+\]
+a difference of only $1.1\%$.  Even with no depreciation and no growth ($\delta=g=0$), where the discount
+rate is the whole of the required return,
+\[
+\frac{y^{*}(\rho')}{y^{*}(\rho)}=\Bigl(\frac{0.020}{0.022}\Bigr)^{1/2}=0.9535 ,
+\]
+a difference of $4.7\%$.
+
+\emph{Interpretation.}  Preference heterogeneity of a plausible size cannot account for cross-country
+income differences: a tenfold income gap would require
+$(\rho_{j'}+\delta+\theta g)/(\rho_j+\delta+\theta g)=10^{2}=100$, that is discount rates differing by
+orders of magnitude.  The reason is the same diminishing-returns arithmetic that limits the Solow model's
+ability to explain income differences through saving rates: with a capital share of one third, the
+elasticity of steady-state income with respect to any determinant of the capital stock is only
+$\alpha/(1-\alpha)=1/2$.  This is precisely why the book turns from proximate to fundamental causes, and
+later to models in which technology itself differs across countries.
+\end{aex}
+
+\begin{aex}{8.35}{}
+\emph{The two budget constraints.}  The government finances a constant flow of spending $g$ per capita with
+lump-sum taxes $T(t)$ and debt $b(t)$:
+\[
+\dt b(t)=r(t)b(t)+g-T(t),
+\qquad
+\lim_{t\to\infty}\Bigl[b(t)\exp\Bigl(-\int_0^{t}\bigl(r(s)-n\bigr)\dd s\Bigr)\Bigr]=0 .
+\]
+Integrating forward and using the no-Ponzi condition gives the government's intertemporal budget
+constraint,
+\[
+\int_0^{\infty}T(t)q(t)\dd t=b(0)+\int_0^{\infty}g\,q(t)\dd t ,
+\qquad
+q(t)\equiv\exp\Bigl(-\int_0^{t}\bigl(r(s)-n\bigr)\dd s\Bigr).
+\tag{$*$}
+\]
+The household holds assets $a(t)=k(t)+b(t)$ and faces
+\[
+\dt a(t)=\bigl(r(t)-n\bigr)a(t)+w(t)-T(t)-c(t) ,
+\]
+so, integrating forward with its own no-Ponzi condition,
+\[
+\int_0^{\infty}c(t)q(t)\dd t=a(0)+\int_0^{\infty}\bigl[w(t)-T(t)\bigr]q(t)\dd t .
+\tag{$**$}
+\]
+
+\emph{The proof.}  Substitute ($*$) into ($**$) and use $a(0)=k(0)+b(0)$:
+\[
+\int_0^{\infty}c(t)q(t)\dd t
+=k(0)+b(0)+\int_0^{\infty}w(t)q(t)\dd t-\Bigl[b(0)+\int_0^{\infty}g\,q(t)\dd t\Bigr]
+=k(0)+\int_0^{\infty}\bigl[w(t)-g\bigr]q(t)\dd t .
+\]
+The path of taxes has disappeared, and so has the initial debt: the household's lifetime budget constraint
+depends only on the initial \emph{capital} stock and on the present value of wages net of government
+spending.  The household's problem --- maximize \bk{(8.3)} subject to this constraint --- is therefore
+unchanged by any reshuffling of $[T(t)]$ that satisfies ($*$), so its consumption path is unchanged; and
+since $k(t)=a(t)-b(t)$ and the resource constraint $\dt k=f(k)-c-g-(n+\delta)k$ does not involve taxes
+either, the equilibrium path of the capital-labor ratio is unchanged as well.  This is Ricardian
+equivalence.
+
+\emph{Interpretation.}  Government debt is not net wealth.  A tax cut today financed by borrowing must be
+paid for by higher taxes later whose present value is exactly equal; the infinitely lived household sees
+this, saves the entire tax cut, and leaves its consumption plan untouched.  Only the \emph{present value}
+of government spending matters, not how it is financed.
+
+The result is a benchmark, not a description, and it is worth being explicit about what it assumes: taxes
+are lump-sum (distortionary taxes change relative prices, as in Exercise 8.39); the horizon is infinite
+with full altruism (in the overlapping generations models of Chapter 9 the future taxpayers are different
+people, and the equivalence fails); capital markets are perfect (binding borrowing constraints make the
+timing of taxes matter, as in Exercise 6.13); and there is no uncertainty about the incidence of future
+taxes.
+\end{aex}
+
+\begin{aex}{8.36}{}
+\emph{Capital jumps immediately.}  Firms are competitive and can rent as much capital as they like at the
+world rate, so the domestic marginal product must equal the world cost of capital at every instant:
+\[
+f'\bigl(k(t)\bigr)-\delta=r^{*}
+\qquad\Longrightarrow\qquad
+k(t)=k^{\text{o}}\equiv\bigl(f'\bigr)^{-1}\bigl(r^{*}+\delta\bigr)\quad\text{for all }t>0 .
+\]
+The capital-labor ratio is pinned down by the world interest rate alone, independently of preferences and
+of the country's own wealth, and it is reached \emph{immediately}: if $k(0)<k^{\text{o}}$ the economy
+imports the difference on the first instant, borrowing $k^{\text{o}}-k(0)$ from abroad.  There are no
+transitional dynamics in capital or in output --- the entire adjustment happens at $t=0$ --- which is the
+sharpest contrast with the closed economy, where convergence takes decades.
+
+\emph{Consumption.}  The Euler equation is $\dt c/c=(r^{*}-\rho)/\theta$, so consumption grows, is constant
+or falls according to whether $r^{*}\gtrless\rho$.  A steady state with constant consumption therefore
+requires the knife-edge condition
+\[
+r^{*}=\rho ,
+\]
+which is the standard assumption in small open economy models; otherwise the country accumulates foreign
+assets without bound ($r^{*}>\rho$) or runs its consumption down to zero ($r^{*}<\rho$), and no steady
+state exists.  Assume $r^{*}=\rho$.  Then $c(t)=c^{*}$ is constant and is determined by the country's
+intertemporal budget constraint: with net foreign debt $d(t)=k(t)-a(t)$ and the no-Ponzi condition,
+\[
+c^{*}=\bigl(r^{*}-n\bigr)\Bigl[a(0)+\int_0^{\infty}\bigl[w(t)\bigr]e^{-(r^{*}-n)t}\dd t\Bigr] ,
+\]
+that is, consumption equals the annuity value of national wealth --- initial assets plus the present value
+of labor income.
+
+\emph{How the debt is repaid.}  It is not repaid in the sense of being extinguished; it is \emph{serviced}
+forever out of the higher output the imported capital makes possible.  In the steady state,
+\[
+c^{*}=f\bigl(k^{\text{o}}\bigr)-(n+\delta)k^{\text{o}}-\bigl(r^{*}-n\bigr)d ,
+\]
+so the country runs a permanent trade surplus of $(r^{*}-n)d$ --- the interest bill net of the growth of
+the population over which it is spread --- while its debt-to-labor ratio $d$ stays constant.  The no-Ponzi
+condition requires exactly this: the present value of the debt must go to zero, which permits debt growing
+at rate $n$ but not faster.
+
+\rmk{The comparison with the closed economy is the point of the exercise.  Openness removes the
+\emph{capital accumulation} channel entirely: income per worker is $f(k^{\text{o}})$ from the first instant,
+so cross-country differences in patience or initial capital show up in \emph{consumption} and in net
+foreign asset positions, not in output.  This is why the empirical failure of convergence is so hard to
+reconcile with open capital markets --- the Lucas paradox of Chapter 1.}
+\end{aex}
+
+\begin{aex}{8.39}{}
+\emph{The Solow model.}  Saving is a fixed fraction $s$ of income, whatever the rate of return.  A tax on
+capital income at the rate $\tau$, rebated lump-sum to households, changes the \emph{distribution} of income
+but not its total: output is still $f(k)$, and total saving is still $sf(k)$.  The fundamental law of motion
+is therefore unchanged,
+\[
+\dt k(t)=sf\bigl(k(t)\bigr)-(n+\delta)k(t),
+\]
+and so is the steady state $f(k^{*})/k^{*}=(n+\delta)/s$.  The tax is neutral.  (If instead the revenue were
+thrown away or spent on something outside the model, the effect would come through the resource constraint,
+not through behavior; the point is that no \emph{behavioral} margin responds.)
+
+\emph{The neoclassical model.}  Here saving is chosen, and what the household compares is its discount rate
+with the \emph{after-tax} return
+\[
+r(t)=(1-\tau)f'\bigl(k(t)\bigr)-\delta .
+\]
+The Euler equation \bk{(8.50)} then gives, in a BGP with consumption growing at $g$,
+$r^{*}=\rho+\theta g$, so that
+\[
+f'\bigl(k^{*}\bigr)=\frac{\delta+\rho+\theta g}{1-\tau} ,
+\]
+which is \bk{(8.57)}.  Since $f'$ is strictly decreasing, a higher $\tau$ raises the required pre-tax
+marginal product and therefore \emph{lowers} $k^{*}$, output per effective worker, and consumption.  With
+$\alpha=1/3$ the elasticity is again $\alpha/(1-\alpha)=1/2$, so a tax that raises the required return by
+10\% lowers steady-state income by about 5\%.
+
+\emph{Why the difference.}  In the Solow model the saving rate is a behavioral primitive that does not
+respond to prices, so a tax that changes the return to capital changes nothing that anyone decides.  In the
+neoclassical model saving is the outcome of an intertemporal optimization, and the after-tax return
+\emph{is} the relative price of future against present consumption.  Taxing it drives a wedge between the
+marginal product of capital --- what an extra unit of capital produces --- and the rate at which households
+can convert consumption today into consumption tomorrow.  Households equate their marginal rate of
+substitution to the after-tax return, firms equate the marginal product to the pre-tax return, and the wedge
+between the two shows up as a permanently lower capital stock.
+
+This is a general lesson rather than a fact about capital taxes: whenever a model replaces a behavioral
+rule by optimization, policies that alter intertemporal prices acquire effects they did not have before.
+It is also why the neoclassical model, unlike the Solow model, can speak to the effects of policy and
+institutions on income levels --- the theme the book takes up in Section 8.8 and in Part VIII.
 \end{aex}
 
 \end{document}
