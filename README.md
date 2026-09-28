@@ -20,7 +20,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 9. Growth with Overlapping Generations | 33 | 12 | **21** — 9.2, 9.4, 9.5, 9.9–9.14, 9.18, 9.19, 9.22, 9.23, 9.25–9.31, 9.33 |
 | 10. Human Capital and Economic Growth | 20 | 6 | **14** — 10.1, 10.3–10.5, 10.8–10.13, 10.15–10.17, 10.19 |
 | 11. First-Generation Models of Endogenous Growth | 21 | 8 | **13** — 11.1–11.3, 11.5–11.7, 11.9–11.13, 11.19, 11.20 |
-| 12–23 | 299 | 118 | in progress |
+| 12. Modeling Technological Change | 14 | 6 | **8** — 12.1, 12.3, 12.4, 12.6–12.8, 12.10, 12.12 |
+| 13–23 | 285 | 112 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -89,6 +90,11 @@ chapter and writes that chapter's figures to `figures/`. So far:
   (Exercise 11.7); the effect of \(\alpha\) in the two-sector model (Exercise 11.13); the
   Pigouvian subsidy that decentralizes the Romer optimum (Exercise 11.19); and the discrete-time
   balanced growth path and its admissible parameters (Exercise 11.20).
+- **`ch12.py`** — the private and social values of a process innovation against its size, the
+  drastic threshold and the inequalities of Proposition 12.2 (Exercises 12.1, 12.3, 12.4); the
+  replacement effect (Exercise 12.6); the cost handicap at which entrant and incumbent incentives
+  cross (Exercise 12.7); a worked example of excessive innovation (Exercise 12.8); and when a
+  larger number of varieties raises Dixit–Stiglitz profits (Exercise 12.12).
 
 ## Working files (not part of the document)
 

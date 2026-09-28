@@ -179,18 +179,13 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--11\par}
+{\large Chapters 2--12\par}
 \vspace{0.6cm}
-{\small The 131 exercises that the instructor's solutions manual of Peters and Simsek (2009)\par
- leaves unsolved: Exercises 2.1--2.6, 2.8--2.10, 2.13, 2.15, 2.24--2.26;\par
- 3.3--3.8, 3.11;\ 4.1, 4.2;\ 5.3--5.8;\par
- 6.1, 6.4--6.6, 6.10, 6.11, 6.13--6.17, 6.19--6.21;\par
- 7.3, 7.4, 7.6--7.9, 7.11--7.16, 7.20, 7.22, 7.27, 7.29;\par
- 8.1, 8.3--8.6, 8.8--8.10, 8.12, 8.14, 8.16--8.18, 8.20--8.22, 8.24, 8.26,\par
- 8.28, 8.29, 8.32, 8.35, 8.36, 8.39;\ 9.2, 9.4, 9.5, 9.9--9.14, 9.18, 9.19,\par
- 9.22, 9.23, 9.25--9.31, 9.33;\ 10.1, 10.3--10.5, 10.8--10.13, 10.15--10.17,\par
- 10.19;\ 11.1--11.3, 11.5--11.7, 11.9--11.13, 11.19, 11.20\par
- --- with the numerical parts computed by the Python programs in \texttt{code/}.\par}
+{\small The 139 exercises that the instructor's solutions manual of\par
+ Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
+ computed by the Python programs in \texttt{code/}.\par
+ Each chapter opens with the list of the exercises it covers\par
+ and those the manual already solves.\par}
 \vspace{0.8cm}
 {\small The exercise statements are not reproduced here: read them in Acemoglu's
 \emph{Introduction to Modern Economic Growth}.\par
@@ -7958,6 +7953,551 @@ private return makes the Euler equation autonomous, so consumption growth is imm
 and the transversality condition then eliminates the explosive homogeneous solution for capital.
 The linearity that produces endogenous growth is also what produces the absence of transitional
 dynamics; the two are the same property seen from different sides.}
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{12}{Modeling Technological Change}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The eight exercises of Chapter 12 left unsolved in the instructor's manual: Exercises 12.1, 12.3,
+12.4, 12.6--12.8, 12.10 and 12.12.  The manual solves 12.2, 12.5, 12.9, 12.11, 12.13 and 12.14.
+Notation follows the book: $\psi$ is the pre-innovation marginal cost, $\lambda>1$ the size of a
+process innovation, $\mu$ its cost, $D(p)$ demand, $\varepsilon_D(p)=-pD'(p)/D(p)$ the elasticity
+of demand, $p^{M}$ the post-innovation monopoly price, $\wh p^{M}$ the pre-innovation one, and
+$\varepsilon$ the elasticity of substitution between Dixit--Stiglitz varieties.  It is convenient
+throughout to write
+\[
+\Pi^{M}(c)\equiv\max_{p}\ D(p)\bigl(p-c\bigr)
+\]
+for the gross monopoly profit at marginal cost $c$, with maximizer $p^{M}(c)$.  The numerical parts
+are computed by \texttt{code/ch12.py}.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{12.1}{}
+After a successful innovation the firm's marginal cost is $\lambda^{-1}\psi$, and as an
+unconstrained monopolist it solves
+\[
+\max_{p}\ \pi(p)=D(p)\bigl(p-\lambda^{-1}\psi\bigr).
+\]
+The first-order condition is
+\[
+D'(p)\bigl(p-\lambda^{-1}\psi\bigr)+D(p)=0
+\qquad\Longrightarrow\qquad
+p-\lambda^{-1}\psi=-\frac{D(p)}{D'(p)} .
+\]
+Writing the elasticity of demand as $\varepsilon_D(p)\equiv-pD'(p)/D(p)>0$, we have
+$-D(p)/D'(p)=p/\varepsilon_D(p)$, so
+\[
+p\Bigl(1-\frac{1}{\varepsilon_D(p)}\Bigr)=\lambda^{-1}\psi
+\qquad\Longrightarrow\qquad
+\boxed{\ p^{M}=\frac{\lambda^{-1}\psi}{1-\varepsilon_D(p^{M})^{-1}}\ }
+\]
+which is \bk{(12.2)}. $\blacksquare$
+
+Three remarks complete the derivation.  First, a positive price requires
+$\varepsilon_D(p^{M})>1$: a monopolist never operates on the inelastic part of its demand curve,
+because raising the price there would raise revenue and cut cost simultaneously.  Second, the
+first-order condition is sufficient when marginal revenue $p(1-\varepsilon_D(p)^{-1})$ is
+increasing in $p$, which holds for all the demand curves used below.  Third, the same computation
+with $\lambda=1$ gives the pre-innovation monopoly price $\wh p^{M}=p^{M}(\psi)$ of \bk{(12.6)}.
+
+\emph{The drastic threshold.}  The innovation is drastic when firm~1 can charge $p^{M}$ without
+being undercut by rivals still producing at cost $\psi$, that is when $p^{M}\le\psi$.  Substituting
+\bk{(12.2)},
+\[
+\frac{\lambda^{-1}\psi}{1-\varepsilon_D(p^{M})^{-1}}\le\psi
+\qquad\Longleftrightarrow\qquad
+\lambda\ \ge\ \lambda^{*}\equiv\frac{1}{1-\varepsilon_D(p^{M})^{-1}} ,
+\]
+as the text states.  The threshold is exactly the monopoly markup factor: the innovation must cut
+cost by at least as much as the monopolist would like to mark up.
+
+\rmk{With the constant-elasticity demand $D(p)=Ap^{-\varepsilon}$ the formula collapses to
+$p^{M}=\frac{\varepsilon}{\varepsilon-1}\lambda^{-1}\psi$, a fixed proportional markup, and
+$\lambda^{*}=\varepsilon/(\varepsilon-1)$.  This is the same expression as the Dixit--Stiglitz
+price \bk{(12.15)} of Section 12.4, and for the same reason: \bk{(12.10)} makes each variety's
+demand isoelastic with elasticity $\varepsilon$.  The two halves of the chapter share one
+formula.}
+\end{aex}
+
+\begin{aex}{12.3}{}
+\emph{Deriving \bk{(12.5)}.}  Before the innovation the industry is competitive at price $\psi$, so
+producer surplus is zero.  Measure everything as a change from that benchmark.
+
+Under monopoly pricing (the drastic case, $p^{M}\le\psi$), firm~1 sells $D(p^{M})$ at the markup
+$p^{M}-\lambda^{-1}\psi$, so producer surplus rises by $D(p^{M})(p^{M}-\lambda^{-1}\psi)$; the
+price falls from $\psi$ to $p^{M}$, so consumer surplus rises by $\int_{p^{M}}^{\psi}D(p)\dd p$;
+and the innovation costs $\mu$.  Hence
+\[
+\wt S^{I}_{1}=D(p^{M})\bigl(p^{M}-\lambda^{-1}\psi\bigr)+\int_{p^{M}}^{\psi}D(p)\dd p-\mu .
+\]
+Under limit pricing (the non-drastic case), the price stays at $\psi$, so consumers gain nothing
+and the whole gain is the cost saving on the units still sold:
+\[
+S^{I}_{1}=D(\psi)\bigl(\psi-\lambda^{-1}\psi\bigr)-\mu=D(\psi)\lambda^{-1}(\lambda-1)\psi-\mu ,
+\]
+which is \bk{(12.5)}.  Note that $S^{I}_{1}=\pi^{I}_{1}$ exactly: with limit pricing the private
+and social values of the innovation coincide, because the innovator captures the entire gain.
+
+\emph{Proving \bk{Proposition 12.2}.}  It is cleanest to treat the two regimes as one function of
+the size of the innovation.  For each $\lambda>1$ let
+\[
+p_1(\lambda)\equiv\min\bigl\{p^{M}(\lambda^{-1}\psi),\ \psi\bigr\}
+\]
+be the equilibrium price, and define the gross (pre-$\mu$) private value and equilibrium surplus
+\[
+\Pi(\lambda)=D\bigl(p_1\bigr)\bigl(p_1-\lambda^{-1}\psi\bigr),
+\qquad
+\Sigma(\lambda)=\Pi(\lambda)+\int_{p_1}^{\psi}D(p)\dd p,
+\qquad
+S(\lambda)=\int_{\lambda^{-1}\psi}^{\psi}D(p)\dd p ,
+\]
+so that $\Pi=\pi^{I}_{1}+\mu$ and $\Sigma=S^{I}_{1}+\mu$ for $\lambda<\lambda^{*}$, while
+$\Pi=\wh\pi^{I}_{1}+\mu$ and $\Sigma=\wt S^{I}_{1}+\mu$ for $\lambda\ge\lambda^{*}$, and
+$S=S^{I}+\mu$ throughout.
+
+\emph{Step 1: $\Pi(\lambda)<\Sigma(\lambda)<S(\lambda)$ at every $\lambda$.}  The first inequality
+is immediate, since $\Sigma-\Pi=\int_{p_1}^{\psi}D\ge0$, with equality only under limit pricing.
+For the second, split the integral at $p_1$:
+\[
+S(\lambda)-\Sigma(\lambda)
+=\int_{\lambda^{-1}\psi}^{p_1}D(p)\dd p-D(p_1)\bigl(p_1-\lambda^{-1}\psi\bigr)\ >\ 0 ,
+\]
+because $D$ is strictly decreasing, so $D(p)>D(p_1)$ for every $p<p_1$ and the integral strictly
+exceeds the rectangle.  This is the deadweight loss of pricing above marginal cost.  Combining,
+$\Pi<\Sigma<S$, which gives both $\wh\pi^{I}_{1}<S^{I}$ and $\wt S^{I}_{1}<S^{I}$, and
+(for $\lambda<\lambda^{*}$, where $\Pi=\Sigma$) $\pi^{I}_{1}=S^{I}_{1}<S^{I}$.
+
+\emph{Step 2: both are strictly increasing in $\lambda$.}  For $\lambda<\lambda^{*}$,
+$\Pi(\lambda)=\Sigma(\lambda)=D(\psi)\psi(1-\lambda^{-1})$, plainly increasing.  For
+$\lambda\ge\lambda^{*}$, $\Pi(\lambda)=\Pi^{M}(\lambda^{-1}\psi)$ and the envelope theorem gives
+\[
+\frac{\dd\Pi}{\dd\lambda}=\frac{D(p^{M})\psi}{\lambda^{2}}>0 ,
+\qquad
+\frac{\dd\Sigma}{\dd\lambda}=\frac{D(p^{M})\psi}{\lambda^{2}}
+-D(p^{M})\frac{\dd p^{M}}{\dd\lambda}>0 ,
+\]
+the second term positive because a larger $\lambda$ lowers marginal cost and hence $p^{M}$.  Both
+functions are continuous at $\lambda^{*}$ (there $p^{M}=\psi$), so they are strictly increasing
+throughout.  Since $\wh\pi^{I}_{1}$ and $\wt S^{I}_{1}$ refer to values of $\lambda$ above
+$\lambda^{*}$ while $\pi^{I}_{1}$ and $S^{I}_{1}$ refer to values below it,
+\[
+\pi^{I}_{1}<\wh\pi^{I}_{1}
+\qquad\text{and}\qquad
+S^{I}_{1}<\wt S^{I}_{1} ,
+\]
+which completes \bk{Proposition 12.2}. $\blacksquare$
+
+With $D(p)=p^{-3}$ and $\psi=1$, so that $\lambda^{*}=1.5$, the program gives
+\[
+\begin{array}{cccccc}
+\lambda & 1.1 & 1.3 & 1.5 & 1.8 & 2.5\\
+\text{private} & 0.0909 & 0.2308 & 0.3333 & 0.4800 & 0.9259\\
+\text{equilibrium surplus} & 0.0909 & 0.2308 & 0.3333 & 0.7000 & 1.8148\\
+\text{full social value} & 0.1050 & 0.3450 & 0.6250 & 1.1200 & 2.6250
+\end{array}
+\]
+--- the three columns coinciding in the limit-pricing region and fanning out once monopoly
+pricing takes over (Figure~\ref{fig:ch12}).
+
+\emph{Reading the proposition.}  The first chain is the \emph{appropriability effect}: even with a
+perfectly enforced patent, the innovator captures only part of the surplus its innovation creates,
+because it cannot price-discriminate and so leaves consumer surplus on the table.  The second is
+the familiar deadweight loss: conditional on innovating, monopoly pricing does not realize the
+whole gain.  Patents therefore buy innovation at the price of static inefficiency, and they still
+buy too little of it.
+\end{aex}
+
+\begin{aex}{12.4}{}
+Subtracting the two definitions,
+\[
+\wt S^{I}_{1}-\wh\pi^{I}_{1}
+=\Bigl[D(p^{M})\bigl(p^{M}-\lambda^{-1}\psi\bigr)+\int_{p^{M}}^{\psi}D(p)\dd p-\mu\Bigr]
+-\Bigl[D(p^{M})\bigl(p^{M}-\lambda^{-1}\psi\bigr)-\mu\Bigr]
+=\int_{p^{M}}^{\psi}D(p)\dd p .
+\]
+In the regime where $\wh\pi^{I}_{1}$ is the relevant profit the innovation is drastic, so
+$p^{M}\le\psi$ and the integral is over an interval of nonnegative length with a nonnegative
+integrand.  Hence
+\[
+\wt S^{I}_{1}\ \ge\ \wh\pi^{I}_{1}\ >\ 0 . \qquad\blacksquare
+\]
+The non-drastic branch is even simpler: there $S^{I}_{1}=\pi^{I}_{1}$ identically, so the
+implication holds with equality.  With $\lambda=1.8$ and $D(p)=p^{-3}$ the program reports a gap
+of $0.2200$, the consumer surplus gain.
+
+\emph{Why this matters.}  The difference between the social and private values is exactly the
+consumer surplus created, and in this environment that difference is a \emph{gain}, never a loss.
+So in the competitive industry of Section 12.3.3 there can be no \emph{excessive} innovation: any
+innovation a patent-holding firm is willing to pay for is one society should want.  All the
+inefficiency runs one way, toward too little innovation.  Exercise 12.8 asks whether this survives
+when the innovator displaces an incumbent monopolist rather than a competitive fringe, and the
+answer turns out to be more delicate than the text suggests.
+\end{aex}
+
+\begin{aex}{12.6}{}
+The comparison is between two firms facing the same innovation opportunity but different market
+positions.  A firm in the competitive industry of Section 12.3.3 earns nothing before innovating;
+the monopolist of Section 12.3.4 already earns $\Pi^{M}(\psi)>0$ and has no rivals, so after
+innovating it prices freely at $p^{M}(\lambda^{-1}\psi)$ in either regime.  Their gross values of
+the innovation are
+\[
+\text{competitive firm:}\quad
+V_{C}(\lambda)=
+\begin{cases}
+D(\psi)\bigl(\psi-\lambda^{-1}\psi\bigr) & \lambda<\lambda^{*},\\[2pt]
+\Pi^{M}(\lambda^{-1}\psi) & \lambda\ge\lambda^{*},
+\end{cases}
+\]
+\[
+\text{monopolist:}\quad
+V_{I}(\lambda)=\Pi^{M}(\lambda^{-1}\psi)-\Pi^{M}(\psi).
+\]
+
+\emph{The drastic branch.}  Here
+\[
+V_{C}-V_{I}=\Pi^{M}(\psi)>0 ,
+\]
+so $\Delta\wh\pi^{I}_{1}=V_I-\mu<V_C-\mu=\wh\pi^{I}_{1}$.  The gap is \emph{exactly} the profit the
+monopolist destroys by innovating --- Arrow's replacement effect in its purest form.
+
+\emph{The limit-pricing branch.}  Now $V_{C}=D(\psi)(\psi-\lambda^{-1}\psi)$, which is
+\emph{smaller} than $\Pi^{M}(\lambda^{-1}\psi)$, so the comparison is no longer immediate.  Use the
+envelope theorem on $\Pi^{M}$: since $\partial[D(p)(p-c)]/\partial c=-D(p)$,
+\[
+\frac{\dd\Pi^{M}(c)}{\dd c}=-D\bigl(p^{M}(c)\bigr)
+\qquad\Longrightarrow\qquad
+V_{I}=\Pi^{M}(\lambda^{-1}\psi)-\Pi^{M}(\psi)=\int_{\lambda^{-1}\psi}^{\psi}D\bigl(p^{M}(c)\bigr)\dd c .
+\]
+Meanwhile
+\[
+V_{C}=D(\psi)\bigl(\psi-\lambda^{-1}\psi\bigr)=\int_{\lambda^{-1}\psi}^{\psi}D(\psi)\dd c .
+\]
+Compare the integrands.  In the non-drastic case $p^{M}(\lambda^{-1}\psi)>\psi$, and $p^{M}(\cdot)$
+is increasing, so $p^{M}(c)\ge p^{M}(\lambda^{-1}\psi)>\psi$ for every
+$c\in[\lambda^{-1}\psi,\psi]$; since $D$ is strictly decreasing,
+\[
+D\bigl(p^{M}(c)\bigr)<D(\psi)\qquad\text{for all such }c ,
+\]
+and therefore $V_{I}<V_{C}$, that is
+\[
+\boxed{\ \Delta\wh\pi^{I}_{1}<\pi^{I}_{1}\ } \qquad\blacksquare
+\]
+Combining the two branches with \bk{Proposition 12.2}'s $\pi^{I}_{1}<\wh\pi^{I}_{1}$ gives the
+full chain of \bk{Proposition 12.3}.  With $D(p)=p^{-3}$, $\psi=1$ and
+$\Pi^{M}(\psi)=0.1481$, the program gives
+\[
+\begin{array}{ccccc}
+\lambda & 1.1 & 1.3 & 1.8 & 4.0\\
+\text{competitive} & 0.0909 & 0.2308 & 0.4800 & 2.3704\\
+\text{incumbent} & 0.0311 & 0.1022 & 0.3319 & 2.2222\\
+\text{gap} & 0.0598 & 0.1285 & 0.1481 & 0.1481
+\end{array}
+\]
+the gap settling at exactly $\Pi^{M}(\psi)$ once the innovation becomes drastic.
+
+\emph{Two readings of the same integral.}  The envelope formula says that the value of a cost
+reduction is the quantity sold, integrated over the cost range --- the innovator saves $D$ per unit
+of cost reduction.  The competitive firm computes that quantity at the \emph{competitive} price
+$\psi$; the monopolist computes it at its own, higher, monopoly price, where it sells less.  The
+monopolist therefore values the same cost reduction less, both because it sells fewer units and
+because part of its gain merely replaces profits it was already making.  Hence
+\bk{Corollary 12.1}: entrants innovate more than incumbents, which is the germ of the
+Schumpeterian growth models of Chapter 14.
+\end{aex}
+
+\begin{aex}{12.7}{}
+\emph{The threshold.}  Write $\Pi_{E}\equiv V_{C}(\lambda)$ for the entrant's gross value --- it
+earns nothing today and becomes the seller if it innovates --- and
+$V_{I}=\Pi^{M}(\lambda^{-1}\psi)-\Pi^{M}(\psi)$ for the incumbent's, as in Exercise 12.6.  Net
+values are $\Pi_{E}-\chi\mu$ and $V_{I}-\mu$, so the entrant has the stronger incentive when
+\[
+\Pi_{E}-\chi\mu>V_{I}-\mu
+\qquad\Longleftrightarrow\qquad
+(\chi-1)\mu<\Pi_{E}-V_{I} ,
+\]
+that is
+\[
+\boxed{\ \chi<\bar\chi\equiv1+\frac{\Pi_{E}-V_{I}}{\mu}\ }
+\]
+Exercise 12.6 established $\Pi_{E}-V_{I}>0$ in both pricing regimes, so $\bar\chi>1$ always: a
+\emph{slightly} handicapped entrant still out-invests the incumbent, and the size of the handicap
+it can absorb is the replacement effect measured in units of the research cost.  In the drastic
+case $\Pi_{E}-V_{I}=\Pi^{M}(\psi)$ exactly, so $\bar\chi=1+\Pi^{M}(\psi)/\mu$.
+
+\emph{The elasticity of demand.}  Take $D(p)=p^{-\varepsilon}$ with $\psi=1$, for which
+\[
+p^{M}(c)=\frac{\varepsilon}{\varepsilon-1}c,
+\qquad
+\Pi^{M}(c)=\frac{c^{1-\varepsilon}}{\varepsilon-1}\Bigl(\frac{\varepsilon-1}{\varepsilon}\Bigr)^{\varepsilon}
+\qquad\Longrightarrow\qquad
+\frac{\Pi^{M}(\lambda^{-1})}{\Pi^{M}(1)}=\lambda^{\varepsilon-1} .
+\]
+In the drastic region the ratio of the two gross incentives is therefore
+\[
+\frac{\Pi_{E}}{V_{I}}=\frac{\Pi^{M}(\lambda^{-1})}{\Pi^{M}(\lambda^{-1})-\Pi^{M}(1)}
+=\frac{\lambda^{\varepsilon-1}}{\lambda^{\varepsilon-1}-1} ,
+\]
+which is strictly \emph{decreasing} in $\varepsilon$, and so is
+$\bar\chi-1=\Pi^{M}(1)/\mu$, since $\Pi^{M}(1)=\frac{1}{\varepsilon-1}(\frac{\varepsilon-1}{\varepsilon})^{\varepsilon}$
+falls with $\varepsilon$.  With $\lambda=1.8$ and $\mu=0.05$ the program gives
+\[
+\begin{array}{cccccc}
+\varepsilon & 1.5 & 2 & 3 & 5 & 10\\
+\bar\chi & 7.26 & 5.89 & 3.96 & 2.64 & 1.77\\
+\Pi_{E}/V_{I} & 3.38 & 2.22 & 1.45 & 1.11 & 1.005
+\end{array}
+\]
+
+\emph{Intuition.}  The incumbent's handicap is the rent it destroys, $\Pi^{M}(\psi)$, and that rent
+is a markup times a quantity.  More elastic demand means a smaller markup: the incumbent has less
+to lose, so the replacement effect weakens and the entrant's relative advantage shrinks toward
+nothing as $\varepsilon\to\infty$ (where the incumbent is effectively a competitive firm and the
+two coincide).  Read in reverse: the replacement effect is strongest precisely where market power
+is strongest, so it is in the most concentrated, least elastic industries that one should expect
+innovation to come from outside.
+
+\rmk{This gives some content to a familiar empirical puzzle.  Incumbents do a great deal of R\&D,
+which the replacement effect alone would not predict.  The model points to the answer: incumbents
+innovate when their cost advantage in research is large ($\chi$ well above $\bar\chi$), and
+$\bar\chi$ is small exactly where demand is elastic and markups thin.  Both incumbent-led
+incremental innovation and entrant-led radical innovation are consistent with the same mechanism at
+different parameter values.}
+\end{aex}
+
+\begin{aex}{12.8}{}
+\emph{(a) First, the environment of Section 12.3.4 will not produce it.}  Suppose an entrant makes
+a process innovation and displaces a monopolist whose marginal cost is $\psi$.  Measure surplus
+against the \emph{pre-innovation} outcome, in which the incumbent charges $\wh p^{M}=p^{M}(\psi)$.
+After entry the price is $p_1=\min\{p^{M}(\lambda^{-1}\psi),\psi\}\le\psi<\wh p^{M}$, so
+\[
+\Delta S=\underbrace{\Pi^{M}(\lambda^{-1}\psi)-\Pi^{M}(\psi)}_{\text{producer surplus}}
++\underbrace{\int_{p_1}^{\wh p^{M}}D(p)\dd p}_{\text{consumer surplus}}-\mu ,
+\qquad
+\text{entrant's value}=\Pi_E-\mu ,
+\]
+and in the drastic case $\Pi_E=\Pi^{M}(\lambda^{-1}\psi)$, so
+\[
+\Delta S-\bigl(\Pi_E-\mu\bigr)=\int_{p_1}^{\wh p^{M}}D(p)\dd p-\Pi^{M}(\psi) .
+\]
+But $\Pi^{M}(\psi)=D(\wh p^{M})(\wh p^{M}-\psi)$, and since $D$ is decreasing and
+$p_1\le\psi$,
+\[
+\int_{p_1}^{\wh p^{M}}D(p)\dd p\ \ge\ \int_{\psi}^{\wh p^{M}}D(p)\dd p
+\ >\ D(\wh p^{M})\bigl(\wh p^{M}-\psi\bigr)=\Pi^{M}(\psi) ,
+\]
+so $\Delta S>\Pi_E-\mu$: the social value \emph{exceeds} the private value, and excessive
+innovation is impossible.  The same computation with the limit-pricing $\Pi_E$ gives the same
+conclusion.  The program confirms it at every $\lambda$ for both isoelastic and linear demand.
+
+The reason is structural.  A process innovation under Bertrand competition must \emph{undercut}
+the incumbent to be worth anything, so it necessarily drags the price from $\wh p^{M}$ down to at
+most $\psi$, and the consumer surplus that releases always outweighs the rent it destroys.
+
+\emph{An environment in which it does occur.}  What the business-stealing intuition requires is an
+innovation that captures the incumbent's rents \emph{without} competing them into consumer
+surplus.  Suppose the innovation is a new product that replaces the incumbent's rather than
+undercutting it: the entrant's good has the same marginal cost $\psi$ but is $\lambda>1$ times
+more appealing, in the sense that its demand curve is $\lambda D(p)$.  The entrant becomes the
+monopolist and, since scaling demand does not change the optimal price, charges the same
+$\wh p^{M}$.  Then
+\[
+\text{social gain}=(\lambda-1)\bigl[\Pi^{M}(\psi)+CS(\wh p^{M})\bigr]-\mu ,
+\qquad
+\text{private gain}=\lambda\,\Pi^{M}(\psi)-\mu ,
+\]
+where $CS(p)=\int_{p}^{\infty}D(q)\dd q$.  The private gain exceeds the social gain when
+\[
+\lambda\Pi^{M}(\psi)>(\lambda-1)\bigl[\Pi^{M}(\psi)+CS(\wh p^{M})\bigr]
+\qquad\Longleftrightarrow\qquad
+(\lambda-1)\,CS(\wh p^{M})<\Pi^{M}(\psi),
+\]
+that is, whenever
+\[
+\boxed{\ \lambda<1+\frac{\Pi^{M}(\wh p^{M})}{CS(\wh p^{M})}\ }
+\]
+For $D(p)=p^{-\varepsilon}$ the ratio $\Pi^{M}/CS$ equals $\psi/\wh p^{M}=(\varepsilon-1)/\varepsilon$,
+so the condition is $\lambda<2-1/\varepsilon$.  Taking $\varepsilon=3$, $\psi=1$ and $\lambda=1.2$,
+the program gives $\Pi^{M}(\psi)=0.14815$ and $CS(\wh p^{M})=0.22222$, hence
+\[
+\text{social gain}=0.074074-\mu,
+\qquad
+\text{private gain}=0.177778-\mu .
+\]
+For any $\mu\in(0.0741,0.1778)$ --- at $\mu=0.12$, a private value of $+0.0578$ against a social
+value of $-0.0459$ --- the entrant innovates and total surplus \emph{falls}.  This proves
+\bk{Proposition 12.4}. $\blacksquare$
+
+\rmk{The text asserts \bk{Proposition 12.4} with $\wt S^{I}_{1}$ as defined in \bk{(12.5)}, but
+that quantity measures surplus against a \emph{competitive} benchmark priced at $\psi$, and
+Exercise 12.4 shows it can never fall short of $\wh\pi^{I}_{1}$.  Measured correctly against the
+incumbent monopolist's outcome, the first calculation above shows that a process innovation cannot
+be excessive either.  The proposition is nonetheless true, and the intuition the text gives for it
+is exactly right --- ``the social planner values the profits made by the monopolist, the entrant
+only values the profits it will make'' --- but it needs an environment in which the entrant takes
+those profits without passing them to consumers.  The quality-ladder models of Chapter 14, where
+each innovator limit-prices at its predecessor's price, are of precisely that kind.}
+
+\emph{(b) What makes it more likely.}  The condition $(\lambda-1)CS<\Pi^{M}$ names the forces
+directly.
+\begin{itemize}
+\item \emph{Small innovations.}  The social gain is proportional to $\lambda-1$ while the business
+      stolen is proportional to $\lambda$; as $\lambda\downarrow1$ the genuine improvement vanishes
+      but the rents transferred do not.  Excessive innovation is a phenomenon of incremental,
+      rent-seeking improvements, not of radical ones.
+\item \emph{Large incumbent rents relative to consumer surplus.}  The threshold is
+      $1+\Pi^{M}/CS$, so anything that raises profit relative to consumer surplus at the monopoly
+      price widens the region.  With isoelastic demand $\Pi^{M}/CS=(\varepsilon-1)/\varepsilon$,
+      so, perhaps surprisingly, \emph{more} elastic demand makes excessive innovation more likely:
+      a flat demand curve leaves little consumer surplus above the monopoly price relative to the
+      rectangle of profit.
+\item \emph{Innovations that displace rather than undercut.}  This is the decisive structural
+      condition, and it is what fails in part (a).  New varieties, quality improvements sold at the
+      old price, and business-model innovations all transfer rents without a price war; pure cost
+      reductions under Bertrand competition do not.
+\item \emph{Duplication of research effort.}  Not modeled here, but the most important force in
+      practice: if $n$ firms each spend $\mu$ racing for the same prize, society pays $n\mu$ for
+      one innovation while each firm compares its own $\mu$ with its chance of winning the whole
+      rent.  Chapter 14 returns to this.
+\end{itemize}
+Against all of these stands the appropriability effect of \bk{Proposition 12.2}, which pushes the
+other way.  The honest conclusion --- the one the text draws --- is that the sign of the wedge
+between private and social innovation incentives is not determined by theory, and must be settled
+empirically, innovation by innovation.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/ch12_innovation_value.pdf}
+\caption{Left (Exercises 12.3, 12.4 and 12.6): private and social values of a process innovation
+with isoelastic demand.  Below $\lambda^{*}$ limit pricing makes the competitive firm's private
+value equal to the equilibrium surplus; above it the curves fan out, and the incumbent
+monopolist's value falls short of the competitive firm's by exactly $\Pi^{M}(\psi)$.  Right
+(Exercise 12.12): Dixit--Stiglitz profits against the number of varieties, for a differentiated
+sector with a small expenditure share.  Profits fall with $N$ when $\sigma=1$ and rise once
+$\sigma$ clears the threshold.}
+\label{fig:ch12}
+\end{figure}
+\end{aex}
+
+\begin{aex}{12.10}{}
+The consumption index is
+\[
+C=\Bigl[\sum_{i=1}^{N}c_i^{\frac{\varepsilon-1}{\varepsilon}}\Bigr]^{\frac{\varepsilon}{\varepsilon-1}} ,
+\]
+and \bk{(12.10)} states $\bigl(c_i/C\bigr)^{-1/\varepsilon}=p_i/P$, that is
+\[
+c_i=C\Bigl(\frac{p_i}{P}\Bigr)^{-\varepsilon} .
+\tag{$*$}
+\]
+(This is the definition of $P$: the first-order condition between varieties,
+$(c_i/c_{i'})^{-1/\varepsilon}=p_i/p_{i'}$, says that $p_i(c_i/C)^{1/\varepsilon}$ is the same for
+every $i$, and $P$ is that common value.  It uses
+$\partial C/\partial c_i=(C/c_i)^{1/\varepsilon}$, which follows from differentiating the index.)
+
+Substituting $(*)$ into the definition of $C$,
+\[
+C=\Bigl[\sum_{i=1}^{N}\Bigl(C\bigl(p_i/P\bigr)^{-\varepsilon}\Bigr)^{\frac{\varepsilon-1}{\varepsilon}}
+\Bigr]^{\frac{\varepsilon}{\varepsilon-1}}
+=C\Bigl[\sum_{i=1}^{N}\Bigl(\frac{p_i}{P}\Bigr)^{1-\varepsilon}\Bigr]^{\frac{\varepsilon}{\varepsilon-1}} ,
+\]
+so the bracket must equal one:
+\[
+\sum_{i=1}^{N}\Bigl(\frac{p_i}{P}\Bigr)^{1-\varepsilon}=1
+\qquad\Longleftrightarrow\qquad
+P^{\varepsilon-1}\sum_{i=1}^{N}p_i^{1-\varepsilon}=1
+\qquad\Longleftrightarrow\qquad
+\boxed{\ P=\Bigl[\sum_{i=1}^{N}p_i^{1-\varepsilon}\Bigr]^{\frac{1}{1-\varepsilon}}\ }
+\]
+which is \bk{(12.11)}. $\blacksquare$
+
+\emph{$P$ deserves its name.}  Using $(*)$ again, total spending on the differentiated varieties is
+\[
+\sum_{i=1}^{N}p_ic_i=C\,P^{\varepsilon}\sum_{i=1}^{N}p_i^{1-\varepsilon}
+=C\,P^{\varepsilon}P^{-(\varepsilon-1)}=PC ,
+\]
+so the budget constraint \bk{(12.9)} collapses to $PC+y\le m$, which is \bk{(12.12)}: $P$ is
+exactly the price at which the composite $C$ may be treated as a single good.  This is what makes
+the two-stage budgeting of Section 12.4 legitimate, and it is why every model in the rest of the
+book can write demand for a variety as $(p_i/P)^{-\varepsilon}C$ and be done with it.
+
+\emph{Love of variety in one line.}  If all prices are equal at $p$, then
+$P=N^{1/(1-\varepsilon)}p=pN^{-1/(\varepsilon-1)}$, which is strictly decreasing in $N$ since
+$\varepsilon>1$.  Adding varieties lowers the true cost of a unit of the composite even though no
+individual price has moved --- the price-index counterpart of
+$U(\bar C/N,\dots,\bar C/N,y)=u(N^{1/(\varepsilon-1)}\bar C,y)$.  The whole of the aggregate demand
+externality of Exercise 12.12, and much of the growth-through-variety literature of Chapter 13,
+rests on this single exponent.
+\end{aex}
+
+\begin{aex}{12.12}{}
+\emph{Setting up.}  With the symmetric price \bk{(12.15)} the ideal price index is
+$P=N^{-1/(\varepsilon-1)}\frac{\varepsilon}{\varepsilon-1}\psi$ by \bk{(12.16)}, and the text's
+expression for profits is
+\[
+\pi=\frac{1}{\varepsilon N}\Bigl[m-g(P,m)\Bigr]=\frac{P\,C}{\varepsilon N} ,
+\]
+using $PC=m-g(P,m)$ from \bk{(12.13)}.  Two forces act when $N$ rises: the term $1/N$ divides a
+given amount of spending over more firms, while $P$ falls, which raises spending on the composite
+if households substitute toward it.
+
+\emph{The condition.}  Differentiate, using $\partial P/\partial N=-P/[(\varepsilon-1)N]$:
+\[
+\frac{\partial\pi}{\partial N}
+=\frac{1}{\varepsilon}\Bigl[\frac{-g_P(P,m)\,\partial P/\partial N}{N}-\frac{m-g(P,m)}{N^{2}}\Bigr]
+=\frac{1}{\varepsilon N^{2}}\Bigl[\frac{P\,g_P(P,m)}{\varepsilon-1}-PC\Bigr] ,
+\]
+so
+\[
+\boxed{\ \frac{\partial\pi}{\partial N}>0
+\iff g_P(P,m)>(\varepsilon-1)\,C\ }
+\]
+Spending on the outside good must respond strongly enough to the price index of the differentiated
+bundle.  Equivalently, writing $E\equiv PC$ for expenditure on the composite and
+$\eta_E\equiv\dd\log E/\dd\log P=-g_P/C$,
+\[
+\frac{\dd\log\pi}{\dd\log N}=-1-\frac{\eta_E}{\varepsilon-1}>0
+\iff \eta_E<-(\varepsilon-1)
+\iff \Bigl|\frac{\dd\log C}{\dd\log P}\Bigr|>\varepsilon .
+\]
+\emph{The demand for the composite must be more elastic than the substitution among the varieties
+within it.}
+
+\emph{In terms of $u$.}  Let $u$ be CES with elasticity of substitution $\sigma$ between $C$ and
+$y$, and let $s_C=PC/m$ be the expenditure share of the differentiated sector.  Then
+$\eta_E=-(\sigma-1)(1-s_C)$, and the condition becomes
+\[
+\sigma>1+\frac{\varepsilon-1}{1-s_C} .
+\]
+Three cases are worth naming.  If $\sigma=1$ (Cobb--Douglas $u$) expenditure on the composite is
+fixed, $\eta_E=0$, and $\dd\log\pi/\dd\log N=-1$: profits always fall, whatever $\varepsilon$ or
+$s_C$.  If $\sigma<1$ they fall faster still.  Profits rise only when $C$ and $y$ are strong
+substitutes, and the requirement tightens as the differentiated sector grows --- a sector that
+already absorbs all of spending has nowhere to draw further demand from.  With $\varepsilon=3$,
+$N=10$ and $m=1$ the program gives
+\[
+\begin{array}{ccccc}
+\sigma & 1 & 2 & 4 & 8\\
+\dd\log\pi/\dd\log N\quad(s_C\ \text{small}) & -1.00 & -0.50 & +0.50 & +2.50\\
+\dd\log\pi/\dd\log N\quad(s_C\approx0.5\text{--}1) & -1.00 & -0.84 & -0.86 & -0.98
+\end{array}
+\]
+
+\emph{The aggregate demand externality.}  When the condition holds, each firm's entry makes the
+\emph{other} firms more profitable, through a purely pecuniary channel: more varieties lower the
+ideal price index, which draws spending into the sector.  In a competitive, complete-market economy
+such pecuniary externalities would net out and the First Welfare Theorem would apply; here they do
+not, because prices already exceed marginal cost.  That is what makes the effect a genuine
+externality with first-order welfare consequences, and it is the mechanism behind the multiple
+equilibria and poverty traps of Chapter 21 --- and, in a different guise, behind the scale effects
+of Chapter 13.
 \end{aex}
 
 \end{document}
