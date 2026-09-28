@@ -126,6 +126,12 @@ chapter and writes that chapter's figures to `figures/`. So far:
   \(\delta = 1\) and varies otherwise (Exercise 17.8); a violating parameter set with two
   intersections (Exercise 17.25); a check of the discriminant printed in (17.57)
   (Exercise 17.26); and the peak of the TFP variance (Exercise 17.28).
+- **`ch18.py`** — the world growth equation and the elasticity of \(g^*\) with respect to each
+  country (Exercises 18.14 and 18.15); the Basu–Weil exponent
+  \((1-\alpha+\gamma)/(\alpha-\gamma)\) and its divergence as \(\gamma \uparrow \alpha\)
+  (Exercise 18.20); the effect of Southern IPR on the direction of technology
+  (Exercise 18.25); and a brute-force check of the closed form for technology adoption under
+  incomplete contracts (Exercises 18.28 and 18.29).
 
 ## Working files (not part of the document)
 
