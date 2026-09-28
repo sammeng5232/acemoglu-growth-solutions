@@ -59,6 +59,7 @@
 \newcommand{\eg}{e.g.\ }
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Int}{Int}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -181,9 +182,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--15\par}
+{\large Chapters 2--16\par}
 \vspace{0.6cm}
-{\small The 198 exercises that the instructor's solutions manual of\par
+{\small The 203 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -11357,6 +11358,269 @@ measures built on variances (or on log variances, which is why log specification
 can be badly behaved.  Exercise 15.31 exploits the same algebra to show that the conditional mean
 $\E[y\mid y\ge y']$ is proportional to $y'$ --- the scale invariance that makes the Pareto
 distribution so tractable, and so unforgiving.
+\end{aex}
+
+
+%% ========================================================================
+\solchapter{16}{Stochastic Dynamic Programming}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The five exercises of Chapter 16 left unsolved in the instructor's manual: Exercises 16.1, 16.2,
+16.5, 16.6 and 16.7.  The manual solves 16.3, 16.4 and 16.8--16.16.  Notation follows the book:
+$Z=\{z_1,\dots,z_N\}$ with $z_1\le\dots\le z_N$ is the finite state space of the Markov chain,
+$q_{jj'}\equiv\Prob[z'=z_j\mid z=z_{j'}]$ its transition probabilities, $G(x,z)$ the feasibility
+correspondence, $U(x,y,z)$ the payoff, $\pi$ the policy function, and
+\[
+(TW)(x,z)\equiv\sup_{y\in G(x,z)}\Bigl\{U(x,y,z)+\beta\,\E\bigl[W(y,z')\mid z\bigr]\Bigr\}
+\]
+the Bellman operator of \bk{Problem 16.2}, which \bk{Theorem 16.3} shows is a contraction on the
+space of bounded continuous functions on $X\times Z$ with unique fixed point $V$.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\begin{aex}{16.1}{}
+Part 3 states that $\E[f(z')\mid z]$ is nondecreasing in $z$ for every nondecreasing
+$f:Z\to\R$.  Write $f_j\equiv f(z_j)$, so that $f$ nondecreasing means
+$f_1\le f_2\le\dots\le f_N$, and fix $j''>j'$.
+
+\emph{Sufficiency.}  Abel summation (summation by parts) rewrites any expectation over the chain
+in terms of its tail probabilities:
+\[
+\sum_{j=1}^{N}q_{jk}f_j
+=f_1\sum_{j=1}^{N}q_{jk}+\sum_{\bar\jmath=2}^{N}\bigl(f_{\bar\jmath}-f_{\bar\jmath-1}\bigr)
+\sum_{j=\bar\jmath}^{N}q_{jk} .
+\]
+Since $\sum_{j}q_{jj''}=\sum_jq_{jj'}=1$, the first terms are equal, and subtracting,
+\[
+\E\bigl[f(z')\mid z_{j''}\bigr]-\E\bigl[f(z')\mid z_{j'}\bigr]
+=\sum_{\bar\jmath=2}^{N}\underbrace{\bigl(f_{\bar\jmath}-f_{\bar\jmath-1}\bigr)}_{\ge0}
+\underbrace{\Bigl[\sum_{j=\bar\jmath}^{N}q_{jj''}-\sum_{j=\bar\jmath}^{N}q_{jj'}\Bigr]}_{\ge0\ \text{by hypothesis}}
+\ \ge\ 0 .
+\]
+
+\emph{Necessity.}  Take the indicator $f(z)=\mathbf 1\{z\ge z_{\bar\jmath}\}$, which is
+nondecreasing.  Then $\E[f(z')\mid z_k]=\sum_{j=\bar\jmath}^{N}q_{jk}$, and part 3 applied to
+this $f$ gives precisely
+\[
+\sum_{j=\bar\jmath}^{N}q_{jj''}\ \ge\ \sum_{j=\bar\jmath}^{N}q_{jj'} \qquad\text{for }j''>j' .
+\]
+$\blacksquare$
+
+\emph{What it means.}  The condition says that the conditional distribution of $z'$ given
+$z_{j''}$ \emph{first-order stochastically dominates} the conditional distribution given
+$z_{j'}$ whenever $j''>j'$:
+\[
+\boxed{\ \Prob\bigl[z'\ge z_{\bar\jmath}\mid z_{j''}\bigr]\ \ge\
+\Prob\bigl[z'\ge z_{\bar\jmath}\mid z_{j'}\bigr]\quad\text{for all }\bar\jmath .\ }
+\]
+A Markov chain with this property is called \emph{monotone}.  Note how much stronger it is than
+the requirement that the conditional \emph{mean} $\E[z'\mid z]$ be nondecreasing: the latter would
+follow from taking $f(z)=z$ alone, whereas monotonicity requires the whole distribution to shift
+right, which is exactly what is needed to make expectations of arbitrary nondecreasing functions
+--- such as a value function --- inherit the ordering.  An i.i.d.\ chain satisfies it trivially
+with equality; a chain in which a high state today made a very low state tomorrow likely would
+not.
+\end{aex}
+
+\begin{aex}{16.2}{}
+Fix $x(0)\in X$, $z(0)\in Z$ and a feasible plan
+$\mathbf x\equiv\{\wt x[z^{t}]\}_{t=0}^{\infty}\in\Phi(x(0),z(0))$, and recall
+\[
+\ol U\bigl(\mathbf x\mid x(0),z(0)\bigr)
+=\E\Bigl[\sum_{t=0}^{\infty}\beta^{t}U\bigl(\wt x[z^{t-1}],\wt x[z^{t}],z(t)\bigr)\Bigm|z(0)\Bigr] .
+\]
+Assumption 16.1 guarantees that this limit exists and is finite, which is what licenses the
+manipulations below.
+
+\emph{Separate the first term.}  At $t=0$ the history is $z^{0}=(z(0))$, so $\wt x[z^{0}]$ is
+known once $z(0)$ is, and the date-zero payoff $U(x(0),\wt x[z^{0}],z(0))$ is deterministic
+conditional on $z(0)$.  Hence
+\[
+\ol U\bigl(\mathbf x\mid x(0),z(0)\bigr)
+=U\bigl(x(0),\wt x[z^{0}],z(0)\bigr)
++\beta\,\E\Bigl[\sum_{t=1}^{\infty}\beta^{t-1}U\bigl(\wt x[z^{t-1}],\wt x[z^{t}],z(t)\bigr)
+\Bigm|z(0)\Bigr] .
+\]
+
+\emph{Condition on $z(1)$.}  By the law of iterated expectations, conditioning first on the
+finer information set that includes $z(1)$,
+\[
+\E\Bigl[\sum_{t=1}^{\infty}\beta^{t-1}U(\cdot)\Bigm|z(0)\Bigr]
+=\E\Bigl[\ \E\Bigl[\sum_{t=1}^{\infty}\beta^{t-1}U(\cdot)\Bigm|z(1)\Bigr]\Bigm|z(0)\Bigr] ,
+\]
+where the inner expectation may be taken conditional on $z(1)$ alone --- rather than on the whole
+history $z^{1}=(z(0),z(1))$ --- because $z$ is a Markov chain, so the distribution of
+$(z(2),z(3),\dots)$ given $z^{1}$ depends only on $z(1)$.
+
+\emph{Recognize the continuation value.}  Reindex the inner sum with $s=t-1$.  The plan from
+date $1$ onward, $\{\wt x[z^{t}]\}_{t=1}^{\infty}$, is feasible from the state $\wt x[z^{0}]$
+with shock $z(1)$, that is, it belongs to $\Phi(\wt x[z^{0}],z(1))$, and the inner expectation is
+by definition $\ol U\bigl(\{\wt x[z^{t}]\}_{t=1}^{\infty}\mid\wt x[z^{0}],z(1)\bigr)$.  Therefore
+\[
+\boxed{\ \ol U\bigl(\mathbf x\mid x(0),z(0)\bigr)
+=U\bigl(x(0),\wt x[z^{0}],z(0)\bigr)
++\beta\,\E\Bigl[\ol U\bigl(\{\wt x[z^{t}]\}_{t=1}^{\infty}\mid\wt x[z^{0}],z(1)\bigr)\Bigm|z(0)\Bigr]\ }
+\]
+$\blacksquare$
+
+\emph{What the lemma is for.}  It is the bookkeeping identity that makes the Principle of
+Optimality work: it says that the value of \emph{any} feasible plan --- optimal or not --- splits
+into today's payoff plus the discounted expected value of its own continuation.  In the
+deterministic case (\bk{Lemma 6.1}) this is almost a tautology; here two substantive facts are
+being used, the law of iterated expectations and the Markov property, and Assumption 16.1 is what
+rules out the one thing that could go wrong, namely an interchange of limit and expectation that
+is not justified.  Section 16.2's proof of \bk{Theorem 16.1} appeals to the lemma at exactly the
+point where it needs to compare $V^{*}$ with the one-period-ahead decomposition of a plan chosen
+$\varepsilon$-optimally in each state.
+\end{aex}
+
+\begin{aex}{16.5}{}
+By \bk{Theorem 16.3} the operator $T$ maps the space $\mathcal C$ of bounded continuous functions
+on $X\times Z$ into itself and is a contraction, with unique fixed point $V$.  Let
+\[
+\mathcal C'\equiv\bigl\{W\in\mathcal C:\ W(\cdot,z)\ \text{nondecreasing for each }z\bigr\},
+\qquad
+\mathcal C''\equiv\bigl\{W\in\mathcal C':\ W(\cdot,z)\ \text{strictly increasing}\bigr\} .
+\]
+$\mathcal C'$ is a closed subset of $\mathcal C$ in the sup norm, since a uniform limit of
+nondecreasing functions is nondecreasing.
+
+\emph{$T$ maps $\mathcal C'$ into $\mathcal C''$.}  Take $W\in\mathcal C'$, fix $z$, and let
+$x<x'$ in $X$.  By Assumption 16.4, $G(x,z)\subset G(x',z)$, so every $y$ feasible at $x$ is
+feasible at $x'$ and
+\[
+(TW)(x',z)=\sup_{y\in G(x',z)}\Bigl\{U(x',y,z)+\beta\E\bigl[W(y,z')\mid z\bigr]\Bigr\}
+\ \ge\ \sup_{y\in G(x,z)}\Bigl\{U(x',y,z)+\beta\E\bigl[W(y,z')\mid z\bigr]\Bigr\} .
+\]
+Also by Assumption 16.4, $U(\cdot,y,z)$ is \emph{strictly} increasing in its first $K$
+arguments, so $U(x',y,z)>U(x,y,z)$ for every $y$; and the continuation term
+$\beta\E[W(y,z')\mid z]$ does not involve $x$ at all.  Hence the last supremum strictly exceeds
+\[
+\sup_{y\in G(x,z)}\Bigl\{U(x,y,z)+\beta\E\bigl[W(y,z')\mid z\bigr]\Bigr\}=(TW)(x,z) ,
+\]
+the strictness surviving the supremum because the two objectives differ by an amount bounded
+below on the compact set $G(x,z)$ (Assumption 16.2).  Therefore $TW\in\mathcal C''$.
+
+\emph{Conclusion.}  Since $\mathcal C''\subset\mathcal C'$ and $\mathcal C'$ is closed, $T$ maps
+the closed set $\mathcal C'$ into itself, so by the contraction mapping theorem its unique fixed
+point lies in $\mathcal C'$.  But $T$ maps $\mathcal C'$ into the smaller set $\mathcal C''$, and
+$V=TV$; hence $V\in\mathcal C''$, that is,
+\[
+\boxed{\ V(\cdot,z)\ \text{is strictly increasing for each }z\in Z . \ }
+\]
+$\blacksquare$
+
+The argument is word for word that of \bk{Theorem 6.4} in the deterministic case.  Nothing is
+added by the stochastic structure, for the simple reason that the expectation
+$\E[W(y,z')\mid z]$ is an average of values at \emph{next} period's states and therefore does not
+depend on today's $x$ except through the choice of $y$ --- which the monotonicity of $G$ already
+handles.
+\end{aex}
+
+\begin{aex}{16.6}{}
+Fix $z\in Z$ and a point $x'\in\Int X$ with $\pi(x',z)\in\Int G(x',z)$, and write
+$y'\equiv\pi(x',z)$.  Since $G$ is continuous (Assumption 16.2) and $y'$ is interior to
+$G(x',z)$, there is an open neighborhood $D\subset\Int X$ of $x'$ such that
+\[
+y'\in G(x,z)\qquad\text{for every }x\in D ,
+\]
+that is, the date-$t$ choice $y'$ remains feasible after a small perturbation of the state.
+
+\emph{An auxiliary function.}  Define, for $x\in D$,
+\[
+W(x)\equiv U\bigl(x,y',z\bigr)+\beta\,\E\bigl[V(y',z')\mid z\bigr] .
+\]
+Three properties hold.
+\begin{enumerate}
+\item $W$ is concave on $D$ and continuously differentiable there, by Assumptions 16.3 and 16.5,
+      with
+      \[
+      D_xW(x')=D_xU\bigl(x',y',z\bigr) ,
+      \]
+      the second term being a constant in $x$ --- this is the only place the stochastic structure
+      appears, and it appears as a constant.
+\item $W(x)\le V(x,z)$ for every $x\in D$: the plan ``choose $y'$ today and behave optimally
+      thereafter'' is feasible at $x$ but need not be optimal, and $V$ is the value of the
+      optimal plan.
+\item $W(x')=V(x',z)$: at $x'$ the choice $y'=\pi(x',z)$ \emph{is} optimal, by the definition of
+      the policy function and \bk{(16.8)}.
+\end{enumerate}
+
+\emph{Benveniste--Scheinkman.}  By \bk{Theorem 16.4}, $V(\cdot,z)$ is concave on $X$.  A concave
+function that is bounded below on a neighborhood of an interior point by a function differentiable
+at that point, with equality at the point itself, is differentiable there with the same gradient
+(\bk{Theorem 6.6}'s lemma; the argument is that (2) and (3) force every subgradient of
+$V(\cdot,z)$ at $x'$ to be a subgradient of $W$ at $x'$, and (1) makes the latter unique).
+Therefore $V(\cdot,z)$ is continuously differentiable at $x'$ with
+\[
+\boxed{\ D_xV(x',z)=D_xW(x')=D_xU\bigl(x',\pi(x',z),z\bigr)\ }
+\]
+which is \bk{(16.10)}. $\blacksquare$
+
+\emph{Why the envelope theorem survives uncertainty.}  The content of \bk{(16.10)} is that, at the
+margin, a change in the state can be valued as if the policy were held fixed --- the indirect
+effect through the optimal choice of $y$ is second order.  The stochastic version is no harder
+than the deterministic one because the perturbation is applied to today's state only, and the
+entire continuation value $\beta\E[V(y',z')\mid z]$ is frozen along with $y'$.  This result is
+what makes the stochastic Euler equations of Section 16.3 usable: combining \bk{(16.10)} with the
+first-order condition for $y$ eliminates the value function and leaves a relation between marginal
+utilities at adjacent dates, which is \bk{(16.26)}.
+\end{aex}
+
+\begin{aex}{16.7}{}
+Run the argument of Exercise 16.5 in the other argument.  Let
+\begin{align*}
+\mathcal D'&\equiv\bigl\{W\in\mathcal C:\ W(x,\cdot)\ \text{nondecreasing for each }x\bigr\},\\
+\mathcal D''&\equiv\bigl\{W\in\mathcal D':\ W(x,\cdot)\ \text{strictly increasing for each }x\bigr\}.
+\end{align*}
+and note that $\mathcal D'$ is closed in the sup norm.
+
+\emph{$T$ maps $\mathcal D'$ into $\mathcal D''$.}  Take $W\in\mathcal D'$, fix $x$, and let
+$z<\wt z$ in $Z$.  Three comparisons apply, one for each part of \bk{Assumption 16.6}.
+\begin{enumerate}
+\item \emph{The feasible set expands.}  $G(x,z)\subset G(x,\wt z)$ by part 1, so the supremum in
+      $(TW)(x,\wt z)$ is taken over a larger set.
+\item \emph{The current payoff rises.}  $U(x,y,\wt z)>U(x,y,z)$ for every $y$, by part 2.
+\item \emph{The continuation value rises.}  For each fixed $y$, the function
+      $z'\mapsto W(y,z')$ is nondecreasing because $W\in\mathcal D'$; part 3 --- equivalently,
+      by Exercise 16.1, the fact that the chain is monotone in the first-order stochastic
+      dominance order --- then gives
+      \[
+      \E\bigl[W(y,z')\mid\wt z\bigr]\ \ge\ \E\bigl[W(y,z')\mid z\bigr] .
+      \]
+\end{enumerate}
+Combining,
+\begin{align*}
+(TW)(x,\wt z)\ &\ge\ \sup_{y\in G(x,z)}\Bigl\{U(x,y,\wt z)
+  +\beta\E\bigl[W(y,z')\mid\wt z\bigr]\Bigr\}\\
+&>\ \sup_{y\in G(x,z)}\Bigl\{U(x,y,z)+\beta\E\bigl[W(y,z')\mid z\bigr]\Bigr\}
+  \ =\ (TW)(x,z) ,
+\end{align*}
+the first inequality from (1) and the strict one from (2) together with (3).  Hence
+$TW\in\mathcal D''$.
+
+\emph{Conclusion.}  $T$ maps the closed set $\mathcal D'$ into itself, so its unique fixed point
+$V$ lies in $\mathcal D'$; and since $T$ in fact maps $\mathcal D'$ into $\mathcal D''$ and
+$V=TV$,
+\[
+\boxed{\ V(x,\cdot)\ \text{is strictly increasing for each }x\in X . \ }
+\]
+$\blacksquare$
+
+\rmk{Part 3 of \bk{Assumption 16.6} is doing indispensable work, and it is the part with no
+counterpart in Chapter 6.  Without it a higher $z$ today could raise the current payoff while
+making low values of $z$ tomorrow more likely, and the continuation value would fall: the value
+function need not be monotone in $z$ even though the flow payoff is.  Exercise 16.1 shows that
+what rules this out is first-order stochastic dominance of the conditional distributions, not
+merely a higher conditional mean --- precisely because what has to inherit the ordering is the
+expectation of an arbitrary nondecreasing function, and only stochastic dominance delivers that
+for all of them at once.}
 \end{aex}
 
 \end{document}
