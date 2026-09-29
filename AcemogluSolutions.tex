@@ -184,9 +184,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--21\par}
+{\large Chapters 2--22\par}
 \vspace{0.6cm}
-{\small The 286 exercises that the instructor's solutions manual of\par
+{\small The 303 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -16767,6 +16767,939 @@ interval $[L^-,L^+]$ marked (Exercise 21.3).  Right: date-$0$ utility against th
 community-enforcement advantage $\xi$, normalized by its maximum, for four discount rates; the
 curve falls and then rises, so the optimum is at a corner (Exercise 21.5).}
 \label{fig:ch21}
+\end{figure}
+
+
+%% ========================================================================
+\solchapter{22}{Institutions, Political Economy, and Growth}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The seventeen exercises of Chapter 22 left unsolved in the instructor's manual: 22.1, 22.4--22.7,
+22.10--22.15, 22.23, 22.24, 22.28, 22.29, 22.31 and 22.32.  The manual solves 22.2, 22.3, 22.8,
+22.9, 22.16--22.22, 22.25--22.27 and 22.30.  The numerical parts are computed by
+\texttt{code/ch22.py}; Figure~\ref{fig:ch22} is its output.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\solsection{22.2}{Distributional Conflict in a Simple Society}
+
+\begin{aex}{22.1}{}
+By \bk{(22.14)} the elite's per-period transfer is proportional to tax revenue, so their
+problem is
+\[
+\max_{\tau\in[0,1]}R(\tau),\qquad R(\tau)\equiv\tau f\bigl(\hat k(\tau)\bigr),
+\qquad
+\hat k(\tau)=(f')^{-1}\Bigl(\frac{\beta^{-1}+\delta-1}{1-\tau}\Bigr) .
+\]
+
+\emph{The two endpoints give zero.}  At $\tau=0$, $R(0)=0$ trivially.  As $\tau\uparrow1$ the
+argument of $(f')^{-1}$ diverges, and \bk{Assumption 2} (the Inada conditions) makes
+$f'(k)\to\infty$ only as $k\to0$, so $\hat k(\tau)\to0$ and hence $f(\hat k(\tau))\to f(0)=0$.
+Therefore $R(\tau)\to0$ as $\tau\uparrow1$, and at $\tau=1$ output and revenue are both zero.
+
+\emph{The interior is strictly positive.}  For $\tau\in(0,1)$ the same Inada conditions give
+$\hat k(\tau)\in(0,\infty)$, so $f(\hat k(\tau))>0$ and $R(\tau)=\tau f(\hat k(\tau))>0$.
+
+\emph{Conclusion.}  $R$ is continuous on the compact interval $[0,1]$, so it attains a maximum;
+the maximum is strictly positive, hence attained in the interior, hence
+\[
+\boxed{\ \hat\tau\in(0,1) . \ }
+\]
+Any interior maximizer satisfies $R'(\hat\tau)=0$, that is
+$f(\hat k(\hat\tau))+\hat\tau f'(\hat k(\hat\tau))\hat k'(\hat\tau)=0$; substituting
+$\hat k'(\tau)=f'/[(1-\tau)f'']$ from \bk{(22.12)} gives \bk{(22.16)}. $\blacksquare$
+
+The argument also shows why the elite never impose $100\%$ taxation, which is what the text
+needs in order to dispense with the complementary slackness conditions after \bk{(22.10)}: at
+$\tau=1$ the middle class produce nothing and the elite collect nothing, so $\tau=1$ is
+dominated by every interior tax.  Note that $R$ need not be concave --- \bk{(22.16)} may have
+several roots --- but this does not matter, since the argument above locates a global maximizer
+without using concavity.
+
+\emph{The Cobb--Douglas case.}  With $f(k)=A^{1-\alpha}k^{\alpha}/\alpha$ and $\delta=1$,
+\bk{(22.18)} gives $\hat k(\tau)=[\beta(1-\tau)]^{1/(1-\alpha)}A$ and
+\[
+R(\tau)=\frac{A\beta^{\alpha/(1-\alpha)}}{\alpha}\,\tau(1-\tau)^{\alpha/(1-\alpha)} ,
+\]
+whose first-order condition is $1-\tau=\tau\alpha/(1-\alpha)$, that is $\hat\tau=1-\alpha$.
+\texttt{code/ch22.py} confirms this numerically to ten digits for
+$\alpha\in\{0.2,\tfrac13,0.5,0.7\}$.  The comparative static is the one the text emphasizes: a
+higher $\alpha$ makes the demand for capital more elastic and pushes the peak of the Laffer curve
+down.
+\end{aex}
+
+\begin{aex}{22.4}{}
+\emph{The strategy profile} is the one in the hint.  On the equilibrium path each entrepreneur
+contributes $\wt T/N$ at every date and the elite announce $\tau=0$; if total contributions ever
+fall below $\wt T$, or if the elite ever announce a positive tax, both sides revert for ever to
+the MPE of \bk{Proposition 22.2}: $\tau=1-\alpha$ and zero contributions.  The punishment is an
+equilibrium of the continuation game, so the profile is subgame perfect provided the two
+one-shot-deviation conditions hold.
+
+\emph{The elite's constraint.}  Under the timing of Section 22.2 the tax for date $t+1$ is
+announced at $t$, so a deviation yields the elite \emph{nothing extra today}: they still receive
+$\wt T$ at $t$ and the higher tax only bites from $t+1$, by which time the punishment has
+started.  Comparing continuation values from $t+1$,
+\[
+\boxed{\ \frac{\wt T}{1-\beta}\ \ge\ \frac{R^{RE}}{1-\beta}
+\qquad\Longleftrightarrow\qquad
+\wt T\ \ge\ R^{RE}\equiv\hat\tau f\bigl(\hat k(\hat\tau)\bigr)\times(\text{total labour}) , \ }
+\]
+the elite's per-period revenue in the MPE.  No condition on $\beta$ is needed here.
+
+\emph{An entrepreneur's constraint.}  Let $S(\tau)$ be a single entrepreneur's per-period
+surplus at tax rate $\tau$.  Contributing for ever gives $[S(0)-\wt T/N]/(1-\beta)$; free-riding
+saves $\wt T/N$ once --- today's tax is already set at zero --- and yields $S(\hat\tau)$ from
+$t+1$ on.  Hence
+\[
+\frac{S(0)-\wt T/N}{1-\beta}\ \ge\ S(0)+\frac{\beta}{1-\beta}S(\hat\tau)
+\qquad\Longleftrightarrow\qquad
+\boxed{\ \beta\ \ge\ \frac{\wt T/N}{S(0)-S(\hat\tau)} . \ }
+\]
+Taking the smallest admissible transfer $\wt T=R^{RE}$, the profile is an SPE for all $\beta$
+close enough to one \emph{provided}
+\begin{equation}
+N\bigl[S(0)-S(\hat\tau)\bigr]>R^{RE} ,
+\label{eq:contribfeas}
+\end{equation}
+that is, provided the entrepreneurs' collective gain from abolishing the tax exceeds the revenue
+the elite give up. $\blacksquare$
+
+\emph{When \eqref{eq:contribfeas} holds.}  This is where the answer needs care, because it
+depends on who bears the tax.
+\begin{itemize}
+\item \emph{With wages at zero} (Condition 22.1 failing, as in Section 22.4) the entrepreneur
+      keeps $(1-\tau)f(\hat k(\tau))-\hat k(\tau)$ per worker, and abolishing the tax transfers
+      the whole distorted surplus to him.  \texttt{code/ch22.py} gives, at $\alpha=\tfrac13$ and
+      $\beta=0.9$, $S(0)-S(\hat\tau)=1.609$ against $R^{RE}=1.095$ per worker, so
+      \eqref{eq:contribfeas} holds and the threshold is $\beta\ge0.681$.
+\item \emph{With positive wages} (the full-employment case of Section 22.2, where \bk{(22.6)}
+      holds) it fails.  The entrepreneur's surplus is
+      $\hat k(\tau)(1-\beta)/\beta$ per worker, because \bk{(22.10)} with $\delta=1$ gives
+      $(1-\tau)f'(\hat k)=1/\beta$; the tax mostly reduces the \emph{wage},
+      $\hat w(\tau)=(1-\tau)(1-\alpha)f(\hat k(\tau))$.  Numerically, per worker,
+      \begin{center}
+      \small
+      \begin{tabular}{lrr}
+      \toprule
+       & $\tau=0$ & $\tau=1-\alpha$\\
+      \midrule
+      output $f(\hat k)$ & $2.846$ & $1.643$\\
+      wage $\hat w$ & $1.897$ & $0.365$\\
+      entrepreneur surplus $S$ & $0.0949$ & $0.0183$\\
+      elite revenue & $0$ & $1.095$\\
+      \bottomrule
+      \end{tabular}
+      \end{center}
+      so $S(0)-S(\hat\tau)=0.077$ against $R^{RE}=1.095$: the entrepreneurs gain only a
+      fourteenth of what the elite would forgo, and cannot buy them off.  The scheme then needs
+      the \emph{workers} to contribute too --- which is natural, since they are the ones the tax
+      actually falls on.
+\end{itemize}
+
+\rmk{The exercise's insistence on $N<\infty$ is the substantive point, and it is footnote 9 of
+the chapter made precise.  With a continuum of entrepreneurs each individual contribution has
+measure zero, a shortfall is undetectable, no trigger can ever fire, and the scheme unravels ---
+which is exactly why with a continuum the SPE and MPE coincide (\bk{Proposition 22.7}).  So the
+Pareto efficiency of the MPE in Section 22.2 is not a property of elite-dominated politics but
+an artifact of the continuum: with finitely many producers a Pareto improvement is available and
+implementable, and the MPE is Pareto \emph{inefficient}.  This is the cleanest illustration in
+the chapter of how much the choice of equilibrium concept, and of market structure, is doing.}
+\end{aex}
+
+\solsection{22.4}{Distributional Conflict and Competition}
+
+\begin{aex}{22.5}{}
+Suppose Condition 22.1 fails, so by \bk{Proposition 22.3} $w(t)=0$ at every date, and $\phi>0$.
+
+\emph{No taxes on themselves, no transfers to others.}  The elite's payoff is their own
+production surplus plus the per capita transfer $T^e$ determined residually by \bk{(22.19)}.
+Raising $\tau^e$ above zero reduces their own capital-labor ratio through \bk{(22.20)} and
+returns at most the fraction $\phi\le1$ of the tax collected on their own output; the net effect
+is a strict loss even at $\phi=1$, because the distortion is first order in the tax at any
+$\tau^e>0$ once the capital response is taken into account.  Hence $\tau^e(t)=0$.  Transfers
+$T^m$ and $T^w$ subtract one for one from $T^e$, so they are zero. $\blacksquare$
+
+\emph{The tax on the middle class.}  With $w=0$, the elite's employment and their own surplus do
+not depend on $\tau^m$, so their problem reduces to maximizing revenue
+\[
+\frac{\phi}{\alpha}\,\tau^m\bigl(\beta(1-\tau^m)\bigr)^{\alpha/(1-\alpha)}A^m\theta^m\bar L ,
+\]
+which is the Laffer problem of Exercise 22.1.  Its unique maximizer is
+\[
+\boxed{\ \tau^m(t)=\tau^{RE}\equiv1-\alpha\quad\text{for all }t , \ }
+\]
+and the objective is strictly single-peaked, so the maximizer is unique.  Since the per-period
+objective depends only on the current tax --- linear preferences again --- the same tax is
+optimal at every date and the MPE is stationary.  $T^e(t)$ follows from \bk{(22.19)} holding as
+equality. $\blacksquare$
+
+The role of the hypothesis is worth stating: Condition 22.1 \emph{fails}, so wages are zero and
+the elite have neither the ability nor the incentive to manipulate factor prices.  The only
+motive left is revenue extraction, which puts them exactly at the peak of the Laffer curve.
+Everything that follows in Section 22.4 is a departure from this benchmark in one direction ---
+taxes \emph{beyond} the peak.
+\end{aex}
+
+\begin{aex}{22.6}{}
+Now Condition 22.1 holds --- so that by \bk{Proposition 22.3} the wage is strictly positive ---
+and $\phi=0$, so taxation raises no usable revenue at all.
+
+With $\phi=0$ the elite's income is their own production surplus plus $R^N/\theta^e$:
+\[
+\Bigl[\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}\bigl(1-\tau^e\bigr)^{1/(1-\alpha)}A^e
+-w(t)\Bigr]L^e(t)+\frac{R^N}{\theta^e} .
+\]
+Taxing themselves only lowers the first bracket, with no offsetting revenue, so $\tau^e(t)=0$;
+transfers to others are likewise zero.  Given $\tau^e=0$, \bk{(22.22)} gives
+\[
+w(t)=\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}
+\min\Bigl\{A^e,\ \bigl(1-\tau^m(t)\bigr)^{1/(1-\alpha)}A^m\Bigr\} ,
+\]
+so the elite's payoff is strictly decreasing in $w$ and $w$ is nonincreasing in $\tau^m$,
+strictly so whenever the middle class are the marginal employer.  The elite therefore drive
+$\tau^m$ as high as possible:
+\[
+\boxed{\ \tau^m(t)=\tau^{FPM}\equiv1,\qquad \tau^e(t)=T^m(t)=T^w(t)=0 , \ }
+\]
+at which $w(t)=0$ and the elite employ $\bar L$ workers each at zero cost. $\blacksquare$
+
+\emph{Why this exceeds the revenue-maximizing rate.}  Under revenue extraction the elite
+\emph{want} the middle class to produce, because middle-class output is their tax base; that is
+what puts them at the peak of the Laffer curve.  Under factor price manipulation they want the
+opposite --- to destroy middle-class profitability so as to kill their labour demand and so the
+wage.  The two motives point in opposite directions, and $\tau^{FPM}=1>\tau^{RE}=1-\alpha$.
+
+Note also who really pays.  With $\phi=0$ the tax transfers nothing to the elite directly; the
+elite gain entirely at the expense of the \emph{workers}, whose wage falls from
+$\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}\min\{A^e,A^m\}$ to zero.  An observer who
+looked only at the tax code would see a tax on the middle class; its incidence is on labour.
+\end{aex}
+
+\begin{aex}{22.7}{}
+Condition 22.1 holds, $\phi>0$, and \bk{(22.27)} holds so that \bk{(22.26)} fails at the
+solution --- the elite produce themselves and the middle class employ the residual labour.  Then
+$L^e(t)=\bar L$ and, by \bk{(22.25)}, $\theta^mL^m(t)=1-\theta^e\bar L$, while by \bk{(22.22)}
+the wage is set by the middle class,
+$w=\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}(1-\tau^m)^{1/(1-\alpha)}A^m$.
+
+Write $B\equiv\beta^{\alpha/(1-\alpha)}A^m/\alpha$ and
+$\Psi\equiv\phi\bigl(1-\theta^e\bar L\bigr)/\theta^e$.  Dropping terms independent of $\tau^m$,
+the objective \bk{(22.24)} is
+\[
+-(1-\alpha)B\bar L\,(1-\tau)^{\frac{1}{1-\alpha}}
++\Psi B\,\tau(1-\tau)^{\frac{\alpha}{1-\alpha}} .
+\]
+Differentiating, dividing by $B(1-\tau)^{\alpha/(1-\alpha)-1}>0$ and using
+$\tfrac{1}{1-\alpha}-1=\tfrac{\alpha}{1-\alpha}$,
+\[
+\bar L(1-\tau)+\Psi\Bigl[(1-\tau)-\frac{\alpha\tau}{1-\alpha}\Bigr]=0
+\quad\Longleftrightarrow\quad
+\bigl(\bar L+\Psi\bigr)(1-\tau)=\frac{\alpha\Psi}{1-\alpha}\,\tau ,
+\]
+so that
+\[
+\boxed{\ \tau^{COM}=\frac{(1-\alpha)\bigl(\bar L+\Psi\bigr)}
+{(1-\alpha)\bigl(\bar L+\Psi\bigr)+\alpha\Psi} . \ }
+\]
+This is \bk{(22.28)}.  Indeed $\bar L/\Psi=\theta^e\bar L/[(1-\theta^e\bar L)\phi]$, so
+\bk{(22.29)} reads $\kappa=\frac{1-\alpha}{\alpha}\frac{\Psi+\bar L}{\Psi}$, and
+$\kappa/(1+\kappa)$ is exactly the boxed expression. $\blacksquare$
+
+\emph{The two bounds the proposition asserts} follow by inspection of $\kappa$.  Since
+$\Psi<\infty$, $\kappa<\infty$ and $\tau^{COM}<1=\tau^{FPM}$: the prospect of revenue pulls the
+elite back from the pure-manipulation corner.  Since $\bar L>0$, $\kappa>\frac{1-\alpha}{\alpha}$
+and therefore $\tau^{COM}>\frac{(1-\alpha)/\alpha}{1+(1-\alpha)/\alpha}=1-\alpha=\tau^{RE}$: the
+wage motive always pushes them past the peak of the Laffer curve.  The comparative statics read
+off $\kappa$ directly --- $\tau^{COM}$ rises with $\bar L$ and $\theta^e$ (a larger elite
+employing more workers cares more about the wage) and falls with $\phi$ (a more capable state
+cares more about revenue).
+
+\emph{Verification.}  \texttt{code/ch22.py} maximizes \bk{(22.24)} numerically for five
+parameter configurations and matches the boxed formula to seven decimals in every case, with
+$\tau^{COM}$ ranging from $0.725$ to $0.766$ against $\tau^{RE}=0.667$.
+
+\emph{On condition \bk{(22.27)}.}  It is what makes the interior case the relevant one.  If
+$A^e$ were small relative to $\phi\alpha^{\alpha/(1-\alpha)}A^m\theta^m/\theta^e$, the elite
+would rather withdraw from production altogether, let the middle class hire the entire labour
+force, and simply maximize revenue --- which returns them to \bk{Proposition 22.4} and
+$\tau^{RE}$.  Competition in the marketplace requires the elite actually to be in the
+marketplace.
+\end{aex}
+
+\solsection{22.5}{Subgame Perfect versus Markov Perfect Equilibria}
+
+\begin{aex}{22.10}{}
+The point is that in these models there is nothing to punish \emph{with}.
+
+\emph{Step 1: the private sector has a unique best response to each tax, independent of
+history.}  Every entrepreneur is infinitesimal and takes prices as given, so his capital choice
+solves \bk{(22.10)}, whose solution \bk{(22.20)} is unique and depends only on the current
+announced tax; and his labour demand \bk{(22.21)} depends only on the current wage.  No
+individual can alter any aggregate, so no individual has any incentive to deviate from that best
+response after any history --- there is no history-dependent behaviour available to the private
+sector that is consistent with individual optimization.
+
+\emph{Step 2: the elite's continuation payoff is therefore history-independent.}  By Step 1 the
+aggregate capital-labor ratios, the wage and hence the elite's per-period payoff $\Pi(\tau(t))$
+are functions of the current tax alone.  So for any strategy profile the elite's continuation
+value from date $t$ is $\sum_{s\ge t}\beta^{s-t}\Pi(\tau(s))$, and the sequence
+$\{\tau(s)\}_{s\ge t}$ can be chosen freely, period by period, with no consequence for any other
+player's future behaviour.
+
+\emph{Step 3: conclude.}  Maximizing a discounted sum of terms each depending on a separate,
+freely chosen variable means maximizing each term, so in every SPE
+$\tau(t)\in\arg\max\Pi(\tau)$ at every date and after every history.  That is precisely the MPE
+of \bk{Propositions 22.4}--\bk{22.6}, and it is unique because each of those maximizers is
+unique. $\blacksquare$
+
+\rmk{The contrast with Exercise 22.4 is exact and instructive.  There the middle class are
+\emph{finitely many}, so a contribution can be withheld and detected, Step 1 fails, and
+history-dependent strategies become available.  Here the continuum assumption is doing the
+work: it is not that punishment is unprofitable, it is that no punishment exists.  This is also
+why \bk{Proposition 22.7} does not extend to Section 22.5.2, where the timing of taxes creates a
+genuine holdup and the middle class's investment can respond to the \emph{expected} tax --- which
+is something an implicit agreement can move.}
+\end{aex}
+
+\begin{aex}{22.11}{}
+Two features of that model must be checked, since it has an extra state variable --- who holds
+power.
+
+\emph{The private sector, as before.}  Middle-class entrepreneurs are infinitesimal and price
+taking, so Step 1 of Exercise 22.10 applies verbatim: their capital choice is the unique
+function \bk{(22.20)} of the current tax, whatever the history.  In particular, the replacement
+probability $\eta(\theta^mC^m(t))$ is a function of the current tax alone.
+
+\emph{The political state.}  The transition is \emph{permanent and one-directional}: power
+shifts from the elite to the middle class and never back.  Hence
+\begin{itemize}
+\item after the switch, the middle class hold power for ever and face a stationary problem whose
+      per-period payoff again depends only on the current tax, so their behaviour is pinned down
+      exactly as in Exercise 22.10, giving the constant $V^e(M)$;
+\item before the switch, the elite's continuation value is
+      $V^e(E)=\max_{\tau}\{\Pi^e(\tau)+\beta[(1-\eta[\tau])V^e(E)+\eta[\tau]V^e(M)]\}$, in which
+      every object is a function of the current tax and of the two scalars $V^e(E)$, $V^e(M)$.
+\end{itemize}
+There is therefore no player and no date at which behaviour can be conditioned on history in a
+payoff-relevant way, and the argument of Exercise 22.10 gives a unique SPE, coinciding with the
+MPE and featuring the constant tax $\tau^{PC}>\tau^{RE}$. $\blacksquare$
+
+\emph{Where this would break.}  Suppose instead that power could change hands repeatedly.  Then
+the group currently out of power has a future in which it will set policy, and the two groups
+can sustain an implicit agreement --- ``moderate your taxes now and we shall moderate ours when
+our turn comes'' --- enforced by the threat of reverting to the MPE.  Such strategies are
+history dependent and are not Markovian, so the SPE set strictly contains the MPE, exactly as
+the text notes.  The one-switch assumption is thus not innocuous: it is what makes the sharp
+prediction $\tau^{PC}>\tau^{RE}$ robust to the choice of equilibrium concept.
+\end{aex}
+
+\begin{aex}{22.12}{}
+\textbf{(a)}  Condition 22.1 fails, so $w=0$; with holdup the tax at $t$ is chosen after the
+capital for $t$ is sunk.  Consider the trigger profile of the text: the elite set
+$\tau^m(t)=1-\alpha$ and the middle class invest according to \bk{(22.20)} at that rate, so long
+as the history has been exactly that; after any other action, the elite set $\tau^m=1$ and the
+middle class invest zero for ever, which is the MPE of \bk{Proposition 22.8} and yields the elite
+a continuation value of zero.
+
+The middle class have no profitable deviation: at each date they are best responding to the
+announced tax.  For the elite, the on-path value is \bk{(22.31)},
+\[
+\frac{\phi}{1-\beta}(1-\alpha)\,\alpha^{-(1-2\alpha)/(1-\alpha)}\beta^{\alpha/(1-\alpha)}
+A^m\theta^m\bar L ,
+\]
+while the most profitable deviation is to set $\tau^m=1$ on the sunk capital
+$\hat k(1-\alpha)=(\alpha\beta)^{1/(1-\alpha)}A^m$, which yields \bk{(22.32)},
+\[
+\phi\,\alpha^{-(1-2\alpha)/(1-\alpha)}\beta^{\alpha/(1-\alpha)}A^m\theta^m\bar L ,
+\]
+and zero thereafter.  Comparing, all the common factors cancel and the condition is simply
+\[
+\frac{1-\alpha}{1-\beta}\ \ge\ 1
+\qquad\Longleftrightarrow\qquad
+\boxed{\ \beta\ \ge\ \alpha . \ }
+\]
+$\blacksquare$
+
+\textbf{(b)}  With a ceiling $\bar\tau<1$ two things change at once, and they pull in opposite
+directions.  The punishment is \emph{weaker}, since the MPE now involves $\tau^m=\bar\tau$ rather
+than $1$ and leaves the elite a strictly positive continuation revenue; but the deviation is also
+\emph{smaller}, since the elite can only raise the tax to $\bar\tau$.
+
+Write $r(\tau)\equiv\tau(1-\tau)^{\alpha/(1-\alpha)}$, so that per-period revenue is proportional
+to $r$.  Along a stationary SPE with announced tax $\tau^*$, a deviation raises the tax on the
+sunk capital $\hat k(\tau^*)$ to $\bar\tau$ and yields $\frac{\bar\tau}{\tau^*}r(\tau^*)$ this
+period, followed by $r(\bar\tau)$ for ever.  The incentive constraint is therefore
+\[
+\frac{r(\tau^*)}{1-\beta}\ \ge\ \bar\tau(1-\tau^*)^{\frac{\alpha}{1-\alpha}}
++\frac{\beta}{1-\beta}r(\bar\tau) ,
+\]
+that is
+\[
+\boxed{\ (1-\tau^*)^{\frac{\alpha}{1-\alpha}}
+\bigl[\tau^*-(1-\beta)\bar\tau\bigr]\ \ge\ \beta\,r(\bar\tau) . \ }
+\]
+At $\bar\tau=1$ the right-hand side is zero and the condition reduces to
+$\alpha^{\alpha/(1-\alpha)}(\beta-\alpha)\ge0$, recovering part (a).
+
+The best stationary SPE then has
+\[
+\tau^*=\begin{cases}
+\bar\tau, & \bar\tau\le1-\alpha,\\[2pt]
+1-\alpha, & \bar\tau>1-\alpha\ \text{and the constraint is slack at }1-\alpha,\\[2pt]
+\tau^{\dagger}, & \text{otherwise,}
+\end{cases}
+\]
+where $\tau^{\dagger}$ is the smallest root of the boxed constraint in $(1-\alpha,\bar\tau]$.
+The first line deserves emphasis: if the ceiling already binds \emph{below} the elite's own
+unconstrained optimum $1-\alpha$, then the MPE tax $\bar\tau$ is the best the elite can do and
+an implicit agreement has nothing to offer.  Implicit agreements are useful only where the
+holdup problem actually bites, that is where $\bar\tau>1-\alpha$.  \texttt{code/ch22.py}
+tabulates this at $\alpha=\tfrac13$, $\beta=0.9$:
+\begin{center}
+\small
+\begin{tabular}{rrr}
+\toprule
+$\bar\tau$ & MPE tax & best stationary SPE\\
+\midrule
+$0.30$ & $0.30$ & $0.30$\\
+$0.50$ & $0.50$ & $0.50$\\
+$0.6\overline{6}$ & $0.6\overline{6}$ & $0.6\overline{6}$\\
+$0.80$ & $0.80$ & $0.6\overline{6}$\\
+$0.95$ & $0.95$ & $0.6\overline{6}$\\
+$1.00$ & $1.00$ & $0.6\overline{6}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+At $\beta=0.9>\alpha$ the constraint is slack throughout, so wherever the SPE helps it delivers
+the full-commitment optimum $1-\alpha$ exactly.
+\end{aex}
+
+\solsection{22.6}{Inefficient Economic Institutions}
+
+\begin{aex}{22.13}{}
+\emph{The MPE given $\bar\tau$.}  With holdup, the capital stock for date $t$ is already
+installed when $\tau^m(t)$ is chosen, so the elite's date-$t$ objective is increasing in
+$\tau^m(t)$ on two counts: a higher tax raises revenue on a fixed base, and --- since Condition
+22.1 holds --- it lowers middle-class labour demand and hence the wage they pay.  Both effects
+point the same way, so the objective is strictly increasing on $[0,\bar\tau]$ and
+\[
+\boxed{\ \tau^m(t)=\bar\tau\quad\text{for all }t . \ }
+\]
+An MPE conditions only on payoff-relevant state, and the sunk capital makes the static objective
+monotone, so this is the unique MPE.
+
+\emph{The choice of $\bar\tau$ at $t=0$.}  Anticipating $\tau^m(t)=\bar\tau$ for ever, the middle
+class invest $\hat k(\bar\tau)$ by \bk{(22.20)}, since they know the tax they will face.  But
+that is exactly the investment response the elite faced in \bk{Proposition 22.6}, where the tax
+could be committed to one period ahead.  The elite's date-$0$ problem in $\bar\tau$ is therefore
+\emph{identical} to the problem solved in Exercise 22.7, and its solution is
+\[
+\boxed{\ \bar\tau=\tau^{COM}<1 . \ }
+\]
+$\blacksquare$
+
+\emph{What this says.}  A constitutional ceiling is worth nothing to the elite in the world of
+\bk{Proposition 22.11}, where they can already commit one period ahead; under holdup it is worth
+a great deal, because it restores exactly the commitment they have lost.  The elite are not
+being generous: the ceiling they choose is the tax rate that maximizes \emph{their own} utility,
+and it happens also to raise the utility of the middle class and of workers because the holdup
+outcome $\tau^m=1$ was Pareto inefficient.  Secure property rights emerge here as a by-product
+of the elite's own commitment problem, not of any concern for producers.
+
+\rmk{The restriction to MPE matters, and the text says so.  If the parties can coordinate on the
+trigger-strategy SPE of Exercise 22.12, they can already sustain $\tau^{RE}$ --- indeed
+$\tau^{COM}$ --- without any constitution, so the demand for the institution disappears.  Formal
+institutions and informal agreements are substitutes here, and which one a society uses depends
+on whether it can coordinate.  Exercise 22.14 shows a case where the substitution fails.}
+\end{aex}
+
+\begin{aex}{22.14}{}
+\emph{After date $0$.}  Once $A^m$ has been chosen at $t=0$ it is sunk, and the game from $t=1$
+onward is exactly the game of Section 22.4.1 with the original timing --- taxes committed one
+period ahead.  Condition 22.1 fails and $\phi>0$, so \bk{Proposition 22.4} gives the unique MPE
+$\tau^m(t)=\tau^{RE}=1-\alpha$, and \bk{Proposition 22.7} --- Exercise 22.10 --- says this is
+also the unique SPE.  The middle class are a continuum of price takers with unique best
+responses, so there is nothing to punish with. $\blacksquare$
+
+\emph{The date-$0$ choice of $\bar\tau$.}  Technology is chosen once, at $t=0$, anticipating the
+tax.  From \bk{(22.33)} the first-order condition for $A^m$ at a constant tax $\tau^m$ is
+\[
+\Gamma'(A^m)=\frac{1-\alpha}{\alpha(1-\beta)}\beta^{\alpha/(1-\alpha)}
+(1-\tau^m)^{1/(1-\alpha)}\bar L ,
+\]
+and differentiating, $\dd A^m/\dd\tau^m<0$: a higher expected tax buys less technology.  The
+elite's date-$0$ problem is to maximize
+$\frac{\phi}{\alpha}\tau^m(\beta(1-\tau^m))^{\alpha/(1-\alpha)}A^m(\tau^m)\theta^m\bar L$,
+whose first-order condition is \bk{(22.34)},
+\[
+A^m-\frac{\alpha}{1-\alpha}\frac{\tau^m}{1-\tau^m}A^m+\tau^m\frac{\dd A^m}{\dd\tau^m}=0 .
+\]
+Evaluate the left-hand side at $\tau^m=1-\alpha$.  The first two terms cancel exactly --- that
+is the definition of $\tau^{RE}$ --- leaving $\tau^m\,\dd A^m/\dd\tau^m<0$.  The derivative of
+the objective is therefore strictly negative at $1-\alpha$, so the maximum lies strictly below:
+\[
+\boxed{\ \bar\tau=\tau^{TA}<\tau^{RE}=1-\alpha . \ }
+\]
+$\blacksquare$
+
+\emph{Why an implicit agreement cannot substitute here.}  In Exercise 22.12 the middle class
+invested at \emph{every} date, so a deviation by the elite could be met by a change in
+\emph{future} investment --- the threat that supports the trigger strategy.  Here the only
+long-horizon decision is made once, at $t=0$, and thereafter the middle class have unique
+period-by-period best responses.  There is no continuation action with which to punish, so the
+SPE cannot improve on the MPE and only an explicit, credible institution can.  This is the
+sharpest statement in the chapter of when formal economic institutions are \emph{necessary}
+rather than merely convenient: when the investments that policy distorts are infrequent and
+long-lived, reputation has nothing to work with.
+\end{aex}
+
+\begin{aex}{22.15}{}
+Condition 22.1 holds, $\phi=0$, $\bar\tau<1$, and
+$(1-\bar\tau)^{1/(1-\alpha)}A^m<A^e$.
+
+\emph{The elite's objective.}  With $\phi=0$ taxation raises no usable revenue, so --- exactly as
+in Exercise 22.6 --- the elite set $\tau^e=0$, make no transfers, and their payoff is
+\[
+\Bigl[\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}A^e-w\Bigr]\bar L+\frac{R^N}{\theta^e} ,
+\]
+which they maximize by minimizing $w$.  They also set the middle-class tax as high as the
+constitution permits, $\tau^m=\bar\tau$.
+
+\emph{The wage.}  By \bk{(22.22)},
+\[
+w=\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}
+\min\Bigl\{A^e,\ (1-\bar\tau)^{1/(1-\alpha)}A^m(g)\Bigr\} ,
+\]
+and the hypothesis $(1-\bar\tau)^{1/(1-\alpha)}A^m<A^e$ says the minimum is attained at the
+second term: \emph{even at the maximum permitted tax the middle class remain the marginal
+employer and set the wage.}  Hence $w$ is strictly increasing in $A^m$, and since
+$A^m(1)>A^m(0)$,
+\[
+\boxed{\ \text{the elite choose } g=0 \text{ in any MPE or SPE.} \ }
+\]
+That it holds in any SPE as well follows from Exercise 22.10: with a continuum of price-taking
+producers there is no history-dependent behaviour to sustain anything else. $\blacksquare$
+
+\emph{Why $\bar\tau<1$ is necessary.}  If $\bar\tau=1$ the elite can set $\tau^m=1$, which drives
+middle-class labour demand and hence the wage to zero regardless of $A^m$.  The wage is then
+already at its floor, blocking buys nothing, and the elite are indifferent --- weakly preferring
+$g=1$ as soon as any revenue motive is reintroduced.  The lesson is exact and worth stating: the
+elite resort to the \emph{inefficient} instrument of blocking technology only because the
+\emph{efficient} one --- an unconstrained tax --- has been taken away from them.  Constitutional
+limits on taxation, which Exercise 22.13 showed the elite may themselves want, here have the
+perverse consequence of redirecting their rent extraction into a more destructive channel.
+
+\emph{Why $(1-\bar\tau)^{1/(1-\alpha)}<A^e/A^m$ is necessary.}  If the inequality were reversed,
+the minimum in \bk{(22.22)} would be $A^e$: the \emph{elite} would be the marginal employer and
+the wage would be set by their own net marginal product, independent of $A^m$.  Blocking would
+then have no effect on the wage at all, and the factor price manipulation channel would be dead.
+The condition is precisely the statement that the middle class are close enough to the elite in
+productivity, even after being taxed at $\bar\tau$, to matter in the labour market --- which is
+when they are a competitive threat worth suppressing.
+
+\rmk{Condition 22.1 is needed for the wage to be positive in the first place, and $\phi=0$ to
+switch off the countervailing revenue motive.  With $\phi>0$ the elite value middle-class output
+as a tax base, and $g=1$ can win --- which is \bk{Proposition 22.14}.  Putting
+\bk{Propositions 22.14} and \bk{22.15} together gives the chapter's answer to its motivating
+question: whether those in power block development depends on whether they extract rents
+\emph{from} the productive sector or \emph{in competition with} it.}
+\end{aex}
+
+\solsection{22.7}{Heterogeneous Preferences and the Median Voter}
+
+\begin{aex}{22.23}{}
+By \bk{Theorem 22.4}, under A1, A2 and the single-crossing property a Condorcet winner exists
+and equals $p^M$, the bliss point of the median voter: for every $p\ne p^M$, a majority of
+voters strictly prefers $p^M$ to $p$.  Two office-motivated parties $A$ and $B$ simultaneously
+announce platforms, the majority-preferred platform wins, and a tie is broken by a fair coin;
+A4 says each party maximizes its probability of winning.
+
+\emph{$(p^M,p^M)$ is an equilibrium.}  At that profile each party wins with probability
+$\tfrac12$.  If $A$ deviates to any $p\ne p^M$, then since $p^M$ is a Condorcet winner a
+majority prefers $B$'s platform and $A$ loses with probability one.  The deviation is strictly
+unprofitable, and symmetrically for $B$.
+
+\emph{No other equilibrium.}  Suppose $p^A\ne p^M$ in some equilibrium, and consider $A$'s
+deviation to $p^M$.
+\begin{itemize}
+\item If $p^B=p^M$, then $A$ currently loses with probability one and after the deviation ties,
+      winning with probability $\tfrac12$ --- a strict improvement.
+\item If $p^B\ne p^M$, then after the deviation $A$ offers a Condorcet winner against $p^B$ and
+      wins with probability one, which is at least as good and strictly better unless $A$ was
+      already winning for sure --- impossible, since $p^M$ beats $p^A$ too, so $A$ cannot have
+      been the majority choice against a $B$ that could itself deviate to $p^M$.
+\end{itemize}
+In either case the deviation is profitable, so no equilibrium has $p^A\ne p^M$; by symmetry the
+same holds for $B$.  Hence
+\[
+\boxed{\ p^A=p^B=p^M\ \text{is the unique Nash equilibrium.} \ }
+\]
+$\blacksquare$
+
+The proof used nothing about single peakedness --- only that a Condorcet winner exists.  That is
+the general shape of every Downsian convergence result: electoral competition between two
+office-motivated parties implements the Condorcet winner whenever one exists, and the work is
+all in establishing existence, which is what \bk{Theorems 22.1} and \bk{22.4} do under two
+different restrictions on preferences.
+\end{aex}
+
+\begin{aex}{22.24}{}
+\emph{The key observation.}  For any two policies $p,p'\in R$, write
+$\Delta_1\equiv G_1(p)-G_1(p')$ and $\Delta_2\equiv G_2(p)-G_2(p')$.  Then
+\[
+U(p;\alpha_i)-U(p';\alpha_i)=\Delta_1+B(\alpha_i)\Delta_2 ,
+\]
+which is \emph{affine} in $B(\alpha_i)$ and hence, $B$ being monotone, monotone in $\alpha_i$.
+Therefore the set of voters preferring $p$ to $p'$ is
+\[
+\{i:\ B(\alpha_i)>-\Delta_1/\Delta_2\}\ \text{ if }\Delta_2>0,
+\qquad
+\{i:\ B(\alpha_i)<-\Delta_1/\Delta_2\}\ \text{ if }\Delta_2<0,
+\]
+and is either everybody or nobody if $\Delta_2=0$.  In every case it is an \emph{upper or lower
+set in $\alpha_i$}.  This is single crossing (\bk{Definition 22.3}) stated in the type rather
+than in the policy, and --- crucially --- it makes no use of any ordering of $R$, so it is
+available in $\R^K$.
+
+\emph{The theorem.}  Let $p^M\equiv p(\alpha^M)$ be the bliss point of the median type and take
+any $p'\ne p^M$.  By definition of a bliss point, $U(p^M;\alpha^M)>U(p';\alpha^M)$, so the median
+voter belongs to the set preferring $p^M$ to $p'$.  By the observation above, that set is an
+upper or lower set in $\alpha_i$ containing $\alpha^M$; since $\alpha^M$ is the median, such a
+set contains at least half the voters.  Hence $p^M$ defeats $p'$ in a pairwise majority vote,
+for every $p'$:
+\[
+\boxed{\ p^M=p(\alpha^M)\ \text{is a Condorcet winner.} \ }
+\]
+$\blacksquare$
+
+\emph{What has been gained.}  Single peakedness is a property of preferences \emph{over an
+ordered policy space}, and it is exactly the requirement that breaks down in more than one
+dimension --- which is why \bk{Theorem 22.1} is confined to $R\subset\R$.  Intermediate
+preferences instead order the \emph{voters}, and require that policy disagreements be resolved
+the same way at every pair of alternatives.  The structure $G_1+B(\alpha)G_2$ is restrictive ---
+it says every voter's indirect utility is the same function of policy up to one scalar loading
+--- but it is satisfied in a great many applied models, including every setting in which voters
+differ by a single scalar that enters the budget constraint linearly.  Exercise 22.29 shows that
+the model of Section 22.8 is exactly of this form, with $B(\alpha_i)=A_i$, which is how
+\bk{Proposition 22.17} is proved.
+\end{aex}
+
+\solsection{22.8}{Heterogeneity and the Median Voter}
+
+\begin{aex}{22.28}{}
+The value function \bk{(22.42)} is
+\[
+V_i\bigl(k_i(t)\mid p^t\bigr)=\max_{k_i(t+1)\ge0}
+\Bigl\{\bigl(1-\tau(t)\bigr)A_if\bigl(k_i(t)\bigr)-A_ik_i(t+1)+T(t)
++\beta V_i\bigl(k_i(t+1)\mid p^{t+1}\bigr)\Bigr\} .
+\]
+The first-order condition in $k_i(t+1)$ is
+\[
+-A_i+\beta\,V_i'\bigl(k_i(t+1)\bigr)=0 ,
+\]
+and the envelope condition, differentiating the maximand with respect to the state, is
+\[
+V_i'\bigl(k_i(t)\bigr)=\bigl(1-\tau(t)\bigr)A_if'\bigl(k_i(t)\bigr) .
+\]
+Advancing the envelope condition one period and substituting into the first-order condition,
+\[
+A_i=\beta\bigl(1-\tau(t+1)\bigr)A_if'\bigl(k_i(t+1)\bigr) ,
+\]
+and cancelling $A_i>0$,
+\[
+\boxed{\ \beta\bigl(1-\tau(t+1)\bigr)f'\bigl(k_i(t+1)\bigr)=1\qquad\text{for all }i,t . \ }
+\]
+$\blacksquare$
+
+\emph{Why $A_i$ cancels.}  The productivity term is labour augmenting, so total capital is
+$K_i=A_ik_i$ and total output is $A_if(k_i)$: a more productive entrepreneur scales up both the
+cost of an extra unit of effective capital and the return to it by the same factor $A_i$.  The
+\emph{effective} capital-labor ratio is therefore common to all entrepreneurs, which is
+\bk{Proposition 22.16} and is what makes total revenue \bk{(22.45)} depend on the distribution of
+productivities only through its mean $\ol A$.  That in turn is the source of the distributional
+conflict in this section: the benefit of taxation is proportional to the \emph{mean}
+productivity and its cost to the voter's \emph{own} productivity, so the tax is positive exactly
+when the median productivity lies below the mean.
+\end{aex}
+
+\begin{aex}{22.29}{}
+\emph{Single crossing.}  Group \bk{(22.46)} in $A_i$.  Since the continuation value
+$\wt V_i(p^{t+2})$ does not depend on $\tau'$,
+\[
+\boxed{\ \begin{aligned}
+\wt V_i(\tau')&=G_1(\tau')+A_i\,G_2(\tau')+\text{const},\\
+G_1(\tau')&=\beta\tau'\ol Af\bigl(\hat k(\tau')\bigr),\\
+G_2(\tau')&=\beta(1-\tau')f\bigl(\hat k(\tau')\bigr)-\hat k(\tau') .
+\end{aligned}\ }
+\]
+This is exactly the intermediate-preferences form of Exercise 22.24 with $B(\alpha_i)=A_i$.
+Hence for any two tax rates
+\[
+\wt V_i(\tau)-\wt V_i(\tau')=\bigl[G_1(\tau)-G_1(\tau')\bigr]+A_i\bigl[G_2(\tau)-G_2(\tau')\bigr]
+\]
+is affine, hence monotone, in $A_i$, so the set of entrepreneurs preferring $\tau$ to $\tau'$ is
+an interval in $A_i$.  That is \bk{Definition 22.3}.  (The direction: $G_2$ is decreasing, so for
+$\tau>\tau'$ the difference is decreasing in $A_i$, and if a high-productivity entrepreneur
+prefers the higher tax then so does every lower-productivity one --- the reversed order, which
+the definition allows.) $\blacksquare$
+
+\emph{An exact criterion for quasi-concavity.}  The envelope theorem applied to $G_2$ --- the
+entrepreneur's own continuation value, in which $\hat k$ is chosen optimally --- gives
+$G_2'(\tau)=-\beta f(\hat k(\tau))$, the $\hat k'$ terms cancelling by \bk{(22.44)}.  Hence
+\[
+\wt V_i'(\tau)=\beta f\bigl(\hat k(\tau)\bigr)\Bigl[\bigl(\ol A-A_i\bigr)+\ol A\,\Phi(\tau)\Bigr],
+\qquad
+\Phi(\tau)\equiv\frac{\tau}{1-\tau}\cdot\frac{\bigl(f'(\hat k)\bigr)^2}{f''(\hat k)f(\hat k)} ,
+\]
+which is \bk{(22.47)}.  Writing $\varepsilon(k)\equiv kf'(k)/f(k)$ for the capital share and
+$\eta(k)\equiv-kf''(k)/f'(k)$ for the curvature,
+$\frac{(f')^2}{f''f}=-\frac{\varepsilon}{\eta}$, so
+\[
+\boxed{\ \wt V_i\ \text{is quasi-concave for \emph{every} }A_i
+\iff
+\frac{\tau}{1-\tau}\cdot\frac{\varepsilon\bigl(\hat k(\tau)\bigr)}{\eta\bigl(\hat k(\tau)\bigr)}
+\ \text{is monotone in }\tau . \ }
+\]
+Indeed the sign of $\wt V_i'$ is the sign of $(\ol A-A_i)-\ol A\frac{\tau}{1-\tau}
+\frac{\varepsilon}{\eta}$, which changes at most once for every $A_i$ precisely when that
+expression is monotone.
+
+\emph{Cobb--Douglas is the special case that works.}  There $\varepsilon=\alpha$ and
+$\eta=1-\alpha$ are constants, the bracket is $\frac{\tau}{1-\tau}\frac{\alpha}{1-\alpha}$,
+strictly increasing, and quasi-concavity holds for every $A_i$.  A counterexample therefore
+needs a production function whose curvature varies.
+
+\emph{A counterexample.}  Take $f$ with log-curvature
+$\eta(k)=\eta_0+\eta_1\exp\bigl[-(\log k-m)^2/(2\varsigma^2)\bigr]$, so that $f$ is nearly linear
+over a narrow band of $k$.  With $\eta_0=0.9$, $\eta_1=-0.88$ --- so $\eta$ dips to $0.02$ ---
+$m=-2$ and $\varsigma=0.1$, \texttt{code/ch22.py} finds that
+$\frac{\tau}{1-\tau}\frac{\varepsilon}{\eta}$ changes direction twice and that $\wt V_i$ has
+\emph{two} local maxima for $A_i=0$ and $A_i=0.3$, while the Cobb--Douglas benchmark has one at
+every $A_i$.  The left panel of Figure~\ref{fig:ch22} plots the three curves.
+
+\rmk{The two properties are logically independent, and the example shows it.  Single crossing is
+an algebraic consequence of the $A_i$-affine structure and survives any $f$ whatsoever;
+quasi-concavity is a statement about the shape of one voter's objective and depends on the
+technology.  This is exactly why \bk{Proposition 22.17} appeals to \bk{Theorem 22.4} rather than
+to the ordinary Median Voter Theorem: the equilibrium tax is still the median entrepreneur's
+bliss point even though nobody's preferences are single peaked.}
+\end{aex}
+
+\solsection{22.9}{Capital Taxation, Public Goods, and the Strength of the State}
+
+\begin{aex}{22.31}{}
+\textbf{(a)}  Competitive firms rent capital and labour from $Y_j=AK_j^{1-\alpha}G^{\alpha}L_j^{\alpha}$.
+With $L=1$ in aggregate, $G=\tau\ol K$ and all firms symmetric,
+\[
+\boxed{\ r=(1-\alpha)A\ol K^{-\alpha}(\tau\ol K)^{\alpha}=(1-\alpha)A\tau^{\alpha},
+\qquad
+w=\alpha A\tau^{\alpha}\ol K . \ }
+\]
+The rental rate is a constant, independent of $\ol K$: the Romer-type externality embodied in
+\bk{(22.64)} makes the private return to capital constant, so the economy is an $AK$ economy.
+The net return faced by a household is $R(\tau)\equiv r-\tau=(1-\alpha)A\tau^{\alpha}-\tau$, and
+with logarithmic utility consumption and capital grow at
+\[
+1+g=\beta\bigl(1+R(\tau)\bigr) ,
+\]
+which is positive for $A$ large enough and, crucially, depends on $\tau$ alone --- not on how
+$\ol K(0)$ is distributed.
+
+\textbf{(b)}  Since $w(s)=\alpha A\tau^{\alpha}\ol K(s)$ and $\ol K$ grows at $1+g$, human
+wealth is
+\[
+H(t)=\sum_{s\ge t}\frac{w(s)}{(1+R)^{s-t}}=\frac{\alpha A\tau^{\alpha}}{1-\beta}\,\ol K(t)
+\equiv h\,\ol K(t) ,
+\]
+using $1+g=\beta(1+R)$.  Total wealth $W_i(t)=(1+R)K_i(t)+H(t)$, and logarithmic utility gives
+$C_i=(1-\beta)W_i$, hence $W_i(t+1)=\beta(1+R)W_i(t)$: \emph{all} households' wealth grows at the
+same rate, so wealth shares are constant.  Since $H$ is common and proportional to $\ol K$,
+\[
+\frac{K_i(t)}{\ol K(t)}
+=\frac{\omega^W_i\bigl[(1+R)+h\bigr]-h}{1+R}
+\]
+is independent of $t$, so
+\[
+\boxed{\ K_i(t)=\omega_i\,\ol K(t)\quad\text{for all }t , \ }
+\]
+with $\omega_i$ fixed by $K_i(0)$. $\blacksquare$
+
+\textbf{(c)}  Lifetime utility is
+$U_i=\frac{\log C_i(0)}{1-\beta}+\frac{\beta\log(1+g)}{(1-\beta)^2}$ with
+$C_i(0)=(1-\beta)\bigl[(1+R)\omega_i+h\bigr]\ol K(0)$, so up to constants
+\[
+\boxed{\
+U_i(\tau)=\frac{1}{1-\beta}
+\log\Bigl[\bigl(1+R(\tau)\bigr)\omega_i+\frac{\alpha A\tau^{\alpha}}{1-\beta}\Bigr]
++\frac{\beta}{(1-\beta)^2}\log\bigl(\beta(1+R(\tau))\bigr) . \ }
+\]
+\emph{Single peakedness.}  $R$ is strictly concave, so $1+R$ and
+$(1+R)\omega_i+\alpha A\tau^{\alpha}/(1-\beta)$ are concave and positive on the relevant range;
+the logarithm of a positive concave function is concave, and a sum of concave functions is
+concave.  So $U_i$ is strictly concave, hence single peaked, and \bk{Theorem 22.1} applies.
+
+\emph{The preferred rate.}  Let $\tau^{gr}\equiv[\alpha(1-\alpha)A]^{1/(1-\alpha)}$ be the
+growth-maximizing rate, at which $R'=0$.  Then
+\[
+U_i'(\tau^{gr})=\frac{1}{1-\beta}\cdot
+\frac{\alpha^2A(\tau^{gr})^{\alpha-1}/(1-\beta)}
+{(1+R)\omega_i+\alpha A(\tau^{gr})^{\alpha}/(1-\beta)}\ >\ 0 ,
+\]
+so \emph{every} voter prefers a tax above the growth-maximizing rate: at $\tau^{gr}$ the growth
+term is flat while the wage term $\alpha A\tau^{\alpha}/(1-\beta)$ is still rising.  The
+magnitude of that wedge falls with $\omega_i$, since a capital-rich voter weights the return on
+his own capital more heavily.  \texttt{code/ch22.py} confirms both, at $\alpha=0.4$, $\beta=0.95$
+and $A=2$, where $\tau^{gr}=0.2943$:
+\begin{center}
+\small
+\begin{tabular}{rrr}
+\toprule
+$\omega_M$ & preferred $\tau$ & growth $1+g$\\
+\midrule
+$0$ & $0.34326$ & $1.36719$\\
+$0.5$ & $0.34002$ & $1.36745$\\
+$1$ & $0.33717$ & $1.36767$\\
+$5$ & $0.32271$ & $1.36858$\\
+\bottomrule
+\end{tabular}
+\end{center}
+By the Median Voter Theorem the implemented rate is $\tau^M=\tau^*(\omega^M)$, and a fall in
+$\omega^M$ --- a more unequal distribution of capital --- \emph{raises} the tax.  Since the tax
+already exceeds $\tau^{gr}$, this \emph{lowers} growth.  That is the Alesina--Rodrik and
+Persson--Tabellini mechanism: inequality is bad for growth because the median voter owns little
+capital and therefore internalizes little of the cost of taxing it.
+
+\textbf{(d)}  The equilibrium is not an MPE because the tax is legislated once at $t=0$ and
+committed to for ever, whereas in an MPE the policy at date $t$ may depend only on the date-$t$
+payoff-relevant state.  Once the capital stock is installed the median voter would want a
+\emph{higher} tax than he wanted ex ante --- exactly the holdup of Section 22.5.2 --- so the
+date-$0$ choice is not sequentially rational.
+
+To set the problem up as an MPE: by part (b) the shares $\omega_i$ are constant, so the state
+reduces to the aggregate $\ol K$.  Posit a policy rule $\tau=\Phi(\ol K)$, solve each household's
+Bellman equation
+$V_i(K_i,\ol K)=\max_{K_i'}\{\log C_i+\beta V_i(K_i',\ol K')\}$ taking $\Phi$ and the implied law
+of motion of $\ol K$ as given, compute the median voter's most preferred \emph{current} tax given
+$\Phi$ for the future, and require that this coincide with $\Phi(\ol K)$ --- a fixed point in the
+policy function rather than in a number.  Because the economy is $AK$ and homogeneous of degree
+one in $\ol K$, one looks for a $\Phi$ that is constant in $\ol K$; the resulting constant is
+higher than the $\tau^M$ of part (c), by the holdup logic.
+\end{aex}
+
+\begin{aex}{22.32}{}
+\textbf{(a)}  Three steps, each of which uses the timing: taxes at $t$ are set after the
+capital for $t$ is sunk.
+\begin{enumerate}
+\item \emph{The tax.}  With capital sunk, revenue $\tau Y$ is strictly increasing in $\tau$ up
+      to the informality ceiling, so the elite set $\tau(t)=\bar\tau$ for all $t$, which is
+      \bk{(22.51)}.
+\item \emph{Private investment.}  Anticipating $\bar\tau$, each citizen solves the Euler
+      equation of Section 22.3, giving \bk{(22.52)},
+      $k_i(t)=(\beta(1-\bar\tau))^{1/(1-\alpha)}A(t)$, and hence revenue \bk{(22.53)},
+      $T(A)=(\beta(1-\bar\tau))^{\alpha/(1-\alpha)}\bar\tau A/\alpha$.
+\item \emph{Public goods.}  The elite's problem \bk{(22.54)} is a concave dynamic programme, so
+      by \bk{Theorems 6.3}, \bk{6.4} and \bk{6.6} the value function is concave and
+      differentiable and the policy is unique.  The first-order condition \bk{(22.55)} and the
+      envelope condition \bk{(22.56)}, $(V^e)'=T'(A)=(\beta(1-\bar\tau))^{\alpha/(1-\alpha)}
+      \bar\tau/\alpha$, combine to
+      \[
+      \frac{1-\alpha}{\alpha}A(t+1)^{\zeta-1}
+      =\frac{\beta^{1/(1-\alpha)}}{\alpha}(1-\bar\tau)^{\alpha/(1-\alpha)}\bar\tau ,
+      \]
+      that is $A(t+1)=A[\bar\tau]$ as in \bk{(22.57)}, for every $t$.
+\end{enumerate}
+Substituting into the production function gives \bk{(22.59)}, and uniqueness at each step gives
+uniqueness of the MPE. $\blacksquare$
+
+\textbf{(b)}  Write $\vartheta\equiv\alpha/(1-\alpha)$.  From \bk{(22.57)} and \bk{(22.59)},
+\[
+\log Y[\bar\tau]=\text{const}+\vartheta\log(1-\bar\tau)
++\frac{1}{\zeta-1}\bigl[\vartheta\log(1-\bar\tau)+\log\bar\tau\bigr]
+=\text{const}+\frac{\vartheta\zeta}{\zeta-1}\log(1-\bar\tau)+\frac{\log\bar\tau}{\zeta-1} .
+\]
+The first-order condition is $\frac{\vartheta\zeta}{1-\bar\tau}=\frac{1}{\bar\tau}$, that is
+$(1-\alpha)(1-\bar\tau)=\alpha\zeta\bar\tau$, so
+\[
+\boxed{\ \bar\tau^*=\frac{1-\alpha}{1-\alpha+\alpha\zeta} , \ }
+\]
+which is \bk{(22.60)}. $\blacksquare$
+
+\textbf{(c)}  The same logarithmic bookkeeping gives the other two in closed form.
+\begin{itemize}
+\item \emph{The elite.}  Their steady-state flow is proportional to
+      $(1-\bar\tau)^{\vartheta}\bar\tau\,A[\bar\tau]$, whose logarithm is
+      $\frac{\zeta}{\zeta-1}\bigl[\vartheta\log(1-\bar\tau)+\log\bar\tau\bigr]$; maximizing gives
+      $1-\bar\tau=\vartheta\bar\tau$ and
+      \[
+      \boxed{\ \bar\tau^e=\frac{1}{1+\vartheta}=1-\alpha . \ }
+      \]
+\item \emph{The citizens.}  Consumption is $(1-\bar\tau)Y-k$ and, using
+      $k=\alpha\beta(1-\bar\tau)Y$, it is proportional to
+      $(1-\bar\tau)^{1+\vartheta}A[\bar\tau]$.  Its logarithm is
+      $(1+\vartheta)\log(1-\bar\tau)+\frac{1}{\zeta-1}[\vartheta\log(1-\bar\tau)+\log\bar\tau]$,
+      and the first-order condition collapses to $1=\bar\tau(1+\vartheta)\zeta$, so
+      \[
+      \boxed{\ \bar\tau^c=\frac{1}{(1+\vartheta)\zeta}=\frac{1-\alpha}{\zeta} . \ }
+      \]
+\end{itemize}
+Now compare.  $\bar\tau^c<\bar\tau^*$ reads $\frac{1}{(1+\vartheta)\zeta}<\frac{1}{1+\vartheta\zeta}$,
+that is $1+\vartheta\zeta<\zeta+\vartheta\zeta$, that is $\zeta>1$ --- true by assumption.
+$\bar\tau^*<\bar\tau^e$ reads $\frac{1}{1+\vartheta\zeta}<\frac{1}{1+\vartheta}$, again $\zeta>1$.
+And both are strictly inside $(0,1)$.  Hence
+\[
+\boxed{\ 0<\bar\tau^c<\bar\tau^*<\bar\tau^e<1 . \ }
+\]
+For social welfare, total consumption is
+$W[\bar\tau]=Y[\bar\tau]\bigl[1-\beta\bar\tau/\zeta-\alpha\beta(1-\bar\tau)\bigr]$, which has no
+equally clean closed form; \texttt{code/ch22.py} maximizes all four objectives numerically at
+$\alpha=0.4$, $\beta=0.9$, $\zeta=2$:
+\begin{center}
+\small
+\begin{tabular}{lrr}
+\toprule
+objective & numerical & closed form\\
+\midrule
+citizens & $0.30000000$ & $(1-\alpha)/\zeta=0.30000000$\\
+welfare & $0.41305895$ & ---\\
+output & $0.42857142$ & $(1-\alpha)/(1-\alpha+\alpha\zeta)=0.42857143$\\
+elite & $0.60000000$ & $1-\alpha=0.60000000$\\
+\bottomrule
+\end{tabular}
+\end{center}
+confirming both chains, $0<\bar\tau^c<\bar\tau^*<\bar\tau^e<1$ and
+$0<\bar\tau^c<\bar\tau^{wm}<\bar\tau^e<1$.  Note that the exercise does not assert an ordering
+between $\bar\tau^{wm}$ and $\bar\tau^*$, and rightly so: the welfare bracket is affine in
+$\bar\tau$ with slope $\beta(\alpha-1/\zeta)$, whose sign depends on whether $\alpha\zeta$
+exceeds one.  The right panel of Figure~\ref{fig:ch22} plots the four objectives.
+
+\emph{The economics of the ordering.}  The citizens want the lowest tax because they bear it one
+for one on their own output and value the public good only through their own production.  Output
+counts the elite's spending as well, so $\bar\tau^*$ is higher.  The elite want the highest tax
+because, with investment already sunk each period, they sit at the peak of \emph{their} Laffer
+curve and ignore the investment the anticipated tax discourages.  A state whose strength
+$\bar\tau$ falls below $\bar\tau^c$ is too \emph{weak} --- the elite expect too few future rents
+to be worth investing in public goods --- and one above $\bar\tau^e$ is too strong.  This is the
+chapter's balance-of-powers conclusion, and the parallel with the theory of the firm is exact:
+ex post bargaining power should go to whichever party's investment matters more, which here
+means a higher $\bar\tau$ when $\alpha$ is low and the state's investment is the binding one.
+\end{aex}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/ch22_political_economy.pdf}
+\caption{Left: the median entrepreneur's objective \bk{(22.46)} for three productivities, with a
+production function whose curvature dips; the curves cross once in $A_i$ --- single crossing ---
+but each has two local maxima, so none is quasi-concave (Exercise 22.29).  Right: the four
+objectives of Exercise 22.32 against the strength of the state $\bar\tau$, each normalized by its
+own maximum, with the maximizers marked.}
+\label{fig:ch22}
 \end{figure}
 
 \end{document}

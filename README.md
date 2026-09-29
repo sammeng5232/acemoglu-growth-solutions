@@ -30,7 +30,8 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 19. Trade and Growth | 37 | 15 | **22** — 19.1, 19.5, 19.6, 19.8–19.10, 19.12, 19.14–19.23, 19.30–19.32, 19.35, 19.36 |
 | 20. Structural Change and Economic Growth | 21 | 11 | **10** — 20.1, 20.2, 20.4, 20.10–20.15, 20.20 |
 | 21. Structural Transformations and Market Failures | 14 | 8 | **6** — 21.3, 21.5, 21.7, 21.8, 21.13, 21.14 |
-| 22–23 | 43 | 17 | in progress |
+| 22. Institutions, Political Economy, and Growth | 32 | 15 | **17** — 22.1, 22.4–22.7, 22.10–22.15, 22.23, 22.24, 22.28, 22.29, 22.31, 22.32 |
+| 23 | 11 | 2 | in progress |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -150,6 +151,14 @@ chapter and writes that chapter's figures to `figures/`. So far:
   turns out to be U-shaped (Exercise 21.5); the outsourcing threshold and the long-run distance
   to the frontier (Exercise 21.7); a scan confirming that the investment equilibrium dominates
   (Exercise 21.8); and the two loci with three steady states (Exercise 21.14).
+- **`ch22.py`** — the revenue-maximizing tax and the Laffer curve (Exercise 22.1);
+  the feasibility of buying off the elite, under positive and under zero wages
+  (Exercise 22.4); the combined revenue-extraction and factor-price-manipulation tax
+  against its closed form (Exercise 22.7); the best stationary SPE under a tax ceiling
+  (Exercise 22.12); a production function whose log-curvature dips, giving an objective
+  that satisfies single crossing but has two local maxima (Exercise 22.29); the preferred
+  tax against the growth-maximizing rate (Exercise 22.31); and the four maximizers that
+  order the strength of the state (Exercise 22.32).
 
 ## Working files (not part of the document)
 
