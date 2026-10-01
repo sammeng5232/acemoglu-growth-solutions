@@ -184,9 +184,9 @@
 \vspace{2.2cm}
 {\Large Zijun Meng and Claude Opus 5\par}
 \vfill
-{\large Chapters 2--22\par}
+{\large Chapters 2--23\par}
 \vspace{0.6cm}
-{\small The 303 exercises that the instructor's solutions manual of\par
+{\small The 312 exercises that the instructor's solutions manual of\par
  Peters and Simsek (2009) leaves unsolved, with the numerical parts\par
  computed by the Python programs in \texttt{code/}.\par
  Each chapter opens with the list of the exercises it covers\par
@@ -16787,7 +16787,7 @@ The seventeen exercises of Chapter 22 left unsolved in the instructor's manual: 
 \hrule
 \bigskip
 
-\solsection{22.2}{Distributional Conflict in a Simple Society}
+\solsection{22.2}{Distributional Conflict and Economic Growth in a Simple Society}
 
 \begin{aex}{22.1}{}
 By \bk{(22.14)} the elite's per-period transfer is proportional to tax revenue, so their
@@ -17181,7 +17181,7 @@ At $\beta=0.9>\alpha$ the constraint is slack throughout, so wherever the SPE he
 the full-commitment optimum $1-\alpha$ exactly.
 \end{aex}
 
-\solsection{22.6}{Inefficient Economic Institutions}
+\solsection{22.6}{Inefficient Economic Institutions: A First Pass}
 
 \begin{aex}{22.13}{}
 \emph{The MPE given $\bar\tau$.}  With holdup, the capital stock for date $t$ is already
@@ -17312,7 +17312,7 @@ question: whether those in power block development depends on whether they extra
 \emph{from} the productive sector or \emph{in competition with} it.}
 \end{aex}
 
-\solsection{22.7}{Heterogeneous Preferences and the Median Voter}
+\solsection{22.7}{Heterogeneous Preferences, Social Choice, and the Median Voter}
 
 \begin{aex}{22.23}{}
 By \bk{Theorem 22.4}, under A1, A2 and the single-crossing property a Condorcet winner exists
@@ -17391,7 +17391,7 @@ the model of Section 22.8 is exactly of this form, with $B(\alpha_i)=A_i$, which
 \bk{Proposition 22.17} is proved.
 \end{aex}
 
-\solsection{22.8}{Heterogeneity and the Median Voter}
+\solsection{22.8}{Distributional Conflict and Economic Growth: Heterogeneity and the Median Voter}
 
 \begin{aex}{22.28}{}
 The value function \bk{(22.42)} is
@@ -17492,7 +17492,7 @@ to the ordinary Median Voter Theorem: the equilibrium tax is still the median en
 bliss point even though nobody's preferences are single peaked.}
 \end{aex}
 
-\solsection{22.9}{Capital Taxation, Public Goods, and the Strength of the State}
+\solsection{22.9}{The Provision of Public Goods: Weak versus Strong States}
 
 \begin{aex}{22.31}{}
 \textbf{(a)}  Competitive firms rent capital and labour from $Y_j=AK_j^{1-\alpha}G^{\alpha}L_j^{\alpha}$.
@@ -17700,6 +17700,876 @@ but each has two local maxima, so none is quasi-concave (Exercise 22.29).  Right
 objectives of Exercise 22.32 against the strength of the state $\bar\tau$, each normalized by its
 own maximum, with the maximizers marked.}
 \label{fig:ch22}
+\end{figure}
+
+
+%% ========================================================================
+\solchapter{23}{Political Institutions and Economic Growth}
+
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+The nine exercises of Chapter 23 left unsolved in the instructor's manual: 23.1, 23.2, 23.3,
+23.6, 23.7, 23.8, 23.9, 23.10 and 23.11.  The manual solves 23.4, 23.5 and 23.12.  The numerical
+parts are computed by \texttt{code/ch23.py}; Figure~\ref{fig:ch23} is its output.
+\end{minipage}
+\end{center}
+
+\bigskip
+\hrule
+\bigskip
+
+\solsection{23.2}{Political Institutions and Growth-Enhancing Policies}
+
+\begin{aex}{23.1}{}
+The environment is that of \bk{Section 22.3}: Cobb--Douglas technology \bk{(22.17)}, full
+depreciation, two groups of producers with labour-augmenting productivities $A^e$ and $A^m$ and
+measures $\theta^e$ and $\theta^m$, each producer able to hire at most $\bar L$ workers, and
+group-specific taxes.  The only change from Chapter 22 is that the \emph{middle class} now hold
+political power.  Assume Condition 22.1, $\phi>0$, and \bk{(23.1)}.
+
+\emph{Step 1: no transfers to the elite or to workers.}  Every unit transferred to another group
+subtracts one for one from $T^m$ in the budget constraint \bk{(22.19)}, so $T^e(t)=T^w(t)=0$.
+
+\emph{Step 2: the middle class do not tax themselves.}  Under \bk{(23.1)} the elite are the
+marginal employer at the solution (Step 3 below), so the wage \bk{(22.22)} does not depend on
+$\tau^m$, and the middle class employ $\bar L$ each whatever $\tau^m$ is.  A self-tax therefore
+has only two effects: it distorts their own capital choice \bk{(22.20)}, and it returns the
+fraction $\phi$ of the revenue.  Per worker, and dropping the positive constant
+$\beta^{\alpha/(1-\alpha)}A^m/\alpha$, their income is
+\[
+\Phi(\tau^m)\equiv(1-\tau^m)^{\frac{\alpha}{1-\alpha}}
+\Bigl[(1-\alpha)(1-\tau^m)+\phi\,\tau^m\Bigr] .
+\]
+Differentiating the logarithm and clearing the positive denominators, the sign of $\Phi'$ is the
+sign of
+\[
+-\alpha\bigl[(1-\alpha)(1-\tau)+\phi\tau\bigr]+(1-\alpha)(1-\tau)\bigl[\phi-(1-\alpha)\bigr]
+=(1-\alpha)(1-\tau)(\phi-1)-\alpha\phi\tau ,
+\]
+which is $\le0$ at $\tau=0$ and strictly negative for every $\tau\in(0,1)$, because $\phi\le1$.
+Hence
+\[
+\boxed{\ \tau^m(t)=0\quad\text{for all }t , \ }
+\]
+uniquely.  (At $\phi=1$ the derivative vanishes at $\tau=0$ and is strictly negative thereafter,
+so the maximizer is still unique.)
+
+\emph{Step 3: the tax on the elite.}  Condition \bk{(23.1)},
+$A^m\ge\phi\alpha^{\alpha/(1-\alpha)}A^e\theta^e/\theta^m$, is \bk{(22.27)} with the two groups
+interchanged; it is exactly what makes the analogue of \bk{(22.26)} fail at the solution, so the
+middle class stay in production, hire $\bar L$ workers each, and the elite absorb the residual
+$\theta^eL^e(t)=1-\theta^m\bar L$ while setting the wage.  The middle class's problem is then
+\bk{(22.24)} with $e$ and $m$ interchanged, and its solution was derived in Exercise 22.7:
+writing $\Psi\equiv\phi(1-\theta^m\bar L)/\theta^m$, the first-order condition is
+$(\bar L+\Psi)(1-\tau)=\alpha\Psi\tau/(1-\alpha)$, so
+\[
+\boxed{\ \tau^e(t)=\bar\tau^{COM}\equiv
+\frac{\kappa(\bar L,\theta^m,\alpha,\phi)}{1+\kappa(\bar L,\theta^m,\alpha,\phi)},
+\qquad
+\kappa(\bar L,\theta,\alpha,\phi)=\frac{1-\alpha}{\alpha}
+\Bigl[1+\frac{\theta\bar L}{(1-\theta\bar L)\phi}\Bigr] , \ }
+\]
+for all $t$, with $T^m(t)$ determined residually from \bk{(22.19)}.  Since the objective depends
+only on the current tax --- preferences are linear --- the same tax is optimal at every date, and
+the MPE is stationary and unique. $\blacksquare$
+
+\emph{Verification.}  \texttt{code/ch23.py} maximizes the middle class's objective numerically at
+$\alpha=1/3$, $\beta=0.9$, $\phi=0.7$, $\bar L=1.4$ and matches the boxed formula to six decimals
+in five parameter sets, for instance $\tau^e=0.849315$ at
+$\theta^e=\theta^m=0.4$ and $\tau^e=0.896552$ at $\theta^m=0.5$; the numerical self-tax is
+$0.000000$ in every case.
+
+\rmk{The second argument of $\kappa$ is the measure of the group \emph{in power}, which is why
+\bk{(22.29)} is written with $\theta^e$ and \bk{Proposition 23.1} evaluates the same function at
+$\theta^m$.  The economics is that a larger ruling group employs more labour directly and
+therefore weights the factor price manipulation motive more heavily; a more capable state (higher
+$\phi$) weights revenue more heavily and moderates the tax.  The proposition's content is that
+\emph{nothing else changes}: the two regimes are the same equilibrium with the labels swapped, so
+political institutions here redistribute without any presumption about efficiency.}
+\end{aex}
+
+\begin{aex}{23.2}{}
+In either regime the group in power is untaxed and hires $\bar L$ workers each, while the group
+out of power is taxed at the relevant $\tau^{COM}$ and absorbs the residual labour.  Output per
+worker of a producer with productivity $A$ facing tax $\tau$ is
+$\frac1\alpha(\beta(1-\tau))^{\alpha/(1-\alpha)}A$, so, with $\Lambda^j\equiv\theta^j\bar L$ and
+$\chi^j\equiv(1-\tau^{COM}_j)^{\alpha/(1-\alpha)}$, aggregate output is
+\begin{align}
+Y^{E}&=\frac{\beta^{\frac{\alpha}{1-\alpha}}}{\alpha}
+\Bigl[A^e\Lambda^e+\chi^eA^m(1-\Lambda^e)\Bigr]
+&&\text{(elite in power),}\label{eq:YE}\\
+Y^{M}&=\frac{\beta^{\frac{\alpha}{1-\alpha}}}{\alpha}
+\Bigl[A^m\Lambda^m+\chi^mA^e(1-\Lambda^m)\Bigr]
+&&\text{(middle class in power).}\label{eq:YM}
+\end{align}
+
+\textbf{(a)}  With $\theta^e=\theta^m=\theta$ the function $\kappa$ takes the same value in both
+regimes, so $\tau^{COM}_e=\tau^{COM}_m\equiv\tau^{COM}$, $\Lambda^e=\Lambda^m=\theta\bar L$ and
+$\chi^e=\chi^m=\chi$.  Subtracting,
+\[
+Y^{M}-Y^{E}=\frac{\beta^{\frac{\alpha}{1-\alpha}}}{\alpha}\,\bigl(A^m-A^e\bigr)
+\Bigl[\theta\bar L-\chi\bigl(1-\theta\bar L\bigr)\Bigr] .
+\]
+The bracket is strictly positive.  Indeed Condition 22.1 reads $2\theta\bar L>1$, so
+$\theta\bar L>\tfrac12>1-\theta\bar L$, while $\chi<1$ because $\tau^{COM}>0$; hence
+\[
+\theta\bar L>\tfrac12>1-\theta\bar L>\chi\bigl(1-\theta\bar L\bigr) .
+\]
+Therefore $\sgn(Y^M-Y^E)=\sgn(A^m-A^e)$:
+\[
+\boxed{\ \begin{aligned}
+A^m>A^e&\ \Rightarrow\ \text{the dictatorship of the middle class produces more;}\\
+A^e>A^m&\ \Rightarrow\ \text{the dictatorship of the elite does.}
+\end{aligned}\ }
+\]
+$\blacksquare$
+
+At $\alpha=1/3$, $\beta=0.9$, $\phi=0.7$, $\bar L=1.4$, $\theta=0.42$ the bracket is
+$0.588000-0.154865=0.433135>0$ and $\tau^{COM}=0.858711$; \texttt{code/ch23.py} confirms the sign
+rule in every admissible row.
+
+\textbf{(b)}  With $\theta^e\ne\theta^m$ the two regimes impose \emph{different} taxes, since
+$\kappa$ is strictly increasing in the measure of the ruling group.  Subtracting \eqref{eq:YM}
+from \eqref{eq:YE} and collecting,
+\[
+Y^{E}>Y^{M}
+\iff
+A^e\Bigl[\Lambda^e-\chi^m(1-\Lambda^m)\Bigr]>A^m\Bigl[\Lambda^m-\chi^e(1-\Lambda^e)\Bigr] .
+\]
+Condition 22.1 is $\Lambda^e+\Lambda^m>1$, so $\Lambda^e>1-\Lambda^m$ and $\Lambda^m>1-\Lambda^e$;
+with $\chi^e,\chi^m<1$ both brackets are strictly positive and may be divided through:
+\[
+\boxed{\ \frac{A^e}{A^m}\ >\
+\frac{\theta^m\bar L-\bigl(1-\tau^{COM}_e\bigr)^{\frac{\alpha}{1-\alpha}}
+\bigl(1-\theta^e\bar L\bigr)}
+{\theta^e\bar L-\bigl(1-\tau^{COM}_m\bigr)^{\frac{\alpha}{1-\alpha}}
+\bigl(1-\theta^m\bar L\bigr)} \ }
+\]
+is necessary and sufficient for the dictatorship of the elite to generate greater output per
+capita.  When $\theta^e=\theta^m$ the right-hand side equals $1$ and part (a) is recovered.
+\texttt{code/ch23.py} checks the criterion against direct computation of \eqref{eq:YE} and
+\eqref{eq:YM} at five pairs $(\theta^e,\theta^m)$ and five productivity ratios --- twenty-five
+cases --- and it predicts the comparison in every one.  Sample thresholds:
+\begin{center}
+\small
+\begin{tabular}{rrrrr}
+\toprule
+$\theta^e$ & $\theta^m$ & $\tau^{COM}_e$ & $\tau^{COM}_m$ & threshold\\
+\midrule
+$0.42$ & $0.42$ & $0.858711$ & $0.858711$ & $1.000000$\\
+$0.50$ & $0.38$ & $0.896552$ & $0.839945$ & $0.849331$\\
+$0.38$ & $0.50$ & $0.839945$ & $0.896552$ & $1.177397$\\
+$0.60$ & $0.36$ & $0.944444$ & $0.830601$ & $0.733323$\\
+$0.36$ & $0.60$ & $0.830601$ & $0.944444$ & $1.363656$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\emph{What the generalization adds.}  The maxim ``give power to the more productive group'' is
+exactly right only when the groups are the same size.  A \emph{large} ruling group is better for
+output on one count and worse on another: it employs more labour itself at the undistorted
+capital-labor ratio, but it also taxes its rival harder, because a larger $\theta$ raises
+$\kappa$.  The table shows that the first effect wins: raising $\theta^e$ from $0.42$ to $0.60$
+drops the threshold from $1$ to $0.733$, so a large elite can be the better rulers even when they
+are $27\%$ \emph{less} productive than the middle class.  Conversely a small elite needs a
+substantial productivity advantage (a threshold of $1.364$ when $\theta^e=0.36$,
+$\theta^m=0.60$), because whatever it cannot produce itself is left to a heavily taxed majority.
+
+\rmk{\bk{Proposition 23.2} also needs, implicitly, that each group when in power remains the
+full-capacity employer, that is $(1-\tau^{COM})^{1/(1-\alpha)}A^m<A^e$ and
+$(1-\tau^{COM})^{1/(1-\alpha)}A^e<A^m$ --- the condition under which \bk{(22.26)} fails at the
+solution, which is what \bk{Proposition 22.6} assumes.  If $A^m$ were very much larger than
+$A^e$, an elite in power would abandon production altogether, let the middle class employ the
+entire labour force, and revert to the pure revenue extraction policy of \bk{Proposition 22.4};
+the output comparison would then be between two quite different allocations.  The restriction is
+the reason the proposition is stated as a comparison of regimes at given productivities rather
+than as a comparative static in $A^m/A^e$.}
+\end{aex}
+
+\begin{aex}{23.3}{}
+Workers hold power.  They receive the wage and the transfers and pay no taxes, so they maximize
+$w(t)+T^w(t)$, and they will make no transfers to producers.  Write
+\[
+\psi^j\equiv\bigl(1-\tau^j\bigr)^{\frac{1}{1-\alpha}}A^j ,\qquad j\in\{e,m\},
+\]
+for the net productivity index of group $j$, so that \bk{(22.22)} reads
+$w=\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}\min\{\psi^e,\psi^m\}$.  Note the identity
+\[
+\tau^j\bigl(1-\tau^j\bigr)^{\frac{\alpha}{1-\alpha}}A^j
+=\frac{\tau^j}{1-\tau^j}\,\psi^j ,
+\]
+so that, dropping the common positive factor $\beta^{\alpha/(1-\alpha)}/\alpha$ and the constant
+$R^N$, the workers' objective is
+\begin{equation}
+\mathcal{U}=(1-\alpha)\min\{\psi^e,\psi^m\}
++\phi\sum_{j\in\{e,m\}}\frac{\tau^j}{1-\tau^j}\,\psi^j\,\mathcal{L}^j ,
+\label{eq:workerobj}
+\end{equation}
+where $\mathcal{L}^j$ is the total labour employed by group $j$.
+
+\textbf{Part 1: Condition 22.1 fails.}  Then total labour demand $(\theta^e+\theta^m)\bar L<1$ is
+short of supply, so $w=0$ by \bk{Proposition 23.3}'s own premiss and by \bk{(22.21)} each
+producer hires the maximum $\bar L$ at every tax below $1$.  Hence
+$\mathcal{L}^e=\theta^e\bar L$ and $\mathcal{L}^m=\theta^m\bar L$ are \emph{constants}, the first
+term of \eqref{eq:workerobj} vanishes, and the objective separates:
+\[
+\mathcal{U}=\phi\,\theta^e\bar L\,\tau^e\bigl(1-\tau^e\bigr)^{\frac{\alpha}{1-\alpha}}A^e
++\phi\,\theta^m\bar L\,\tau^m\bigl(1-\tau^m\bigr)^{\frac{\alpha}{1-\alpha}}A^m .
+\]
+Each term is the Laffer curve of Exercise 22.1, strictly single-peaked at $1-\alpha$.  Therefore
+\[
+\boxed{\ \tau^e(t)=\tau^m(t)=\tau^{RE}\equiv1-\alpha\quad\text{for all }t , \ }
+\]
+uniquely.  A grid search over $[0,1)^2$ returns $(0.6667,0.6667)$ at $\alpha=1/3$. $\blacksquare$
+
+\textbf{Part 2: Condition 22.1 holds.}  Now the wage is positive, and the group with the lower
+$\psi$ is the marginal employer: it absorbs the residual labour $1-\theta^{\text{full}}\bar L$,
+where ``full'' denotes the other group, which hires $\bar L$ each.  Follow the hint and write the
+objective in the two possible configurations.
+
+\emph{The marginal group is never taxed.}  Suppose group $j$ is marginal, so $w$ is proportional
+to $\psi^j$ and $\mathcal{L}^j=\Lambda\equiv1-\theta^{\text{full}}\bar L<1$.  The part of
+\eqref{eq:workerobj} that depends on $\tau^j$ is, after factoring out
+$(1-\tau^j)^{\alpha/(1-\alpha)}A^j>0$,
+\[
+\bigl(1-\tau^j\bigr)^{\frac{\alpha}{1-\alpha}}
+\Bigl[(1-\alpha)\bigl(1-\tau^j\bigr)+\phi\Lambda\,\tau^j\Bigr] ,
+\]
+whose logarithmic derivative has the sign of
+\[
+(1-\alpha)\bigl(1-\tau^j\bigr)\bigl[\phi\Lambda-1\bigr]-\alpha\phi\Lambda\tau^j\ <\ 0
+\qquad\text{for all }\tau^j\in[0,1),
+\]
+because $\phi\Lambda<1$.  So $\tau^j=0$: taxing the group that sets the wage costs the workers
+their wage one for one and yields revenue on the smaller of the two bases.
+
+\emph{The full-capacity group is taxed to the Laffer peak, subject to staying ahead.}  With the
+marginal group untaxed, the remaining term in \eqref{eq:workerobj} is
+$\phi\,\theta^{\text{full}}\bar L\,\tau(1-\tau)^{\alpha/(1-\alpha)}A^{\text{full}}$, maximized at
+$\tau=1-\alpha$, but the configuration is valid only while
+$\psi^{\text{full}}\ge\psi^{\text{marg}}$.
+
+\emph{Only one configuration is feasible.}  Suppose $A^m>A^e$.  If the middle class were
+marginal, feasibility would require $A^m\le(1-\tau^e)^{1/(1-\alpha)}A^e\le A^e$, a contradiction.
+So the elite are marginal, $\tau^e=0$, and the constraint on $\tau^m$ is
+$(1-\tau^m)^{1/(1-\alpha)}A^m\ge A^e$, that is $\tau^m\le\tau^{Dm}$ where
+$(1-\tau^{Dm})^{1/(1-\alpha)}A^m=A^e$.  Hence
+\[
+\boxed{\ \tau^e(t)=0,\qquad
+\tau^m(t)=\min\bigl\{1-\alpha,\ \tau^{Dm}\bigr\} , \ }
+\]
+and the cap $1-\alpha$ is the binding value exactly when
+$\alpha^{1/(1-\alpha)}A^m\ge A^e$, which is the proposition's proviso.  Symmetrically, if
+$A^e>A^m$ then $\tau^m(t)=0$ and $\tau^e(t)=\min\{1-\alpha,\tau^{De}\}$ with
+$(1-\tau^{De})^{1/(1-\alpha)}A^e=A^m$. $\blacksquare$
+
+\emph{Global optimality.}  The objective \eqref{eq:workerobj} is continuous across the switch
+point $\psi^e=\psi^m$, and to the right of $\tau^{Dm}$ the middle class become the marginal group,
+at which point the display above shows the objective to be strictly decreasing in $\tau^m$.  So
+the maximum over the whole square $[0,1)^2$ is the boxed point.  A grid search confirms it:
+\begin{center}
+\small
+\begin{tabular}{rrrrrrrr}
+\toprule
+$\theta^e$ & $\theta^m$ & $A^e$ & $A^m$ & $\tau^e$ num. & $\tau^m$ num. &
+$\tau^e$ closed & $\tau^m$ closed\\
+\midrule
+$0.42$ & $0.42$ & $1.0$ & $1.3$ & $0.0000$ & $0.1603$ & $0$ & $0.1605$\\
+$0.42$ & $0.42$ & $1.0$ & $1.9$ & $0.0000$ & $0.3480$ & $0$ & $0.3481$\\
+$0.42$ & $0.42$ & $1.9$ & $1.0$ & $0.3480$ & $0.0000$ & $0.3481$ & $0$\\
+$0.50$ & $0.38$ & $1.0$ & $1.4$ & $0.0000$ & $0.2009$ & $0$ & $0.2009$\\
+$0.42$ & $0.42$ & $1.0$ & $1.0$ & $0.0000$ & $0.0000$ & $0$ & $0$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\rmk{Two observations.  First, the hypothesis $\theta^e=\theta^m$ is not needed for Part 2: the
+infeasibility argument uses no group sizes at all, and the ``marginal group untaxed'' step needs
+only $\phi\bigl(1-\theta^{\text{full}}\bar L\bigr)<1$.  The fourth row of the table has
+$\theta^e=0.50\ne0.38=\theta^m$ and the closed form still holds exactly.  Second, the contrast
+between the two parts is the chapter's main point about democracy.  When labour is in excess
+supply, taxes do not touch wages, and the workers behave exactly like the elite of
+\bk{Proposition 22.4} --- except that they tax \emph{both} producer groups, so democracy is more
+distortionary than either dictatorship.  When labour is scarce, the wage is the workers' main
+source of income, and they protect whichever group is on the margin of hiring; democracy then
+produces taxes well below $\tau^{COM}$ and may be the least distortionary regime of the three.
+Which it is depends on $\bar L$ and the group sizes, not on anything intrinsic to democracy.}
+\end{aex}
+
+\solsection{23.3}{Dynamic Trade-offs}
+
+\begin{aex}{23.6}{}
+The talent process \bk{(23.6)} is a two-state Markov chain on $\{A^H,A^L\}$ with transition
+matrix
+\[
+P=\begin{pmatrix}\sigma^H&1-\sigma^H\\ \sigma^L&1-\sigma^L\end{pmatrix},
+\qquad\sigma^H,\sigma^L\in(0,1),
+\]
+rows indexed by the current state.  With a continuum of agents drawing independently, the
+cross-sectional fraction of high-skill agents equals the probability, so the fraction
+$\mu(t)$ obeys
+\begin{equation}
+\mu(t)=\sigma^H\mu(t-1)+\sigma^L\bigl(1-\mu(t-1)\bigr) .
+\label{eq:mulaw}
+\end{equation}
+A stationary fraction $M$ is a fixed point:
+\[
+M=\sigma^HM+\sigma^L(1-M)
+\ \Longrightarrow\
+M\bigl(1-\sigma^H+\sigma^L\bigr)=\sigma^L
+\ \Longrightarrow\
+\boxed{\ M=\frac{\sigma^L}{1-\sigma^H+\sigma^L}\ . \ }
+\]
+Since $\sigma^H<1$ we have $1-\sigma^H+\sigma^L>\sigma^L>0$, so $M>0$ and $M<1$; thus
+$M\in(0,1)$ as claimed. $\blacksquare$
+
+\emph{The transient, which Exercises 23.7 and 23.8 need.}  Subtracting $M$ from
+\eqref{eq:mulaw},
+\[
+\mu(t)-M=\bigl(\sigma^H-\sigma^L\bigr)\bigl(\mu(t-1)-M\bigr),
+\qquad\text{so}\qquad
+\boxed{\ \mu(t)=M+\lambda^t\bigl(\mu(0)-M\bigr),\quad \lambda\equiv\sigma^H-\sigma^L . \ }
+\]
+As $|\lambda|<1$, $\mu(t)\to M$ geometrically from any $\mu(0)$.  Under the natural restriction
+$\sigma^H\ge\sigma^L$ --- skills are persistent --- $\lambda\in[0,1)$ and the convergence is
+monotone, so starting from $\mu(0)=1>M$ the sequence $\mu(t)$ decreases monotonically to $M$.
+\texttt{code/ch23.py} verifies the closed form to $10^{-12}$ at several $(\sigma^H,\sigma^L)$.
+
+\rmk{Two readings of $M$ are worth separating.  It is the fraction of the \emph{population} that
+is high skill at any date, which is why $M\bar L>1$ is assumed: without entry barriers, high-skill
+agents alone can employ everybody.  It is also the limiting fraction of high-skill agents among a
+\emph{closed} group of entrepreneurs who never turn over, which is why it reappears in
+\bk{(23.23)} as the oligarchy's long-run composition.  The gap between $\mu(0)=1$ and $M$ is
+precisely the selection advantage that a sclerotic oligarchy inherits and then dissipates at the
+geometric rate $\lambda$.  Note that $1-\sigma^H$, not $\sigma^H$, governs how fast it goes:
+$\lambda=\sigma^H-\sigma^L$ is small when talent turns over quickly, and then creative destruction
+matters most, which is exactly the comparative static in \bk{Proposition 23.6}.}
+\end{aex}
+
+\begin{aex}{23.7}{}
+Assume Condition 23.1.  There are three policy decisions to pin down, taken in the order of the
+timing on page \bk{842}.
+
+\emph{Step 1: the elite choose $\tau(t)=0$.}  Taxes are set after investment, so the capital
+stocks $k_i(t)=\varkappa\,a_i(t)\bar L$ are sunk, with $\varkappa$ common to all entrepreneurs by
+\bk{(23.8)}.  Output is then $y_i(t)=\varkappa^{\alpha}a_i(t)\bar L/\alpha$, and by \bk{(23.10)}
+the per capita transfer is $T(\tau)=\tau\varkappa^{\alpha}\bar a(t)/\alpha$, where
+\[
+\bar a(t)\equiv\mu(t)A^H+\bigl(1-\mu(t)\bigr)A^L
+\]
+is the average skill among entrepreneurs, whose measure is $1/\bar L$.  An elite member of skill
+$a_i$ receives $T(\tau)$ and pays $\tau y_i$, so his income varies with $\tau$ as
+\[
+\text{const}+\frac{\varkappa^{\alpha}}{\alpha}\,\tau\,\Bigl[\bar a(t)-a_i\bar L\Bigr] .
+\]
+Hence he prefers $\tau=0$ if and only if $a_i\bar L\ge\bar a(t)$.  For a high-skill elite this
+always holds, since $A^H\bar L>A^H\ge\bar a(t)$ for $\bar L>1$.  For a low-skill elite it reads
+\begin{equation}
+\bar L\ \ge\ 1+\mu(t)\Bigl(\frac{A^H}{A^L}-1\Bigr) ,
+\qquad\text{equivalently}\qquad
+\mu(t)\ \le\ \mu^{*}\equiv\frac{(\bar L-1)A^L}{A^H-A^L} .
+\label{eq:lowskillzero}
+\end{equation}
+Condition 23.1, $\bar L\ge\frac12\frac{A^H}{A^L}+\frac12$, is exactly \eqref{eq:lowskillzero} at
+$\mu=\tfrac12$, that is $\mu^{*}\ge\tfrac12$.  Therefore
+\begin{itemize}
+\item if $\mu(t)\le\tfrac12$ then $\mu(t)\le\mu^{*}$ and \emph{every} elite member, of either
+      skill, prefers zero taxes;
+\item if $\mu(t)>\tfrac12$ the high-skill elite are a strict majority and carry the vote for zero
+      taxes.
+\end{itemize}
+Either way the oligarchy sets $\tau(t)=0$ at every date.  Since the tax has no effect on any
+payoff-relevant state --- $\mu$ evolves by \bk{(23.19)} regardless --- the vote is purely static,
+and in an MPE it is taken afresh and identically each period.
+
+\emph{Step 2: the elite choose the entry barrier so that $w(t)=0$.}  From \bk{(23.13)} and
+\bk{(23.3)}, an entrepreneur receives the wage once as a worker in his own firm and pays it
+$\bar L$ times, so
+\[
+\frac{\partial V^z}{\partial w(t)}=1-\bar L<0 ,
+\]
+using $\bar L>2$.  Both $V^H$ and $V^L$ are therefore strictly decreasing in the wage, so the
+elite are \emph{unanimous} in wanting it as low as possible, whatever the composition $\mu(t)$.
+By \bk{(23.18)} the equilibrium wage is $w^E(t)=w^H(t)$, which \bk{(23.15)} shows to be
+decreasing in $b(t)$ and equal to zero for any $b(t)\ge b^E(t)$.  Adopting the text's
+normalization, $b(t)=b^E$.
+
+\emph{Step 3: the values, the barrier, and sclerosis.}  With $w=T=\tau=0$ a worker has $W^z=0$
+and an entrepreneur's flow profit is $cA^z$ with
+$c\equiv\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}\bar L$.  Since $V^z>0=W^z$, the maxima in
+\bk{(23.14)} are attained at entrepreneurship and
+\[
+V^H=cA^H+\beta\bigl[\sigma^HV^H+(1-\sigma^H)V^L\bigr],\qquad
+V^L=cA^L+\beta\bigl[\sigma^LV^H+(1-\sigma^L)V^L\bigr].
+\]
+Eliminating $V^L$, the determinant of the system is
+\[
+\bigl(1-\beta\sigma^H\bigr)\bigl(1-\beta(1-\sigma^L)\bigr)-\beta^2(1-\sigma^H)\sigma^L
+=(1-\beta)\bigl[1-\beta(\sigma^H-\sigma^L)\bigr] ,
+\]
+so that
+\[
+\boxed{\
+\wt V^H=\frac{c}{1-\beta}\,
+\frac{\bigl(1-\beta(1-\sigma^L)\bigr)A^H+\beta(1-\sigma^H)A^L}{1-\beta(\sigma^H-\sigma^L)},
+\qquad
+\wt V^L=\frac{c}{1-\beta}\,
+\frac{\bigl(1-\beta\sigma^H\bigr)A^L+\beta\sigma^LA^H}{1-\beta(\sigma^H-\sigma^L)} , \ }
+\]
+which are the expressions in the text.  A high-skill \emph{outsider} has
+$NV=\wt V^H-b\bar L$, so the smallest barrier that drives the wage to zero is
+$b^E=\wt V^H/\bar L$, which is \bk{(23.21)}.  At that barrier $NV=0$ exactly, outsiders are
+indifferent, incumbents strictly prefer to stay, and the equilibrium is \emph{sclerotic}:
+$e_i(t)=e_i(t-1)$ and $\mu(t)$ follows \bk{(23.19)} with $\mu(0)=1$.
+
+\emph{Step 4: output.}  With $\tau=0$, $k_i=\beta^{1/(1-\alpha)}a_i\bar L$, so
+$y_i=\frac1\alpha\beta^{\alpha/(1-\alpha)}a_i\bar L$; integrating over the measure $1/\bar L$ of
+entrepreneurs gives \bk{(23.22)},
+\[
+Y^E(t)=\frac1\alpha\beta^{\frac{\alpha}{1-\alpha}}
+\Bigl[\mu(t)A^H+\bigl(1-\mu(t)\bigr)A^L\Bigr] ,
+\]
+which by Exercise 23.6 is strictly decreasing from $\mu(0)=1$ and converges to \bk{(23.23)}.
+Each step above has a unique solution, so the oligarchic equilibrium is unique. $\blacksquare$
+
+\emph{Verification.}  At $\alpha=1/3$, $\beta=0.9$, $\bar L=2.5$, $A^H=2$, $A^L=1$,
+$\sigma^H=0.9$, $\sigma^L=0.05$, \texttt{code/ch23.py} obtains $\wt V^H=76.7020538849$ and
+$\wt V^L=56.5173028626$ from the linear system, from the printed closed forms and from value
+function iteration --- all three agreeing to ten decimals --- and confirms
+$b^E=30.6808215540=\wt V^H/\bar L$.  Here $M=1/3$, $Y^E(0)=5.69209979$ and
+$Y^E(\infty)=3.79473319$.
+
+\rmk{Two caveats.  First, the equilibrium \emph{allocation} is unique but the policy is not: any
+$b(t)\ge b^E$ supports it, and $b^E$ is singled out only as the smallest such barrier.  Second,
+the text's statement that under Condition 23.1 ``both high- and low-skill entrepreneurs prefer
+zero taxes'' is slightly stronger than what Condition 23.1 delivers.  By \eqref{eq:lowskillzero}
+unanimity at \emph{every} $\mu$ requires $\mu^{*}\ge1$, that is $\bar L\ge A^H/A^L$; Condition
+23.1 only gives $\mu^{*}\ge\tfrac12$.  What Condition 23.1 buys is precisely enough: it covers the
+range $\mu(t)\le\tfrac12$ in which the low-skill elite are the majority, and above that range
+they are outvoted.  Exercise 23.9 shows what happens when even that fails.}
+\end{aex}
+
+\begin{aex}{23.8}{}
+Throughout, Condition 23.1 holds, so \bk{Proposition 23.5} applies.  Write
+$\Delta\equiv A^H-A^L>0$, $\lambda\equiv\sigma^H-\sigma^L\in(0,1)$, and
+$X\equiv(1-\bar\tau)^{\alpha/(1-\alpha)}A^H$, so that
+\[
+Y^D=\frac{\beta^{\frac{\alpha}{1-\alpha}}}{\alpha}X,
+\qquad
+Y^E(t)=\frac{\beta^{\frac{\alpha}{1-\alpha}}}{\alpha}
+\Bigl[A^L+\mu(t)\Delta\Bigr],
+\qquad
+\mu(t)=M+\lambda^t(1-M).
+\]
+
+\emph{Oligarchy starts ahead.}  At $t=0$, $\mu(0)=1$ and $Y^E(0)\propto A^H>X$ because
+$\bar\tau>0$.  So $Y^E(0)>Y^D$: the oligarchy protects property rights while democracy taxes at
+the ceiling. $\blacksquare$
+
+\emph{The comparison over time.}  $Y^E(t)$ is strictly decreasing in $t$ and converges to
+$Y^E_\infty\propto A^L+M\Delta$, while $Y^D$ is constant.  Hence $Y^E(t)>Y^D$ for every finite $t$
+whenever $Y^E_\infty\ge Y^D$, that is whenever $X\le A^L+M\Delta$ --- which is the negation of
+Condition 23.2,
+\[
+(1-\bar\tau)^{\frac{\alpha}{1-\alpha}}>\frac{A^L}{A^H}+M\Bigl(1-\frac{A^L}{A^H}\Bigr).
+\]
+If instead Condition 23.2 holds, then $Y^E_\infty<Y^D<Y^E(0)$, and since $Y^E$ is strictly
+decreasing there is a unique date after which it stays below $Y^D$.  Explicitly,
+$Y^E(t)\ge Y^D$ iff $\lambda^t\ge\Theta$ where
+\[
+\boxed{\ \Theta\equiv\frac{X-A^L-M\Delta}{(1-M)\Delta}\in(0,1),
+\qquad
+t'=\Bigl\lfloor\frac{\log\Theta}{\log\lambda}\Bigr\rfloor . \ }
+\]
+Condition 23.2 is exactly $\Theta>0$, and $\Theta<1$ always, since it is equivalent to $X<A^H$.
+Thus $t'\ge0$ is well defined, $Y^E(t)\ge Y^D$ for $t\le t'$ and $Y^E(t)<Y^D$ for $t>t'$:
+democracy leapfrogs the oligarchy. $\blacksquare$
+
+\emph{Comparative statics.}  Condition 23.2 is easier to satisfy, and $\Theta$ is larger --- so
+$t'$ smaller and leapfrogging earlier --- when $\bar\tau$, $A^L/A^H$ or $M$ falls.  For
+Condition 23.2 this is immediate: the right-hand side is
+$\frac{A^L}{A^H}(1-M)+M$, increasing in both $A^L/A^H$ and $M$, while the left-hand side is
+decreasing in $\bar\tau$.  For $\Theta$, differentiating,
+\[
+\frac{\partial\Theta}{\partial M}=\frac{-(A^H-X)}{(1-M)^2\Delta}<0,
+\qquad
+\frac{\partial\Theta}{\partial(A^L/A^H)}
+=\frac{(X/A^H)-1}{(1-M)\bigl(1-A^L/A^H\bigr)^2}<0,
+\qquad
+\frac{\partial\Theta}{\partial\bar\tau}<0,
+\]
+each strict because $X<A^H$.  All three comparative statics therefore hold for the
+\emph{occurrence} of leapfrogging and for its \emph{timing}.
+
+\emph{Verification.}  \texttt{code/ch23.py} compares the closed form to a direct simulation at
+$\alpha=1/3$:
+\begin{center}
+\small
+\begin{tabular}{rrrrrrrr}
+\toprule
+$\bar\tau$ & $A^L/A^H$ & $\sigma^H$ & $\sigma^L$ & $M$ & Cond.\ 23.2 & $\Theta$ & $t'$\\
+\midrule
+$0.20$ & $0.50$ & $0.90$ & $0.10$ & $0.500$ & holds & $0.5777$ & $2$\\
+$0.30$ & $0.50$ & $0.90$ & $0.10$ & $0.500$ & holds & $0.3466$ & $4$\\
+$0.20$ & $0.80$ & $0.90$ & $0.10$ & $0.500$ & fails & $-0.0557$ & ---\\
+$0.20$ & $0.50$ & $0.95$ & $0.30$ & $0.857$ & fails & $-0.4780$ & ---\\
+$0.60$ & $0.50$ & $0.90$ & $0.10$ & $0.500$ & fails & $-0.4702$ & ---\\
+$0.10$ & $0.20$ & $0.90$ & $0.05$ & $0.333$ & holds & $0.9038$ & $0$\\
+\bottomrule
+\end{tabular}
+\end{center}
+In every leapfrogging row the first simulated date with $Y^E<Y^D$ is $t'+1$, as the formula
+requires.  The base case $\Theta=0.5777$ rises to $0.7947$ when $\bar\tau$ falls to $0.10$, to
+$0.6984$ when $A^L/A^H$ falls to $0.30$, and to $0.7466$ when $M$ falls to $0.182$.
+
+\rmk{The three comparative statics are the model's reading of the nineteenth-century contrast
+drawn in \bk{Section 23.1}.  Low $\bar\tau$ is a democracy that cannot expropriate much, low
+$A^L/A^H$ an economy in which it matters a great deal who runs the firms, and low $M$ an economy
+in which the right people are rare.  Industrialization scores low on all three, which is why the
+northeastern United States pulled away from the Caribbean plantation economies even though those
+began richer.  Nothing in the result says democracy is better \emph{per se}: it says democracy's
+distortion is a flow that does not compound, while oligarchy's is a stock that does.}
+\end{aex}
+
+\begin{aex}{23.9}{}
+Step 1 of Exercise 23.7 did not use Condition 23.1 and gives the complete answer.  An elite
+member of skill $a_i$ prefers $\tau=0$ iff $a_i\bar L\ge\bar a(t)$, so, with
+\[
+\mu^{*}=\frac{(\bar L-1)A^L}{A^H-A^L} ,
+\]
+the high-skill elite always want $\tau=0$ while the low-skill elite want $\tau=\bar\tau$ exactly
+when $\mu(t)>\mu^{*}$.  The elite vote by majority, and the low-skill elite are the majority
+exactly when $\mu(t)<\tfrac12$.  Therefore
+\[
+\boxed{\ \tau(t)=\begin{cases}
+\bar\tau, & \mu(t)\in\bigl(\mu^{*},\tfrac12\bigr),\\[2pt]
+0, & \text{otherwise.}
+\end{cases} \ }
+\]
+Condition 23.1 is $\mu^{*}\ge\tfrac12$, which empties the interval and returns
+\bk{Proposition 23.5}.  When it fails, $\mu^{*}<\tfrac12$ and the interval is non-degenerate.
+
+\emph{Everything else in \bk{Proposition 23.5} survives.}  The entry barrier argument is
+untouched: $\partial V^z/\partial w=1-\bar L<0$ whatever the tax, so the elite remain unanimous in
+driving the wage to zero and the equilibrium remains sclerotic, with $\mu(t)$ following
+\bk{(23.19)}.  The transfer $T(t)$ now exceeds zero, but it accrues to workers and entrepreneurs
+alike and so cancels from $NV=V^z-W^z-(1-e)b(t)\bar L$; only the required \emph{size} of the
+barrier changes, to $b^E(\tau)=(1-\tau)^{1/(1-\alpha)}b^E$, since taxation already does part of
+the work of suppressing outside entry.  Output becomes
+\[
+Y^E(t)=\frac1\alpha\bigl(\beta(1-\tau(t))\bigr)^{\frac{\alpha}{1-\alpha}}
+\Bigl[\mu(t)A^H+\bigl(1-\mu(t)\bigr)A^L\Bigr] .
+\]
+
+\emph{The generalized \bk{Proposition 23.5}.}  Since $\mu(t)$ falls monotonically from $1$ to $M$,
+the economy passes through at most three phases:
+\begin{enumerate}
+\item while $\mu(t)\ge\tfrac12$, the high-skill elite are the majority and $\tau=0$;
+\item while $\mu(t)\in(\mu^{*},\tfrac12)$, the low-skill elite are the majority and want to tax,
+      so $\tau=\bar\tau$ --- \emph{the oligarchy taxes itself};
+\item if $M\le\mu^{*}$, the economy eventually leaves that interval and $\tau$ returns to $0$ for
+      ever.
+\end{enumerate}
+Consequently $Y^E(t)$ is \emph{not} monotone: it falls discretely by the factor
+$(1-\bar\tau)^{\alpha/(1-\alpha)}$ on entering phase 2 and jumps back up on leaving it.  At
+$\alpha=1/3$, $\beta=0.9$, $\bar\tau=0.3$, $A^H=2$, $A^L=1$, $\sigma^H=0.9$, $\sigma^L=0.05$ and
+$\bar L=1.40$ --- so $\mu^{*}=0.40$ and $M=1/3<\mu^{*}$ --- \texttt{code/ch23.py} finds the taxing
+spell to be $t=9,\dots,14$, with output $4.311748$ at $t=8$, $3.542582$ at $t=9$ and $3.960476$
+at $t=15$.  The left panel of Figure~\ref{fig:ch23} plots the path.
+
+\emph{The generalized \bk{Proposition 23.6}.}  If $M\ge\tfrac12$, the high-skill elite never lose
+their majority and \bk{Proposition 23.6} is unchanged.  If $M\le\mu^{*}$, the long run is again
+untaxed and Condition 23.2 is again the criterion; only the timing changes, since the temporary
+tax depresses $Y^E$ during phase 2 and can make democracy overtake earlier --- possibly only
+temporarily.  The new case is
+\[
+\boxed{\ M\in\bigl(\mu^{*},\tfrac12\bigr):\quad\tau(t)=\bar\tau\ \text{for all large }t,
+\quad\text{so}\quad
+\frac{Y^E_\infty}{Y^D}=\frac{A^L+M\bigl(A^H-A^L\bigr)}{A^H}<1 \ }
+\]
+\emph{whatever $\bar\tau$ is}: the factor $(1-\bar\tau)^{\alpha/(1-\alpha)}$ now appears in both
+numerator and denominator and cancels.  Condition 23.2 becomes unnecessary, and leapfrogging is
+certain.  At $\bar L=1.25$ --- so $\mu^{*}=0.25<M=1/3<\tfrac12$ --- the computed ratio is
+$0.666667$, matching $[A^L+M\Delta]/A^H$ exactly.
+
+\rmk{The generalization sharpens the chapter's message rather than overturning it.  When
+Condition 23.1 holds, the oligarchy's only sin is sclerosis, and democracy's distortionary
+taxation may or may not be worse.  When it fails, the oligarchy acquires democracy's sin as well,
+because a majority of \emph{low-skill} incumbents is in the same position relative to its own
+high-skill colleagues as the workers of \bk{Proposition 23.3} are relative to all entrepreneurs.
+The oligarchy then has two distortions where democracy has one, and loses in the long run for
+certain.  The condition that produces this, $\bar L<\frac12(A^H/A^L+1)$, is a statement about
+firm size: small firms mean each elite member employs few workers, so a low-skill elite's own tax
+bill is small relative to the transfer he collects, and taxing becomes attractive.}
+\end{aex}
+
+\begin{aex}{23.10}{}
+\emph{The efficiency units of the new technology.}  An entrepreneur using the new technology with
+skill $\wh a$ solves $\max_k\frac{\psi}{\alpha}k^{\alpha}(\wh a\bar L)^{1-\alpha}-k/\beta$, giving
+$k=(\beta\psi)^{1/(1-\alpha)}\wh a\bar L$ and a per-worker surplus
+$\frac{1-\alpha}{\alpha}\beta^{\alpha/(1-\alpha)}\Psi\wh a$ with
+\[
+\boxed{\ \Psi\equiv\psi^{\frac{1}{1-\alpha}}>1 . \ }
+\]
+So adopting the new technology replaces an entrepreneur's effective productivity $a_i$ by
+$\Psi\wh a_i$, and he switches if and only if $\Psi\wh a_i>a_i$.  Because the new skill is drawn
+independently of the old, an incumbent's $\wh a_i$ equals $A^H$ with probability $M$ and $A^L$
+with probability $1-M$.
+
+\textbf{(a)}  The hardest incumbent to persuade is one with $a_i=A^H$ who draws $\wh a_i=A^L$; he
+switches iff $\Psi A^L>A^H$.  Hence
+\[
+\boxed{\ \bar\psi\equiv\Bigl(\frac{A^H}{A^L}\Bigr)^{1-\alpha}
+\quad\text{so that}\quad \psi>\bar\psi\iff\Psi>\frac{A^H}{A^L} , \ }
+\]
+and for $\psi>\bar\psi$ every incumbent switches, since
+$\Psi\wh a_i\ge\Psi A^L>A^H\ge a_i$ for all $i$.  The elite also raise the barrier: the sign
+$\partial V^z/\partial w=1-\bar L<0$ is unchanged, so they still drive the wage to zero, and the
+outsider they must now deter is a high-\emph{new}-skill agent, whose value has risen by the factor
+$\Psi$.  Hence $b^E$ rises to $\Psi b^E$. $\blacksquare$
+
+\textbf{(b)}  If $\psi<\bar\psi$ then $\Psi<A^H/A^L$ and the switching rule $\Psi\wh a_i>a_i$
+gives, case by case,
+\begin{center}
+\small
+\begin{tabular}{llc}
+\toprule
+old skill $a_i$ & new skill $\wh a_i$ & switches?\\
+\midrule
+$A^L$ & $A^H$ & yes, since $\Psi A^H>A^H>A^L$\\
+$A^L$ & $A^L$ & yes, since $\Psi>1$\\
+$A^H$ & $A^H$ & yes, since $\Psi>1$\\
+$A^H$ & $A^L$ & \textbf{no}, since $\Psi A^L<A^H$\\
+\bottomrule
+\end{tabular}
+\end{center}
+so every incumbent switches \emph{except} those who were high skill with the old technology and
+draw low skill with the new one, a fraction $\mu(t')(1-M)$ of the elite.  The barrier still rises,
+by the same argument as in (a), to the level that deters a high-new-skill outsider. $\blacksquare$
+
+\rmk{The exercise states the conclusion of part (b) as ``only entrepreneurs who have low skills
+with the old technology switch''.  That is not quite right: a high-old-skill incumbent who also
+draws high new skill switches too, because at equal skill the new technology is strictly better by
+the factor $\Psi>1$.  The correct dividing line is between those whose \emph{comparative}
+position improves and those whose does not, and only the (old-high, new-low) group fails the
+test.  The sentence is true if read as ``among the incumbents who do not switch there are only
+high-old-skill ones'', which is the sense the subsequent discussion needs.}
+
+\textbf{(c)}  In a democracy $b(t)=0$ and $\tau(t)=\bar\tau$, by \bk{Proposition 23.4}, and those
+policies are unaffected by the arrival: workers still want to maximize $w+T$, and both are
+increasing in the quality of the entrepreneurial pool, so free entry is still optimal for them.
+With free entry only the most productive agents become entrepreneurs.  The most productive
+available combination is the new technology operated by an agent with $\wh a_i=A^H$, worth
+$\Psi A^H$, and there is an excess supply of such agents because $M\bar L>1$.  Hence democracy
+switches \emph{completely and immediately}, keeps $\mu=1$ in terms of the new technology, and
+\[
+\boxed{\ Y^D_{\text{new}}=\frac1\alpha\bigl(\beta(1-\bar\tau)\bigr)^{\frac{\alpha}{1-\alpha}}
+\Psi A^H=\Psi\,Y^D_{\text{old}} . \ }
+\]
+$\blacksquare$
+
+\textbf{(d)}  Write $\mu\equiv\mu(t')$.  The oligarchy's average effective productivity after the
+arrival is $\E\max\{a_i,\Psi\wh a_i\}$, namely
+\[
+\bar a_{\text{new}}=
+\begin{cases}
+\Psi\bigl[A^L+M\Delta\bigr], & \Psi\ge A^H/A^L,\\[2pt]
+M\Psi A^H+(1-M)\bigl[\mu A^H+(1-\mu)\Psi A^L\bigr], & \Psi<A^H/A^L,
+\end{cases}
+\]
+against $\bar a_{\text{old}}=A^L+\mu\Delta$.  Since $\tau=0$ and $w=0$ in the oligarchy both
+before and after, output is proportional to $\bar a$, and the two growth factors are
+\[
+\frac{Y^E_{\text{new}}}{Y^E_{\text{old}}}=\frac{\bar a_{\text{new}}}{\bar a_{\text{old}}}
+\qquad\text{versus}\qquad
+\frac{Y^D_{\text{new}}}{Y^D_{\text{old}}}=\Psi .
+\]
+At $\mu(t')=1$ these specialize to $1+M(\Psi-1)$ when $\Psi<A^H/A^L$ and
+$\Psi[A^L+M\Delta]/A^H$ when $\Psi\ge A^H/A^L$ --- the two agreeing at $\Psi=A^H/A^L$ --- and both
+are strictly below $\Psi$ because $M<1$ and $A^L+M\Delta<A^H$.  Hence
+\[
+\boxed{\ \text{the oligarchy's output rises by strictly less than }\Psi\text{; democracy's rises
+by exactly }\Psi . \ }
+\]
+\texttt{code/ch23.py} tabulates this at $A^H=2$, $A^L=1$, $M=1/3$, $\alpha=1/3$, where
+$\bar\psi=1.587401$:
+\begin{center}
+\small
+\begin{tabular}{rrlrr}
+\toprule
+$\psi$ & $\Psi$ & who switches & oligarchy $\times$ & democracy $\times$\\
+\midrule
+$1.05$ & $1.0759$ & all but (old high, new low) & $1.0253$ & $1.0759$\\
+$1.20$ & $1.3145$ & all but (old high, new low) & $1.1048$ & $1.3145$\\
+$1.5874$ & $2.0000$ & all but (old high, new low) & $1.3333$ & $2.0000$\\
+$2.00$ & $2.8284$ & all incumbents & $1.8856$ & $2.8284$\\
+$4.00$ & $8.0000$ & all incumbents & $5.3333$ & $8.0000$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\emph{Why democracy is more flexible.}  The new technology scrambles the ranking of
+entrepreneurial talent: the people who should now run firms are those with high $\wh a$, and they
+are a fresh draw from the population.  Reallocating towards them is precisely the churning that
+entry barriers exist to prevent.  Democracy, with $b=0$, reallocates fully and costlessly;
+the oligarchy keeps the same people, of whom only a fraction $M$ happen to be good at the new
+technology, and the rest either carry it badly or stay with the old one.
+
+A sharper way to put it: after the switch the elite's \emph{new}-technology skills are a fresh
+draw from the stationary distribution, so the composition jumps straight to $\mu=M$ instead of
+decaying to it geometrically.  The arrival of a new technology therefore destroys the oligarchy's
+entire inherited selection advantage in a single period.  Combined with Exercise 23.8, an epoch of
+rapid technological change both lowers $Y^E$ relative to $Y^D$ and shortens $t'$: it is exactly
+when new technologies arrive that political sclerosis is most expensive, which is the model's
+account of why the Industrial Revolution and not some earlier period was when oligarchic societies
+fell behind.
+\end{aex}
+
+\begin{aex}{23.11}{}
+\emph{Preliminaries.}  With $l_i=1$ an entrepreneur of talent $a$ solves
+$\max_k\frac1\alpha k^{\alpha}a^{1-\alpha}-k/\beta-w$, giving $k=\beta^{1/(1-\alpha)}a$ and
+a payoff $ca-w$ with
+\[
+c\equiv\frac{1-\alpha}{\alpha}\beta^{\frac{\alpha}{1-\alpha}} .
+\]
+A worker receives $w$.  Since an entrepreneur does not work as a worker, the comparison is
+$ca-w$ against $w$, so a \emph{new} entrepreneur enters iff $ca-w-b\ge w$, that is
+\[
+a\ \ge\ \bar a(w)\equiv\frac{2w+b}{c} ,
+\]
+while an \emph{incumbent}, who does not pay the entry cost again, stays iff $a\ge 2w/c$.  Finally,
+each entrepreneur hires exactly one worker, so market clearing forces the measure of
+entrepreneurs to equal the measure of workers: both are $\tfrac12$.
+
+\textbf{(a)}  Ignoring the second period, everyone pays $b$, so the set of entrepreneurs is
+$\{a\ge\bar a(w)\}$ and market clearing is $1-G(\bar a(w))=G(\bar a(w))$, that is
+$G(\bar a(w))=\tfrac12$.  With $G$ continuous and strictly increasing the median $a^{med}$ is
+unique, and $\bar a(\cdot)$ is strictly increasing, so
+\[
+\boxed{\ \bar a(w)=a^{med},\qquad
+w=\frac{c\,a^{med}-b}{2}
+=\frac12\Bigl[\frac{1-\alpha}{\alpha}\beta^{\frac{\alpha}{1-\alpha}}a^{med}-b\Bigr] , \ }
+\]
+provided this is nonnegative; otherwise $w=0$ with excess labour supply.  The entrepreneurs are
+exactly the upper half of the talent distribution, and the equilibrium is unique because labour
+demand $1-G(\bar a(w))$ is strictly decreasing in $w$ and supply $G(\bar a(w))$ strictly
+increasing.  At $\alpha=1/3$, $\beta=0.9$, $b=0.25$ and $a^{med}=1$ this is $w=0.82368330$, which
+\texttt{code/ch23.py} reproduces by root-finding on a simulated lognormal talent distribution.
+
+Note that the whole entry cost is borne by labour: $w$ falls one for one with $b/2$, while the
+identity of the entrepreneurs is unchanged. $\blacksquare$
+
+\textbf{(b)}  Talent is fixed across the two periods, so the second-period incumbents are the top
+half, $\{a\ge a^{med}\}$, of measure exactly $\tfrac12$ --- precisely the number needed to clear
+the market.  Two inequalities must hold at a second-period equilibrium wage $w_2$:
+\begin{align*}
+\text{every incumbent stays:}&\quad c\,a^{med}\ge2w_2
+&&\Longleftrightarrow\quad w_2\le \tfrac12c\,a^{med},\\
+\text{no outsider enters:}&\quad c\,a^{med}\le2w_2+b
+&&\Longleftrightarrow\quad w_2\ge \tfrac12\bigl(c\,a^{med}-b\bigr),
+\end{align*}
+the marginal agent being the same individual, $a=a^{med}$, in both.  Hence
+\[
+\boxed{\ \text{every }w_2\in\Bigl[\tfrac12\bigl(c\,a^{med}-b\bigr),\ \tfrac12c\,a^{med}\Bigr]
+\ \text{is an equilibrium wage: an interval of width } b/2 . \ }
+\]
+This is the flat segment of the labour demand curve in \bk{Figures 23.1} and \bk{23.2}, drawn in
+the right panel of Figure~\ref{fig:ch23}; the multiplicity is proportional to the entry cost and
+vanishes at $b=0$.  Numerically the interval is $[0.82368330,\ 0.94868330]$, of width $0.125=b/2$.
+
+\emph{And hence multiple first-period wages.}  In period $1$ an agent who becomes an entrepreneur
+pays $b$ but is an incumbent next period; one who works must pay $b$ to enter later.  His net gain
+from entering at $t=1$ is
+\[
+\mathcal{N}(a)=\bigl[ca-2w_1-b\bigr]
++\beta\underbrace{\Bigl[\max\{ca-w_2,w_2\}-\max\{ca-w_2-b,w_2\}\Bigr]}_{\textstyle\Omega(a,w_2)} ,
+\]
+where $\Omega\ge0$ is the option value of incumbency.  Market clearing again forces the threshold
+to the median, $\mathcal{N}(a^{med})=0$ with $G(a^{med})=\tfrac12$, so
+\[
+w_1=\frac{c\,a^{med}-b+\beta\,\Omega(a^{med},w_2)}{2} .
+\]
+On the whole second-period interval the marginal agent prefers entrepreneurship without the fee
+and working with it, so $\Omega(a^{med},w_2)=c\,a^{med}-2w_2$, which sweeps $[0,b]$ as $w_2$
+sweeps its interval.  Therefore
+\[
+\boxed{\ w_1\in\Bigl[\tfrac12\bigl(c\,a^{med}-b\bigr),\
+\tfrac12\bigl(c\,a^{med}-(1-\beta)b\bigr)\Bigr],
+\quad\text{an interval of width }\beta b/2 . \ }
+\]
+Numerically $[0.82368330,\ 0.93618330]$, of width $0.1125=\beta b/2$.  Note the sign: a
+\emph{higher} anticipated second-period wage produces a \emph{lower} first-period wage, because a
+high $w_2$ destroys the value of being an incumbent and so weakens the incentive to enter early.
+$\blacksquare$
+
+\textbf{(c)}  Now a fraction $\varepsilon$ of all agents die before period $2$ and are replaced by
+new agents with talent drawn from $G$, who must pay $b$ to enter.  Surviving incumbents have
+measure $(1-\varepsilon)/2<\tfrac12$, so entry of measure $\varepsilon/2$ is \emph{forced}, and a
+positive measure of agents must be exactly indifferent about paying the entry cost.  The marginal
+entrant's condition $c\tilde a=2w_2+b$ must therefore hold, where $\tilde a$ is the entry
+threshold.  Counting entrepreneurs,
+\[
+\frac{1-\varepsilon}{2}
++(1-\varepsilon)\Bigl[\tfrac12-G(\tilde a)\Bigr]^{+}
++\varepsilon\bigl[1-G(\tilde a)\bigr]=\frac12 ,
+\]
+whose only solution is $G(\tilde a)=\tfrac12$, that is $\tilde a=a^{med}$: the second and third
+terms then contribute $0$ and $\varepsilon/2$ respectively.  Hence
+\[
+\boxed{\ w_2=\frac{c\,a^{med}-b}{2}\quad\text{uniquely,} \ }
+\]
+with the entrants being exactly the new agents of above-median talent, who replace the dead
+entrepreneurs one for one.  All surviving incumbents stay, since $2w_2/c=a^{med}-b/c<a^{med}$.
+The first period is then unique as well, with $\Omega=b$ discounted by survival:
+\[
+w_1=\frac{c\,a^{med}-b+\beta(1-\varepsilon)b}{2} .
+\]
+\texttt{code/ch23.py} confirms that the measure of entrepreneurs is $\tfrac12$ and
+$w_2=0.82368330$ for $\varepsilon\in\{0.5,0.2,0.05,0.01,10^{-4}\}$, with $w_1$ rising from
+$0.87993330$ to $0.93617205$. $\blacksquare$
+
+\textbf{(d)}  As $\varepsilon\to0$ the unique equilibrium converges to
+\[
+w_2=\tfrac12\bigl(c\,a^{med}-b\bigr),\qquad
+w_1=\tfrac12\bigl(c\,a^{med}-(1-\beta)b\bigr),
+\]
+the \emph{lower} end of the second-period interval and the \emph{upper} end of the first-period
+one.  The reason the limit is sharp while the limiting model is not is a matter of what pins the
+wage down.  At $\varepsilon=0$ the incumbents are exactly as numerous as the market requires, so
+labour demand is perfectly elastic at $\tfrac12$ over the whole interval and coincides with supply
+there; nothing selects a point.  For any $\varepsilon>0$, however small, incumbents are strictly
+too few, entry must occur, and entry can occur only where an entrant breaks even --- a single
+equation with a single solution.  The entrant's break-even wage does not move with $\varepsilon$,
+so the limit is well defined.
+
+Formally the equilibrium correspondence is upper hemicontinuous but not lower hemicontinuous at
+$\varepsilon=0$: the limit of the equilibria is a strict subset of the equilibria of the limit.
+This is the selection the text invokes on page \bk{844} when it writes that the $\varepsilon\to0$
+economy ``picks $w^E(t)=w^H(t)$ as the equilibrium wage, even when labour supply coincides with
+labour demand for a range of wages''. $\blacksquare$
+
+\rmk{The exercise is the general version of footnote~3 of the chapter, and the lesson travels
+beyond this model.  Entry costs make incumbents' and entrants' willingness to pay for labour
+differ by exactly the cost, so whenever incumbents alone can clear the market there is an interval
+of market-clearing wages whose width is the entry barrier.  Any mechanism that forces turnover ---
+death, exogenous exit, a trickle of productivity shocks --- restores uniqueness by making the
+marginal \emph{entrant} rather than the marginal incumbent the price setter, and does so for
+arbitrarily small turnover.  The equilibrium selected is the one least favourable to labour, which
+is why the oligarchy of \bk{Section 23.3} can drive wages all the way to zero.}
+\end{aex}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/ch23_political_institutions.pdf}
+\caption{Left: aggregate output under oligarchy and democracy.  When Condition 23.1 holds the
+oligarchy starts ahead and decays monotonically, crossing $Y^D$ at $t'$ (Exercise 23.8); when it
+fails, a spell of self-taxation by a low-skill elite majority opens up in the shaded band and the
+path is no longer monotone (Exercise 23.9).  Right: the second-period labour market of Exercise
+23.11.  With no turnover, demand is flat at $\tfrac12$ over an interval of width $b/2$ and
+coincides with supply, so every wage in the shaded band is an equilibrium; with turnover, demand
+falls short there and only the entrant's break-even wage clears the market.}
+\label{fig:ch23}
 \end{figure}
 
 \end{document}

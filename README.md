@@ -6,7 +6,8 @@ Authors: Zijun Meng and Claude Opus 5
 
 The book has 23 chapters with exercises; the instructor's solutions manual of Peters and
 Simsek (2009) solves a selection of them. This document works through the exercises the
-manual leaves out. It is being written chapter by chapter; the table shows where it stands.
+manual leaves out. All 23 chapters are complete: 312 solutions in all, listed by
+chapter below.
 
 | Chapter | exercises | in the manual | solved here |
 |---|---:|---:|---|
@@ -31,7 +32,7 @@ manual leaves out. It is being written chapter by chapter; the table shows where
 | 20. Structural Change and Economic Growth | 21 | 11 | **10** — 20.1, 20.2, 20.4, 20.10–20.15, 20.20 |
 | 21. Structural Transformations and Market Failures | 14 | 8 | **6** — 21.3, 21.5, 21.7, 21.8, 21.13, 21.14 |
 | 22. Institutions, Political Economy, and Growth | 32 | 15 | **17** — 22.1, 22.4–22.7, 22.10–22.15, 22.23, 22.24, 22.28, 22.29, 22.31, 22.32 |
-| 23 | 11 | 2 | in progress |
+| 23. Political Institutions and Economic Growth | 12 | 3 | **9** — 23.1–23.3, 23.6–23.11 |
 
 **The exercise statements are not reproduced.** Each solution is headed only by the
 number of its exercise in the book, so read the statement there first. Notation and
@@ -159,6 +160,18 @@ chapter and writes that chapter's figures to `figures/`. So far:
   that satisfies single crossing but has two local maxima (Exercise 22.29); the preferred
   tax against the growth-maximizing rate (Exercise 22.31); and the four maximizers that
   order the strength of the state (Exercise 22.32).
+- **`ch23.py`** — the dictatorship of the middle class against its closed form
+  (Exercise 23.1); the output comparison between the two dictatorships and the
+  productivity threshold that decides it when the groups differ in size (Exercise 23.2);
+  a grid search confirming that the workers never tax whichever group sets the wage
+  (Exercise 23.3); the stationary skill distribution and its transient (Exercise 23.6);
+  the oligarchic value functions by three independent routes and the median-elite tax
+  criterion (Exercise 23.7); the leapfrogging date in closed form against simulation,
+  with its three comparative statics (Exercise 23.8); the three-phase tax path and the
+  non-monotone output it produces once Condition 23.1 fails (Exercise 23.9); the growth
+  factors after a new technology arrives (Exercise 23.10); and the interval of
+  equilibrium wages created by an entry cost, and how any turnover collapses it
+  (Exercise 23.11).
 
 ## Working files (not part of the document)
 
